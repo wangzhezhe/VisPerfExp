@@ -2,13 +2,8 @@
 
 set -e
 
-#setting up necessary env on cori
-module load cray-python
-module swap PrgEnv-intel PrgEnv-gnu
-module load cmake
-
 HERE=`pwd`
-build_jobs=8
+build_jobs=4
 source $HERE/settings.sh
 SOFTWARE_SRC_DIR="$HERE/src"
 SOFTWARE_BUILD_DIR="$HERE/build"
@@ -242,7 +237,7 @@ else
     git checkout 2021_performanceStudy
 
     cmake -B ${FIDES_BUILD_DIR} -S ${FIDES_SRC_DIR} \
-    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib64/cmake/adios2 \
+    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib/cmake/adios2 \
     -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-1.0 \
     -DCMAKE_INSTALL_PREFIX=${FIDES_INSTALL_DIR}
     
@@ -285,7 +280,7 @@ else
     -DENABLE_PYTHON=OFF \
     -DCMAKE_INSTALL_PREFIX=${ASCENT_INSTALL_DIR} \
     -DENABLE_ADIOS2=ON \
-    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib64/cmake/adios2 \
+    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib/cmake/adios2 \
     -DFIDES_DIR=${FIDES_INSTALL_DIR} \
     -DVTKM_DIR=${VTKM_INSTALL_DIR} \
     -DASCENT_VTKH_ENABLED=ON \
@@ -378,7 +373,7 @@ else
     -DFides_DIR=${FIDES_INSTALL_DIR}/lib/cmake/fides \
     -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-1.0 \
     -DVTKH_DIR=${VTKH_INSTALL_DIR} \
-    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib64/cmake/adios2
+    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}
     
     cd $HERE
 
@@ -388,12 +383,12 @@ else
 fi
 echo "====> building intransit reader, ok"
 
+
 echo "try to add library path by executing:"
 echo "export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH}:${VTKM_INSTALL_DIR}/lib:\
-${ADIOS_INSTALL_DIR}/lib64:\
+${ADIOS_INSTALL_DIR}/lib:\
 ${FIDES_INSTALL_DIR}/lib:\
 ${ASCENT_INSTALL_DIR}/lib:\
 ${CONDUIT_INSTALL_DIR}/lib:\
 ${VTKH_INSTALL_DIR}/lib:\
-${HDF5_INSTALL_DIR}/lib:\
-/opt/cray/pe/gcc-libs/"
+${HDF5_INSTALL_DIR}/lib"
