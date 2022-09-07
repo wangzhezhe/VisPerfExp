@@ -1,1 +1,5 @@
 packages/
+*.tar.gz
+build/
+install/
+src/
