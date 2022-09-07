@@ -5,7 +5,6 @@ module load cray-python
 module swap PrgEnv-intel PrgEnv-gnu
 module load cmake
 
-cd $SCRATCH/performanceStudy
 /bin/bash install.sh
 
 # update the env for finding the .so file
