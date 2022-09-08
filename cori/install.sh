@@ -356,6 +356,38 @@ else
 fi
 echo "====> Installing amr-wind, ok"
 
+
+echo "====> Installing intransit reader"
+INTRAN_READER_SRC_DIR="$SOFTWARE_SRC_DIR/in_transit_reader/visReader"
+# use the install dir as the build dir
+INTRAN_READER_INSTALL_DIR="$SOFTWARE_INSTALL_DIR/in_transit_reader"
+
+if [ -d $INTRAN_READER_INSTALL_DIR ]; then
+    echo "====> skip, $INTRAN_READER_INSTALL_DIR already exists," \
+             "please remove it if you want to reinstall it"
+else
+    # check vktm source dir
+    if [ ! -d $INTRAN_READER_SRC_DIR ]; then
+    # clone the source
+    cd $SOFTWARE_SRC_DIR
+    git clone --recursive $INTRANSIT_READER_REPO
+    fi
+    # use the master branch
+
+    cmake -B ${INTRAN_READER_INSTALL_DIR} -S ${INTRAN_READER_SRC_DIR} \
+    -DFides_DIR=${FIDES_INSTALL_DIR}/lib/cmake/fides \
+    -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-1.0 \
+    -DVTKH_DIR=${VTKH_INSTALL_DIR} \
+    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib64/cmake/adios2
+    
+    cd $HERE
+
+    # build and install
+    echo "**** Building intransit reader"
+    cmake --build ${INTRAN_READER_INSTALL_DIR} -j${build_jobs}
+fi
+echo "====> building intransit reader, ok"
+
 echo "try to add library path by executing:"
 echo "export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH}:${VTKM_INSTALL_DIR}/lib:\
 ${ADIOS_INSTALL_DIR}/lib64:\

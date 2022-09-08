@@ -13,9 +13,12 @@ ADIOS2_COMMIT=eac152529d4d70470bd79a2319119eacd91ae3b2
 
 FIDES_REPO=https://gitlab.kitware.com/jameskress/fides.git
 
-VTKH_REPO=https://github.com/jameskress/vtk-h.git
+#VTKH_REPO=https://github.com/jameskress/vtk-h.git
+VTKH_REPO=https://github.com/wangzhezhe/vtk-h.git
 
 ASCENT_REPO=https://github.com/wangzhezhe/ascent.git
 
 AMRWIND_REPO=https://github.com/jameskress/amr-wind.git
 
+#INTRANSIT_READER_REPO=https://gitlab.com/godenwangzhe/in_transit_reader.git
+INTRANSIT_READER_REPO=https://gitlab.com/jameskress/in_transit_reader.git
