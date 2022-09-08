@@ -6,3 +6,9 @@
         p1:
           type: "volume"
           field: "energy"
+      renders: 
+        r1: 
+          image_width: 1024
+          image_height: 1024
+          image_prefix: "output_r1"
+          

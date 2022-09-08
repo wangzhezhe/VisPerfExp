@@ -1,11 +1,13 @@
-### Installing
-
-prerequest commands:
-cmake
-curl
-tar
+### installing
 
 ```
+module purge
+module load cgpu cuda gcc openmpi
+module load cmake/3.22.1
+
+# login to gpu node
+salloc -C gpu -t 60 -c 8 -G 1 -q interactive
+
 /bin/bash install.sh
 
 # update the env for finding the .so file

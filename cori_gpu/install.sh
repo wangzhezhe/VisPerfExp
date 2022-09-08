@@ -3,9 +3,9 @@
 set -e
 
 #setting up necessary env on cori
-module load cray-python
-module swap PrgEnv-intel PrgEnv-gnu
-module load cmake
+module purge
+module load cgpu cuda gcc openmpi
+module load cmake/3.22.1
 
 HERE=`pwd`
 build_jobs=8
@@ -38,7 +38,8 @@ if [ ! -d ${HDF5_INSTALL_DIR} ]; then
 echo "**** Configuring HDF5"
 cmake -S ${HDF5_SRC_DIR} -B ${HDF5_BUILD_DIR} \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_INSTALL_PREFIX=${HDF5_INSTALL_DIR}
+  -DCMAKE_INSTALL_PREFIX=${HDF5_INSTALL_DIR} \
+  -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
 
 echo "**** Building HDF5"
 cmake --build ${HDF5_BUILD_DIR} -j${build_jobs}
@@ -74,7 +75,9 @@ else
     -DENABLE_FORTRAN=ON \
     -DENABLE_MPI=ON \
     -DENABLE_PYTHON=OFF \
-    -DHDF5_DIR=${HDF5_INSTALL_DIR}
+    -DHDF5_DIR=${HDF5_INSTALL_DIR} \
+    -DENABLE_TESTS=OFF \
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
 
 
     echo "**** Building conduit"
@@ -115,7 +118,6 @@ else
 
     # TODO, the gpu version can be different here
     # we only use the cpu version here
-
     cmake -B ${VTKM_BUILD_DIR} -S ${VTKM_SRC_DIR} \
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_SHARED_LIBS=ON \
@@ -123,7 +125,11 @@ else
     -DVTKm_USE_DOUBLE_PRECISION=ON \
     -DVTKm_USE_64BIT_IDS=OFF \
     -DCMAKE_INSTALL_PREFIX=${VTKM_INSTALL_DIR} \
-    -DVTKm_ENABLE_MPI=ON
+    -DVTKm_ENABLE_MPI=ON \
+    -DVTKm_ENABLE_OPENMP=OFF \
+    -DVTKm_ENABLE_RENDERING=ON \
+    -DVTKm_ENABLE_CUDA=ON \
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cmake --build ${VTKM_BUILD_DIR} -j${build_jobs}
 
@@ -171,7 +177,9 @@ else
     -DENABLE_GTEST=OFF \
     -DCMAKE_INSTALL_PREFIX=${VTKH_INSTALL_DIR} \
     -DBUILD_SHARED_LIBS=ON \
-    -DENABLE_LOGGING=ON
+    -DENABLE_LOGGING=ON \
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
+    
     
     cmake --build ${VTKH_BUILD_DIR} -j${build_jobs}
 
@@ -211,7 +219,8 @@ else
     -DCMAKE_BUILD_TYPE=Release \
     -DADIOS2_RUN_INSTALL_TEST=OFF \
     -DBUILD_TESTING=OFF \
-    -DCMAKE_INSTALL_PREFIX=${ADIOS_INSTALL_DIR}
+    -DCMAKE_INSTALL_PREFIX=${ADIOS_INSTALL_DIR} \
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cmake --build ${ADIOS_BUILD_DIR} -j${build_jobs}
 
@@ -244,7 +253,8 @@ else
     cmake -B ${FIDES_BUILD_DIR} -S ${FIDES_SRC_DIR} \
     -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib64/cmake/adios2 \
     -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-1.0 \
-    -DCMAKE_INSTALL_PREFIX=${FIDES_INSTALL_DIR}
+    -DCMAKE_INSTALL_PREFIX=${FIDES_INSTALL_DIR} \
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cd $HERE
 
@@ -295,7 +305,10 @@ else
     -DENABLE_TESTS=OFF \
     -DENABLE_EXAMPLES=ON \
     -DENABLE_LOGGING=ON \
-    -DCMAKE_INSTALL_PREFIX=${ASCENT_INSTALL_DIR}
+    -DCMAKE_INSTALL_PREFIX=${ASCENT_INSTALL_DIR} \
+    -DENABLE_CUDA=ON \
+    -DCMAKE_CUDA_ARCHITECTURES=volta \
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cd $HERE
 
@@ -343,7 +356,8 @@ else
     -DFides_DIR=${FIDES_INSTALL_DIR}/lib/cmake/fides \
     -DAMR_WIND_ENABLE_ADIOS2=ON \
     -DAMR_WIND_ENABLE_FIDES=ON \
-    -DCMAKE_INSTALL_PREFIX=${AMRWIND_INSTALL_DIR}
+    -DCMAKE_INSTALL_PREFIX=${AMRWIND_INSTALL_DIR} \
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cd $HERE
 
@@ -378,7 +392,8 @@ else
     -DFides_DIR=${FIDES_INSTALL_DIR}/lib/cmake/fides \
     -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-1.0 \
     -DVTKH_DIR=${VTKH_INSTALL_DIR} \
-    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib64/cmake/adios2
+    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib64/cmake/adios2 \
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cd $HERE
 
