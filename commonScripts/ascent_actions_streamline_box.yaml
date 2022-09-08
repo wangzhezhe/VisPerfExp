@@ -6,8 +6,8 @@
         type: "streamline"
         params:
           field: "velocity"
-          num_seeds: 100
-          num_steps: 1000
+          num_seeds: 512
+          num_steps: 512
           step_size: 0.1
           seed_bounding_box_xmin: 0.0
           seed_bounding_box_xmax: 10.0
@@ -16,7 +16,7 @@
           seed_bounding_box_zmin: 0.0
           seed_bounding_box_zmax: 10.0
           record_trajectories: true 
-          write_streamlines: true
+          write_streamlines: false
           seed_method: "box"
 
 # this add scenes does not support the polyline rendering now

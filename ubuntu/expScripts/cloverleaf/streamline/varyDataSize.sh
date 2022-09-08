@@ -1,3 +1,6 @@
+# compare how advection time change with different mesh size
+
+
 #!/bin/bash
 rm -rf ./varyDataSize_data
 
@@ -11,7 +14,7 @@ ln -s ../../../../install/ascent/examples/ascent/proxies/cloverleaf3d/cloverleaf
 
 # generate config file
 scriptsDir=../../../../../commonScripts
-cp ${scriptsDir}/ascent_actions_volumerender.yaml ascent_actions.yaml
+cp ${scriptsDir}/ascent_actions_streamline_box.yaml ascent_actions.yaml
 
 
 # #1.2*1.2*1.2 approximate to 2
@@ -53,19 +56,19 @@ sed -i 's/64/158/' clover.in
 mv timing.0.out timing.0.158.out
 
 echo "check timing.0.51.out"
-cat timing.0.51.out |grep ExecScene |cut -d " " -f 2
+cat timing.0.51.out |grep ParticleAdvectionFilter |cut -d " " -f 2
 
 echo "check timing.0.64.out"
-cat timing.0.64.out |grep ExecScene |cut -d " " -f 2
+cat timing.0.64.out |grep ParticleAdvectionFilter |cut -d " " -f 2
 
 echo "check timing.0.80.out"
-cat timing.0.80.out |grep ExecScene |cut -d " " -f 2
+cat timing.0.80.out |grep ParticleAdvectionFilter |cut -d " " -f 2
 
 echo "check timing.0.100.out"
-cat timing.0.100.out |grep ExecScene |cut -d " " -f 2
+cat timing.0.100.out |grep ParticleAdvectionFilter |cut -d " " -f 2
 
 echo "check timing.0.126.out"
-cat timing.0.126.out |grep ExecScene |cut -d " " -f 2
+cat timing.0.126.out |grep ParticleAdvectionFilter |cut -d " " -f 2
 
 echo "check timing.0.158.out"
-cat timing.0.158.out |grep ExecScene |cut -d " " -f 2
+cat timing.0.158.out |grep ParticleAdvectionFilter |cut -d " " -f 2
