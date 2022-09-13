@@ -124,6 +124,7 @@ else
     -DVTKm_USE_DOUBLE_PRECISION=ON \
     -DVTKm_USE_64BIT_IDS=OFF \
     -DCMAKE_INSTALL_PREFIX=${VTKM_INSTALL_DIR} \
+    -DVTKm_ENABLE_TESTING=OFF \
     -DVTKm_ENABLE_MPI=ON
     
     cmake --build ${VTKM_BUILD_DIR} -j${build_jobs}
