@@ -204,7 +204,7 @@ else
     # we only use the cpu version here
 
     cmake -B ${ADIOS_BUILD_DIR} -S ${ADIOS_SRC_DIR} \
-    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE=Debug \
     -DADIOS2_RUN_INSTALL_TEST=OFF \
     -DBUILD_TESTING=OFF \
     -DCMAKE_INSTALL_PREFIX=${ADIOS_INSTALL_DIR}
@@ -374,7 +374,7 @@ else
     -DFides_DIR=${FIDES_INSTALL_DIR}/lib/cmake/fides \
     -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-1.0 \
     -DVTKH_DIR=${VTKH_INSTALL_DIR} \
-    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}
+    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib/cmake/adios2 
     
     cd $HERE
 
