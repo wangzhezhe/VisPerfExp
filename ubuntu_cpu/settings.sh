@@ -11,7 +11,8 @@ VTKM_REPO=https://gitlab.kitware.com/jameskress/vtk-m.git
 ADIOS2_REPO=https://github.com/ornladios/ADIOS2.git
 ADIOS2_COMMIT=eac152529d4d70470bd79a2319119eacd91ae3b2
 
-FIDES_REPO=https://gitlab.kitware.com/jameskress/fides.git
+#FIDES_REPO=https://gitlab.kitware.com/jameskress/fides.git
+FIDES_REPO=https://gitlab.kitware.com/zhe.wang/fides.git
 
 VTKH_REPO=https://github.com/wangzhezhe/vtk-h.git
 

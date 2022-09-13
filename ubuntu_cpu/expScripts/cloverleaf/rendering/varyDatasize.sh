@@ -1,8 +1,12 @@
 #!/bin/bash
 rm -rf ./varyDataSize_data
 
-# the data size basically decide how much clear the figure is
+# the data size basically decide how much clear the figure is (how many cells)
 # for the same size of the data, it is more clear if we have a larger data mesh
+# the image size defines the pixels for rendering the results
+# If the data itsself is in a small size (such as 64*64) even if we increase the
+# size of the image, it is still blur here, the difference is that it blurs in a 
+# large scale.
 
 # create soft link
 mkdir varyDataSize_data
