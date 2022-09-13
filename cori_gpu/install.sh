@@ -8,7 +8,7 @@ module load cgpu cuda gcc openmpi
 module load cmake/3.22.1
 
 HERE=`pwd`
-build_jobs=8
+build_jobs=4
 source $HERE/settings.sh
 SOFTWARE_SRC_DIR="$HERE/src"
 SOFTWARE_BUILD_DIR="$HERE/build"
@@ -130,6 +130,7 @@ else
     -DVTKm_ENABLE_RENDERING=ON \
     -DVTKm_ENABLE_CUDA=ON \
     -DVTKm_ENABLE_TESTING=OFF \
+    -DVTKm_CUDA_Architecture=volta \
     -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cmake --build ${VTKM_BUILD_DIR} -j${build_jobs}
@@ -168,6 +169,7 @@ else
     cd $HERE
 
     # build and install
+    # static libraries are required when building with cuda
     echo "**** Building vtk-h"
 
     cmake -B ${VTKH_BUILD_DIR} -S ${VTKH_SRC_DIR}/src \
@@ -177,9 +179,11 @@ else
     -DENABLE_TESTS=OFF \
     -DENABLE_GTEST=OFF \
     -DCMAKE_INSTALL_PREFIX=${VTKH_INSTALL_DIR} \
-    -DBUILD_SHARED_LIBS=ON \
+    -DBUILD_SHARED_LIBS=OFF \
     -DENABLE_LOGGING=ON \
+    -DENABLE_CUDA=ON \
     -DCMAKE_CUDA_ARCHITECTURES=70 \
+    -DBLT_CXX_STD=c++14 \
     -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     
@@ -256,6 +260,7 @@ else
     -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib64/cmake/adios2 \
     -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-1.0 \
     -DCMAKE_INSTALL_PREFIX=${FIDES_INSTALL_DIR} \
+    -DENABLE_MPI=ON \
     -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cd $HERE
@@ -291,7 +296,8 @@ else
     git checkout performanceStudy
     git submodule init
     git submodule update
-
+    
+    # statlic likbrary for cuda build
     cmake -B ${ASCENT_BUILD_DIR} -S ${ASCENT_SRC_DIR}/src \
     -DCONDUIT_DIR=${CONDUIT_INSTALL_DIR} \
     -DENABLE_PYTHON=OFF \
@@ -308,8 +314,10 @@ else
     -DENABLE_EXAMPLES=ON \
     -DENABLE_LOGGING=ON \
     -DCMAKE_INSTALL_PREFIX=${ASCENT_INSTALL_DIR} \
+    -DBUILD_SHARED_LIBS=OFF \
     -DENABLE_CUDA=ON \
-    -DCMAKE_CUDA_ARCHITECTURES=volta \
+    -DCMAKE_CUDA_ARCHITECTURES=70 \
+    -DBLT_CXX_STD=c++14 \
     -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cd $HERE
@@ -347,9 +355,10 @@ else
     git checkout Visualization_Performance_Study
     git submodule init
     git submodule update
-
+    
+    # there are some issues if we do not build the unit tests
     cmake -B ${AMRWIND_BUILD_DIR} -S ${AMRWIND_SRC_DIR} \
-    -DCMAKE_BUILD_TYPE=DEBUG \
+    -DCMAKE_BUILD_TYPE=Release \
     -DAMR_WIND_ENABLE_ASCENT=ON \
     -DAMR_WIND_ENABLE_MPI=ON \
     -DAMR_WIND_ENABLE_HYPRE:BOOL=OFF \
@@ -358,7 +367,10 @@ else
     -DFides_DIR=${FIDES_INSTALL_DIR}/lib/cmake/fides \
     -DAMR_WIND_ENABLE_ADIOS2=ON \
     -DAMR_WIND_ENABLE_FIDES=ON \
+    -DAMR_WIND_ENABLE_UNIT_TESTS=OFF \
     -DCMAKE_INSTALL_PREFIX=${AMRWIND_INSTALL_DIR} \
+    -DAMR_WIND_ENABLE_CUDA=ON \
+    -DCMAKE_CUDA_ARCHITECTURES=70 \
     -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cd $HERE
