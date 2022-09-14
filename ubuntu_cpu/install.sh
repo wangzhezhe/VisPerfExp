@@ -375,7 +375,7 @@ else
     -DFides_DIR=${FIDES_INSTALL_DIR}/lib/cmake/fides \
     -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-1.0 \
     -DVTKH_DIR=${VTKH_INSTALL_DIR} \
-    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}
+    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib/cmake/adios2
     
     cd $HERE
 
