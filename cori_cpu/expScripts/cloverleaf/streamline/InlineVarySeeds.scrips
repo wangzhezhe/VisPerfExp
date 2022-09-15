@@ -20,13 +20,13 @@ cp ${scriptsDir}/clover.in_default clover.in
 SIMNODE=2
 SIMTASK=32
 
-SEEDS_NUM_LIST="512 1024 2048 4096"
+SEEDS_NUM_LIST="512 1024 2048 4096 8192"
 
 for SEEDS_NUM in ${SEEDS_NUM_LIST}
 do
 mv ascent_actions.yaml
 cp ${scriptsDir}/ascent_actions_streamline_box.yaml ascent_actions.yaml
-sed -i "s/512/${SEEDS_NUM}/" ascent_actions.yaml
+sed -i "s/num_seeds: 512/num_seeds: ${SEEDS_NUM}/" ascent_actions.yaml
 
 # execute
 srun -C haswell -N $SIMNODE -n $SIMTASK ./cloverleaf3d_par &> InlineVarySeeds_${SIMNODE}_${SIMTASK}_${SEEDS_NUM}.log
@@ -35,4 +35,12 @@ mkdir ${SEEDS_NUM}.timing
 mv timing.*.out ${SEEDS_NUM}.timing/
 
 echo "ok for ${SEEDS_NUM}"
+done
+
+
+for SEEDS_NUM in ${SEEDS_NUM_LIST}
+do
+echo "checking resouts for seed ${SEEDS_NUM_LIST}"
+cat ./${SEEDS_NUM}.timing/timing.0.out | grep ParticleAdvectionFilter | cut -d " " -f 2
+
 done
