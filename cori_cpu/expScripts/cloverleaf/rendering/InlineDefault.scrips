@@ -1,0 +1,26 @@
+#!/bin/bash
+#SBATCH --qos=debug
+#SBATCH --nodes=1
+#SBATCH --tasks-per-node=32
+#SBATCH --time=10:00
+#SBATCH --licenses=cscratch1
+#SBATCH --constraint=haswell
+
+rm -rf ./InlineDefault
+
+# create soft link
+mkdir InlineDefault
+cd InlineDefault
+ln -s ../../../../install/ascent/examples/ascent/proxies/cloverleaf3d/cloverleaf3d_par cloverleaf3d_par
+
+# generate config file
+cp ../../../../../commonScripts/clover.in_default clover.in
+cp ../../../../../commonScripts/ascent_actions_volumerender.yaml ascent_actions.yaml
+
+
+SIMNODE=1
+SIMTASK=32
+
+# execute
+srun -C haswell -N $SIMNODE -n $SIMTASK ./cloverleaf3d_par &> InlineDefault_${SIMNODE}_${SIMTASK}.log
+

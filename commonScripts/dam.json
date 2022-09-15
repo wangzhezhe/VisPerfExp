@@ -1,0 +1,143 @@
+{
+    "uniform_grid": {
+        "data_sources": [
+            {
+                "name": "source",
+                "filename_mode": "input"
+            }
+        ],
+        "coordinate_system": {
+            "array": {
+                "array_type": "uniform_point_coordinates",
+                "dimensions": {
+                    "source": "array_variable",
+                    "data_source": "source",
+                    "variable": "dims"
+                },
+                "origin": {
+                    "source": "array_variable",
+                    "data_source": "source",
+                    "variable": "origin"
+                },
+                "spacing": {
+                    "source": "array_variable",
+                    "data_source": "source",
+                    "variable": "spacing"
+                }
+            }
+        },
+        "cell_set": {
+            "cell_set_type": "structured",
+            "dimensions": {
+                "source": "array_variable",
+                "data_source": "source",
+                "variable": "dims"
+            }
+        },
+        "fields": [
+            {
+                "name": "density",
+                "association": "cell_set",
+                "array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "is_vector": "false",
+                    "variable": "density"
+                }
+            },
+            {
+                "name": "gpx",
+                "association": "cell_set",
+                "array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "is_vector": "false",
+                    "variable": "gpx"
+                }
+            },
+            {
+                "name": "gpy",
+                "association": "cell_set",
+                "array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "is_vector": "false",
+                    "variable": "gpy"
+                }
+            },
+            {
+                "name": "gpz",
+                "association": "cell_set",
+                "array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "is_vector": "false",
+                    "variable": "gpz"
+                }
+            },
+            {
+                "name": "p",
+                "association": "cell_set",
+                "array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "is_vector": "false",
+                    "variable": "p"
+                }
+            },
+            {
+                "name": "topo_ghosts",
+                "association": "cell_set",
+                "array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "is_vector": "false",
+                    "variable": "topo_ghosts"
+                }
+            },
+            {
+                "name": "velocityx",
+                "association": "cell_set",
+                "array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "is_vector": "false",
+                    "variable": "velocityx"
+                }
+            },
+            {
+                "name": "velocityy",
+                "association": "cell_set",
+                "array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "is_vector": "false",
+                    "variable": "velocityy"
+                }
+            },
+            {
+                "name": "velocityz",
+                "association": "cell_set",
+                "array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "is_vector": "false",
+                    "variable": "velocityz"
+                }
+            },
+            {
+                "name": "vof",
+                "association": "cell_set",
+                "array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "is_vector": "false",
+                    "variable": "vof"
+                }
+            }
+        ],
+        "step_information": {
+            "data_source": "source"
+        }
+    }
+}

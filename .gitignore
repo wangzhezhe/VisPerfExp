@@ -4,3 +4,4 @@ install/
 src/
 *data/
 .vscode/
+*Data/

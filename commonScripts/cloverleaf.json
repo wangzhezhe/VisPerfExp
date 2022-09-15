@@ -1,0 +1,93 @@
+ {
+    "rectilinear_grid": {
+        "data_sources": [
+            {
+                "name": "source",
+                "filename_mode": "input"
+            }
+        ],
+        "coordinate_system": {
+            "array": {
+                "array_type": "cartesian_product",
+                "x_array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "variable": "x_array"
+                },
+                "y_array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "variable": "y_array"
+                },
+                "z_array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "variable": "z_array"
+                }
+            }
+        },
+        "cell_set": {
+            "cell_set_type": "structured",
+            "dimensions": {
+                "source": "array_variable",
+                "data_source": "source",
+                "variable": "dims"
+            }
+        },
+        "fields": [
+            {
+                "name": "ascent_ghosts",
+                "association": "cell_set",
+                "array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "is_vector": "false",
+                    "variable": "ascent_ghosts"
+                }
+            },
+            {
+                "name": "density",
+                "association": "cell_set",
+                "array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "is_vector": "false",
+                    "variable": "density"
+                }
+            },
+            {
+                "name": "energy",
+                "association": "cell_set",
+                "array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "is_vector": "false",
+                    "variable": "energy"
+                }
+            },
+            {
+                "name": "pressure",
+                "association": "cell_set",
+                "array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "is_vector": "false",
+                    "variable": "pressure"
+                }
+            },
+            {
+                "name": "velocity",
+                "association": "points",
+                "array": {
+                    "array_type": "basic",
+                    "data_source": "source",
+                    "is_vector": "true",
+                    "variable": "velocity"
+                }
+            }
+        ],
+        "step_information": {
+            "data_source": "source"
+        }
+    }
+}
