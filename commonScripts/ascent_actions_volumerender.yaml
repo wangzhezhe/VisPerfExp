@@ -10,5 +10,4 @@
         r1: 
           image_width: 1024
           image_height: 1024
-          image_prefix: "output_r1"
-          
+          image_prefix: "output_r1_"

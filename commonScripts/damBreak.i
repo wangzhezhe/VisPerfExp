@@ -42,7 +42,7 @@ ICNS.source_terms = GravityForcing
 # ADAPTIVE MESH REFINEMENT #
 #.......................................#
 amr.n_cell              = 80 16 24    # Grid cells at coarsest AMRlevel
-amr.max_level           = 1         # Max AMR level in hierarchy
+amr.max_level           = 1           # Max AMR level in hierarchy
 amr.max_grid_size      = 64
 amr.blocking_factor     = 8
 time.regrid_interval =  5

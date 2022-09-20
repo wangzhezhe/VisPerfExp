@@ -13,7 +13,9 @@ ln -s ../../../../install/in_transit_reader/reader reader
 # generate config file
 scriptsDir=../../../../../commonScripts
 cp ${scriptsDir}/ascent_actions_relay_adios_SST.yaml ascent_actions.yaml
+# this is for fides writer
 cp ${scriptsDir}/adios2.xml adios2.xml
+# this is for the fides write operation
 cp ${scriptsDir}/cloverleaf.json cloverleaf.json
 cp ${scriptsDir}/clover.in_default clover.in
 
