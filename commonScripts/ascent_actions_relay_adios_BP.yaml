@@ -7,4 +7,3 @@
       params:
         filename: "out.bp"
         engine: BPFile
-        QueueLimit: 1

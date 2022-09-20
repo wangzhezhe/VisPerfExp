@@ -8,7 +8,7 @@ module swap PrgEnv-intel PrgEnv-gnu
 module load cmake
 
 HERE=`pwd`
-build_jobs=8
+build_jobs=12
 source $HERE/settings.sh
 SOFTWARE_SRC_DIR="$HERE/src"
 SOFTWARE_BUILD_DIR="$HERE/build"
@@ -118,7 +118,7 @@ else
     # we only use the cpu version here
 
     cmake -B ${VTKM_BUILD_DIR} -S ${VTKM_SRC_DIR} \
-    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE=DEBUG \
     -DBUILD_SHARED_LIBS=ON \
     -DVTKm_USE_DEFAULT_TYPES_FOR_ASCENT=ON \
     -DVTKm_USE_DOUBLE_PRECISION=ON \
@@ -163,10 +163,12 @@ else
     cd $HERE
 
     # build and install
+    # there are some mpi issue if using the debug build
     echo "**** Building vtk-h"
 
     cmake -B ${VTKH_BUILD_DIR} -S ${VTKH_SRC_DIR}/src \
     -DVTKM_DIR=${VTKM_INSTALL_DIR} \
+    -DCMAKE_BUILD_TYPE=Release \
     -DENABLE_MPI=ON \
     -DENABLE_SERIAL=OFF \
     -DENABLE_TESTS=OFF \
@@ -210,7 +212,7 @@ else
     # we only use the cpu version here
 
     cmake -B ${ADIOS_BUILD_DIR} -S ${ADIOS_SRC_DIR} \
-    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE=DEBUG \
     -DADIOS2_RUN_INSTALL_TEST=OFF \
     -DBUILD_TESTING=OFF \
     -DCMAKE_INSTALL_PREFIX=${ADIOS_INSTALL_DIR}
@@ -246,6 +248,8 @@ else
     cmake -B ${FIDES_BUILD_DIR} -S ${FIDES_SRC_DIR} \
     -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib64/cmake/adios2 \
     -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-1.0 \
+    -DFIDES_ENABLE_TESTING=OFF \
+    -DCMAKE_BUILD_TYPE=DEBUG \
     -DCMAKE_INSTALL_PREFIX=${FIDES_INSTALL_DIR}
     
     cd $HERE

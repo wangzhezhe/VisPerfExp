@@ -6,6 +6,9 @@
 #SBATCH --licenses=cscratch1
 #SBATCH --constraint=haswell
 
+# for debuging streamline issue
+ulimit -c unlimited
+
 rm -rf ./InlineVarySeedsData
 
 # create soft link
@@ -20,7 +23,7 @@ cp ${scriptsDir}/clover.in_default clover.in
 SIMNODE=2
 SIMTASK=32
 
-SEEDS_NUM_LIST="512 1024 2048 4096"
+SEEDS_NUM_LIST="512 1024 2048 4096 8192"
 
 for SEEDS_NUM in ${SEEDS_NUM_LIST}
 do
@@ -34,4 +37,12 @@ mkdir ${SEEDS_NUM}.timing
 mv timing.*.out ${SEEDS_NUM}.timing/
 
 echo "ok for ${SEEDS_NUM}"
+done
+
+
+for SEEDS_NUM in ${SEEDS_NUM_LIST}
+do
+echo "checking resouts for seed ${SEEDS_NUM}"
+cat ./${SEEDS_NUM}.timing/timing.0.out | grep ParticleAdvectionFilter | cut -d " " -f 2
+
 done

@@ -1,0 +1,70 @@
+#!/bin/bash
+#SBATCH --qos=debug
+#SBATCH --nodes=2
+#SBATCH --tasks-per-node=32
+#SBATCH --time=10:00
+#SBATCH --licenses=cscratch1
+#SBATCH --constraint=haswell
+
+rm -rf ./InTranSSTVaryDataSizeData
+
+# create soft link
+mkdir InTranSSTVaryDataSizeData
+cd InTranSSTVaryDataSizeData
+# soft link for the cloverleaf
+ln -s ../../../../install/ascent/examples/ascent/proxies/cloverleaf3d/cloverleaf3d_par cloverleaf3d_par
+# soft link for the reader
+ln -s ../../../../install/in_transit_reader/reader reader
+
+# generate config file
+scriptsDir=../../../../../commonScripts
+cp ${scriptsDir}/ascent_actions_relay_adios_SST.yaml ascent_actions.yaml
+cp ${scriptsDir}/adios2.xml adios2.xml
+cp ${scriptsDir}/cloverleaf.json cloverleaf.json
+cp ${scriptsDir}/clover.in_default clover.in
+
+# 1.26*1.26*1.26 approximates to 2
+MESH_SIZE_LIST="126 158 199 250 315 396"
+#MESH_SIZE_LIST="126"
+
+# generate config file
+scriptsDir=../../../../../commonScripts
+cp ${scriptsDir}/clover.in_default clover.in
+
+SIMNODE=1
+SIMTASK=32
+
+VISNODE=1
+VISTASK=8
+
+for MESH_SIZE in ${MESH_SIZE_LIST}
+do
+echo "test the mesh size ${MESH_SIZE}"
+cp ${scriptsDir}/clover.in_default clover.in
+# start the reader firstly
+# issue, the reader does not exist as expected
+srun -C haswell -N ${VISNODE} -n ${VISTASK} ./reader --file=out.bp --read-method=SST --visualization-op=volume --sst-json-file=cloverleaf.json &
+echo "start reader, prepar sim"
+# start the sim to get the data
+sed -i "s/64/${MESH_SIZE}/" clover.in
+echo "start sim, executing"
+srun -C haswell -N ${SIMNODE} -n ${SIMTASK} ./cloverleaf3d_par &> ./sim.log
+
+mkdir log_${MESH_SIZE}
+mv sim.log log_${MESH_SIZE}/
+mv timing.vis.*.out log_${MESH_SIZE}/
+mv timing.*.out log_${MESH_SIZE}/
+echo "ok for ${MESH_SIZE}"
+done
+
+for MESH_SIZE in ${MESH_SIZE_LIST}
+do
+echo "checking sim hangs time log_${MESH_SIZE}"
+cat log_${MESH_SIZE}/sim.log |grep "ascent_execution_time" | cut -d " " -f 8
+
+echo "checking actual data transfer time log_${MESH_SIZE}"
+cat log_${MESH_SIZE}/timing.0.out |grep ADIOS | cut -d " " -f 2
+
+echo "checking data render time log_${MESH_SIZE}"
+cat log_${MESH_SIZE}/timing.vis.0.out |grep render | cut -d " " -f 4
+done
