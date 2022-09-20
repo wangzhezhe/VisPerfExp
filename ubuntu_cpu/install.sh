@@ -113,7 +113,7 @@ else
     # we only use the cpu version here
 
     cmake -B ${VTKM_BUILD_DIR} -S ${VTKM_SRC_DIR} \
-    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE=Debug \
     -DBUILD_SHARED_LIBS=ON \
     -DVTKm_USE_DEFAULT_TYPES_FOR_ASCENT=ON \
     -DVTKm_USE_DOUBLE_PRECISION=ON \

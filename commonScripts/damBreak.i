@@ -71,7 +71,7 @@ zhi.type = "slip_wall"
 incflo.post_processing = ascent
 ascent.type = Ascent
 ascent.output_type = ascent
-ascent.output_start_step = 5
+ascent.output_start_step = 5  # the topo_ghosts are created when there are refined mesh, the sim should compute several steps
 ascent.fields = p density gpx gpy gpz topo_ghosts velocity velocityx velocityy velocityz vof
 ascent.output_frequency = 10
 

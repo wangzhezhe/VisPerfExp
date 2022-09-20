@@ -13,29 +13,38 @@ ln -s ../../../../install/amr-wind/bin/amr_wind amr_wind
 scriptsDir=../../../../../commonScripts
 cp ${scriptsDir}/damBreak.i damBreak.i
 # the bbox for the damBreak is geometry.prob_hi = 0.2855 0.0571 0.08565
+# update the step
+sed -i "s/time.max_step                =   100000/time.max_step                =   20/" damBreak.i
 
-#SEEDS_NUM_LIST="64 128 256 512 1024"
+SEEDS_NUM_LIST="64 128 256 512 1024"
 
-SEEDS_NUM_LIST="64"
+#SEEDS_NUM_LIST="64"
 
 for SEEDS_NUM in ${SEEDS_NUM_LIST}
 do
 
-cp ${scriptsDir}/ascent_actions_streamline_box.yaml ascent_actions.yaml
-# update bbx
-sed -i "s/seed_bounding_box_xmax: 10.0/seed_bounding_box_xmax: 0.28/" ascent_actions.yaml
-sed -i "s/seed_bounding_box_ymax: 10.0/seed_bounding_box_ymax: 0.05/" ascent_actions.yaml
-sed -i "s/seed_bounding_box_zmax: 10.0/seed_bounding_box_zmax: 0.08/" ascent_actions.yaml
+echo "processing the ${SEEDS_NUM}"
+
+cp ${scriptsDir}/ascent_actions_streamline_amrwind_box.yaml ascent_actions.yaml
 
 # update the seeds num
 sed -i "s/num_seeds: 512/num_seeds: ${SEEDS_NUM}/" ascent_actions.yaml
 
 # execute
-./amr_wind damBreak.i
+./amr_wind damBreak.i &> amrwindlog.out
 
 # processing log
 mkdir ${SEEDS_NUM}.timing
+mv amrwindlog.out ${SEEDS_NUM}.timing/ 
 mv timing.*.out ${SEEDS_NUM}.timing/
 
 echo "ok for ${SEEDS_NUM}"
 done
+
+# TODO, show the advec time
+
+for SEEDS_NUM in ${SEEDS_NUM_LIST}
+do
+echo "checking the ${SEEDS_NUM}"
+cat ${SEEDS_NUM}.timing/timing.0.out |grep ParticleAdvectionFilter |cut -d " " -f 2
+done 

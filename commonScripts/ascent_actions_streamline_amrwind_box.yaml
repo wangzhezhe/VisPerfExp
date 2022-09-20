@@ -1,0 +1,31 @@
+- action: add_pipelines
+  pipelines:
+    p1:
+      f1:
+        type: composite_vector
+        params:
+          field1: velocityx
+          field2: velocityy
+          field3: velocityz
+          output_name: velocityVector
+      f2:
+        type: recenter
+        params:
+          field: velocityVector
+          association: vertex
+      f3:
+        type: particle_advection
+        params:
+          field: velocityVector
+          seed_method: box
+          num_seeds: 512
+          num_steps: 512
+          step_size: 0.01
+          seed_bounding_box_xmin: 0.0
+          seed_bounding_box_xmax: 0.28
+          seed_bounding_box_ymin: 0.0
+          seed_bounding_box_ymax: 0.055
+          seed_bounding_box_zmin: 0.0
+          seed_bounding_box_zmax: 0.085
+          record_trajectories: 'true'
+          write_streamlines: 'false'
