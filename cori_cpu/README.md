@@ -9,6 +9,7 @@ tar
 module load cray-python
 module swap PrgEnv-intel PrgEnv-gnu
 module load cmake
+ulimit -c unlimited
 
 /bin/bash install.sh
 

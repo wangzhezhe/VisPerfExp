@@ -6,6 +6,9 @@
 #SBATCH --licenses=cscratch1
 #SBATCH --constraint=haswell
 
+# for debuging streamline issue
+ulimit -c unlimited
+
 rm -rf ./InlineVarySeedsData
 
 # create soft link
@@ -24,7 +27,7 @@ SEEDS_NUM_LIST="512 1024 2048 4096 8192"
 
 for SEEDS_NUM in ${SEEDS_NUM_LIST}
 do
-mv ascent_actions.yaml
+
 cp ${scriptsDir}/ascent_actions_streamline_box.yaml ascent_actions.yaml
 sed -i "s/num_seeds: 512/num_seeds: ${SEEDS_NUM}/" ascent_actions.yaml
 
@@ -40,7 +43,7 @@ done
 
 for SEEDS_NUM in ${SEEDS_NUM_LIST}
 do
-echo "checking resouts for seed ${SEEDS_NUM_LIST}"
+echo "checking resouts for seed ${SEEDS_NUM}"
 cat ./${SEEDS_NUM}.timing/timing.0.out | grep ParticleAdvectionFilter | cut -d " " -f 2
 
 done

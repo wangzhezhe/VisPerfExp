@@ -1,4 +1,5 @@
 # compare how advection time changes with different numbers of seeds
+# we run this script on interactive node of the gpu machine
 
 #!/bin/bash
 rm -rf ./varySeedsNum_data
