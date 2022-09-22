@@ -68,10 +68,12 @@ zhi.type = "slip_wall"
 #¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨#
 # Ascent processing #
 #.......................................#
+# Ascent can handle the addition of new fields after it has started vis operations, so far Fides/ADIOS cannot
+# the topo_ghosts are created when there are refined mesh, the sim should compute several steps, so we set output_start_step = 5 
 incflo.post_processing = ascent
 ascent.type = Ascent
 ascent.output_type = ascent
-ascent.output_start_step = 5  # the topo_ghosts are created when there are refined mesh, the sim should compute several steps
+ascent.output_start_step = 5  
 ascent.fields = p density gpx gpy gpz topo_ghosts velocity velocityx velocityy velocityz vof
 ascent.output_frequency = 10
 

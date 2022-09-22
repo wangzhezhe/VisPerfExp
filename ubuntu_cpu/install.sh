@@ -3,7 +3,7 @@
 set -e
 
 HERE=`pwd`
-build_jobs=4
+build_jobs=8
 source $HERE/settings.sh
 SOFTWARE_SRC_DIR="$HERE/src"
 SOFTWARE_BUILD_DIR="$HERE/build"
@@ -161,6 +161,7 @@ else
 
     cmake -B ${VTKH_BUILD_DIR} -S ${VTKH_SRC_DIR}/src \
     -DVTKM_DIR=${VTKM_INSTALL_DIR} \
+    -DCMAKE_BUILD_TYPE=Debug \
     -DENABLE_MPI=ON \
     -DENABLE_SERIAL=OFF \
     -DENABLE_TESTS=OFF \
@@ -330,7 +331,7 @@ else
     git submodule update
 
     cmake -B ${AMRWIND_BUILD_DIR} -S ${AMRWIND_SRC_DIR} \
-    -DCMAKE_BUILD_TYPE=DEBUG \
+    -DCMAKE_BUILD_TYPE=Debug \
     -DAMR_WIND_ENABLE_ASCENT=ON \
     -DAMR_WIND_ENABLE_MPI=ON \
     -DAMR_WIND_ENABLE_HYPRE:BOOL=OFF \

@@ -16,4 +16,7 @@
           type: "pseudocolor"
           field: "energy"
           pipeline: "pl1"
-      image_prefix: "contour_3d"
+      image_prefix: "contour_3d_"
+      camera:
+        azimuth: 0
+        elevation: -75
