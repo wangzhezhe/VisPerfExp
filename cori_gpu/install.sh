@@ -407,6 +407,8 @@ else
     -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-1.0 \
     -DVTKH_DIR=${VTKH_INSTALL_DIR} \
     -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib64/cmake/adios2 \
+    -DUSE_GPU=ON \
+    -DCMAKE_CUDA_ARCHITECTURES=70 \
     -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cd $HERE
