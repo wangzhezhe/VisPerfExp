@@ -1,0 +1,5 @@
+
+1 extract the design parameters, and use a config file to express it
+2 the user code can intigrate the compute_sim or compute_ana based method
+and generate different kind of instance, let the fmarework handle the high level things
+and the child class can be different user cases (provide several examples for this)
