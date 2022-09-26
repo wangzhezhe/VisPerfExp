@@ -120,6 +120,7 @@ else
     -DVTKm_USE_64BIT_IDS=OFF \
     -DCMAKE_INSTALL_PREFIX=${VTKM_INSTALL_DIR} \
     -DVTKm_ENABLE_MPI=ON \
+    -DVTKm_ENABLE_LOGGING=ON \
     -DVTKm_ENABLE_TESTING=OFF 
     cmake --build ${VTKM_BUILD_DIR} -j${build_jobs}
 
