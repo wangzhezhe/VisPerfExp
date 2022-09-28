@@ -6,3 +6,4 @@ src/
 .vscode/
 *Data/
 *slurm*
+__pycache__

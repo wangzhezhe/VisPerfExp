@@ -6,7 +6,9 @@ conduit_version=v0.8.4
 conduit_tarball=conduit-${conduit_version}-src-with-blt.tar.gz
 CONDUIT_REPO=https://github.com/LLNL/conduit/releases/download/${conduit_version}/${conduit_tarball}
 
-VTKM_REPO=https://gitlab.kitware.com/jameskress/vtk-m.git
+#VTKM_REPO=https://gitlab.kitware.com/jameskress/vtk-m.git
+VTKM_REPO=https://gitlab.kitware.com/zhe.wang/vtk-m.git
+
 
 ADIOS2_REPO=https://github.com/ornladios/ADIOS2.git
 ADIOS2_COMMIT=eac152529d4d70470bd79a2319119eacd91ae3b2
