@@ -56,9 +56,6 @@ class DataNode:
 
 # space division
 
-
-
-
 class WorkflowModel:
     def __init__(self, components_model):
         self.m_components_model = components_model
@@ -70,9 +67,12 @@ class WorkflowModel:
         self.frequency_anavisit=1
         self.exec_simtime_intran= 0
         self.exec_anatime_intran= 0
+        self.sim_datasize_multiplier=1
+
 
     def init_wflow_parameters(self,total_step,queue_len_limit):
         self.total_step=total_step
+        self.queue_len_limit=queue_len_limit
 
     # time division
     def compute_inline(self):
@@ -98,8 +98,9 @@ class WorkflowModel:
         step_sim = 1
         temp_sim_start=0
         sim_waited = False
-        datasize_multiplier=1
+        # this might be a function
         procs_num=1
+        waited_transfer_time=0
         # the step here is the simulation iteration step
         # visit frequency might be different with the data transfer frequency
         while step_sim < (self.total_step+1):
@@ -110,53 +111,84 @@ class WorkflowModel:
             
             # if this is the first step after the sim wait
             # we need to adjust the start time
-            if sim_waited==True:
+            #if sim_waited==True:
 
-                # continue check
-                if self.need_to_process_len==self.queue_len_limit:
-                    time.sleep(0.01)
-                    continue
-                else:
+            #    # continue check, the block section happens to the transfer part
+            #    if self.need_to_process_len==self.queue_len_limit:
+            #        time.sleep(0.01)
+            #        continue
+            #    else:
                     # only update the sim start when it waited previously
                     # also need to add previous data transfer time
                     # Maybe also need to consider the time to get the data for the ana
                     # this transfer time happens only when the block is resoved by ana
-                    temp_sim_start=temp_sim_start+self.m_components_model.compute_transfer_time(step_sim,procs_num,datasize_multiplier)
-                    temp_sim_start=max(temp_sim_start,self.exec_anatime_intran)
-                
-                    sim_waited = False
+            #        temp_sim_start=temp_sim_start+self.m_components_model.compute_sim_time(step_sim,procs_num,self.sim_datasize_multiplier)
+            #        temp_sim_start=max(temp_sim_start,self.exec_anatime_intran)
+            #        sim_waited = False
                 # the sim continue to work
-            
+            if sim_waited==True:
+                # only update the temp_sim_start when it waits
+                temp_sim_start=max(temp_sim_start,self.exec_anatime_intran)
+                # reset the flag to False
+                sim_waited=False
+                # the wait is resolved now we can transfer the data
+                temp_sim_start = temp_sim_start+waited_transfer_time
+                waited_transfer_time=0
+                # put the data into the queue for the block case for the last step
+                # push the previous data, after the wait is resolved??
+                data_staging_queue.put(DataNode(step_sim-1, temp_sim_start))
+
+            else:
+                temp_sim_start=self.exec_simtime_intran
+                
             self.exec_simtime_intran=temp_sim_start+self.m_components_model.compute_sim_time(step_sim,procs_num,1)
             print("step ", step_sim, " after sim, the time is ", self.exec_simtime_intran)
+
             # check if to do the data transfer
             if step_sim%(self.frequency_transfer) == 0:
+                if self.exec_simtime_intran<self.exec_anatime_intran:
+                   # sim need to wait here until the ana complete
+                   # for the case ana is longer than sim
+                   self.exec_simtime_intran = self.exec_anatime_intran
+
                 if self.need_to_process_len<self.queue_len_limit:
                     # sim move forward
-                    self.exec_simtime_intran=self.exec_simtime_intran+self.m_components_model.compute_transfer_time(step_sim,procs_num,datasize_multiplier)
+                    self.exec_simtime_intran=self.exec_simtime_intran+self.m_components_model.compute_transfer_time(step_sim,procs_num,self.sim_datasize_multiplier)
+                    
+                    # push the data information into the queue when transfer 
+                    print("step ", step_sim, " exec_simtime_intran ", self.exec_simtime_intran, "need_to_process_len ", self.need_to_process_len)
+                    data_staging_queue.put(DataNode(step_sim, self.exec_simtime_intran))
+                    
+                    # after the transfer operation
                     # one step data need to be processed
                     self.lock.acquire()
                     self.need_to_process_len+=1
                     self.lock.release()
-                    # push the data information into the queue
-                    print("step ", step_sim, " exec_simtime_intran ", self.exec_simtime_intran, "need_to_process_len ", self.need_to_process_len)
-                    data_staging_queue.put(DataNode(step_sim, self.exec_simtime_intran))
+
+                    # TODO wait some time for consumer to get data, use the notify here
+                    time.sleep(0.02)
                     # only move to next step when put data into the queue
                     # do nothing when the sim is in waiting status
-                    step_sim += 1
                 elif self.need_to_process_len==self.queue_len_limit:
+                    # or (self.exec_simtime_intran<self.exec_anatime_intran):
                     # sim wait here, wait the ana to execute
-                    print("sim wait at step ", step_sim, " need_to_process_len " , self.need_to_process_len, " queue_len_limit ", self.queue_len_limit, "qsize", data_staging_queue.qsize())
-                    sim_waited=True
-                    #time.sleep(0.01)
+                    print("sim wait after step ", step_sim, " need_to_process_len " , self.need_to_process_len, " queue_len_limit ", self.queue_len_limit, "qsize", data_staging_queue.qsize(), "self.exec_simtime_intran ", self.exec_simtime_intran, "self.exec_anatime_intran ",self.exec_anatime_intran)
+                    sim_waited = True
+                    while self.need_to_process_len==self.queue_len_limit:
+                        time.sleep(0.01)
+                        continue
+                    # we need to transfer the data for this time when the wait is resolved
+                    waited_transfer_time = self.m_components_model.compute_transfer_time(step_sim,procs_num,self.sim_datasize_multiplier)
+
                 else:
-                    print("error: need_to_process_len is supposed to large or equal to 0")
+                    print("error: need_to_process_len is supposed to less or equals to 0")
                     break
                 
             # sim can move forward anyway, it stops only when it visit the transfer part
             # and to see if it needs 
-            temp_sim_start = self.exec_simtime_intran
-            
+            # temp_sim_start = self.exec_simtime_intran
+            step_sim += 1
+
         # TODO also need to put the data generated by the last step into the staging queue\
         print("doing_sim_computation completes processing at ", self.exec_simtime_intran)
 
@@ -173,18 +205,23 @@ class WorkflowModel:
         while complete_processing==False:
             while data_staging_queue.empty()==True:
                 # wait here until there is data in queue
+                # make this time more frequent then the sim wait time
+                # TODO, use wait notify here
                 time.sleep(0.005)   
                 continue
                 # process the data step by step
             while data_staging_queue.empty()==False:
                 data_info = data_staging_queue.get()
-                temp_ana_start = max(self.exec_anatime_intran, data_info.data_generated_time)
+                temp_ana_start = data_info.data_generated_time
+                print("---ana get the start time ", temp_ana_start)
                 self.exec_anatime_intran=temp_ana_start+self.m_components_model.compute_ana_time(data_info.step,procs_num,datasize_multiplier,workload_multiplier)
+                
                 self.lock.acquire()
                 self.need_to_process_len-=1
                 print("step ",data_info.step," exec_anatime_intran ", self.exec_anatime_intran)
                 print("ana need_to_process_len ", self.need_to_process_len)
                 self.lock.release()
+                
                 if data_info.step==self.total_step:
                     complete_processing=True
                 print("cdata_info.step inner ", data_info.step)
@@ -194,8 +231,6 @@ class WorkflowModel:
     def compute_intran(self):
 
         temp_ana_start=0
-
-        
         data_staging_queue = queue.Queue()
 
         #sim_exec = ThreadWithReturnValue(target=doing_sim_computation, args=(data_staging_queue,lock))
@@ -211,7 +246,7 @@ class WorkflowModel:
 
         print("exec_simtime_intran is ", self.exec_simtime_intran)
         print("exec_anatime_intran is ", self.exec_anatime_intran)
-        sim_wait = self.exec_simtime_intran-self.exec_anatime_intran
-        if self.exec_simtime_intran<self.exec_anatime_intran:
+        sim_wait = self.exec_anatime_intran-self.exec_simtime_intran
+        if sim_wait<0:
             sim_wait=0
         print("sim wait time at last step is ", sim_wait)
