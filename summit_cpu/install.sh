@@ -2,6 +2,9 @@
 
 set -e
 
+module load gcc
+module load cmake
+
 HERE=`pwd`
 build_jobs=8
 source $HERE/../settings.sh
@@ -33,7 +36,8 @@ if [ ! -d ${HDF5_INSTALL_DIR} ]; then
 echo "**** Configuring HDF5"
 cmake -S ${HDF5_SRC_DIR} -B ${HDF5_BUILD_DIR} \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_INSTALL_PREFIX=${HDF5_INSTALL_DIR}
+  -DCMAKE_INSTALL_PREFIX=${HDF5_INSTALL_DIR} \
+  -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
 
 echo "**** Building HDF5"
 cmake --build ${HDF5_BUILD_DIR} -j${build_jobs}
@@ -70,7 +74,9 @@ else
     -DENABLE_MPI=ON \
     -DENABLE_PYTHON=OFF \
     -DENABLE_TESTS=OFF \
-    -DHDF5_DIR=${HDF5_INSTALL_DIR}
+    -DHDF5_DIR=${HDF5_INSTALL_DIR} \
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
+
 
     echo "**** Building conduit"
     cmake --build ${CONDUIT_BUILD_DIR} -j${build_jobs}
@@ -120,8 +126,10 @@ else
     -DCMAKE_INSTALL_PREFIX=${VTKM_INSTALL_DIR} \
     -DVTKm_ENABLE_MPI=ON \
     -DVTKm_ENABLE_LOGGING=ON \
-    -DVTKm_ENABLE_TESTING=OFF 
-    cmake --build ${VTKM_BUILD_DIR} -j${build_jobs}
+    -DVTKm_ENABLE_TESTING=OFF \
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
+
+    cmake --build ${VTKM_BUILD_DIR} -j${build_jobs} \
 
     echo "**** Installing vtk-m"
     cmake --install ${VTKM_BUILD_DIR}
@@ -168,7 +176,8 @@ else
     -DENABLE_GTEST=OFF \
     -DCMAKE_INSTALL_PREFIX=${VTKH_INSTALL_DIR} \
     -DBUILD_SHARED_LIBS=ON \
-    -DENABLE_LOGGING=ON
+    -DENABLE_LOGGING=ON \
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cmake --build ${VTKH_BUILD_DIR} -j${build_jobs}
 
@@ -208,7 +217,8 @@ else
     -DCMAKE_BUILD_TYPE=Debug \
     -DADIOS2_RUN_INSTALL_TEST=OFF \
     -DBUILD_TESTING=OFF \
-    -DCMAKE_INSTALL_PREFIX=${ADIOS_INSTALL_DIR}
+    -DCMAKE_INSTALL_PREFIX=${ADIOS_INSTALL_DIR} \
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cmake --build ${ADIOS_BUILD_DIR} -j${build_jobs}
 
@@ -239,10 +249,11 @@ else
     git checkout 2021_performanceStudy
 
     cmake -B ${FIDES_BUILD_DIR} -S ${FIDES_SRC_DIR} \
-    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib/cmake/adios2 \
+    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib64/cmake/adios2 \
     -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-1.0 \
     -DCMAKE_INSTALL_PREFIX=${FIDES_INSTALL_DIR} \
-    
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
+
     cd $HERE
 
     # build and install
@@ -282,7 +293,7 @@ else
     -DENABLE_PYTHON=OFF \
     -DCMAKE_INSTALL_PREFIX=${ASCENT_INSTALL_DIR} \
     -DENABLE_ADIOS2=ON \
-    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib/cmake/adios2 \
+    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib64/cmake/adios2 \
     -DFIDES_DIR=${FIDES_INSTALL_DIR} \
     -DVTKM_DIR=${VTKM_INSTALL_DIR} \
     -DASCENT_VTKH_ENABLED=ON \
@@ -292,7 +303,8 @@ else
     -DENABLE_TESTS=OFF \
     -DENABLE_EXAMPLES=ON \
     -DENABLE_LOGGING=ON \
-    -DCMAKE_INSTALL_PREFIX=${ASCENT_INSTALL_DIR}
+    -DCMAKE_INSTALL_PREFIX=${ASCENT_INSTALL_DIR} \
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cd $HERE
 
@@ -340,7 +352,8 @@ else
     -DFides_DIR=${FIDES_INSTALL_DIR}/lib/cmake/fides \
     -DAMR_WIND_ENABLE_ADIOS2=ON \
     -DAMR_WIND_ENABLE_FIDES=ON \
-    -DCMAKE_INSTALL_PREFIX=${AMRWIND_INSTALL_DIR}
+    -DCMAKE_INSTALL_PREFIX=${AMRWIND_INSTALL_DIR} \
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cd $HERE
 
@@ -375,7 +388,8 @@ else
     -DFides_DIR=${FIDES_INSTALL_DIR}/lib/cmake/fides \
     -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-1.0 \
     -DVTKH_DIR=${VTKH_INSTALL_DIR} \
-    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib/cmake/adios2
+    -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib64/cmake/adios2 \
+    -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cd $HERE
 
