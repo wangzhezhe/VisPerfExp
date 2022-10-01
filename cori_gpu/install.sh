@@ -386,9 +386,9 @@ echo "====> Installing amr-wind, ok"
 
 
 echo "====> Installing intransit reader"
-INTRAN_READER_SRC_DIR="$SOFTWARE_SRC_DIR/in_transit_reader/visReader"
+INTRAN_READER_SRC_DIR="$SOFTWARE_SRC_DIR/visReader"
 # use the install dir as the build dir
-INTRAN_READER_INSTALL_DIR="$SOFTWARE_INSTALL_DIR/in_transit_reader"
+INTRAN_READER_INSTALL_DIR="$SOFTWARE_INSTALL_DIR/visReader"
 
 if [ -d $INTRAN_READER_INSTALL_DIR ]; then
     echo "====> skip, $INTRAN_READER_INSTALL_DIR already exists," \

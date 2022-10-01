@@ -7,7 +7,7 @@ cd IntransitVaryDataSize_data
 # soft link for the cloverleaf
 ln -s ../../../../install/ascent/examples/ascent/proxies/cloverleaf3d/cloverleaf3d_par cloverleaf3d_par
 # soft link for the reader
-ln -s ../../../../install/in_transit_reader/reader reader
+ln -s ../../../../install/visReader/reader reader
 
 
 # generate config file

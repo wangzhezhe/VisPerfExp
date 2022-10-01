@@ -9,7 +9,7 @@ mkdir IntrandefaultData
 cd IntrandefaultData
 ln -s ../../../../install/amr-wind/bin/amr_wind amr_wind
 # soft link for the reader
-ln -s ../../../../install/in_transit_reader/reader reader
+ln -s ../../../../install/visReader/reader reader
 
 # generate config file for amd wind
 scriptsDir=../../../../../commonScripts
