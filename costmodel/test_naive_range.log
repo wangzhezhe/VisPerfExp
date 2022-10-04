@@ -1,0 +1,1800 @@
+sim 1 ana 1 tran 2 compute_inline_time is 100
+sim 1 ana 1 tran 2 exec_simtime_intran is 150
+sim 1 ana 1 tran 2 exec_anatime_intran is 151
+sim 1 ana 1 tran 2 sim wait time at last step is 1
+sim 1 ana 1 tran 2 exec_intran is 151
+sim 1 ana 1 tran 2 diff between inline and intransit -51
+sim 1 ana 2 tran 2 compute_inline_time is 150
+sim 1 ana 2 tran 2 exec_simtime_intran is 199
+sim 1 ana 2 tran 2 exec_anatime_intran is 201
+sim 1 ana 2 tran 2 sim wait time at last step is 2
+sim 1 ana 2 tran 2 exec_intran is 201
+sim 1 ana 2 tran 2 diff between inline and intransit -51
+sim 1 ana 3 tran 2 compute_inline_time is 200
+sim 1 ana 3 tran 2 exec_simtime_intran is 248
+sim 1 ana 3 tran 2 exec_anatime_intran is 251
+sim 1 ana 3 tran 2 sim wait time at last step is 3
+sim 1 ana 3 tran 2 exec_intran is 251
+sim 1 ana 3 tran 2 diff between inline and intransit -51
+sim 1 ana 4 tran 2 compute_inline_time is 250
+sim 1 ana 4 tran 2 exec_simtime_intran is 297
+sim 1 ana 4 tran 2 exec_anatime_intran is 301
+sim 1 ana 4 tran 2 sim wait time at last step is 4
+sim 1 ana 4 tran 2 exec_intran is 301
+sim 1 ana 4 tran 2 diff between inline and intransit -51
+sim 1 ana 5 tran 2 compute_inline_time is 300
+sim 1 ana 5 tran 2 exec_simtime_intran is 346
+sim 1 ana 5 tran 2 exec_anatime_intran is 351
+sim 1 ana 5 tran 2 sim wait time at last step is 5
+sim 1 ana 5 tran 2 exec_intran is 351
+sim 1 ana 5 tran 2 diff between inline and intransit -51
+sim 1 ana 6 tran 2 compute_inline_time is 350
+sim 1 ana 6 tran 2 exec_simtime_intran is 395
+sim 1 ana 6 tran 2 exec_anatime_intran is 401
+sim 1 ana 6 tran 2 sim wait time at last step is 6
+sim 1 ana 6 tran 2 exec_intran is 401
+sim 1 ana 6 tran 2 diff between inline and intransit -51
+sim 1 ana 7 tran 2 compute_inline_time is 400
+sim 1 ana 7 tran 2 exec_simtime_intran is 444
+sim 1 ana 7 tran 2 exec_anatime_intran is 451
+sim 1 ana 7 tran 2 sim wait time at last step is 7
+sim 1 ana 7 tran 2 exec_intran is 451
+sim 1 ana 7 tran 2 diff between inline and intransit -51
+sim 1 ana 8 tran 2 compute_inline_time is 450
+sim 1 ana 8 tran 2 exec_simtime_intran is 493
+sim 1 ana 8 tran 2 exec_anatime_intran is 501
+sim 1 ana 8 tran 2 sim wait time at last step is 8
+sim 1 ana 8 tran 2 exec_intran is 501
+sim 1 ana 8 tran 2 diff between inline and intransit -51
+sim 1 ana 9 tran 2 compute_inline_time is 500
+sim 1 ana 9 tran 2 exec_simtime_intran is 542
+sim 1 ana 9 tran 2 exec_anatime_intran is 551
+sim 1 ana 9 tran 2 sim wait time at last step is 9
+sim 1 ana 9 tran 2 exec_intran is 551
+sim 1 ana 9 tran 2 diff between inline and intransit -51
+sim 1 ana 10 tran 2 compute_inline_time is 550
+sim 1 ana 10 tran 2 exec_simtime_intran is 591
+sim 1 ana 10 tran 2 exec_anatime_intran is 601
+sim 1 ana 10 tran 2 sim wait time at last step is 10
+sim 1 ana 10 tran 2 exec_intran is 601
+sim 1 ana 10 tran 2 diff between inline and intransit -51
+sim 2 ana 1 tran 2 compute_inline_time is 150
+sim 2 ana 1 tran 2 exec_simtime_intran is 200
+sim 2 ana 1 tran 2 exec_anatime_intran is 201
+sim 2 ana 1 tran 2 sim wait time at last step is 1
+sim 2 ana 1 tran 2 exec_intran is 201
+sim 2 ana 1 tran 2 diff between inline and intransit -51
+sim 2 ana 2 tran 2 compute_inline_time is 200
+sim 2 ana 2 tran 2 exec_simtime_intran is 200
+sim 2 ana 2 tran 2 exec_anatime_intran is 202
+sim 2 ana 2 tran 2 sim wait time at last step is 2
+sim 2 ana 2 tran 2 exec_intran is 202
+sim 2 ana 2 tran 2 diff between inline and intransit -2
+sim 2 ana 3 tran 2 compute_inline_time is 250
+sim 2 ana 3 tran 2 exec_simtime_intran is 249
+sim 2 ana 3 tran 2 exec_anatime_intran is 252
+sim 2 ana 3 tran 2 sim wait time at last step is 3
+sim 2 ana 3 tran 2 exec_intran is 252
+sim 2 ana 3 tran 2 diff between inline and intransit -2
+sim 2 ana 4 tran 2 compute_inline_time is 300
+sim 2 ana 4 tran 2 exec_simtime_intran is 298
+sim 2 ana 4 tran 2 exec_anatime_intran is 302
+sim 2 ana 4 tran 2 sim wait time at last step is 4
+sim 2 ana 4 tran 2 exec_intran is 302
+sim 2 ana 4 tran 2 diff between inline and intransit -2
+sim 2 ana 5 tran 2 compute_inline_time is 350
+sim 2 ana 5 tran 2 exec_simtime_intran is 347
+sim 2 ana 5 tran 2 exec_anatime_intran is 352
+sim 2 ana 5 tran 2 sim wait time at last step is 5
+sim 2 ana 5 tran 2 exec_intran is 352
+sim 2 ana 5 tran 2 diff between inline and intransit -2
+sim 2 ana 6 tran 2 compute_inline_time is 400
+sim 2 ana 6 tran 2 exec_simtime_intran is 396
+sim 2 ana 6 tran 2 exec_anatime_intran is 402
+sim 2 ana 6 tran 2 sim wait time at last step is 6
+sim 2 ana 6 tran 2 exec_intran is 402
+sim 2 ana 6 tran 2 diff between inline and intransit -2
+sim 2 ana 7 tran 2 compute_inline_time is 450
+sim 2 ana 7 tran 2 exec_simtime_intran is 445
+sim 2 ana 7 tran 2 exec_anatime_intran is 452
+sim 2 ana 7 tran 2 sim wait time at last step is 7
+sim 2 ana 7 tran 2 exec_intran is 452
+sim 2 ana 7 tran 2 diff between inline and intransit -2
+sim 2 ana 8 tran 2 compute_inline_time is 500
+sim 2 ana 8 tran 2 exec_simtime_intran is 494
+sim 2 ana 8 tran 2 exec_anatime_intran is 502
+sim 2 ana 8 tran 2 sim wait time at last step is 8
+sim 2 ana 8 tran 2 exec_intran is 502
+sim 2 ana 8 tran 2 diff between inline and intransit -2
+sim 2 ana 9 tran 2 compute_inline_time is 550
+sim 2 ana 9 tran 2 exec_simtime_intran is 543
+sim 2 ana 9 tran 2 exec_anatime_intran is 552
+sim 2 ana 9 tran 2 sim wait time at last step is 9
+sim 2 ana 9 tran 2 exec_intran is 552
+sim 2 ana 9 tran 2 diff between inline and intransit -2
+sim 2 ana 10 tran 2 compute_inline_time is 600
+sim 2 ana 10 tran 2 exec_simtime_intran is 592
+sim 2 ana 10 tran 2 exec_anatime_intran is 602
+sim 2 ana 10 tran 2 sim wait time at last step is 10
+sim 2 ana 10 tran 2 exec_intran is 602
+sim 2 ana 10 tran 2 diff between inline and intransit -2
+sim 3 ana 1 tran 2 compute_inline_time is 200
+sim 3 ana 1 tran 2 exec_simtime_intran is 250
+sim 3 ana 1 tran 2 exec_anatime_intran is 251
+sim 3 ana 1 tran 2 sim wait time at last step is 1
+sim 3 ana 1 tran 2 exec_intran is 251
+sim 3 ana 1 tran 2 diff between inline and intransit -51
+sim 3 ana 2 tran 2 compute_inline_time is 250
+sim 3 ana 2 tran 2 exec_simtime_intran is 250
+sim 3 ana 2 tran 2 exec_anatime_intran is 252
+sim 3 ana 2 tran 2 sim wait time at last step is 2
+sim 3 ana 2 tran 2 exec_intran is 252
+sim 3 ana 2 tran 2 diff between inline and intransit -2
+sim 3 ana 3 tran 2 compute_inline_time is 300
+sim 3 ana 3 tran 2 exec_simtime_intran is 250
+sim 3 ana 3 tran 2 exec_anatime_intran is 253
+sim 3 ana 3 tran 2 sim wait time at last step is 3
+sim 3 ana 3 tran 2 exec_intran is 253
+sim 3 ana 3 tran 2 diff between inline and intransit 47
+sim 3 ana 4 tran 2 compute_inline_time is 350
+sim 3 ana 4 tran 2 exec_simtime_intran is 299
+sim 3 ana 4 tran 2 exec_anatime_intran is 303
+sim 3 ana 4 tran 2 sim wait time at last step is 4
+sim 3 ana 4 tran 2 exec_intran is 303
+sim 3 ana 4 tran 2 diff between inline and intransit 47
+sim 3 ana 5 tran 2 compute_inline_time is 400
+sim 3 ana 5 tran 2 exec_simtime_intran is 348
+sim 3 ana 5 tran 2 exec_anatime_intran is 353
+sim 3 ana 5 tran 2 sim wait time at last step is 5
+sim 3 ana 5 tran 2 exec_intran is 353
+sim 3 ana 5 tran 2 diff between inline and intransit 47
+sim 3 ana 6 tran 2 compute_inline_time is 450
+sim 3 ana 6 tran 2 exec_simtime_intran is 397
+sim 3 ana 6 tran 2 exec_anatime_intran is 403
+sim 3 ana 6 tran 2 sim wait time at last step is 6
+sim 3 ana 6 tran 2 exec_intran is 403
+sim 3 ana 6 tran 2 diff between inline and intransit 47
+sim 3 ana 7 tran 2 compute_inline_time is 500
+sim 3 ana 7 tran 2 exec_simtime_intran is 446
+sim 3 ana 7 tran 2 exec_anatime_intran is 453
+sim 3 ana 7 tran 2 sim wait time at last step is 7
+sim 3 ana 7 tran 2 exec_intran is 453
+sim 3 ana 7 tran 2 diff between inline and intransit 47
+sim 3 ana 8 tran 2 compute_inline_time is 550
+sim 3 ana 8 tran 2 exec_simtime_intran is 495
+sim 3 ana 8 tran 2 exec_anatime_intran is 503
+sim 3 ana 8 tran 2 sim wait time at last step is 8
+sim 3 ana 8 tran 2 exec_intran is 503
+sim 3 ana 8 tran 2 diff between inline and intransit 47
+sim 3 ana 9 tran 2 compute_inline_time is 600
+sim 3 ana 9 tran 2 exec_simtime_intran is 544
+sim 3 ana 9 tran 2 exec_anatime_intran is 553
+sim 3 ana 9 tran 2 sim wait time at last step is 9
+sim 3 ana 9 tran 2 exec_intran is 553
+sim 3 ana 9 tran 2 diff between inline and intransit 47
+sim 3 ana 10 tran 2 compute_inline_time is 650
+sim 3 ana 10 tran 2 exec_simtime_intran is 593
+sim 3 ana 10 tran 2 exec_anatime_intran is 603
+sim 3 ana 10 tran 2 sim wait time at last step is 10
+sim 3 ana 10 tran 2 exec_intran is 603
+sim 3 ana 10 tran 2 diff between inline and intransit 47
+sim 4 ana 1 tran 2 compute_inline_time is 250
+sim 4 ana 1 tran 2 exec_simtime_intran is 300
+sim 4 ana 1 tran 2 exec_anatime_intran is 301
+sim 4 ana 1 tran 2 sim wait time at last step is 1
+sim 4 ana 1 tran 2 exec_intran is 301
+sim 4 ana 1 tran 2 diff between inline and intransit -51
+sim 4 ana 2 tran 2 compute_inline_time is 300
+sim 4 ana 2 tran 2 exec_simtime_intran is 300
+sim 4 ana 2 tran 2 exec_anatime_intran is 302
+sim 4 ana 2 tran 2 sim wait time at last step is 2
+sim 4 ana 2 tran 2 exec_intran is 302
+sim 4 ana 2 tran 2 diff between inline and intransit -2
+sim 4 ana 3 tran 2 compute_inline_time is 350
+sim 4 ana 3 tran 2 exec_simtime_intran is 299
+sim 4 ana 3 tran 2 exec_anatime_intran is 302
+sim 4 ana 3 tran 2 sim wait time at last step is 3
+sim 4 ana 3 tran 2 exec_intran is 302
+sim 4 ana 3 tran 2 diff between inline and intransit 48
+sim 4 ana 4 tran 2 compute_inline_time is 400
+sim 4 ana 4 tran 2 exec_simtime_intran is 300
+sim 4 ana 4 tran 2 exec_anatime_intran is 304
+sim 4 ana 4 tran 2 sim wait time at last step is 4
+sim 4 ana 4 tran 2 exec_intran is 304
+sim 4 ana 4 tran 2 diff between inline and intransit 96
+sim 4 ana 5 tran 2 compute_inline_time is 450
+sim 4 ana 5 tran 2 exec_simtime_intran is 349
+sim 4 ana 5 tran 2 exec_anatime_intran is 354
+sim 4 ana 5 tran 2 sim wait time at last step is 5
+sim 4 ana 5 tran 2 exec_intran is 354
+sim 4 ana 5 tran 2 diff between inline and intransit 96
+sim 4 ana 6 tran 2 compute_inline_time is 500
+sim 4 ana 6 tran 2 exec_simtime_intran is 398
+sim 4 ana 6 tran 2 exec_anatime_intran is 404
+sim 4 ana 6 tran 2 sim wait time at last step is 6
+sim 4 ana 6 tran 2 exec_intran is 404
+sim 4 ana 6 tran 2 diff between inline and intransit 96
+sim 4 ana 7 tran 2 compute_inline_time is 550
+sim 4 ana 7 tran 2 exec_simtime_intran is 447
+sim 4 ana 7 tran 2 exec_anatime_intran is 454
+sim 4 ana 7 tran 2 sim wait time at last step is 7
+sim 4 ana 7 tran 2 exec_intran is 454
+sim 4 ana 7 tran 2 diff between inline and intransit 96
+sim 4 ana 8 tran 2 compute_inline_time is 600
+sim 4 ana 8 tran 2 exec_simtime_intran is 496
+sim 4 ana 8 tran 2 exec_anatime_intran is 504
+sim 4 ana 8 tran 2 sim wait time at last step is 8
+sim 4 ana 8 tran 2 exec_intran is 504
+sim 4 ana 8 tran 2 diff between inline and intransit 96
+sim 4 ana 9 tran 2 compute_inline_time is 650
+sim 4 ana 9 tran 2 exec_simtime_intran is 545
+sim 4 ana 9 tran 2 exec_anatime_intran is 554
+sim 4 ana 9 tran 2 sim wait time at last step is 9
+sim 4 ana 9 tran 2 exec_intran is 554
+sim 4 ana 9 tran 2 diff between inline and intransit 96
+sim 4 ana 10 tran 2 compute_inline_time is 700
+sim 4 ana 10 tran 2 exec_simtime_intran is 594
+sim 4 ana 10 tran 2 exec_anatime_intran is 604
+sim 4 ana 10 tran 2 sim wait time at last step is 10
+sim 4 ana 10 tran 2 exec_intran is 604
+sim 4 ana 10 tran 2 diff between inline and intransit 96
+sim 5 ana 1 tran 2 compute_inline_time is 300
+sim 5 ana 1 tran 2 exec_simtime_intran is 350
+sim 5 ana 1 tran 2 exec_anatime_intran is 351
+sim 5 ana 1 tran 2 sim wait time at last step is 1
+sim 5 ana 1 tran 2 exec_intran is 351
+sim 5 ana 1 tran 2 diff between inline and intransit -51
+sim 5 ana 2 tran 2 compute_inline_time is 350
+sim 5 ana 2 tran 2 exec_simtime_intran is 350
+sim 5 ana 2 tran 2 exec_anatime_intran is 352
+sim 5 ana 2 tran 2 sim wait time at last step is 2
+sim 5 ana 2 tran 2 exec_intran is 352
+sim 5 ana 2 tran 2 diff between inline and intransit -2
+sim 5 ana 3 tran 2 compute_inline_time is 400
+sim 5 ana 3 tran 2 exec_simtime_intran is 350
+sim 5 ana 3 tran 2 exec_anatime_intran is 353
+sim 5 ana 3 tran 2 sim wait time at last step is 3
+sim 5 ana 3 tran 2 exec_intran is 353
+sim 5 ana 3 tran 2 diff between inline and intransit 47
+sim 5 ana 4 tran 2 compute_inline_time is 450
+sim 5 ana 4 tran 2 exec_simtime_intran is 350
+sim 5 ana 4 tran 2 exec_anatime_intran is 354
+sim 5 ana 4 tran 2 sim wait time at last step is 4
+sim 5 ana 4 tran 2 exec_intran is 354
+sim 5 ana 4 tran 2 diff between inline and intransit 96
+sim 5 ana 5 tran 2 compute_inline_time is 500
+sim 5 ana 5 tran 2 exec_simtime_intran is 350
+sim 5 ana 5 tran 2 exec_anatime_intran is 355
+sim 5 ana 5 tran 2 sim wait time at last step is 5
+sim 5 ana 5 tran 2 exec_intran is 355
+sim 5 ana 5 tran 2 diff between inline and intransit 145
+sim 5 ana 6 tran 2 compute_inline_time is 550
+sim 5 ana 6 tran 2 exec_simtime_intran is 399
+sim 5 ana 6 tran 2 exec_anatime_intran is 405
+sim 5 ana 6 tran 2 sim wait time at last step is 6
+sim 5 ana 6 tran 2 exec_intran is 405
+sim 5 ana 6 tran 2 diff between inline and intransit 145
+sim 5 ana 7 tran 2 compute_inline_time is 600
+sim 5 ana 7 tran 2 exec_simtime_intran is 448
+sim 5 ana 7 tran 2 exec_anatime_intran is 455
+sim 5 ana 7 tran 2 sim wait time at last step is 7
+sim 5 ana 7 tran 2 exec_intran is 455
+sim 5 ana 7 tran 2 diff between inline and intransit 145
+sim 5 ana 8 tran 2 compute_inline_time is 650
+sim 5 ana 8 tran 2 exec_simtime_intran is 497
+sim 5 ana 8 tran 2 exec_anatime_intran is 505
+sim 5 ana 8 tran 2 sim wait time at last step is 8
+sim 5 ana 8 tran 2 exec_intran is 505
+sim 5 ana 8 tran 2 diff between inline and intransit 145
+sim 5 ana 9 tran 2 compute_inline_time is 700
+sim 5 ana 9 tran 2 exec_simtime_intran is 546
+sim 5 ana 9 tran 2 exec_anatime_intran is 555
+sim 5 ana 9 tran 2 sim wait time at last step is 9
+sim 5 ana 9 tran 2 exec_intran is 555
+sim 5 ana 9 tran 2 diff between inline and intransit 145
+sim 5 ana 10 tran 2 compute_inline_time is 750
+sim 5 ana 10 tran 2 exec_simtime_intran is 595
+sim 5 ana 10 tran 2 exec_anatime_intran is 605
+sim 5 ana 10 tran 2 sim wait time at last step is 10
+sim 5 ana 10 tran 2 exec_intran is 605
+sim 5 ana 10 tran 2 diff between inline and intransit 145
+sim 6 ana 1 tran 2 compute_inline_time is 350
+sim 6 ana 1 tran 2 exec_simtime_intran is 400
+sim 6 ana 1 tran 2 exec_anatime_intran is 401
+sim 6 ana 1 tran 2 sim wait time at last step is 1
+sim 6 ana 1 tran 2 exec_intran is 401
+sim 6 ana 1 tran 2 diff between inline and intransit -51
+sim 6 ana 2 tran 2 compute_inline_time is 400
+sim 6 ana 2 tran 2 exec_simtime_intran is 400
+sim 6 ana 2 tran 2 exec_anatime_intran is 402
+sim 6 ana 2 tran 2 sim wait time at last step is 2
+sim 6 ana 2 tran 2 exec_intran is 402
+sim 6 ana 2 tran 2 diff between inline and intransit -2
+sim 6 ana 3 tran 2 compute_inline_time is 450
+sim 6 ana 3 tran 2 exec_simtime_intran is 400
+sim 6 ana 3 tran 2 exec_anatime_intran is 403
+sim 6 ana 3 tran 2 sim wait time at last step is 3
+sim 6 ana 3 tran 2 exec_intran is 403
+sim 6 ana 3 tran 2 diff between inline and intransit 47
+sim 6 ana 4 tran 2 compute_inline_time is 500
+sim 6 ana 4 tran 2 exec_simtime_intran is 400
+sim 6 ana 4 tran 2 exec_anatime_intran is 404
+sim 6 ana 4 tran 2 sim wait time at last step is 4
+sim 6 ana 4 tran 2 exec_intran is 404
+sim 6 ana 4 tran 2 diff between inline and intransit 96
+sim 6 ana 5 tran 2 compute_inline_time is 550
+sim 6 ana 5 tran 2 exec_simtime_intran is 400
+sim 6 ana 5 tran 2 exec_anatime_intran is 405
+sim 6 ana 5 tran 2 sim wait time at last step is 5
+sim 6 ana 5 tran 2 exec_intran is 405
+sim 6 ana 5 tran 2 diff between inline and intransit 145
+sim 6 ana 6 tran 2 compute_inline_time is 600
+sim 6 ana 6 tran 2 exec_simtime_intran is 400
+sim 6 ana 6 tran 2 exec_anatime_intran is 406
+sim 6 ana 6 tran 2 sim wait time at last step is 6
+sim 6 ana 6 tran 2 exec_intran is 406
+sim 6 ana 6 tran 2 diff between inline and intransit 194
+sim 6 ana 7 tran 2 compute_inline_time is 650
+sim 6 ana 7 tran 2 exec_simtime_intran is 449
+sim 6 ana 7 tran 2 exec_anatime_intran is 456
+sim 6 ana 7 tran 2 sim wait time at last step is 7
+sim 6 ana 7 tran 2 exec_intran is 456
+sim 6 ana 7 tran 2 diff between inline and intransit 194
+sim 6 ana 8 tran 2 compute_inline_time is 700
+sim 6 ana 8 tran 2 exec_simtime_intran is 498
+sim 6 ana 8 tran 2 exec_anatime_intran is 506
+sim 6 ana 8 tran 2 sim wait time at last step is 8
+sim 6 ana 8 tran 2 exec_intran is 506
+sim 6 ana 8 tran 2 diff between inline and intransit 194
+sim 6 ana 9 tran 2 compute_inline_time is 750
+sim 6 ana 9 tran 2 exec_simtime_intran is 547
+sim 6 ana 9 tran 2 exec_anatime_intran is 556
+sim 6 ana 9 tran 2 sim wait time at last step is 9
+sim 6 ana 9 tran 2 exec_intran is 556
+sim 6 ana 9 tran 2 diff between inline and intransit 194
+sim 6 ana 10 tran 2 compute_inline_time is 800
+sim 6 ana 10 tran 2 exec_simtime_intran is 596
+sim 6 ana 10 tran 2 exec_anatime_intran is 606
+sim 6 ana 10 tran 2 sim wait time at last step is 10
+sim 6 ana 10 tran 2 exec_intran is 606
+sim 6 ana 10 tran 2 diff between inline and intransit 194
+sim 7 ana 1 tran 2 compute_inline_time is 400
+sim 7 ana 1 tran 2 exec_simtime_intran is 450
+sim 7 ana 1 tran 2 exec_anatime_intran is 451
+sim 7 ana 1 tran 2 sim wait time at last step is 1
+sim 7 ana 1 tran 2 exec_intran is 451
+sim 7 ana 1 tran 2 diff between inline and intransit -51
+sim 7 ana 2 tran 2 compute_inline_time is 450
+sim 7 ana 2 tran 2 exec_simtime_intran is 450
+sim 7 ana 2 tran 2 exec_anatime_intran is 452
+sim 7 ana 2 tran 2 sim wait time at last step is 2
+sim 7 ana 2 tran 2 exec_intran is 452
+sim 7 ana 2 tran 2 diff between inline and intransit -2
+sim 7 ana 3 tran 2 compute_inline_time is 500
+sim 7 ana 3 tran 2 exec_simtime_intran is 450
+sim 7 ana 3 tran 2 exec_anatime_intran is 453
+sim 7 ana 3 tran 2 sim wait time at last step is 3
+sim 7 ana 3 tran 2 exec_intran is 453
+sim 7 ana 3 tran 2 diff between inline and intransit 47
+sim 7 ana 4 tran 2 compute_inline_time is 550
+sim 7 ana 4 tran 2 exec_simtime_intran is 450
+sim 7 ana 4 tran 2 exec_anatime_intran is 454
+sim 7 ana 4 tran 2 sim wait time at last step is 4
+sim 7 ana 4 tran 2 exec_intran is 454
+sim 7 ana 4 tran 2 diff between inline and intransit 96
+sim 7 ana 5 tran 2 compute_inline_time is 600
+sim 7 ana 5 tran 2 exec_simtime_intran is 450
+sim 7 ana 5 tran 2 exec_anatime_intran is 455
+sim 7 ana 5 tran 2 sim wait time at last step is 5
+sim 7 ana 5 tran 2 exec_intran is 455
+sim 7 ana 5 tran 2 diff between inline and intransit 145
+sim 7 ana 6 tran 2 compute_inline_time is 650
+sim 7 ana 6 tran 2 exec_simtime_intran is 450
+sim 7 ana 6 tran 2 exec_anatime_intran is 456
+sim 7 ana 6 tran 2 sim wait time at last step is 6
+sim 7 ana 6 tran 2 exec_intran is 456
+sim 7 ana 6 tran 2 diff between inline and intransit 194
+sim 7 ana 7 tran 2 compute_inline_time is 700
+sim 7 ana 7 tran 2 exec_simtime_intran is 450
+sim 7 ana 7 tran 2 exec_anatime_intran is 457
+sim 7 ana 7 tran 2 sim wait time at last step is 7
+sim 7 ana 7 tran 2 exec_intran is 457
+sim 7 ana 7 tran 2 diff between inline and intransit 243
+sim 7 ana 8 tran 2 compute_inline_time is 750
+sim 7 ana 8 tran 2 exec_simtime_intran is 499
+sim 7 ana 8 tran 2 exec_anatime_intran is 507
+sim 7 ana 8 tran 2 sim wait time at last step is 8
+sim 7 ana 8 tran 2 exec_intran is 507
+sim 7 ana 8 tran 2 diff between inline and intransit 243
+sim 7 ana 9 tran 2 compute_inline_time is 800
+sim 7 ana 9 tran 2 exec_simtime_intran is 548
+sim 7 ana 9 tran 2 exec_anatime_intran is 557
+sim 7 ana 9 tran 2 sim wait time at last step is 9
+sim 7 ana 9 tran 2 exec_intran is 557
+sim 7 ana 9 tran 2 diff between inline and intransit 243
+sim 7 ana 10 tran 2 compute_inline_time is 850
+sim 7 ana 10 tran 2 exec_simtime_intran is 597
+sim 7 ana 10 tran 2 exec_anatime_intran is 607
+sim 7 ana 10 tran 2 sim wait time at last step is 10
+sim 7 ana 10 tran 2 exec_intran is 607
+sim 7 ana 10 tran 2 diff between inline and intransit 243
+sim 8 ana 1 tran 2 compute_inline_time is 450
+sim 8 ana 1 tran 2 exec_simtime_intran is 500
+sim 8 ana 1 tran 2 exec_anatime_intran is 501
+sim 8 ana 1 tran 2 sim wait time at last step is 1
+sim 8 ana 1 tran 2 exec_intran is 501
+sim 8 ana 1 tran 2 diff between inline and intransit -51
+sim 8 ana 2 tran 2 compute_inline_time is 500
+sim 8 ana 2 tran 2 exec_simtime_intran is 500
+sim 8 ana 2 tran 2 exec_anatime_intran is 502
+sim 8 ana 2 tran 2 sim wait time at last step is 2
+sim 8 ana 2 tran 2 exec_intran is 502
+sim 8 ana 2 tran 2 diff between inline and intransit -2
+sim 8 ana 3 tran 2 compute_inline_time is 550
+sim 8 ana 3 tran 2 exec_simtime_intran is 500
+sim 8 ana 3 tran 2 exec_anatime_intran is 503
+sim 8 ana 3 tran 2 sim wait time at last step is 3
+sim 8 ana 3 tran 2 exec_intran is 503
+sim 8 ana 3 tran 2 diff between inline and intransit 47
+sim 8 ana 4 tran 2 compute_inline_time is 600
+sim 8 ana 4 tran 2 exec_simtime_intran is 500
+sim 8 ana 4 tran 2 exec_anatime_intran is 504
+sim 8 ana 4 tran 2 sim wait time at last step is 4
+sim 8 ana 4 tran 2 exec_intran is 504
+sim 8 ana 4 tran 2 diff between inline and intransit 96
+sim 8 ana 5 tran 2 compute_inline_time is 650
+sim 8 ana 5 tran 2 exec_simtime_intran is 500
+sim 8 ana 5 tran 2 exec_anatime_intran is 505
+sim 8 ana 5 tran 2 sim wait time at last step is 5
+sim 8 ana 5 tran 2 exec_intran is 505
+sim 8 ana 5 tran 2 diff between inline and intransit 145
+sim 8 ana 6 tran 2 compute_inline_time is 700
+sim 8 ana 6 tran 2 exec_simtime_intran is 500
+sim 8 ana 6 tran 2 exec_anatime_intran is 506
+sim 8 ana 6 tran 2 sim wait time at last step is 6
+sim 8 ana 6 tran 2 exec_intran is 506
+sim 8 ana 6 tran 2 diff between inline and intransit 194
+sim 8 ana 7 tran 2 compute_inline_time is 750
+sim 8 ana 7 tran 2 exec_simtime_intran is 500
+sim 8 ana 7 tran 2 exec_anatime_intran is 507
+sim 8 ana 7 tran 2 sim wait time at last step is 7
+sim 8 ana 7 tran 2 exec_intran is 507
+sim 8 ana 7 tran 2 diff between inline and intransit 243
+sim 8 ana 8 tran 2 compute_inline_time is 800
+sim 8 ana 8 tran 2 exec_simtime_intran is 500
+sim 8 ana 8 tran 2 exec_anatime_intran is 508
+sim 8 ana 8 tran 2 sim wait time at last step is 8
+sim 8 ana 8 tran 2 exec_intran is 508
+sim 8 ana 8 tran 2 diff between inline and intransit 292
+sim 8 ana 9 tran 2 compute_inline_time is 850
+sim 8 ana 9 tran 2 exec_simtime_intran is 549
+sim 8 ana 9 tran 2 exec_anatime_intran is 558
+sim 8 ana 9 tran 2 sim wait time at last step is 9
+sim 8 ana 9 tran 2 exec_intran is 558
+sim 8 ana 9 tran 2 diff between inline and intransit 292
+sim 8 ana 10 tran 2 compute_inline_time is 900
+sim 8 ana 10 tran 2 exec_simtime_intran is 598
+sim 8 ana 10 tran 2 exec_anatime_intran is 608
+sim 8 ana 10 tran 2 sim wait time at last step is 10
+sim 8 ana 10 tran 2 exec_intran is 608
+sim 8 ana 10 tran 2 diff between inline and intransit 292
+sim 9 ana 1 tran 2 compute_inline_time is 500
+sim 9 ana 1 tran 2 exec_simtime_intran is 550
+sim 9 ana 1 tran 2 exec_anatime_intran is 551
+sim 9 ana 1 tran 2 sim wait time at last step is 1
+sim 9 ana 1 tran 2 exec_intran is 551
+sim 9 ana 1 tran 2 diff between inline and intransit -51
+sim 9 ana 2 tran 2 compute_inline_time is 550
+sim 9 ana 2 tran 2 exec_simtime_intran is 550
+sim 9 ana 2 tran 2 exec_anatime_intran is 552
+sim 9 ana 2 tran 2 sim wait time at last step is 2
+sim 9 ana 2 tran 2 exec_intran is 552
+sim 9 ana 2 tran 2 diff between inline and intransit -2
+sim 9 ana 3 tran 2 compute_inline_time is 600
+sim 9 ana 3 tran 2 exec_simtime_intran is 550
+sim 9 ana 3 tran 2 exec_anatime_intran is 553
+sim 9 ana 3 tran 2 sim wait time at last step is 3
+sim 9 ana 3 tran 2 exec_intran is 553
+sim 9 ana 3 tran 2 diff between inline and intransit 47
+sim 9 ana 4 tran 2 compute_inline_time is 650
+sim 9 ana 4 tran 2 exec_simtime_intran is 550
+sim 9 ana 4 tran 2 exec_anatime_intran is 554
+sim 9 ana 4 tran 2 sim wait time at last step is 4
+sim 9 ana 4 tran 2 exec_intran is 554
+sim 9 ana 4 tran 2 diff between inline and intransit 96
+sim 9 ana 5 tran 2 compute_inline_time is 700
+sim 9 ana 5 tran 2 exec_simtime_intran is 550
+sim 9 ana 5 tran 2 exec_anatime_intran is 555
+sim 9 ana 5 tran 2 sim wait time at last step is 5
+sim 9 ana 5 tran 2 exec_intran is 555
+sim 9 ana 5 tran 2 diff between inline and intransit 145
+sim 9 ana 6 tran 2 compute_inline_time is 750
+sim 9 ana 6 tran 2 exec_simtime_intran is 550
+sim 9 ana 6 tran 2 exec_anatime_intran is 556
+sim 9 ana 6 tran 2 sim wait time at last step is 6
+sim 9 ana 6 tran 2 exec_intran is 556
+sim 9 ana 6 tran 2 diff between inline and intransit 194
+sim 9 ana 7 tran 2 compute_inline_time is 800
+sim 9 ana 7 tran 2 exec_simtime_intran is 550
+sim 9 ana 7 tran 2 exec_anatime_intran is 557
+sim 9 ana 7 tran 2 sim wait time at last step is 7
+sim 9 ana 7 tran 2 exec_intran is 557
+sim 9 ana 7 tran 2 diff between inline and intransit 243
+sim 9 ana 8 tran 2 compute_inline_time is 850
+sim 9 ana 8 tran 2 exec_simtime_intran is 550
+sim 9 ana 8 tran 2 exec_anatime_intran is 558
+sim 9 ana 8 tran 2 sim wait time at last step is 8
+sim 9 ana 8 tran 2 exec_intran is 558
+sim 9 ana 8 tran 2 diff between inline and intransit 292
+sim 9 ana 9 tran 2 compute_inline_time is 900
+sim 9 ana 9 tran 2 exec_simtime_intran is 550
+sim 9 ana 9 tran 2 exec_anatime_intran is 559
+sim 9 ana 9 tran 2 sim wait time at last step is 9
+sim 9 ana 9 tran 2 exec_intran is 559
+sim 9 ana 9 tran 2 diff between inline and intransit 341
+sim 9 ana 10 tran 2 compute_inline_time is 950
+sim 9 ana 10 tran 2 exec_simtime_intran is 599
+sim 9 ana 10 tran 2 exec_anatime_intran is 609
+sim 9 ana 10 tran 2 sim wait time at last step is 10
+sim 9 ana 10 tran 2 exec_intran is 609
+sim 9 ana 10 tran 2 diff between inline and intransit 341
+sim 10 ana 1 tran 2 compute_inline_time is 550
+sim 10 ana 1 tran 2 exec_simtime_intran is 600
+sim 10 ana 1 tran 2 exec_anatime_intran is 601
+sim 10 ana 1 tran 2 sim wait time at last step is 1
+sim 10 ana 1 tran 2 exec_intran is 601
+sim 10 ana 1 tran 2 diff between inline and intransit -51
+sim 10 ana 2 tran 2 compute_inline_time is 600
+sim 10 ana 2 tran 2 exec_simtime_intran is 600
+sim 10 ana 2 tran 2 exec_anatime_intran is 602
+sim 10 ana 2 tran 2 sim wait time at last step is 2
+sim 10 ana 2 tran 2 exec_intran is 602
+sim 10 ana 2 tran 2 diff between inline and intransit -2
+sim 10 ana 3 tran 2 compute_inline_time is 650
+sim 10 ana 3 tran 2 exec_simtime_intran is 600
+sim 10 ana 3 tran 2 exec_anatime_intran is 603
+sim 10 ana 3 tran 2 sim wait time at last step is 3
+sim 10 ana 3 tran 2 exec_intran is 603
+sim 10 ana 3 tran 2 diff between inline and intransit 47
+sim 10 ana 4 tran 2 compute_inline_time is 700
+sim 10 ana 4 tran 2 exec_simtime_intran is 600
+sim 10 ana 4 tran 2 exec_anatime_intran is 604
+sim 10 ana 4 tran 2 sim wait time at last step is 4
+sim 10 ana 4 tran 2 exec_intran is 604
+sim 10 ana 4 tran 2 diff between inline and intransit 96
+sim 10 ana 5 tran 2 compute_inline_time is 750
+sim 10 ana 5 tran 2 exec_simtime_intran is 600
+sim 10 ana 5 tran 2 exec_anatime_intran is 605
+sim 10 ana 5 tran 2 sim wait time at last step is 5
+sim 10 ana 5 tran 2 exec_intran is 605
+sim 10 ana 5 tran 2 diff between inline and intransit 145
+sim 10 ana 6 tran 2 compute_inline_time is 800
+sim 10 ana 6 tran 2 exec_simtime_intran is 600
+sim 10 ana 6 tran 2 exec_anatime_intran is 606
+sim 10 ana 6 tran 2 sim wait time at last step is 6
+sim 10 ana 6 tran 2 exec_intran is 606
+sim 10 ana 6 tran 2 diff between inline and intransit 194
+sim 10 ana 7 tran 2 compute_inline_time is 850
+sim 10 ana 7 tran 2 exec_simtime_intran is 600
+sim 10 ana 7 tran 2 exec_anatime_intran is 607
+sim 10 ana 7 tran 2 sim wait time at last step is 7
+sim 10 ana 7 tran 2 exec_intran is 607
+sim 10 ana 7 tran 2 diff between inline and intransit 243
+sim 10 ana 8 tran 2 compute_inline_time is 900
+sim 10 ana 8 tran 2 exec_simtime_intran is 600
+sim 10 ana 8 tran 2 exec_anatime_intran is 608
+sim 10 ana 8 tran 2 sim wait time at last step is 8
+sim 10 ana 8 tran 2 exec_intran is 608
+sim 10 ana 8 tran 2 diff between inline and intransit 292
+sim 10 ana 9 tran 2 compute_inline_time is 950
+sim 10 ana 9 tran 2 exec_simtime_intran is 600
+sim 10 ana 9 tran 2 exec_anatime_intran is 609
+sim 10 ana 9 tran 2 sim wait time at last step is 9
+sim 10 ana 9 tran 2 exec_intran is 609
+sim 10 ana 9 tran 2 diff between inline and intransit 341
+sim 10 ana 10 tran 2 compute_inline_time is 1000
+sim 10 ana 10 tran 2 exec_simtime_intran is 600
+sim 10 ana 10 tran 2 exec_anatime_intran is 610
+sim 10 ana 10 tran 2 sim wait time at last step is 10
+sim 10 ana 10 tran 2 exec_intran is 610
+sim 10 ana 10 tran 2 diff between inline and intransit 390
+sim 1 ana 1 tran 4 compute_inline_time is 100
+sim 1 ana 1 tran 4 exec_simtime_intran is 250
+sim 1 ana 1 tran 4 exec_anatime_intran is 251
+sim 1 ana 1 tran 4 sim wait time at last step is 1
+sim 1 ana 1 tran 4 exec_intran is 251
+sim 1 ana 1 tran 4 diff between inline and intransit -151
+sim 1 ana 2 tran 4 compute_inline_time is 150
+sim 1 ana 2 tran 4 exec_simtime_intran is 299
+sim 1 ana 2 tran 4 exec_anatime_intran is 301
+sim 1 ana 2 tran 4 sim wait time at last step is 2
+sim 1 ana 2 tran 4 exec_intran is 301
+sim 1 ana 2 tran 4 diff between inline and intransit -151
+sim 1 ana 3 tran 4 compute_inline_time is 200
+sim 1 ana 3 tran 4 exec_simtime_intran is 348
+sim 1 ana 3 tran 4 exec_anatime_intran is 351
+sim 1 ana 3 tran 4 sim wait time at last step is 3
+sim 1 ana 3 tran 4 exec_intran is 351
+sim 1 ana 3 tran 4 diff between inline and intransit -151
+sim 1 ana 4 tran 4 compute_inline_time is 250
+sim 1 ana 4 tran 4 exec_simtime_intran is 397
+sim 1 ana 4 tran 4 exec_anatime_intran is 401
+sim 1 ana 4 tran 4 sim wait time at last step is 4
+sim 1 ana 4 tran 4 exec_intran is 401
+sim 1 ana 4 tran 4 diff between inline and intransit -151
+sim 1 ana 5 tran 4 compute_inline_time is 300
+sim 1 ana 5 tran 4 exec_simtime_intran is 446
+sim 1 ana 5 tran 4 exec_anatime_intran is 451
+sim 1 ana 5 tran 4 sim wait time at last step is 5
+sim 1 ana 5 tran 4 exec_intran is 451
+sim 1 ana 5 tran 4 diff between inline and intransit -151
+sim 1 ana 6 tran 4 compute_inline_time is 350
+sim 1 ana 6 tran 4 exec_simtime_intran is 495
+sim 1 ana 6 tran 4 exec_anatime_intran is 501
+sim 1 ana 6 tran 4 sim wait time at last step is 6
+sim 1 ana 6 tran 4 exec_intran is 501
+sim 1 ana 6 tran 4 diff between inline and intransit -151
+sim 1 ana 7 tran 4 compute_inline_time is 400
+sim 1 ana 7 tran 4 exec_simtime_intran is 544
+sim 1 ana 7 tran 4 exec_anatime_intran is 551
+sim 1 ana 7 tran 4 sim wait time at last step is 7
+sim 1 ana 7 tran 4 exec_intran is 551
+sim 1 ana 7 tran 4 diff between inline and intransit -151
+sim 1 ana 8 tran 4 compute_inline_time is 450
+sim 1 ana 8 tran 4 exec_simtime_intran is 593
+sim 1 ana 8 tran 4 exec_anatime_intran is 601
+sim 1 ana 8 tran 4 sim wait time at last step is 8
+sim 1 ana 8 tran 4 exec_intran is 601
+sim 1 ana 8 tran 4 diff between inline and intransit -151
+sim 1 ana 9 tran 4 compute_inline_time is 500
+sim 1 ana 9 tran 4 exec_simtime_intran is 642
+sim 1 ana 9 tran 4 exec_anatime_intran is 651
+sim 1 ana 9 tran 4 sim wait time at last step is 9
+sim 1 ana 9 tran 4 exec_intran is 651
+sim 1 ana 9 tran 4 diff between inline and intransit -151
+sim 1 ana 10 tran 4 compute_inline_time is 550
+sim 1 ana 10 tran 4 exec_simtime_intran is 691
+sim 1 ana 10 tran 4 exec_anatime_intran is 701
+sim 1 ana 10 tran 4 sim wait time at last step is 10
+sim 1 ana 10 tran 4 exec_intran is 701
+sim 1 ana 10 tran 4 diff between inline and intransit -151
+sim 2 ana 1 tran 4 compute_inline_time is 150
+sim 2 ana 1 tran 4 exec_simtime_intran is 300
+sim 2 ana 1 tran 4 exec_anatime_intran is 301
+sim 2 ana 1 tran 4 sim wait time at last step is 1
+sim 2 ana 1 tran 4 exec_intran is 301
+sim 2 ana 1 tran 4 diff between inline and intransit -151
+sim 2 ana 2 tran 4 compute_inline_time is 200
+sim 2 ana 2 tran 4 exec_simtime_intran is 300
+sim 2 ana 2 tran 4 exec_anatime_intran is 302
+sim 2 ana 2 tran 4 sim wait time at last step is 2
+sim 2 ana 2 tran 4 exec_intran is 302
+sim 2 ana 2 tran 4 diff between inline and intransit -102
+sim 2 ana 3 tran 4 compute_inline_time is 250
+sim 2 ana 3 tran 4 exec_simtime_intran is 349
+sim 2 ana 3 tran 4 exec_anatime_intran is 352
+sim 2 ana 3 tran 4 sim wait time at last step is 3
+sim 2 ana 3 tran 4 exec_intran is 352
+sim 2 ana 3 tran 4 diff between inline and intransit -102
+sim 2 ana 4 tran 4 compute_inline_time is 300
+sim 2 ana 4 tran 4 exec_simtime_intran is 398
+sim 2 ana 4 tran 4 exec_anatime_intran is 402
+sim 2 ana 4 tran 4 sim wait time at last step is 4
+sim 2 ana 4 tran 4 exec_intran is 402
+sim 2 ana 4 tran 4 diff between inline and intransit -102
+sim 2 ana 5 tran 4 compute_inline_time is 350
+sim 2 ana 5 tran 4 exec_simtime_intran is 447
+sim 2 ana 5 tran 4 exec_anatime_intran is 452
+sim 2 ana 5 tran 4 sim wait time at last step is 5
+sim 2 ana 5 tran 4 exec_intran is 452
+sim 2 ana 5 tran 4 diff between inline and intransit -102
+sim 2 ana 6 tran 4 compute_inline_time is 400
+sim 2 ana 6 tran 4 exec_simtime_intran is 496
+sim 2 ana 6 tran 4 exec_anatime_intran is 502
+sim 2 ana 6 tran 4 sim wait time at last step is 6
+sim 2 ana 6 tran 4 exec_intran is 502
+sim 2 ana 6 tran 4 diff between inline and intransit -102
+sim 2 ana 7 tran 4 compute_inline_time is 450
+sim 2 ana 7 tran 4 exec_simtime_intran is 545
+sim 2 ana 7 tran 4 exec_anatime_intran is 552
+sim 2 ana 7 tran 4 sim wait time at last step is 7
+sim 2 ana 7 tran 4 exec_intran is 552
+sim 2 ana 7 tran 4 diff between inline and intransit -102
+sim 2 ana 8 tran 4 compute_inline_time is 500
+sim 2 ana 8 tran 4 exec_simtime_intran is 594
+sim 2 ana 8 tran 4 exec_anatime_intran is 602
+sim 2 ana 8 tran 4 sim wait time at last step is 8
+sim 2 ana 8 tran 4 exec_intran is 602
+sim 2 ana 8 tran 4 diff between inline and intransit -102
+sim 2 ana 9 tran 4 compute_inline_time is 550
+sim 2 ana 9 tran 4 exec_simtime_intran is 643
+sim 2 ana 9 tran 4 exec_anatime_intran is 652
+sim 2 ana 9 tran 4 sim wait time at last step is 9
+sim 2 ana 9 tran 4 exec_intran is 652
+sim 2 ana 9 tran 4 diff between inline and intransit -102
+sim 2 ana 10 tran 4 compute_inline_time is 600
+sim 2 ana 10 tran 4 exec_simtime_intran is 692
+sim 2 ana 10 tran 4 exec_anatime_intran is 702
+sim 2 ana 10 tran 4 sim wait time at last step is 10
+sim 2 ana 10 tran 4 exec_intran is 702
+sim 2 ana 10 tran 4 diff between inline and intransit -102
+sim 3 ana 1 tran 4 compute_inline_time is 200
+sim 3 ana 1 tran 4 exec_simtime_intran is 350
+sim 3 ana 1 tran 4 exec_anatime_intran is 351
+sim 3 ana 1 tran 4 sim wait time at last step is 1
+sim 3 ana 1 tran 4 exec_intran is 351
+sim 3 ana 1 tran 4 diff between inline and intransit -151
+sim 3 ana 2 tran 4 compute_inline_time is 250
+sim 3 ana 2 tran 4 exec_simtime_intran is 350
+sim 3 ana 2 tran 4 exec_anatime_intran is 352
+sim 3 ana 2 tran 4 sim wait time at last step is 2
+sim 3 ana 2 tran 4 exec_intran is 352
+sim 3 ana 2 tran 4 diff between inline and intransit -102
+sim 3 ana 3 tran 4 compute_inline_time is 300
+sim 3 ana 3 tran 4 exec_simtime_intran is 350
+sim 3 ana 3 tran 4 exec_anatime_intran is 353
+sim 3 ana 3 tran 4 sim wait time at last step is 3
+sim 3 ana 3 tran 4 exec_intran is 353
+sim 3 ana 3 tran 4 diff between inline and intransit -53
+sim 3 ana 4 tran 4 compute_inline_time is 350
+sim 3 ana 4 tran 4 exec_simtime_intran is 399
+sim 3 ana 4 tran 4 exec_anatime_intran is 403
+sim 3 ana 4 tran 4 sim wait time at last step is 4
+sim 3 ana 4 tran 4 exec_intran is 403
+sim 3 ana 4 tran 4 diff between inline and intransit -53
+sim 3 ana 5 tran 4 compute_inline_time is 400
+sim 3 ana 5 tran 4 exec_simtime_intran is 448
+sim 3 ana 5 tran 4 exec_anatime_intran is 453
+sim 3 ana 5 tran 4 sim wait time at last step is 5
+sim 3 ana 5 tran 4 exec_intran is 453
+sim 3 ana 5 tran 4 diff between inline and intransit -53
+sim 3 ana 6 tran 4 compute_inline_time is 450
+sim 3 ana 6 tran 4 exec_simtime_intran is 497
+sim 3 ana 6 tran 4 exec_anatime_intran is 503
+sim 3 ana 6 tran 4 sim wait time at last step is 6
+sim 3 ana 6 tran 4 exec_intran is 503
+sim 3 ana 6 tran 4 diff between inline and intransit -53
+sim 3 ana 7 tran 4 compute_inline_time is 500
+sim 3 ana 7 tran 4 exec_simtime_intran is 546
+sim 3 ana 7 tran 4 exec_anatime_intran is 553
+sim 3 ana 7 tran 4 sim wait time at last step is 7
+sim 3 ana 7 tran 4 exec_intran is 553
+sim 3 ana 7 tran 4 diff between inline and intransit -53
+sim 3 ana 8 tran 4 compute_inline_time is 550
+sim 3 ana 8 tran 4 exec_simtime_intran is 595
+sim 3 ana 8 tran 4 exec_anatime_intran is 603
+sim 3 ana 8 tran 4 sim wait time at last step is 8
+sim 3 ana 8 tran 4 exec_intran is 603
+sim 3 ana 8 tran 4 diff between inline and intransit -53
+sim 3 ana 9 tran 4 compute_inline_time is 600
+sim 3 ana 9 tran 4 exec_simtime_intran is 644
+sim 3 ana 9 tran 4 exec_anatime_intran is 653
+sim 3 ana 9 tran 4 sim wait time at last step is 9
+sim 3 ana 9 tran 4 exec_intran is 653
+sim 3 ana 9 tran 4 diff between inline and intransit -53
+sim 3 ana 10 tran 4 compute_inline_time is 650
+sim 3 ana 10 tran 4 exec_simtime_intran is 693
+sim 3 ana 10 tran 4 exec_anatime_intran is 703
+sim 3 ana 10 tran 4 sim wait time at last step is 10
+sim 3 ana 10 tran 4 exec_intran is 703
+sim 3 ana 10 tran 4 diff between inline and intransit -53
+sim 4 ana 1 tran 4 compute_inline_time is 250
+sim 4 ana 1 tran 4 exec_simtime_intran is 400
+sim 4 ana 1 tran 4 exec_anatime_intran is 401
+sim 4 ana 1 tran 4 sim wait time at last step is 1
+sim 4 ana 1 tran 4 exec_intran is 401
+sim 4 ana 1 tran 4 diff between inline and intransit -151
+sim 4 ana 2 tran 4 compute_inline_time is 300
+sim 4 ana 2 tran 4 exec_simtime_intran is 400
+sim 4 ana 2 tran 4 exec_anatime_intran is 402
+sim 4 ana 2 tran 4 sim wait time at last step is 2
+sim 4 ana 2 tran 4 exec_intran is 402
+sim 4 ana 2 tran 4 diff between inline and intransit -102
+sim 4 ana 3 tran 4 compute_inline_time is 350
+sim 4 ana 3 tran 4 exec_simtime_intran is 400
+sim 4 ana 3 tran 4 exec_anatime_intran is 403
+sim 4 ana 3 tran 4 sim wait time at last step is 3
+sim 4 ana 3 tran 4 exec_intran is 403
+sim 4 ana 3 tran 4 diff between inline and intransit -53
+sim 4 ana 4 tran 4 compute_inline_time is 400
+sim 4 ana 4 tran 4 exec_simtime_intran is 400
+sim 4 ana 4 tran 4 exec_anatime_intran is 404
+sim 4 ana 4 tran 4 sim wait time at last step is 4
+sim 4 ana 4 tran 4 exec_intran is 404
+sim 4 ana 4 tran 4 diff between inline and intransit -4
+sim 4 ana 5 tran 4 compute_inline_time is 450
+sim 4 ana 5 tran 4 exec_simtime_intran is 449
+sim 4 ana 5 tran 4 exec_anatime_intran is 454
+sim 4 ana 5 tran 4 sim wait time at last step is 5
+sim 4 ana 5 tran 4 exec_intran is 454
+sim 4 ana 5 tran 4 diff between inline and intransit -4
+sim 4 ana 6 tran 4 compute_inline_time is 500
+sim 4 ana 6 tran 4 exec_simtime_intran is 498
+sim 4 ana 6 tran 4 exec_anatime_intran is 504
+sim 4 ana 6 tran 4 sim wait time at last step is 6
+sim 4 ana 6 tran 4 exec_intran is 504
+sim 4 ana 6 tran 4 diff between inline and intransit -4
+sim 4 ana 7 tran 4 compute_inline_time is 550
+sim 4 ana 7 tran 4 exec_simtime_intran is 547
+sim 4 ana 7 tran 4 exec_anatime_intran is 554
+sim 4 ana 7 tran 4 sim wait time at last step is 7
+sim 4 ana 7 tran 4 exec_intran is 554
+sim 4 ana 7 tran 4 diff between inline and intransit -4
+sim 4 ana 8 tran 4 compute_inline_time is 600
+sim 4 ana 8 tran 4 exec_simtime_intran is 596
+sim 4 ana 8 tran 4 exec_anatime_intran is 604
+sim 4 ana 8 tran 4 sim wait time at last step is 8
+sim 4 ana 8 tran 4 exec_intran is 604
+sim 4 ana 8 tran 4 diff between inline and intransit -4
+sim 4 ana 9 tran 4 compute_inline_time is 650
+sim 4 ana 9 tran 4 exec_simtime_intran is 645
+sim 4 ana 9 tran 4 exec_anatime_intran is 654
+sim 4 ana 9 tran 4 sim wait time at last step is 9
+sim 4 ana 9 tran 4 exec_intran is 654
+sim 4 ana 9 tran 4 diff between inline and intransit -4
+sim 4 ana 10 tran 4 compute_inline_time is 700
+sim 4 ana 10 tran 4 exec_simtime_intran is 694
+sim 4 ana 10 tran 4 exec_anatime_intran is 704
+sim 4 ana 10 tran 4 sim wait time at last step is 10
+sim 4 ana 10 tran 4 exec_intran is 704
+sim 4 ana 10 tran 4 diff between inline and intransit -4
+sim 5 ana 1 tran 4 compute_inline_time is 300
+sim 5 ana 1 tran 4 exec_simtime_intran is 450
+sim 5 ana 1 tran 4 exec_anatime_intran is 451
+sim 5 ana 1 tran 4 sim wait time at last step is 1
+sim 5 ana 1 tran 4 exec_intran is 451
+sim 5 ana 1 tran 4 diff between inline and intransit -151
+sim 5 ana 2 tran 4 compute_inline_time is 350
+sim 5 ana 2 tran 4 exec_simtime_intran is 450
+sim 5 ana 2 tran 4 exec_anatime_intran is 452
+sim 5 ana 2 tran 4 sim wait time at last step is 2
+sim 5 ana 2 tran 4 exec_intran is 452
+sim 5 ana 2 tran 4 diff between inline and intransit -102
+sim 5 ana 3 tran 4 compute_inline_time is 400
+sim 5 ana 3 tran 4 exec_simtime_intran is 450
+sim 5 ana 3 tran 4 exec_anatime_intran is 453
+sim 5 ana 3 tran 4 sim wait time at last step is 3
+sim 5 ana 3 tran 4 exec_intran is 453
+sim 5 ana 3 tran 4 diff between inline and intransit -53
+sim 5 ana 4 tran 4 compute_inline_time is 450
+sim 5 ana 4 tran 4 exec_simtime_intran is 450
+sim 5 ana 4 tran 4 exec_anatime_intran is 454
+sim 5 ana 4 tran 4 sim wait time at last step is 4
+sim 5 ana 4 tran 4 exec_intran is 454
+sim 5 ana 4 tran 4 diff between inline and intransit -4
+sim 5 ana 5 tran 4 compute_inline_time is 500
+sim 5 ana 5 tran 4 exec_simtime_intran is 450
+sim 5 ana 5 tran 4 exec_anatime_intran is 455
+sim 5 ana 5 tran 4 sim wait time at last step is 5
+sim 5 ana 5 tran 4 exec_intran is 455
+sim 5 ana 5 tran 4 diff between inline and intransit 45
+sim 5 ana 6 tran 4 compute_inline_time is 550
+sim 5 ana 6 tran 4 exec_simtime_intran is 499
+sim 5 ana 6 tran 4 exec_anatime_intran is 505
+sim 5 ana 6 tran 4 sim wait time at last step is 6
+sim 5 ana 6 tran 4 exec_intran is 505
+sim 5 ana 6 tran 4 diff between inline and intransit 45
+sim 5 ana 7 tran 4 compute_inline_time is 600
+sim 5 ana 7 tran 4 exec_simtime_intran is 548
+sim 5 ana 7 tran 4 exec_anatime_intran is 555
+sim 5 ana 7 tran 4 sim wait time at last step is 7
+sim 5 ana 7 tran 4 exec_intran is 555
+sim 5 ana 7 tran 4 diff between inline and intransit 45
+sim 5 ana 8 tran 4 compute_inline_time is 650
+sim 5 ana 8 tran 4 exec_simtime_intran is 597
+sim 5 ana 8 tran 4 exec_anatime_intran is 605
+sim 5 ana 8 tran 4 sim wait time at last step is 8
+sim 5 ana 8 tran 4 exec_intran is 605
+sim 5 ana 8 tran 4 diff between inline and intransit 45
+sim 5 ana 9 tran 4 compute_inline_time is 700
+sim 5 ana 9 tran 4 exec_simtime_intran is 646
+sim 5 ana 9 tran 4 exec_anatime_intran is 655
+sim 5 ana 9 tran 4 sim wait time at last step is 9
+sim 5 ana 9 tran 4 exec_intran is 655
+sim 5 ana 9 tran 4 diff between inline and intransit 45
+sim 5 ana 10 tran 4 compute_inline_time is 750
+sim 5 ana 10 tran 4 exec_simtime_intran is 695
+sim 5 ana 10 tran 4 exec_anatime_intran is 705
+sim 5 ana 10 tran 4 sim wait time at last step is 10
+sim 5 ana 10 tran 4 exec_intran is 705
+sim 5 ana 10 tran 4 diff between inline and intransit 45
+sim 6 ana 1 tran 4 compute_inline_time is 350
+sim 6 ana 1 tran 4 exec_simtime_intran is 500
+sim 6 ana 1 tran 4 exec_anatime_intran is 501
+sim 6 ana 1 tran 4 sim wait time at last step is 1
+sim 6 ana 1 tran 4 exec_intran is 501
+sim 6 ana 1 tran 4 diff between inline and intransit -151
+sim 6 ana 2 tran 4 compute_inline_time is 400
+sim 6 ana 2 tran 4 exec_simtime_intran is 500
+sim 6 ana 2 tran 4 exec_anatime_intran is 502
+sim 6 ana 2 tran 4 sim wait time at last step is 2
+sim 6 ana 2 tran 4 exec_intran is 502
+sim 6 ana 2 tran 4 diff between inline and intransit -102
+sim 6 ana 3 tran 4 compute_inline_time is 450
+sim 6 ana 3 tran 4 exec_simtime_intran is 497
+sim 6 ana 3 tran 4 exec_anatime_intran is 500
+sim 6 ana 3 tran 4 sim wait time at last step is 3
+sim 6 ana 3 tran 4 exec_intran is 500
+sim 6 ana 3 tran 4 diff between inline and intransit -50
+sim 6 ana 4 tran 4 compute_inline_time is 500
+sim 6 ana 4 tran 4 exec_simtime_intran is 500
+sim 6 ana 4 tran 4 exec_anatime_intran is 504
+sim 6 ana 4 tran 4 sim wait time at last step is 4
+sim 6 ana 4 tran 4 exec_intran is 504
+sim 6 ana 4 tran 4 diff between inline and intransit -4
+sim 6 ana 5 tran 4 compute_inline_time is 550
+sim 6 ana 5 tran 4 exec_simtime_intran is 500
+sim 6 ana 5 tran 4 exec_anatime_intran is 505
+sim 6 ana 5 tran 4 sim wait time at last step is 5
+sim 6 ana 5 tran 4 exec_intran is 505
+sim 6 ana 5 tran 4 diff between inline and intransit 45
+sim 6 ana 6 tran 4 compute_inline_time is 600
+sim 6 ana 6 tran 4 exec_simtime_intran is 500
+sim 6 ana 6 tran 4 exec_anatime_intran is 506
+sim 6 ana 6 tran 4 sim wait time at last step is 6
+sim 6 ana 6 tran 4 exec_intran is 506
+sim 6 ana 6 tran 4 diff between inline and intransit 94
+sim 6 ana 7 tran 4 compute_inline_time is 650
+sim 6 ana 7 tran 4 exec_simtime_intran is 549
+sim 6 ana 7 tran 4 exec_anatime_intran is 556
+sim 6 ana 7 tran 4 sim wait time at last step is 7
+sim 6 ana 7 tran 4 exec_intran is 556
+sim 6 ana 7 tran 4 diff between inline and intransit 94
+sim 6 ana 8 tran 4 compute_inline_time is 700
+sim 6 ana 8 tran 4 exec_simtime_intran is 598
+sim 6 ana 8 tran 4 exec_anatime_intran is 606
+sim 6 ana 8 tran 4 sim wait time at last step is 8
+sim 6 ana 8 tran 4 exec_intran is 606
+sim 6 ana 8 tran 4 diff between inline and intransit 94
+sim 6 ana 9 tran 4 compute_inline_time is 750
+sim 6 ana 9 tran 4 exec_simtime_intran is 647
+sim 6 ana 9 tran 4 exec_anatime_intran is 656
+sim 6 ana 9 tran 4 sim wait time at last step is 9
+sim 6 ana 9 tran 4 exec_intran is 656
+sim 6 ana 9 tran 4 diff between inline and intransit 94
+sim 6 ana 10 tran 4 compute_inline_time is 800
+sim 6 ana 10 tran 4 exec_simtime_intran is 696
+sim 6 ana 10 tran 4 exec_anatime_intran is 706
+sim 6 ana 10 tran 4 sim wait time at last step is 10
+sim 6 ana 10 tran 4 exec_intran is 706
+sim 6 ana 10 tran 4 diff between inline and intransit 94
+sim 7 ana 1 tran 4 compute_inline_time is 400
+sim 7 ana 1 tran 4 exec_simtime_intran is 550
+sim 7 ana 1 tran 4 exec_anatime_intran is 551
+sim 7 ana 1 tran 4 sim wait time at last step is 1
+sim 7 ana 1 tran 4 exec_intran is 551
+sim 7 ana 1 tran 4 diff between inline and intransit -151
+sim 7 ana 2 tran 4 compute_inline_time is 450
+sim 7 ana 2 tran 4 exec_simtime_intran is 550
+sim 7 ana 2 tran 4 exec_anatime_intran is 552
+sim 7 ana 2 tran 4 sim wait time at last step is 2
+sim 7 ana 2 tran 4 exec_intran is 552
+sim 7 ana 2 tran 4 diff between inline and intransit -102
+sim 7 ana 3 tran 4 compute_inline_time is 500
+sim 7 ana 3 tran 4 exec_simtime_intran is 550
+sim 7 ana 3 tran 4 exec_anatime_intran is 553
+sim 7 ana 3 tran 4 sim wait time at last step is 3
+sim 7 ana 3 tran 4 exec_intran is 553
+sim 7 ana 3 tran 4 diff between inline and intransit -53
+sim 7 ana 4 tran 4 compute_inline_time is 550
+sim 7 ana 4 tran 4 exec_simtime_intran is 550
+sim 7 ana 4 tran 4 exec_anatime_intran is 554
+sim 7 ana 4 tran 4 sim wait time at last step is 4
+sim 7 ana 4 tran 4 exec_intran is 554
+sim 7 ana 4 tran 4 diff between inline and intransit -4
+sim 7 ana 5 tran 4 compute_inline_time is 600
+sim 7 ana 5 tran 4 exec_simtime_intran is 550
+sim 7 ana 5 tran 4 exec_anatime_intran is 555
+sim 7 ana 5 tran 4 sim wait time at last step is 5
+sim 7 ana 5 tran 4 exec_intran is 555
+sim 7 ana 5 tran 4 diff between inline and intransit 45
+sim 7 ana 6 tran 4 compute_inline_time is 650
+sim 7 ana 6 tran 4 exec_simtime_intran is 550
+sim 7 ana 6 tran 4 exec_anatime_intran is 556
+sim 7 ana 6 tran 4 sim wait time at last step is 6
+sim 7 ana 6 tran 4 exec_intran is 556
+sim 7 ana 6 tran 4 diff between inline and intransit 94
+sim 7 ana 7 tran 4 compute_inline_time is 700
+sim 7 ana 7 tran 4 exec_simtime_intran is 550
+sim 7 ana 7 tran 4 exec_anatime_intran is 557
+sim 7 ana 7 tran 4 sim wait time at last step is 7
+sim 7 ana 7 tran 4 exec_intran is 557
+sim 7 ana 7 tran 4 diff between inline and intransit 143
+sim 7 ana 8 tran 4 compute_inline_time is 750
+sim 7 ana 8 tran 4 exec_simtime_intran is 599
+sim 7 ana 8 tran 4 exec_anatime_intran is 607
+sim 7 ana 8 tran 4 sim wait time at last step is 8
+sim 7 ana 8 tran 4 exec_intran is 607
+sim 7 ana 8 tran 4 diff between inline and intransit 143
+sim 7 ana 9 tran 4 compute_inline_time is 800
+sim 7 ana 9 tran 4 exec_simtime_intran is 648
+sim 7 ana 9 tran 4 exec_anatime_intran is 657
+sim 7 ana 9 tran 4 sim wait time at last step is 9
+sim 7 ana 9 tran 4 exec_intran is 657
+sim 7 ana 9 tran 4 diff between inline and intransit 143
+sim 7 ana 10 tran 4 compute_inline_time is 850
+sim 7 ana 10 tran 4 exec_simtime_intran is 697
+sim 7 ana 10 tran 4 exec_anatime_intran is 707
+sim 7 ana 10 tran 4 sim wait time at last step is 10
+sim 7 ana 10 tran 4 exec_intran is 707
+sim 7 ana 10 tran 4 diff between inline and intransit 143
+sim 8 ana 1 tran 4 compute_inline_time is 450
+sim 8 ana 1 tran 4 exec_simtime_intran is 600
+sim 8 ana 1 tran 4 exec_anatime_intran is 601
+sim 8 ana 1 tran 4 sim wait time at last step is 1
+sim 8 ana 1 tran 4 exec_intran is 601
+sim 8 ana 1 tran 4 diff between inline and intransit -151
+sim 8 ana 2 tran 4 compute_inline_time is 500
+sim 8 ana 2 tran 4 exec_simtime_intran is 600
+sim 8 ana 2 tran 4 exec_anatime_intran is 602
+sim 8 ana 2 tran 4 sim wait time at last step is 2
+sim 8 ana 2 tran 4 exec_intran is 602
+sim 8 ana 2 tran 4 diff between inline and intransit -102
+sim 8 ana 3 tran 4 compute_inline_time is 550
+sim 8 ana 3 tran 4 exec_simtime_intran is 600
+sim 8 ana 3 tran 4 exec_anatime_intran is 603
+sim 8 ana 3 tran 4 sim wait time at last step is 3
+sim 8 ana 3 tran 4 exec_intran is 603
+sim 8 ana 3 tran 4 diff between inline and intransit -53
+sim 8 ana 4 tran 4 compute_inline_time is 600
+sim 8 ana 4 tran 4 exec_simtime_intran is 600
+sim 8 ana 4 tran 4 exec_anatime_intran is 604
+sim 8 ana 4 tran 4 sim wait time at last step is 4
+sim 8 ana 4 tran 4 exec_intran is 604
+sim 8 ana 4 tran 4 diff between inline and intransit -4
+sim 8 ana 5 tran 4 compute_inline_time is 650
+sim 8 ana 5 tran 4 exec_simtime_intran is 600
+sim 8 ana 5 tran 4 exec_anatime_intran is 605
+sim 8 ana 5 tran 4 sim wait time at last step is 5
+sim 8 ana 5 tran 4 exec_intran is 605
+sim 8 ana 5 tran 4 diff between inline and intransit 45
+sim 8 ana 6 tran 4 compute_inline_time is 700
+sim 8 ana 6 tran 4 exec_simtime_intran is 600
+sim 8 ana 6 tran 4 exec_anatime_intran is 606
+sim 8 ana 6 tran 4 sim wait time at last step is 6
+sim 8 ana 6 tran 4 exec_intran is 606
+sim 8 ana 6 tran 4 diff between inline and intransit 94
+sim 8 ana 7 tran 4 compute_inline_time is 750
+sim 8 ana 7 tran 4 exec_simtime_intran is 600
+sim 8 ana 7 tran 4 exec_anatime_intran is 607
+sim 8 ana 7 tran 4 sim wait time at last step is 7
+sim 8 ana 7 tran 4 exec_intran is 607
+sim 8 ana 7 tran 4 diff between inline and intransit 143
+sim 8 ana 8 tran 4 compute_inline_time is 800
+sim 8 ana 8 tran 4 exec_simtime_intran is 600
+sim 8 ana 8 tran 4 exec_anatime_intran is 608
+sim 8 ana 8 tran 4 sim wait time at last step is 8
+sim 8 ana 8 tran 4 exec_intran is 608
+sim 8 ana 8 tran 4 diff between inline and intransit 192
+sim 8 ana 9 tran 4 compute_inline_time is 850
+sim 8 ana 9 tran 4 exec_simtime_intran is 649
+sim 8 ana 9 tran 4 exec_anatime_intran is 658
+sim 8 ana 9 tran 4 sim wait time at last step is 9
+sim 8 ana 9 tran 4 exec_intran is 658
+sim 8 ana 9 tran 4 diff between inline and intransit 192
+sim 8 ana 10 tran 4 compute_inline_time is 900
+sim 8 ana 10 tran 4 exec_simtime_intran is 698
+sim 8 ana 10 tran 4 exec_anatime_intran is 708
+sim 8 ana 10 tran 4 sim wait time at last step is 10
+sim 8 ana 10 tran 4 exec_intran is 708
+sim 8 ana 10 tran 4 diff between inline and intransit 192
+sim 9 ana 1 tran 4 compute_inline_time is 500
+sim 9 ana 1 tran 4 exec_simtime_intran is 650
+sim 9 ana 1 tran 4 exec_anatime_intran is 651
+sim 9 ana 1 tran 4 sim wait time at last step is 1
+sim 9 ana 1 tran 4 exec_intran is 651
+sim 9 ana 1 tran 4 diff between inline and intransit -151
+sim 9 ana 2 tran 4 compute_inline_time is 550
+sim 9 ana 2 tran 4 exec_simtime_intran is 650
+sim 9 ana 2 tran 4 exec_anatime_intran is 652
+sim 9 ana 2 tran 4 sim wait time at last step is 2
+sim 9 ana 2 tran 4 exec_intran is 652
+sim 9 ana 2 tran 4 diff between inline and intransit -102
+sim 9 ana 3 tran 4 compute_inline_time is 600
+sim 9 ana 3 tran 4 exec_simtime_intran is 650
+sim 9 ana 3 tran 4 exec_anatime_intran is 653
+sim 9 ana 3 tran 4 sim wait time at last step is 3
+sim 9 ana 3 tran 4 exec_intran is 653
+sim 9 ana 3 tran 4 diff between inline and intransit -53
+sim 9 ana 4 tran 4 compute_inline_time is 650
+sim 9 ana 4 tran 4 exec_simtime_intran is 650
+sim 9 ana 4 tran 4 exec_anatime_intran is 654
+sim 9 ana 4 tran 4 sim wait time at last step is 4
+sim 9 ana 4 tran 4 exec_intran is 654
+sim 9 ana 4 tran 4 diff between inline and intransit -4
+sim 9 ana 5 tran 4 compute_inline_time is 700
+sim 9 ana 5 tran 4 exec_simtime_intran is 650
+sim 9 ana 5 tran 4 exec_anatime_intran is 655
+sim 9 ana 5 tran 4 sim wait time at last step is 5
+sim 9 ana 5 tran 4 exec_intran is 655
+sim 9 ana 5 tran 4 diff between inline and intransit 45
+sim 9 ana 6 tran 4 compute_inline_time is 750
+sim 9 ana 6 tran 4 exec_simtime_intran is 650
+sim 9 ana 6 tran 4 exec_anatime_intran is 656
+sim 9 ana 6 tran 4 sim wait time at last step is 6
+sim 9 ana 6 tran 4 exec_intran is 656
+sim 9 ana 6 tran 4 diff between inline and intransit 94
+sim 9 ana 7 tran 4 compute_inline_time is 800
+sim 9 ana 7 tran 4 exec_simtime_intran is 650
+sim 9 ana 7 tran 4 exec_anatime_intran is 657
+sim 9 ana 7 tran 4 sim wait time at last step is 7
+sim 9 ana 7 tran 4 exec_intran is 657
+sim 9 ana 7 tran 4 diff between inline and intransit 143
+sim 9 ana 8 tran 4 compute_inline_time is 850
+sim 9 ana 8 tran 4 exec_simtime_intran is 650
+sim 9 ana 8 tran 4 exec_anatime_intran is 658
+sim 9 ana 8 tran 4 sim wait time at last step is 8
+sim 9 ana 8 tran 4 exec_intran is 658
+sim 9 ana 8 tran 4 diff between inline and intransit 192
+sim 9 ana 9 tran 4 compute_inline_time is 900
+sim 9 ana 9 tran 4 exec_simtime_intran is 650
+sim 9 ana 9 tran 4 exec_anatime_intran is 659
+sim 9 ana 9 tran 4 sim wait time at last step is 9
+sim 9 ana 9 tran 4 exec_intran is 659
+sim 9 ana 9 tran 4 diff between inline and intransit 241
+sim 9 ana 10 tran 4 compute_inline_time is 950
+sim 9 ana 10 tran 4 exec_simtime_intran is 699
+sim 9 ana 10 tran 4 exec_anatime_intran is 709
+sim 9 ana 10 tran 4 sim wait time at last step is 10
+sim 9 ana 10 tran 4 exec_intran is 709
+sim 9 ana 10 tran 4 diff between inline and intransit 241
+sim 10 ana 1 tran 4 compute_inline_time is 550
+sim 10 ana 1 tran 4 exec_simtime_intran is 700
+sim 10 ana 1 tran 4 exec_anatime_intran is 701
+sim 10 ana 1 tran 4 sim wait time at last step is 1
+sim 10 ana 1 tran 4 exec_intran is 701
+sim 10 ana 1 tran 4 diff between inline and intransit -151
+sim 10 ana 2 tran 4 compute_inline_time is 600
+sim 10 ana 2 tran 4 exec_simtime_intran is 700
+sim 10 ana 2 tran 4 exec_anatime_intran is 702
+sim 10 ana 2 tran 4 sim wait time at last step is 2
+sim 10 ana 2 tran 4 exec_intran is 702
+sim 10 ana 2 tran 4 diff between inline and intransit -102
+sim 10 ana 3 tran 4 compute_inline_time is 650
+sim 10 ana 3 tran 4 exec_simtime_intran is 700
+sim 10 ana 3 tran 4 exec_anatime_intran is 703
+sim 10 ana 3 tran 4 sim wait time at last step is 3
+sim 10 ana 3 tran 4 exec_intran is 703
+sim 10 ana 3 tran 4 diff between inline and intransit -53
+sim 10 ana 4 tran 4 compute_inline_time is 700
+sim 10 ana 4 tran 4 exec_simtime_intran is 694
+sim 10 ana 4 tran 4 exec_anatime_intran is 698
+sim 10 ana 4 tran 4 sim wait time at last step is 4
+sim 10 ana 4 tran 4 exec_intran is 698
+sim 10 ana 4 tran 4 diff between inline and intransit 2
+sim 10 ana 5 tran 4 compute_inline_time is 750
+sim 10 ana 5 tran 4 exec_simtime_intran is 700
+sim 10 ana 5 tran 4 exec_anatime_intran is 705
+sim 10 ana 5 tran 4 sim wait time at last step is 5
+sim 10 ana 5 tran 4 exec_intran is 705
+sim 10 ana 5 tran 4 diff between inline and intransit 45
+sim 10 ana 6 tran 4 compute_inline_time is 800
+sim 10 ana 6 tran 4 exec_simtime_intran is 700
+sim 10 ana 6 tran 4 exec_anatime_intran is 706
+sim 10 ana 6 tran 4 sim wait time at last step is 6
+sim 10 ana 6 tran 4 exec_intran is 706
+sim 10 ana 6 tran 4 diff between inline and intransit 94
+sim 10 ana 7 tran 4 compute_inline_time is 850
+sim 10 ana 7 tran 4 exec_simtime_intran is 700
+sim 10 ana 7 tran 4 exec_anatime_intran is 707
+sim 10 ana 7 tran 4 sim wait time at last step is 7
+sim 10 ana 7 tran 4 exec_intran is 707
+sim 10 ana 7 tran 4 diff between inline and intransit 143
+sim 10 ana 8 tran 4 compute_inline_time is 900
+sim 10 ana 8 tran 4 exec_simtime_intran is 700
+sim 10 ana 8 tran 4 exec_anatime_intran is 708
+sim 10 ana 8 tran 4 sim wait time at last step is 8
+sim 10 ana 8 tran 4 exec_intran is 708
+sim 10 ana 8 tran 4 diff between inline and intransit 192
+sim 10 ana 9 tran 4 compute_inline_time is 950
+sim 10 ana 9 tran 4 exec_simtime_intran is 700
+sim 10 ana 9 tran 4 exec_anatime_intran is 709
+sim 10 ana 9 tran 4 sim wait time at last step is 9
+sim 10 ana 9 tran 4 exec_intran is 709
+sim 10 ana 9 tran 4 diff between inline and intransit 241
+sim 10 ana 10 tran 4 compute_inline_time is 1000
+sim 10 ana 10 tran 4 exec_simtime_intran is 700
+sim 10 ana 10 tran 4 exec_anatime_intran is 710
+sim 10 ana 10 tran 4 sim wait time at last step is 10
+sim 10 ana 10 tran 4 exec_intran is 710
+sim 10 ana 10 tran 4 diff between inline and intransit 290
+sim 1 ana 1 tran 6 compute_inline_time is 100
+sim 1 ana 1 tran 6 exec_simtime_intran is 350
+sim 1 ana 1 tran 6 exec_anatime_intran is 351
+sim 1 ana 1 tran 6 sim wait time at last step is 1
+sim 1 ana 1 tran 6 exec_intran is 351
+sim 1 ana 1 tran 6 diff between inline and intransit -251
+sim 1 ana 2 tran 6 compute_inline_time is 150
+sim 1 ana 2 tran 6 exec_simtime_intran is 399
+sim 1 ana 2 tran 6 exec_anatime_intran is 401
+sim 1 ana 2 tran 6 sim wait time at last step is 2
+sim 1 ana 2 tran 6 exec_intran is 401
+sim 1 ana 2 tran 6 diff between inline and intransit -251
+sim 1 ana 3 tran 6 compute_inline_time is 200
+sim 1 ana 3 tran 6 exec_simtime_intran is 448
+sim 1 ana 3 tran 6 exec_anatime_intran is 451
+sim 1 ana 3 tran 6 sim wait time at last step is 3
+sim 1 ana 3 tran 6 exec_intran is 451
+sim 1 ana 3 tran 6 diff between inline and intransit -251
+sim 1 ana 4 tran 6 compute_inline_time is 250
+sim 1 ana 4 tran 6 exec_simtime_intran is 497
+sim 1 ana 4 tran 6 exec_anatime_intran is 501
+sim 1 ana 4 tran 6 sim wait time at last step is 4
+sim 1 ana 4 tran 6 exec_intran is 501
+sim 1 ana 4 tran 6 diff between inline and intransit -251
+sim 1 ana 5 tran 6 compute_inline_time is 300
+sim 1 ana 5 tran 6 exec_simtime_intran is 546
+sim 1 ana 5 tran 6 exec_anatime_intran is 551
+sim 1 ana 5 tran 6 sim wait time at last step is 5
+sim 1 ana 5 tran 6 exec_intran is 551
+sim 1 ana 5 tran 6 diff between inline and intransit -251
+sim 1 ana 6 tran 6 compute_inline_time is 350
+sim 1 ana 6 tran 6 exec_simtime_intran is 595
+sim 1 ana 6 tran 6 exec_anatime_intran is 601
+sim 1 ana 6 tran 6 sim wait time at last step is 6
+sim 1 ana 6 tran 6 exec_intran is 601
+sim 1 ana 6 tran 6 diff between inline and intransit -251
+sim 1 ana 7 tran 6 compute_inline_time is 400
+sim 1 ana 7 tran 6 exec_simtime_intran is 644
+sim 1 ana 7 tran 6 exec_anatime_intran is 651
+sim 1 ana 7 tran 6 sim wait time at last step is 7
+sim 1 ana 7 tran 6 exec_intran is 651
+sim 1 ana 7 tran 6 diff between inline and intransit -251
+sim 1 ana 8 tran 6 compute_inline_time is 450
+sim 1 ana 8 tran 6 exec_simtime_intran is 693
+sim 1 ana 8 tran 6 exec_anatime_intran is 701
+sim 1 ana 8 tran 6 sim wait time at last step is 8
+sim 1 ana 8 tran 6 exec_intran is 701
+sim 1 ana 8 tran 6 diff between inline and intransit -251
+sim 1 ana 9 tran 6 compute_inline_time is 500
+sim 1 ana 9 tran 6 exec_simtime_intran is 742
+sim 1 ana 9 tran 6 exec_anatime_intran is 751
+sim 1 ana 9 tran 6 sim wait time at last step is 9
+sim 1 ana 9 tran 6 exec_intran is 751
+sim 1 ana 9 tran 6 diff between inline and intransit -251
+sim 1 ana 10 tran 6 compute_inline_time is 550
+sim 1 ana 10 tran 6 exec_simtime_intran is 791
+sim 1 ana 10 tran 6 exec_anatime_intran is 801
+sim 1 ana 10 tran 6 sim wait time at last step is 10
+sim 1 ana 10 tran 6 exec_intran is 801
+sim 1 ana 10 tran 6 diff between inline and intransit -251
+sim 2 ana 1 tran 6 compute_inline_time is 150
+sim 2 ana 1 tran 6 exec_simtime_intran is 400
+sim 2 ana 1 tran 6 exec_anatime_intran is 401
+sim 2 ana 1 tran 6 sim wait time at last step is 1
+sim 2 ana 1 tran 6 exec_intran is 401
+sim 2 ana 1 tran 6 diff between inline and intransit -251
+sim 2 ana 2 tran 6 compute_inline_time is 200
+sim 2 ana 2 tran 6 exec_simtime_intran is 400
+sim 2 ana 2 tran 6 exec_anatime_intran is 402
+sim 2 ana 2 tran 6 sim wait time at last step is 2
+sim 2 ana 2 tran 6 exec_intran is 402
+sim 2 ana 2 tran 6 diff between inline and intransit -202
+sim 2 ana 3 tran 6 compute_inline_time is 250
+sim 2 ana 3 tran 6 exec_simtime_intran is 449
+sim 2 ana 3 tran 6 exec_anatime_intran is 452
+sim 2 ana 3 tran 6 sim wait time at last step is 3
+sim 2 ana 3 tran 6 exec_intran is 452
+sim 2 ana 3 tran 6 diff between inline and intransit -202
+sim 2 ana 4 tran 6 compute_inline_time is 300
+sim 2 ana 4 tran 6 exec_simtime_intran is 498
+sim 2 ana 4 tran 6 exec_anatime_intran is 502
+sim 2 ana 4 tran 6 sim wait time at last step is 4
+sim 2 ana 4 tran 6 exec_intran is 502
+sim 2 ana 4 tran 6 diff between inline and intransit -202
+sim 2 ana 5 tran 6 compute_inline_time is 350
+sim 2 ana 5 tran 6 exec_simtime_intran is 547
+sim 2 ana 5 tran 6 exec_anatime_intran is 552
+sim 2 ana 5 tran 6 sim wait time at last step is 5
+sim 2 ana 5 tran 6 exec_intran is 552
+sim 2 ana 5 tran 6 diff between inline and intransit -202
+sim 2 ana 6 tran 6 compute_inline_time is 400
+sim 2 ana 6 tran 6 exec_simtime_intran is 596
+sim 2 ana 6 tran 6 exec_anatime_intran is 602
+sim 2 ana 6 tran 6 sim wait time at last step is 6
+sim 2 ana 6 tran 6 exec_intran is 602
+sim 2 ana 6 tran 6 diff between inline and intransit -202
+sim 2 ana 7 tran 6 compute_inline_time is 450
+sim 2 ana 7 tran 6 exec_simtime_intran is 645
+sim 2 ana 7 tran 6 exec_anatime_intran is 652
+sim 2 ana 7 tran 6 sim wait time at last step is 7
+sim 2 ana 7 tran 6 exec_intran is 652
+sim 2 ana 7 tran 6 diff between inline and intransit -202
+sim 2 ana 8 tran 6 compute_inline_time is 500
+sim 2 ana 8 tran 6 exec_simtime_intran is 694
+sim 2 ana 8 tran 6 exec_anatime_intran is 702
+sim 2 ana 8 tran 6 sim wait time at last step is 8
+sim 2 ana 8 tran 6 exec_intran is 702
+sim 2 ana 8 tran 6 diff between inline and intransit -202
+sim 2 ana 9 tran 6 compute_inline_time is 550
+sim 2 ana 9 tran 6 exec_simtime_intran is 743
+sim 2 ana 9 tran 6 exec_anatime_intran is 752
+sim 2 ana 9 tran 6 sim wait time at last step is 9
+sim 2 ana 9 tran 6 exec_intran is 752
+sim 2 ana 9 tran 6 diff between inline and intransit -202
+sim 2 ana 10 tran 6 compute_inline_time is 600
+sim 2 ana 10 tran 6 exec_simtime_intran is 792
+sim 2 ana 10 tran 6 exec_anatime_intran is 802
+sim 2 ana 10 tran 6 sim wait time at last step is 10
+sim 2 ana 10 tran 6 exec_intran is 802
+sim 2 ana 10 tran 6 diff between inline and intransit -202
+sim 3 ana 1 tran 6 compute_inline_time is 200
+sim 3 ana 1 tran 6 exec_simtime_intran is 450
+sim 3 ana 1 tran 6 exec_anatime_intran is 451
+sim 3 ana 1 tran 6 sim wait time at last step is 1
+sim 3 ana 1 tran 6 exec_intran is 451
+sim 3 ana 1 tran 6 diff between inline and intransit -251
+sim 3 ana 2 tran 6 compute_inline_time is 250
+sim 3 ana 2 tran 6 exec_simtime_intran is 450
+sim 3 ana 2 tran 6 exec_anatime_intran is 452
+sim 3 ana 2 tran 6 sim wait time at last step is 2
+sim 3 ana 2 tran 6 exec_intran is 452
+sim 3 ana 2 tran 6 diff between inline and intransit -202
+sim 3 ana 3 tran 6 compute_inline_time is 300
+sim 3 ana 3 tran 6 exec_simtime_intran is 450
+sim 3 ana 3 tran 6 exec_anatime_intran is 453
+sim 3 ana 3 tran 6 sim wait time at last step is 3
+sim 3 ana 3 tran 6 exec_intran is 453
+sim 3 ana 3 tran 6 diff between inline and intransit -153
+sim 3 ana 4 tran 6 compute_inline_time is 350
+sim 3 ana 4 tran 6 exec_simtime_intran is 499
+sim 3 ana 4 tran 6 exec_anatime_intran is 503
+sim 3 ana 4 tran 6 sim wait time at last step is 4
+sim 3 ana 4 tran 6 exec_intran is 503
+sim 3 ana 4 tran 6 diff between inline and intransit -153
+sim 3 ana 5 tran 6 compute_inline_time is 400
+sim 3 ana 5 tran 6 exec_simtime_intran is 548
+sim 3 ana 5 tran 6 exec_anatime_intran is 553
+sim 3 ana 5 tran 6 sim wait time at last step is 5
+sim 3 ana 5 tran 6 exec_intran is 553
+sim 3 ana 5 tran 6 diff between inline and intransit -153
+sim 3 ana 6 tran 6 compute_inline_time is 450
+sim 3 ana 6 tran 6 exec_simtime_intran is 597
+sim 3 ana 6 tran 6 exec_anatime_intran is 603
+sim 3 ana 6 tran 6 sim wait time at last step is 6
+sim 3 ana 6 tran 6 exec_intran is 603
+sim 3 ana 6 tran 6 diff between inline and intransit -153
+sim 3 ana 7 tran 6 compute_inline_time is 500
+sim 3 ana 7 tran 6 exec_simtime_intran is 646
+sim 3 ana 7 tran 6 exec_anatime_intran is 653
+sim 3 ana 7 tran 6 sim wait time at last step is 7
+sim 3 ana 7 tran 6 exec_intran is 653
+sim 3 ana 7 tran 6 diff between inline and intransit -153
+sim 3 ana 8 tran 6 compute_inline_time is 550
+sim 3 ana 8 tran 6 exec_simtime_intran is 695
+sim 3 ana 8 tran 6 exec_anatime_intran is 703
+sim 3 ana 8 tran 6 sim wait time at last step is 8
+sim 3 ana 8 tran 6 exec_intran is 703
+sim 3 ana 8 tran 6 diff between inline and intransit -153
+sim 3 ana 9 tran 6 compute_inline_time is 600
+sim 3 ana 9 tran 6 exec_simtime_intran is 744
+sim 3 ana 9 tran 6 exec_anatime_intran is 753
+sim 3 ana 9 tran 6 sim wait time at last step is 9
+sim 3 ana 9 tran 6 exec_intran is 753
+sim 3 ana 9 tran 6 diff between inline and intransit -153
+sim 3 ana 10 tran 6 compute_inline_time is 650
+sim 3 ana 10 tran 6 exec_simtime_intran is 793
+sim 3 ana 10 tran 6 exec_anatime_intran is 803
+sim 3 ana 10 tran 6 sim wait time at last step is 10
+sim 3 ana 10 tran 6 exec_intran is 803
+sim 3 ana 10 tran 6 diff between inline and intransit -153
+sim 4 ana 1 tran 6 compute_inline_time is 250
+sim 4 ana 1 tran 6 exec_simtime_intran is 500
+sim 4 ana 1 tran 6 exec_anatime_intran is 501
+sim 4 ana 1 tran 6 sim wait time at last step is 1
+sim 4 ana 1 tran 6 exec_intran is 501
+sim 4 ana 1 tran 6 diff between inline and intransit -251
+sim 4 ana 2 tran 6 compute_inline_time is 300
+sim 4 ana 2 tran 6 exec_simtime_intran is 500
+sim 4 ana 2 tran 6 exec_anatime_intran is 502
+sim 4 ana 2 tran 6 sim wait time at last step is 2
+sim 4 ana 2 tran 6 exec_intran is 502
+sim 4 ana 2 tran 6 diff between inline and intransit -202
+sim 4 ana 3 tran 6 compute_inline_time is 350
+sim 4 ana 3 tran 6 exec_simtime_intran is 500
+sim 4 ana 3 tran 6 exec_anatime_intran is 503
+sim 4 ana 3 tran 6 sim wait time at last step is 3
+sim 4 ana 3 tran 6 exec_intran is 503
+sim 4 ana 3 tran 6 diff between inline and intransit -153
+sim 4 ana 4 tran 6 compute_inline_time is 400
+sim 4 ana 4 tran 6 exec_simtime_intran is 500
+sim 4 ana 4 tran 6 exec_anatime_intran is 504
+sim 4 ana 4 tran 6 sim wait time at last step is 4
+sim 4 ana 4 tran 6 exec_intran is 504
+sim 4 ana 4 tran 6 diff between inline and intransit -104
+sim 4 ana 5 tran 6 compute_inline_time is 450
+sim 4 ana 5 tran 6 exec_simtime_intran is 549
+sim 4 ana 5 tran 6 exec_anatime_intran is 554
+sim 4 ana 5 tran 6 sim wait time at last step is 5
+sim 4 ana 5 tran 6 exec_intran is 554
+sim 4 ana 5 tran 6 diff between inline and intransit -104
+sim 4 ana 6 tran 6 compute_inline_time is 500
+sim 4 ana 6 tran 6 exec_simtime_intran is 598
+sim 4 ana 6 tran 6 exec_anatime_intran is 604
+sim 4 ana 6 tran 6 sim wait time at last step is 6
+sim 4 ana 6 tran 6 exec_intran is 604
+sim 4 ana 6 tran 6 diff between inline and intransit -104
+sim 4 ana 7 tran 6 compute_inline_time is 550
+sim 4 ana 7 tran 6 exec_simtime_intran is 647
+sim 4 ana 7 tran 6 exec_anatime_intran is 654
+sim 4 ana 7 tran 6 sim wait time at last step is 7
+sim 4 ana 7 tran 6 exec_intran is 654
+sim 4 ana 7 tran 6 diff between inline and intransit -104
+sim 4 ana 8 tran 6 compute_inline_time is 600
+sim 4 ana 8 tran 6 exec_simtime_intran is 696
+sim 4 ana 8 tran 6 exec_anatime_intran is 704
+sim 4 ana 8 tran 6 sim wait time at last step is 8
+sim 4 ana 8 tran 6 exec_intran is 704
+sim 4 ana 8 tran 6 diff between inline and intransit -104
+sim 4 ana 9 tran 6 compute_inline_time is 650
+sim 4 ana 9 tran 6 exec_simtime_intran is 745
+sim 4 ana 9 tran 6 exec_anatime_intran is 754
+sim 4 ana 9 tran 6 sim wait time at last step is 9
+sim 4 ana 9 tran 6 exec_intran is 754
+sim 4 ana 9 tran 6 diff between inline and intransit -104
+sim 4 ana 10 tran 6 compute_inline_time is 700
+sim 4 ana 10 tran 6 exec_simtime_intran is 794
+sim 4 ana 10 tran 6 exec_anatime_intran is 804
+sim 4 ana 10 tran 6 sim wait time at last step is 10
+sim 4 ana 10 tran 6 exec_intran is 804
+sim 4 ana 10 tran 6 diff between inline and intransit -104
+sim 5 ana 1 tran 6 compute_inline_time is 300
+sim 5 ana 1 tran 6 exec_simtime_intran is 550
+sim 5 ana 1 tran 6 exec_anatime_intran is 551
+sim 5 ana 1 tran 6 sim wait time at last step is 1
+sim 5 ana 1 tran 6 exec_intran is 551
+sim 5 ana 1 tran 6 diff between inline and intransit -251
+sim 5 ana 2 tran 6 compute_inline_time is 350
+sim 5 ana 2 tran 6 exec_simtime_intran is 550
+sim 5 ana 2 tran 6 exec_anatime_intran is 552
+sim 5 ana 2 tran 6 sim wait time at last step is 2
+sim 5 ana 2 tran 6 exec_intran is 552
+sim 5 ana 2 tran 6 diff between inline and intransit -202
+sim 5 ana 3 tran 6 compute_inline_time is 400
+sim 5 ana 3 tran 6 exec_simtime_intran is 550
+sim 5 ana 3 tran 6 exec_anatime_intran is 553
+sim 5 ana 3 tran 6 sim wait time at last step is 3
+sim 5 ana 3 tran 6 exec_intran is 553
+sim 5 ana 3 tran 6 diff between inline and intransit -153
+sim 5 ana 4 tran 6 compute_inline_time is 450
+sim 5 ana 4 tran 6 exec_simtime_intran is 550
+sim 5 ana 4 tran 6 exec_anatime_intran is 554
+sim 5 ana 4 tran 6 sim wait time at last step is 4
+sim 5 ana 4 tran 6 exec_intran is 554
+sim 5 ana 4 tran 6 diff between inline and intransit -104
+sim 5 ana 5 tran 6 compute_inline_time is 500
+sim 5 ana 5 tran 6 exec_simtime_intran is 550
+sim 5 ana 5 tran 6 exec_anatime_intran is 555
+sim 5 ana 5 tran 6 sim wait time at last step is 5
+sim 5 ana 5 tran 6 exec_intran is 555
+sim 5 ana 5 tran 6 diff between inline and intransit -55
+sim 5 ana 6 tran 6 compute_inline_time is 550
+sim 5 ana 6 tran 6 exec_simtime_intran is 599
+sim 5 ana 6 tran 6 exec_anatime_intran is 605
+sim 5 ana 6 tran 6 sim wait time at last step is 6
+sim 5 ana 6 tran 6 exec_intran is 605
+sim 5 ana 6 tran 6 diff between inline and intransit -55
+sim 5 ana 7 tran 6 compute_inline_time is 600
+sim 5 ana 7 tran 6 exec_simtime_intran is 648
+sim 5 ana 7 tran 6 exec_anatime_intran is 655
+sim 5 ana 7 tran 6 sim wait time at last step is 7
+sim 5 ana 7 tran 6 exec_intran is 655
+sim 5 ana 7 tran 6 diff between inline and intransit -55
+sim 5 ana 8 tran 6 compute_inline_time is 650
+sim 5 ana 8 tran 6 exec_simtime_intran is 697
+sim 5 ana 8 tran 6 exec_anatime_intran is 705
+sim 5 ana 8 tran 6 sim wait time at last step is 8
+sim 5 ana 8 tran 6 exec_intran is 705
+sim 5 ana 8 tran 6 diff between inline and intransit -55
+sim 5 ana 9 tran 6 compute_inline_time is 700
+sim 5 ana 9 tran 6 exec_simtime_intran is 746
+sim 5 ana 9 tran 6 exec_anatime_intran is 755
+sim 5 ana 9 tran 6 sim wait time at last step is 9
+sim 5 ana 9 tran 6 exec_intran is 755
+sim 5 ana 9 tran 6 diff between inline and intransit -55
+sim 5 ana 10 tran 6 compute_inline_time is 750
+sim 5 ana 10 tran 6 exec_simtime_intran is 795
+sim 5 ana 10 tran 6 exec_anatime_intran is 805
+sim 5 ana 10 tran 6 sim wait time at last step is 10
+sim 5 ana 10 tran 6 exec_intran is 805
+sim 5 ana 10 tran 6 diff between inline and intransit -55
+sim 6 ana 1 tran 6 compute_inline_time is 350
+sim 6 ana 1 tran 6 exec_simtime_intran is 600
+sim 6 ana 1 tran 6 exec_anatime_intran is 601
+sim 6 ana 1 tran 6 sim wait time at last step is 1
+sim 6 ana 1 tran 6 exec_intran is 601
+sim 6 ana 1 tran 6 diff between inline and intransit -251
+sim 6 ana 2 tran 6 compute_inline_time is 400
+sim 6 ana 2 tran 6 exec_simtime_intran is 600
+sim 6 ana 2 tran 6 exec_anatime_intran is 602
+sim 6 ana 2 tran 6 sim wait time at last step is 2
+sim 6 ana 2 tran 6 exec_intran is 602
+sim 6 ana 2 tran 6 diff between inline and intransit -202
+sim 6 ana 3 tran 6 compute_inline_time is 450
+sim 6 ana 3 tran 6 exec_simtime_intran is 600
+sim 6 ana 3 tran 6 exec_anatime_intran is 603
+sim 6 ana 3 tran 6 sim wait time at last step is 3
+sim 6 ana 3 tran 6 exec_intran is 603
+sim 6 ana 3 tran 6 diff between inline and intransit -153
+sim 6 ana 4 tran 6 compute_inline_time is 500
+sim 6 ana 4 tran 6 exec_simtime_intran is 600
+sim 6 ana 4 tran 6 exec_anatime_intran is 604
+sim 6 ana 4 tran 6 sim wait time at last step is 4
+sim 6 ana 4 tran 6 exec_intran is 604
+sim 6 ana 4 tran 6 diff between inline and intransit -104
+sim 6 ana 5 tran 6 compute_inline_time is 550
+sim 6 ana 5 tran 6 exec_simtime_intran is 600
+sim 6 ana 5 tran 6 exec_anatime_intran is 605
+sim 6 ana 5 tran 6 sim wait time at last step is 5
+sim 6 ana 5 tran 6 exec_intran is 605
+sim 6 ana 5 tran 6 diff between inline and intransit -55
+sim 6 ana 6 tran 6 compute_inline_time is 600
+sim 6 ana 6 tran 6 exec_simtime_intran is 600
+sim 6 ana 6 tran 6 exec_anatime_intran is 606
+sim 6 ana 6 tran 6 sim wait time at last step is 6
+sim 6 ana 6 tran 6 exec_intran is 606
+sim 6 ana 6 tran 6 diff between inline and intransit -6
+sim 6 ana 7 tran 6 compute_inline_time is 650
+sim 6 ana 7 tran 6 exec_simtime_intran is 649
+sim 6 ana 7 tran 6 exec_anatime_intran is 656
+sim 6 ana 7 tran 6 sim wait time at last step is 7
+sim 6 ana 7 tran 6 exec_intran is 656
+sim 6 ana 7 tran 6 diff between inline and intransit -6
+sim 6 ana 8 tran 6 compute_inline_time is 700
+sim 6 ana 8 tran 6 exec_simtime_intran is 698
+sim 6 ana 8 tran 6 exec_anatime_intran is 706
+sim 6 ana 8 tran 6 sim wait time at last step is 8
+sim 6 ana 8 tran 6 exec_intran is 706
+sim 6 ana 8 tran 6 diff between inline and intransit -6
+sim 6 ana 9 tran 6 compute_inline_time is 750
+sim 6 ana 9 tran 6 exec_simtime_intran is 744
+sim 6 ana 9 tran 6 exec_anatime_intran is 753
+sim 6 ana 9 tran 6 sim wait time at last step is 9
+sim 6 ana 9 tran 6 exec_intran is 753
+sim 6 ana 9 tran 6 diff between inline and intransit -3
+sim 6 ana 10 tran 6 compute_inline_time is 800
+sim 6 ana 10 tran 6 exec_simtime_intran is 796
+sim 6 ana 10 tran 6 exec_anatime_intran is 806
+sim 6 ana 10 tran 6 sim wait time at last step is 10
+sim 6 ana 10 tran 6 exec_intran is 806
+sim 6 ana 10 tran 6 diff between inline and intransit -6
+sim 7 ana 1 tran 6 compute_inline_time is 400
+sim 7 ana 1 tran 6 exec_simtime_intran is 650
+sim 7 ana 1 tran 6 exec_anatime_intran is 651
+sim 7 ana 1 tran 6 sim wait time at last step is 1
+sim 7 ana 1 tran 6 exec_intran is 651
+sim 7 ana 1 tran 6 diff between inline and intransit -251
+sim 7 ana 2 tran 6 compute_inline_time is 450
+sim 7 ana 2 tran 6 exec_simtime_intran is 650
+sim 7 ana 2 tran 6 exec_anatime_intran is 652
+sim 7 ana 2 tran 6 sim wait time at last step is 2
+sim 7 ana 2 tran 6 exec_intran is 652
+sim 7 ana 2 tran 6 diff between inline and intransit -202
+sim 7 ana 3 tran 6 compute_inline_time is 500
+sim 7 ana 3 tran 6 exec_simtime_intran is 650
+sim 7 ana 3 tran 6 exec_anatime_intran is 653
+sim 7 ana 3 tran 6 sim wait time at last step is 3
+sim 7 ana 3 tran 6 exec_intran is 653
+sim 7 ana 3 tran 6 diff between inline and intransit -153
+sim 7 ana 4 tran 6 compute_inline_time is 550
+sim 7 ana 4 tran 6 exec_simtime_intran is 650
+sim 7 ana 4 tran 6 exec_anatime_intran is 654
+sim 7 ana 4 tran 6 sim wait time at last step is 4
+sim 7 ana 4 tran 6 exec_intran is 654
+sim 7 ana 4 tran 6 diff between inline and intransit -104
+sim 7 ana 5 tran 6 compute_inline_time is 600
+sim 7 ana 5 tran 6 exec_simtime_intran is 650
+sim 7 ana 5 tran 6 exec_anatime_intran is 655
+sim 7 ana 5 tran 6 sim wait time at last step is 5
+sim 7 ana 5 tran 6 exec_intran is 655
+sim 7 ana 5 tran 6 diff between inline and intransit -55
+sim 7 ana 6 tran 6 compute_inline_time is 650
+sim 7 ana 6 tran 6 exec_simtime_intran is 650
+sim 7 ana 6 tran 6 exec_anatime_intran is 656
+sim 7 ana 6 tran 6 sim wait time at last step is 6
+sim 7 ana 6 tran 6 exec_intran is 656
+sim 7 ana 6 tran 6 diff between inline and intransit -6
+sim 7 ana 7 tran 6 compute_inline_time is 700
+sim 7 ana 7 tran 6 exec_simtime_intran is 650
+sim 7 ana 7 tran 6 exec_anatime_intran is 657
+sim 7 ana 7 tran 6 sim wait time at last step is 7
+sim 7 ana 7 tran 6 exec_intran is 657
+sim 7 ana 7 tran 6 diff between inline and intransit 43
+sim 7 ana 8 tran 6 compute_inline_time is 750
+sim 7 ana 8 tran 6 exec_simtime_intran is 699
+sim 7 ana 8 tran 6 exec_anatime_intran is 707
+sim 7 ana 8 tran 6 sim wait time at last step is 8
+sim 7 ana 8 tran 6 exec_intran is 707
+sim 7 ana 8 tran 6 diff between inline and intransit 43
+sim 7 ana 9 tran 6 compute_inline_time is 800
+sim 7 ana 9 tran 6 exec_simtime_intran is 748
+sim 7 ana 9 tran 6 exec_anatime_intran is 757
+sim 7 ana 9 tran 6 sim wait time at last step is 9
+sim 7 ana 9 tran 6 exec_intran is 757
+sim 7 ana 9 tran 6 diff between inline and intransit 43
+sim 7 ana 10 tran 6 compute_inline_time is 850
+sim 7 ana 10 tran 6 exec_simtime_intran is 797
+sim 7 ana 10 tran 6 exec_anatime_intran is 807
+sim 7 ana 10 tran 6 sim wait time at last step is 10
+sim 7 ana 10 tran 6 exec_intran is 807
+sim 7 ana 10 tran 6 diff between inline and intransit 43
+sim 8 ana 1 tran 6 compute_inline_time is 450
+sim 8 ana 1 tran 6 exec_simtime_intran is 700
+sim 8 ana 1 tran 6 exec_anatime_intran is 701
+sim 8 ana 1 tran 6 sim wait time at last step is 1
+sim 8 ana 1 tran 6 exec_intran is 701
+sim 8 ana 1 tran 6 diff between inline and intransit -251
+sim 8 ana 2 tran 6 compute_inline_time is 500
+sim 8 ana 2 tran 6 exec_simtime_intran is 700
+sim 8 ana 2 tran 6 exec_anatime_intran is 702
+sim 8 ana 2 tran 6 sim wait time at last step is 2
+sim 8 ana 2 tran 6 exec_intran is 702
+sim 8 ana 2 tran 6 diff between inline and intransit -202
+sim 8 ana 3 tran 6 compute_inline_time is 550
+sim 8 ana 3 tran 6 exec_simtime_intran is 700
+sim 8 ana 3 tran 6 exec_anatime_intran is 703
+sim 8 ana 3 tran 6 sim wait time at last step is 3
+sim 8 ana 3 tran 6 exec_intran is 703
+sim 8 ana 3 tran 6 diff between inline and intransit -153
+sim 8 ana 4 tran 6 compute_inline_time is 600
+sim 8 ana 4 tran 6 exec_simtime_intran is 696
+sim 8 ana 4 tran 6 exec_anatime_intran is 700
+sim 8 ana 4 tran 6 sim wait time at last step is 4
+sim 8 ana 4 tran 6 exec_intran is 700
+sim 8 ana 4 tran 6 diff between inline and intransit -100
+sim 8 ana 5 tran 6 compute_inline_time is 650
+sim 8 ana 5 tran 6 exec_simtime_intran is 700
+sim 8 ana 5 tran 6 exec_anatime_intran is 705
+sim 8 ana 5 tran 6 sim wait time at last step is 5
+sim 8 ana 5 tran 6 exec_intran is 705
+sim 8 ana 5 tran 6 diff between inline and intransit -55
+sim 8 ana 6 tran 6 compute_inline_time is 700
+sim 8 ana 6 tran 6 exec_simtime_intran is 700
+sim 8 ana 6 tran 6 exec_anatime_intran is 706
+sim 8 ana 6 tran 6 sim wait time at last step is 6
+sim 8 ana 6 tran 6 exec_intran is 706
+sim 8 ana 6 tran 6 diff between inline and intransit -6
+sim 8 ana 7 tran 6 compute_inline_time is 750
+sim 8 ana 7 tran 6 exec_simtime_intran is 699
+sim 8 ana 7 tran 6 exec_anatime_intran is 706
+sim 8 ana 7 tran 6 sim wait time at last step is 7
+sim 8 ana 7 tran 6 exec_intran is 706
+sim 8 ana 7 tran 6 diff between inline and intransit 44
+sim 8 ana 8 tran 6 compute_inline_time is 800
+sim 8 ana 8 tran 6 exec_simtime_intran is 700
+sim 8 ana 8 tran 6 exec_anatime_intran is 708
+sim 8 ana 8 tran 6 sim wait time at last step is 8
+sim 8 ana 8 tran 6 exec_intran is 708
+sim 8 ana 8 tran 6 diff between inline and intransit 92
+sim 8 ana 9 tran 6 compute_inline_time is 850
+sim 8 ana 9 tran 6 exec_simtime_intran is 749
+sim 8 ana 9 tran 6 exec_anatime_intran is 758
+sim 8 ana 9 tran 6 sim wait time at last step is 9
+sim 8 ana 9 tran 6 exec_intran is 758
+sim 8 ana 9 tran 6 diff between inline and intransit 92
+sim 8 ana 10 tran 6 compute_inline_time is 900
+sim 8 ana 10 tran 6 exec_simtime_intran is 798
+sim 8 ana 10 tran 6 exec_anatime_intran is 808
+sim 8 ana 10 tran 6 sim wait time at last step is 10
+sim 8 ana 10 tran 6 exec_intran is 808
+sim 8 ana 10 tran 6 diff between inline and intransit 92
+sim 9 ana 1 tran 6 compute_inline_time is 500
+sim 9 ana 1 tran 6 exec_simtime_intran is 750
+sim 9 ana 1 tran 6 exec_anatime_intran is 751
+sim 9 ana 1 tran 6 sim wait time at last step is 1
+sim 9 ana 1 tran 6 exec_intran is 751
+sim 9 ana 1 tran 6 diff between inline and intransit -251
+sim 9 ana 2 tran 6 compute_inline_time is 550
+sim 9 ana 2 tran 6 exec_simtime_intran is 750
+sim 9 ana 2 tran 6 exec_anatime_intran is 752
+sim 9 ana 2 tran 6 sim wait time at last step is 2
+sim 9 ana 2 tran 6 exec_intran is 752
+sim 9 ana 2 tran 6 diff between inline and intransit -202
+sim 9 ana 3 tran 6 compute_inline_time is 600
+sim 9 ana 3 tran 6 exec_simtime_intran is 750
+sim 9 ana 3 tran 6 exec_anatime_intran is 753
+sim 9 ana 3 tran 6 sim wait time at last step is 3
+sim 9 ana 3 tran 6 exec_intran is 753
+sim 9 ana 3 tran 6 diff between inline and intransit -153
+sim 9 ana 4 tran 6 compute_inline_time is 650
+sim 9 ana 4 tran 6 exec_simtime_intran is 750
+sim 9 ana 4 tran 6 exec_anatime_intran is 754
+sim 9 ana 4 tran 6 sim wait time at last step is 4
+sim 9 ana 4 tran 6 exec_intran is 754
+sim 9 ana 4 tran 6 diff between inline and intransit -104
+sim 9 ana 5 tran 6 compute_inline_time is 700
+sim 9 ana 5 tran 6 exec_simtime_intran is 750
+sim 9 ana 5 tran 6 exec_anatime_intran is 755
+sim 9 ana 5 tran 6 sim wait time at last step is 5
+sim 9 ana 5 tran 6 exec_intran is 755
+sim 9 ana 5 tran 6 diff between inline and intransit -55
+sim 9 ana 6 tran 6 compute_inline_time is 750
+sim 9 ana 6 tran 6 exec_simtime_intran is 750
+sim 9 ana 6 tran 6 exec_anatime_intran is 756
+sim 9 ana 6 tran 6 sim wait time at last step is 6
+sim 9 ana 6 tran 6 exec_intran is 756
+sim 9 ana 6 tran 6 diff between inline and intransit -6
+sim 9 ana 7 tran 6 compute_inline_time is 800
+sim 9 ana 7 tran 6 exec_simtime_intran is 748
+sim 9 ana 7 tran 6 exec_anatime_intran is 755
+sim 9 ana 7 tran 6 sim wait time at last step is 7
+sim 9 ana 7 tran 6 exec_intran is 755
+sim 9 ana 7 tran 6 diff between inline and intransit 45
+sim 9 ana 8 tran 6 compute_inline_time is 850
+sim 9 ana 8 tran 6 exec_simtime_intran is 750
+sim 9 ana 8 tran 6 exec_anatime_intran is 758
+sim 9 ana 8 tran 6 sim wait time at last step is 8
+sim 9 ana 8 tran 6 exec_intran is 758
+sim 9 ana 8 tran 6 diff between inline and intransit 92
+sim 9 ana 9 tran 6 compute_inline_time is 900
+sim 9 ana 9 tran 6 exec_simtime_intran is 750
+sim 9 ana 9 tran 6 exec_anatime_intran is 759
+sim 9 ana 9 tran 6 sim wait time at last step is 9
+sim 9 ana 9 tran 6 exec_intran is 759
+sim 9 ana 9 tran 6 diff between inline and intransit 141
+sim 9 ana 10 tran 6 compute_inline_time is 950
+sim 9 ana 10 tran 6 exec_simtime_intran is 799
+sim 9 ana 10 tran 6 exec_anatime_intran is 809
+sim 9 ana 10 tran 6 sim wait time at last step is 10
+sim 9 ana 10 tran 6 exec_intran is 809
+sim 9 ana 10 tran 6 diff between inline and intransit 141
+sim 10 ana 1 tran 6 compute_inline_time is 550
+sim 10 ana 1 tran 6 exec_simtime_intran is 800
+sim 10 ana 1 tran 6 exec_anatime_intran is 801
+sim 10 ana 1 tran 6 sim wait time at last step is 1
+sim 10 ana 1 tran 6 exec_intran is 801
+sim 10 ana 1 tran 6 diff between inline and intransit -251
+sim 10 ana 2 tran 6 compute_inline_time is 600
+sim 10 ana 2 tran 6 exec_simtime_intran is 800
+sim 10 ana 2 tran 6 exec_anatime_intran is 802
+sim 10 ana 2 tran 6 sim wait time at last step is 2
+sim 10 ana 2 tran 6 exec_intran is 802
+sim 10 ana 2 tran 6 diff between inline and intransit -202
+sim 10 ana 3 tran 6 compute_inline_time is 650
+sim 10 ana 3 tran 6 exec_simtime_intran is 800
+sim 10 ana 3 tran 6 exec_anatime_intran is 803
+sim 10 ana 3 tran 6 sim wait time at last step is 3
+sim 10 ana 3 tran 6 exec_intran is 803
+sim 10 ana 3 tran 6 diff between inline and intransit -153
+sim 10 ana 4 tran 6 compute_inline_time is 700
+sim 10 ana 4 tran 6 exec_simtime_intran is 800
+sim 10 ana 4 tran 6 exec_anatime_intran is 804
+sim 10 ana 4 tran 6 sim wait time at last step is 4
+sim 10 ana 4 tran 6 exec_intran is 804
+sim 10 ana 4 tran 6 diff between inline and intransit -104
+sim 10 ana 5 tran 6 compute_inline_time is 750
+sim 10 ana 5 tran 6 exec_simtime_intran is 800
+sim 10 ana 5 tran 6 exec_anatime_intran is 805
+sim 10 ana 5 tran 6 sim wait time at last step is 5
+sim 10 ana 5 tran 6 exec_intran is 805
+sim 10 ana 5 tran 6 diff between inline and intransit -55
+sim 10 ana 6 tran 6 compute_inline_time is 800
+sim 10 ana 6 tran 6 exec_simtime_intran is 800
+sim 10 ana 6 tran 6 exec_anatime_intran is 806
+sim 10 ana 6 tran 6 sim wait time at last step is 6
+sim 10 ana 6 tran 6 exec_intran is 806
+sim 10 ana 6 tran 6 diff between inline and intransit -6
+sim 10 ana 7 tran 6 compute_inline_time is 850
+sim 10 ana 7 tran 6 exec_simtime_intran is 800
+sim 10 ana 7 tran 6 exec_anatime_intran is 807
+sim 10 ana 7 tran 6 sim wait time at last step is 7
+sim 10 ana 7 tran 6 exec_intran is 807
+sim 10 ana 7 tran 6 diff between inline and intransit 43
+sim 10 ana 8 tran 6 compute_inline_time is 900
+sim 10 ana 8 tran 6 exec_simtime_intran is 800
+sim 10 ana 8 tran 6 exec_anatime_intran is 808
+sim 10 ana 8 tran 6 sim wait time at last step is 8
+sim 10 ana 8 tran 6 exec_intran is 808
+sim 10 ana 8 tran 6 diff between inline and intransit 92
+sim 10 ana 9 tran 6 compute_inline_time is 950
+sim 10 ana 9 tran 6 exec_simtime_intran is 800
+sim 10 ana 9 tran 6 exec_anatime_intran is 809
+sim 10 ana 9 tran 6 sim wait time at last step is 9
+sim 10 ana 9 tran 6 exec_intran is 809
+sim 10 ana 9 tran 6 diff between inline and intransit 141
+sim 10 ana 10 tran 6 compute_inline_time is 1000
+sim 10 ana 10 tran 6 exec_simtime_intran is 800
+sim 10 ana 10 tran 6 exec_anatime_intran is 810
+sim 10 ana 10 tran 6 sim wait time at last step is 10
+sim 10 ana 10 tran 6 exec_intran is 810
+sim 10 ana 10 tran 6 diff between inline and intransit 190

@@ -7,3 +7,5 @@ src/
 *Data/
 *slurm*
 __pycache__
+*.png
+*.pdf
