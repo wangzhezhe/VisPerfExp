@@ -37,3 +37,7 @@ run the reader for the streamline
 ```
 mpirun -n 32 ./reader --file=./out.bp --read-method=BP4 --visualization-op=advect --seed-method=box --advect-seed-box-extents=0,10,0,10,0,10 --advect-num-seeds=2048 --field-name=velocity --sst-json-file=./cloverleaf.json
 ```
+
+The seeds coordinates can be checked by file such as 
+
+generatedBoxOfSeeds_step0.out for each step.
