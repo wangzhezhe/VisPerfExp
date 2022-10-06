@@ -8,3 +8,4 @@ src/
 *slurm*
 __pycache__
 R-*
+*.out

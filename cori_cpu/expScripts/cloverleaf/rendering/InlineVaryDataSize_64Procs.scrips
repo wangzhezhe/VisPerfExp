@@ -1,17 +1,17 @@
 #!/bin/bash
 #SBATCH --qos=regular
-#SBATCH --nodes=2
+#SBATCH --nodes=4
 #SBATCH --tasks-per-node=32
 #SBATCH --time=59:00
 #SBATCH --licenses=cscratch1
 #SBATCH --constraint=haswell
 #SBATCH --output=R-%x.%j.out
 
-rm -rf ./InlineVaryDataSize_32Procs_Data
+rm -rf ./InlineVaryDataSize_64Procs_Data
 
 # create soft link
-mkdir InlineVaryDataSize_32Procs_Data
-cd InlineVaryDataSize_32Procs_Data
+mkdir InlineVaryDataSize_64Procs_Data
+cd InlineVaryDataSize_64Procs_Data
 
 ln -s ../../../../install/ascent/examples/ascent/proxies/cloverleaf3d/cloverleaf3d_par cloverleaf3d_par
 
@@ -28,8 +28,8 @@ MESH_SIZE_LIST="64 128 256 512"
 # generate config file
 scriptsDir=../../../../../commonScripts
 
-SIMNODE=2
-SIMTASK=32
+SIMNODE=4
+SIMTASK=64
 
 for MESH_SIZE in ${MESH_SIZE_LIST}
 do
@@ -62,3 +62,5 @@ cat log_${MESH_SIZE}/sim.log |grep "ascent_execution_time" | cut -d " " -f 8
 echo "checking data ExecScene time log_${MESH_SIZE}"
 cat log_${MESH_SIZE}/timing.0.out |grep "ExecScene" | cut -d " " -f 2
 done
+
+sleep 5

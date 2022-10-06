@@ -1,35 +1,35 @@
 #!/bin/bash
-#SBATCH --qos=regular
-#SBATCH --nodes=2
+
+#SBATCH --qos=debug
+#SBATCH --nodes=8
 #SBATCH --tasks-per-node=32
-#SBATCH --time=59:00
+#SBATCH --time=29:00
 #SBATCH --licenses=cscratch1
 #SBATCH --constraint=haswell
 #SBATCH --output=R-%x.%j.out
 
-rm -rf ./InlineVaryDataSize_32Procs_Data
+rm -rf ./InlineVaryDataSize_128Procs_Data
 
 # create soft link
-mkdir InlineVaryDataSize_32Procs_Data
-cd InlineVaryDataSize_32Procs_Data
+mkdir -p InlineVaryDataSize_128Procs_Data
+cd InlineVaryDataSize_128Procs_Data
 
 ln -s ../../../../install/ascent/examples/ascent/proxies/cloverleaf3d/cloverleaf3d_par cloverleaf3d_par
 
 # generate config file
 cp ../../../../../commonScripts/clover.in_default clover.in
-cp ../../../../../commonScripts/ascent_actions_volumerender.yaml ascent_actions.yaml
+cp ../../../../../commonScripts/ascent_actions_contour.yaml ascent_actions.yaml
 
-# 1.26*1.26*1.26 is around 2 in total
+
 # the total data size is 8 times if every dim is 2 times than original one
 MESH_SIZE_LIST="64 128 256 512"
-#MESH_SIZE_LIST="512 1024"
-#the 1024 is out of memory
+#MESH_SIZE_LIST="512"
 
 # generate config file
 scriptsDir=../../../../../commonScripts
 
-SIMNODE=2
-SIMTASK=32
+SIMNODE=8
+SIMTASK=128
 
 for MESH_SIZE in ${MESH_SIZE_LIST}
 do
@@ -59,6 +59,6 @@ cat log_${MESH_SIZE}/sim.log |grep "Sim computation time between visit" | cut -d
 echo "checking sim hangs time log_${MESH_SIZE}"
 cat log_${MESH_SIZE}/sim.log |grep "ascent_execution_time" | cut -d " " -f 8
 
-echo "checking data ExecScene time log_${MESH_SIZE}"
-cat log_${MESH_SIZE}/timing.0.out |grep "ExecScene" | cut -d " " -f 2
+echo "checking data ContourFilter time log_${MESH_SIZE}"
+cat log_${MESH_SIZE}/timing.0.out |grep "ContourFilter" | cut -d " " -f 2
 done

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#SBATCH --qos=debug
+#SBATCH --qos=regular
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=32
-#SBATCH --time=29:00
+#SBATCH --time=59:00
 #SBATCH --licenses=cscratch1
 #SBATCH --constraint=haswell
 #SBATCH --output=R-%x.%j.out
@@ -22,8 +22,8 @@ cp ../../../../../commonScripts/ascent_actions_volumerender.yaml ascent_actions.
 
 
 # the total data size is 8 times if every dim is 2 times than original one
-MESH_SIZE_LIST="64 128 256 512 1024 2048"
-#MESH_SIZE_LIST="64 128"
+#MESH_SIZE_LIST="64 128 256 512 1024"
+MESH_SIZE_LIST="512 1024"
 
 # generate config file
 scriptsDir=../../../../../commonScripts
