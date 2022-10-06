@@ -1,0 +1,65 @@
+#!/bin/bash
+
+#SBATCH --qos=debug
+#SBATCH --nodes=2
+#SBATCH --tasks-per-node=32
+#SBATCH --time=29:00
+#SBATCH --licenses=cscratch1
+#SBATCH --constraint=haswell
+#SBATCH --output=R-%x.%j.out
+
+#rm -rf ./InlineVaryDataSize_32Procs_Data
+
+# create soft link
+mkdir -p InlineVaryDataSize_32Procs_Data
+cd InlineVaryDataSize_32Procs_Data
+
+ln -s ../../../../install/ascent/examples/ascent/proxies/cloverleaf3d/cloverleaf3d_par cloverleaf3d_par
+
+# generate config file
+cp ../../../../../commonScripts/clover.in_default clover.in
+cp ../../../../../commonScripts/ascent_actions_streamline_box.yaml ascent_actions.yaml
+SEEDS_NUM=1024
+sed -i "s/num_seeds: 512/num_seeds: ${SEEDS_NUM}/" ascent_actions.yaml
+
+
+# the total data size is 8 times if every dim is 2 times than original one
+MESH_SIZE_LIST="64 128 256 512"
+
+# generate config file
+scriptsDir=../../../../../commonScripts
+
+SIMNODE=2
+SIMTASK=32
+
+for MESH_SIZE in ${MESH_SIZE_LIST}
+do
+echo "test the mesh size ${MESH_SIZE}"
+
+# update config
+# use the defaut 512 seeds which is not that much easy to crash
+cp ${scriptsDir}/clover.in_default clover.in
+
+mkdir log_${MESH_SIZE}
+
+srun -C haswell -N $SIMNODE -n $SIMTASK ./cloverleaf3d_par &> sim.log
+
+mv sim.log log_${MESH_SIZE}/
+mv timing.*.out log_${MESH_SIZE}/
+echo "ok for ${MESH_SIZE}"
+done
+
+
+for MESH_SIZE in ${MESH_SIZE_LIST}
+do
+
+echo "checking sim execution time time log_${MESH_SIZE}"
+cat log_${MESH_SIZE}/sim.log |grep "Sim computation time between visit" | cut -d " " -f 8
+cat log_${MESH_SIZE}/sim.log |grep "Sim computation time between visit" | cut -d " " -f 9
+
+echo "checking sim hangs time log_${MESH_SIZE}"
+cat log_${MESH_SIZE}/sim.log |grep "ascent_execution_time" | cut -d " " -f 8
+
+echo "checking data ParticleAdvectionFilter time log_${MESH_SIZE}"
+cat log_${MESH_SIZE}/timing.0.out |grep "ParticleAdvectionFilter" | cut -d " " -f 2
+done
