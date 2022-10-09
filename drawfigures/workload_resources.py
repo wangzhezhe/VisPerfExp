@@ -76,7 +76,7 @@ def contour_datasize_procnum():
 
     ax.set_xlabel('Number of processes', fontsize='medium')
     ax.set_ylabel('Mesh size', fontsize='medium')
-    ax.set_zlabel('Contour filter time(ms)', fontsize='medium')  
+    ax.set_zlabel('Contour filter execution time(ms)', fontsize='medium')  
 
     # set tick
     N = 4
@@ -140,7 +140,7 @@ def streamline_datasize_procnum():
     plt.ylim([0, 46])
     
     plt.xlabel("Number of processes", fontsize=16)
-    plt.ylabel("Particle advection time (ms)",fontsize=16)
+    plt.ylabel("Particle advection execution time (ms)",fontsize=16)
 
     legend = ax.legend(loc='upper center', ncol=4, fontsize=14)
 
@@ -153,12 +153,14 @@ if __name__ == "__main__":
     render_datasize_procnum()
     contour_datasize_procnum()
     streamline_datasize_procnum()
+    
+    #render_datacontents()
+    #contour_datacontents()
+    #streamline_datacontents()
 
     #render_imgsize_procnum()
     #contour_isonumber_values_procnum()
     #streamline_seedsnum_procnum()
 
-    #render_datacontents()
-    #contour_datacontents()
-    #streamline_datacontents()
+
 
