@@ -401,10 +401,10 @@ echo "====> building intransit reader, ok"
 
 
 echo "try to add library path by executing:"
-echo "export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH}:${VTKM_INSTALL_DIR}/lib:\
+echo "export LD_LIBRARY_PATH=${VTKM_INSTALL_DIR}/lib:\
 ${ADIOS_INSTALL_DIR}/lib:\
 ${FIDES_INSTALL_DIR}/lib:\
 ${ASCENT_INSTALL_DIR}/lib:\
 ${CONDUIT_INSTALL_DIR}/lib:\
 ${VTKH_INSTALL_DIR}/lib:\
-${HDF5_INSTALL_DIR}/lib"
+${HDF5_INSTALL_DIR}/lib:\${LD_LIBRARY_PATH}"

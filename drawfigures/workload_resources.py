@@ -148,15 +148,101 @@ def streamline_datasize_procnum():
     plt.savefig("streamline_datasize_procnum.png",bbox_inches='tight')  
 
 
+def render_datacontents():
+    fig, ax = plt.subplots(figsize=(8,4.6))
+    ax.set_xlabel('Simulation computation step', fontsize=16)
+    ax.set_ylabel('Rendering filter execution time (ms)', fontsize=12)  
+
+    # set tick
+    offset = 0 
+    dist = 5.65
+    xindex=[]
+    for i in range (0,4):
+        xindex.append(offset+i*dist)
+    ax.set_xticks(xindex)
+
+    ax.set_xticklabels(('2','6','12','18'), fontsize='large')
+    
+    p_16=(2463.21,2467.43,2450.22,2349.14,2376.88,2393.18,2389.53,2474.12,2448.68,2448.21,2407.66,2402.26,2478.07,2478.7,2476.81,2475.41,2476.99,2479.36)
+    pal=ax.plot(p_16, color=gblue, linestyle='-', label="16 procs")
+    
+    p_32=(1618.99,1615.06,1614.96,1604.54,1593.6,1593.3,1582.49,1621.62,1604.81,1606.43,1582.45,1585.4,1626.04,1623.19,1643.18,1626.58,1625.99,1621.69)
+    pal=ax.plot(p_32, color=gred, linestyle='-', label="32 procs")
+
+    p_64=(1179.64,1177.33,1176.45,1179.75,1175.18,1179.46,1176.91,1182.95,1181.24,1180.87,1181.3,1187.87,1179.88,1190.05,1183.31,1181.92,1183.82,1186.18)
+    pal=ax.plot(p_64, color=gyellow, linestyle='-', label="64 procs")
+
+    p_128=(1042.74,1041.19,1042.97,1044.22,1041.46,1042.62,1041.86,1047.05,1042.48,1046.47,1045.63,1044.44,1041,1044.32,1058.61,1047.05,1044.78,1042.98)
+    pal=ax.plot(p_128, color=ggreen, linestyle='-', label="128 procs")
+
+    plt.savefig("render_datacontents.pdf",bbox_inches='tight')
+    plt.savefig("render_datacontents.png",bbox_inches='tight')
+
+def contour_datacontents():
+    fig, ax = plt.subplots(figsize=(8,4.6))
+    ax.set_xlabel('Simulation computation step', fontsize=16)
+    ax.set_ylabel('Contour filter execution time (ms)', fontsize=12)  
+
+    # set tick
+    offset = 0 
+    dist = 5.65
+    xindex=[]
+    for i in range (0,4):
+        xindex.append(offset+i*dist)
+    ax.set_xticks(xindex)
+
+    ax.set_xticklabels(('2','6','12','18'), fontsize='large')
+    
+    p_16=(250.127,547.984,667.236,761.184,586.775,621.489,738.254,355.571,523.767,419.226,291.705,175.412,233.96,140.79,128.895,167.456,248.441,239.576,280.316)
+    pal=ax.plot(p_16, color=gblue, linestyle='-', label="16 procs")
+    
+    p_32=(211.911,403.79,431.199,450.164,336.369,349.401,394.494,239.869,293.649,233.5,175.456,126.385,141.21,116.01,111,128.153,190.141,202.859,219.753)
+    pal=ax.plot(p_32, color=gred, linestyle='-', label="32 procs")
+
+    p_64=(193.307,307.266,263.337,240.407,197.116,203.548,218.959,156.974,173.946,173.906,122.557,101.519,122.025,104.807,101.496,117.866,176.489,177.001,172.949)
+    pal=ax.plot(p_64, color=gyellow, linestyle='-', label="64 procs")
+
+    p_128=(126.59,184.6,179.067,160.095,118.657,119.349,126.363,88.5581,116.026,113.67,118.209,67.2233,70.6061,67.8448,61.1904,66.8354,113.151,103.821,106.2)
+    pal=ax.plot(p_128, color=ggreen, linestyle='-', label="128 procs")
+
+    plt.savefig("contour_datacontents.pdf",bbox_inches='tight')
+    plt.savefig("contour_datacontents.png",bbox_inches='tight')
+
+def streamline_datacontents():
+    fig, ax = plt.subplots(figsize=(8,4.6))
+    ax.set_xlabel('Simulation computation step', fontsize=16)
+    ax.set_ylabel('Streamline filter execution time (ms)', fontsize=12)  
+
+    # set tick
+    offset = 0 
+    dist = 5.65
+    xindex=[]
+    for i in range (0,4):
+        xindex.append(offset+i*dist)
+    ax.set_xticks(xindex)
+
+    ax.set_xticklabels(('2','6','12','18'), fontsize='large')
+    
+    p_8=(35.7476,35.4319,35.5895,37.1661,40.4976,42.7452,43.6398,44.868,45.6295,44.8202,52.7103,40.5267,43.3378,42.9458,43.9999,44.2738,42.7783,41.0809,40.2514)
+    pal=ax.plot(p_8, color=gblue, linestyle='-', label="8 procs")
+    
+    p_16=(24.4053,24.6026,24.7762,28.7139,32.4622,35.0714,34.5611,33.0653,36.0957,37.4769,52.9509,39.8179,39.0102,36.2645,35.1233,32.0217,33.1785,34.0765,30.6297)
+    pal=ax.plot(p_16, color=gred, linestyle='-', label="16 procs")
+
+    p_32=(20.1517,23.1526,23.6768,23.7673,28.297,27.1589,25.6749,26.7626,34.19,37.4052,53.8437,40.823,42.9927,36.9218,35.7424,34.4199,35.4006,31.5214,30.028)
+    pal=ax.plot(p_32, color=gyellow, linestyle='-', label="32 procs")
+
+    plt.savefig("streamline_datacontents.pdf",bbox_inches='tight')
+    plt.savefig("streamline_datacontents.png",bbox_inches='tight')   
 
 if __name__ == "__main__":
-    render_datasize_procnum()
-    contour_datasize_procnum()
-    streamline_datasize_procnum()
+    #render_datasize_procnum()
+    #contour_datasize_procnum()
+    #streamline_datasize_procnum()
     
-    #render_datacontents()
-    #contour_datacontents()
-    #streamline_datacontents()
+    render_datacontents()
+    contour_datacontents()
+    streamline_datacontents()
 
     #render_imgsize_procnum()
     #contour_isonumber_values_procnum()
