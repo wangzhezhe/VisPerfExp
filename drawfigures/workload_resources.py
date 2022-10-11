@@ -22,6 +22,10 @@ gblue = '#4486F4'
 gred = '#DA483B'
 gyellow = '#FFC718'
 ggreen = '#1CA45C'
+slightred = '#F00285'
+deepblue= '#58508d'
+purple='#AB6EC4'
+orange='#F7710A'
 
 def render_datasize_procnum():
 
@@ -175,6 +179,9 @@ def render_datacontents():
     p_128=(1042.74,1041.19,1042.97,1044.22,1041.46,1042.62,1041.86,1047.05,1042.48,1046.47,1045.63,1044.44,1041,1044.32,1058.61,1047.05,1044.78,1042.98)
     pal=ax.plot(p_128, color=ggreen, linestyle='-', label="128 procs")
 
+    plt.ylim([500, 3000])
+    legend = ax.legend(loc='upper center', ncol=4, fontsize=12)
+
     plt.savefig("render_datacontents.pdf",bbox_inches='tight')
     plt.savefig("render_datacontents.png",bbox_inches='tight')
 
@@ -204,6 +211,10 @@ def contour_datacontents():
 
     p_128=(126.59,184.6,179.067,160.095,118.657,119.349,126.363,88.5581,116.026,113.67,118.209,67.2233,70.6061,67.8448,61.1904,66.8354,113.151,103.821,106.2)
     pal=ax.plot(p_128, color=ggreen, linestyle='-', label="128 procs")
+    
+    plt.ylim([0, 850])
+
+    legend = ax.legend(loc='upper center', ncol=4, fontsize=12)
 
     plt.savefig("contour_datacontents.pdf",bbox_inches='tight')
     plt.savefig("contour_datacontents.png",bbox_inches='tight')
@@ -231,22 +242,160 @@ def streamline_datacontents():
 
     p_32=(20.1517,23.1526,23.6768,23.7673,28.297,27.1589,25.6749,26.7626,34.19,37.4052,53.8437,40.823,42.9927,36.9218,35.7424,34.4199,35.4006,31.5214,30.028)
     pal=ax.plot(p_32, color=gyellow, linestyle='-', label="32 procs")
+    
+    plt.ylim([10, 60])
 
+    legend = ax.legend(loc='upper center', ncol=4, fontsize=12)
     plt.savefig("streamline_datacontents.pdf",bbox_inches='tight')
     plt.savefig("streamline_datacontents.png",bbox_inches='tight')   
 
+
+def render_imgsize_procnum():
+    fig, ax = plt.subplots(figsize=(8,4.6))
+    ax.set_xlabel('Image size', fontsize=16)
+    ax.set_ylabel('Log(Rendering filter execution time (ms))', fontsize=12)  
+
+    # set tick
+    offset = 0 
+    dist = 1.0
+    xindex=[]
+    for i in range (0,5):
+        xindex.append(offset+i*dist)
+    ax.set_xticks(xindex)
+
+    ax.set_xticklabels(('512*512','725*725','1024*1024','1450*1450','2048*2048'), fontsize='large')
+    
+
+    step_20=(470.037,859.489,1619.65,3192.32,6336.1)
+    step_20_log = np.log2(np.array(step_20)) 
+    pal=ax.plot(step_20_log, color=gblue, linestyle='-', label="step_20_log")
+    
+    step_40=(469.861,864.916,1618.13,3185.45,6320.36)
+    step_40_log = np.log2(np.array(step_40))
+    pal=ax.plot(step_40_log, color=gred, linestyle='-', label="step_40")
+
+    step_60=(464.424,849.004,1604.32,3128,6240.56)
+    step_60_log = np.log2(np.array(step_60))
+    pal=ax.plot(step_60_log, color=gyellow, linestyle='-', label="step_60")
+
+    step_80=(462.465,844,1588.85,3123.98,6190.66)
+    step_80_log = np.log2(np.array(step_80))
+    pal=ax.plot(step_80_log, color=ggreen, linestyle='-', label="step_80")
+    
+    step_100=(468.824,855.292,1612.61,3163.94,6280.05)
+    step_100_log = np.log2(np.array(step_100))
+    pal=ax.plot(step_100_log, color=purple, linestyle='-', label="step_100")
+    
+    step_120=(462.701,843.15,1594.36,3120.69,6191.73)
+    step_120_log = np.log2(np.array(step_120))    
+    pal=ax.plot(step_120_log, color=slightred, linestyle='-', label="step_120")
+    
+
+    legend = ax.legend(loc='upper center', ncol=3, fontsize=12)
+    plt.savefig("render_imgsize_procnum.pdf",bbox_inches='tight')
+    plt.savefig("render_imgsize_procnum.png",bbox_inches='tight')     
+
+
+def contour_isonumber_procnum():
+    fig, ax = plt.subplots(figsize=(8,4.6))
+    ax.set_xlabel('Number of isosurface value', fontsize=16)
+    ax.set_ylabel('Contour filter execution time (ms)', fontsize=12)  
+
+    # set tick
+    offset = 0 
+    dist = 1.0
+    xindex=[]
+    for i in range (0,5):
+        xindex.append(offset+i*dist)
+    ax.set_xticks(xindex)
+
+    ax.set_xticklabels(('2','4','6','8','10'), fontsize='large')
+    
+    step_20=(257.533,514.26,726.564,968.086,1300.88)
+    pal=ax.plot(step_20, color=gblue, linestyle='-', label="step_20")
+    
+    step_40=(434.543,864.975,1262.31,1649.33,2065.4)
+    pal=ax.plot(step_40, color=gred, linestyle='-', label="step_40")
+
+    step_60=(883.127,1329.83,1900.85,2718.95,3276.96)
+    pal=ax.plot(step_60, color=gyellow, linestyle='-', label="step_60")
+
+    step_80=(936.096,1510.41,2313.12,2919.31,3547.41)
+    pal=ax.plot(step_80, color=ggreen, linestyle='-', label="step_80")
+    
+    step_100=(754.662,1295.39,1833.24,2340.74,2801.27)
+    pal=ax.plot(step_100, color=purple, linestyle='-', label="step_100")
+    
+    step_120=(766.413,1274.51,1764.09,2336.45,2867.5)
+    pal=ax.plot(step_120, color=slightred, linestyle='-', label="step_120")
+    
+
+    legend = ax.legend(loc='upper center', ncol=3, fontsize=12)
+    plt.savefig("contour_isonumber_procnum.pdf",bbox_inches='tight')
+    plt.savefig("contour_isonumber_procnum.png",bbox_inches='tight')     
+
+def streamline_seedsnum_procnum():
+    fig, ax = plt.subplots(figsize=(8,4.6))
+    ax.set_xlabel('Number of seeds', fontsize=16)
+    ax.set_ylabel('Log(Streamline filter execution time (ms))', fontsize=12)  
+
+    # set tick
+    offset = 0 
+    dist = 1.0
+    xindex=[]
+    for i in range (0,5):
+        xindex.append(offset+i*dist)
+    ax.set_xticks(xindex)
+
+    ax.set_xticklabels(('512','1024','2048','4096','8192'), fontsize='large')
+    
+    step_20=(14.6662,20.0994,33.0181,61.5533,112.337)
+    step_20_log = np.log2(np.array(step_20)) 
+    pal=ax.plot(step_20_log, color=gblue, linestyle='-', label="step_20")
+    
+    step_40=(16.0564,22.5779,40.7341,72.2208,124.388)
+    step_40_log = np.log2(np.array(step_40))
+    
+    pal=ax.plot(step_40_log, color=gred, linestyle='-', label="step_40")
+
+    step_60=(19.585,39.0092,41.301,71.431,133.218)
+    step_60_log = np.log2(np.array(step_60))
+
+    pal=ax.plot(step_60_log, color=gyellow, linestyle='-', label="step_60")
+
+    step_80=(18.8047,25.7275,39.369,69.2084,134.707)
+    step_80_log = np.log2(np.array(step_80))
+
+    pal=ax.plot(step_80_log, color=ggreen, linestyle='-', label="step_80")
+    
+    step_100=(24.9036,34.9131,58.1228,98.3549,185.97)
+    step_100_log = np.log2(np.array(step_100))
+    
+    pal=ax.plot(step_100_log, color=purple, linestyle='-', label="step_100")
+    
+    step_120=(31.2416,56.1422,82.6033,136.165,230.601)
+    step_120_log = np.log2(np.array(step_120))
+
+    pal=ax.plot(step_120_log, color=slightred, linestyle='-', label="step_120")
+    
+
+    legend = ax.legend(loc='upper center', ncol=3, fontsize=12)
+    plt.savefig("streamline_seedsnum_procnum.pdf",bbox_inches='tight')
+    plt.savefig("streamline_seedsnum_procnum.png",bbox_inches='tight') 
+
 if __name__ == "__main__":
+
     #render_datasize_procnum()
     #contour_datasize_procnum()
     #streamline_datasize_procnum()
     
-    render_datacontents()
-    contour_datacontents()
-    streamline_datacontents()
+    #render_datacontents()
+    #contour_datacontents()
+    #streamline_datacontents()
 
-    #render_imgsize_procnum()
-    #contour_isonumber_values_procnum()
-    #streamline_seedsnum_procnum()
+    render_imgsize_procnum()
+    contour_isonumber_procnum()
+    streamline_seedsnum_procnum()
 
 
 
