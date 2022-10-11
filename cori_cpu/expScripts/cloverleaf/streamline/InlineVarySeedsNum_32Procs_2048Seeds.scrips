@@ -1,36 +1,36 @@
 #!/bin/bash
 
 #SBATCH --qos=debug
-#SBATCH --nodes=4
+#SBATCH --nodes=2
 #SBATCH --tasks-per-node=32
 #SBATCH --time=29:00
 #SBATCH --licenses=cscratch1
 #SBATCH --constraint=haswell
 #SBATCH --output=R-%x.%j.out
 
-rm -rf ./InlineVaryDataSize_64Procs_Data
+rm -rf ./InlineVarySeedsNum_32Procs_2048Seeds_Data
 
 # create soft link
-mkdir -p InlineVaryDataSize_64Procs_Data
-cd InlineVaryDataSize_64Procs_Data
+mkdir -p InlineVarySeedsNum_32Procs_2048Seeds_Data
+cd InlineVarySeedsNum_32Procs_2048Seeds_Data
 
 ln -s ../../../../install/ascent/examples/ascent/proxies/cloverleaf3d/cloverleaf3d_par cloverleaf3d_par
 
 # generate config file
 cp ../../../../../commonScripts/clover.in_default clover.in
 cp ../../../../../commonScripts/ascent_actions_streamline_box.yaml ascent_actions.yaml
-SEEDS_NUM=1024
+SEEDS_NUM=2048
 sed -i "s/num_seeds: 512/num_seeds: ${SEEDS_NUM}/" ascent_actions.yaml
 
 
 # the total data size is 8 times if every dim is 2 times than original one
-MESH_SIZE_LIST="64 128 256 512"
+MESH_SIZE_LIST="128"
 
 # generate config file
 scriptsDir=../../../../../commonScripts
 
-SIMNODE=4
-SIMTASK=64
+SIMNODE=2
+SIMTASK=32
 
 for MESH_SIZE in ${MESH_SIZE_LIST}
 do
@@ -39,7 +39,6 @@ echo "test the mesh size ${MESH_SIZE}"
 # update config
 # use the defaut 512 seeds which is not that much easy to crash
 cp ${scriptsDir}/clover.in_default clover.in
-sed -i "s/end_step=200/end_step=100/" clover.in
 
 mkdir log_${MESH_SIZE}
 

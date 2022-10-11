@@ -8,7 +8,7 @@
 #SBATCH --constraint=haswell
 #SBATCH --output=R-%x.%j.out
 
-#rm -rf ./InlineVaryDataSize_32Procs_Data
+rm -rf ./InlineVaryDataSize_32Procs_Data
 
 # create soft link
 mkdir -p InlineVaryDataSize_32Procs_Data
@@ -39,6 +39,7 @@ echo "test the mesh size ${MESH_SIZE}"
 # update config
 # use the defaut 512 seeds which is not that much easy to crash
 cp ${scriptsDir}/clover.in_default clover.in
+sed -i "s/end_step=200/end_step=100/" clover.in
 
 mkdir log_${MESH_SIZE}
 

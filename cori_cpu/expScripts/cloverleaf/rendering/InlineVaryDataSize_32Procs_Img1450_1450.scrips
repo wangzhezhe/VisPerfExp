@@ -1,45 +1,45 @@
 #!/bin/bash
-
 #SBATCH --qos=debug
-#SBATCH --nodes=4
+#SBATCH --nodes=2
 #SBATCH --tasks-per-node=32
 #SBATCH --time=29:00
 #SBATCH --licenses=cscratch1
 #SBATCH --constraint=haswell
 #SBATCH --output=R-%x.%j.out
 
-rm -rf ./InlineVaryDataSize_64Procs_Data
+rm -rf ./InlineVaryDataSize_32Procs_Img1450_1450_Data
 
 # create soft link
-mkdir -p InlineVaryDataSize_64Procs_Data
-cd InlineVaryDataSize_64Procs_Data
+mkdir InlineVaryDataSize_32Procs_Img1450_1450_Data
+cd InlineVaryDataSize_32Procs_Img1450_1450_Data
 
 ln -s ../../../../install/ascent/examples/ascent/proxies/cloverleaf3d/cloverleaf3d_par cloverleaf3d_par
 
 # generate config file
 cp ../../../../../commonScripts/clover.in_default clover.in
-cp ../../../../../commonScripts/ascent_actions_streamline_box.yaml ascent_actions.yaml
-SEEDS_NUM=1024
-sed -i "s/num_seeds: 512/num_seeds: ${SEEDS_NUM}/" ascent_actions.yaml
+cp ../../../../../commonScripts/ascent_actions_volumerender.yaml ascent_actions.yaml
+sed -i 's/image_width: 1024/image_width: 1450/' ascent_actions.yaml
+sed -i 's/image_height: 1024/image_height: 1450/' ascent_actions.yaml
 
-
+# 1.26*1.26*1.26 is around 2 in total
 # the total data size is 8 times if every dim is 2 times than original one
-MESH_SIZE_LIST="64 128 256 512"
+MESH_SIZE_LIST="128"
+#MESH_SIZE_LIST="512 1024"
+#the 1024 is out of memory
 
 # generate config file
 scriptsDir=../../../../../commonScripts
 
-SIMNODE=4
-SIMTASK=64
+SIMNODE=2
+SIMTASK=32
 
 for MESH_SIZE in ${MESH_SIZE_LIST}
 do
 echo "test the mesh size ${MESH_SIZE}"
 
 # update config
-# use the defaut 512 seeds which is not that much easy to crash
 cp ${scriptsDir}/clover.in_default clover.in
-sed -i "s/end_step=200/end_step=100/" clover.in
+sed -i "s/64/${MESH_SIZE}/" clover.in
 
 mkdir log_${MESH_SIZE}
 
@@ -61,6 +61,6 @@ cat log_${MESH_SIZE}/sim.log |grep "Sim computation time between visit" | cut -d
 echo "checking sim hangs time log_${MESH_SIZE}"
 cat log_${MESH_SIZE}/sim.log |grep "ascent_execution_time" | cut -d " " -f 8
 
-echo "checking data ParticleAdvectionFilter time log_${MESH_SIZE}"
-cat log_${MESH_SIZE}/timing.0.out |grep "ParticleAdvectionFilter" | cut -d " " -f 2
+echo "checking data ExecScene time log_${MESH_SIZE}"
+cat log_${MESH_SIZE}/timing.0.out |grep "ExecScene" | cut -d " " -f 2
 done
