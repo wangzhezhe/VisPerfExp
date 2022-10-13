@@ -266,32 +266,33 @@ def render_imgsize_procnum():
     ax.set_xticklabels(('512*512','725*725','1024*1024','1450*1450','2048*2048'), fontsize='large')
     
 
-    step_20=(470.037,859.489,1619.65,3192.32,6336.1)
-    step_20_log = np.log2(np.array(step_20)) 
-    pal=ax.plot(step_20_log, color=gblue, linestyle='-', label="step_20_log")
-    
-    step_40=(469.861,864.916,1618.13,3185.45,6320.36)
-    step_40_log = np.log2(np.array(step_40))
-    pal=ax.plot(step_40_log, color=gred, linestyle='-', label="step_40")
+    step_20_proc_16=(687.168,1289.47,2487.53,4895.37,9719.3)
+    step_20_proc_16_log = np.log2(np.array(step_20_proc_16)) 
+    pal=ax.plot(step_20_proc_16_log, color=gblue, linestyle='-', label="step_20_proc_16")
 
-    step_60=(464.424,849.004,1604.32,3128,6240.56)
-    step_60_log = np.log2(np.array(step_60))
-    pal=ax.plot(step_60_log, color=gyellow, linestyle='-', label="step_60")
+    step_40_proc_16=(687.168,1289.47,2487.53,4895.37,9719.3)
+    step_40_proc_16_log = np.log2(np.array(step_40_proc_16)) 
+    pal=ax.plot(step_40_proc_16_log, color=gred, linestyle='-', label="step_40_proc_16")
 
-    step_80=(462.465,844,1588.85,3123.98,6190.66)
-    step_80_log = np.log2(np.array(step_80))
-    pal=ax.plot(step_80_log, color=ggreen, linestyle='-', label="step_80")
-    
-    step_100=(468.824,855.292,1612.61,3163.94,6280.05)
-    step_100_log = np.log2(np.array(step_100))
-    pal=ax.plot(step_100_log, color=purple, linestyle='-', label="step_100")
-    
-    step_120=(462.701,843.15,1594.36,3120.69,6191.73)
-    step_120_log = np.log2(np.array(step_120))    
-    pal=ax.plot(step_120_log, color=slightred, linestyle='-', label="step_120")
-    
 
-    legend = ax.legend(loc='upper center', ncol=3, fontsize=12)
+    step_20_proc_32=(470.037,859.489,1619.65,3192.32,6336.1)
+    step_20_proc_32_log = np.log2(np.array(step_20_proc_32)) 
+    pal=ax.plot(step_20_proc_32_log, color=gyellow, linestyle='-', label="step_20_proc_32")
+    
+    step_40_proc_32=(469.861,864.916,1618.13,3185.45,6320.36)
+    step_40_proc_32_log = np.log2(np.array(step_40_proc_32))
+    pal=ax.plot(step_40_proc_32_log, color=ggreen, linestyle='-', label="step_40_proc_32")
+
+    step_20_proc_64=(348.806,651.592,1192.32,2305.17,4581.37)
+    step_20_proc_64_log = np.log2(np.array(step_20_proc_64)) 
+    pal=ax.plot(step_20_proc_64_log, color=purple, linestyle='-', label="step_20_proc_64")
+    
+    step_40_proc_64=(358.832,635.347,1188.68,2294.53,4562.11)
+    step_40_proc_64_log = np.log2(np.array(step_40_proc_64))
+    pal=ax.plot(step_40_proc_64_log, color=slightred, linestyle='-', label="step_40_proc_64")
+
+
+    legend = ax.legend(loc='upper center', ncol=3, fontsize=11.5)
     plt.savefig("render_imgsize_procnum.pdf",bbox_inches='tight')
     plt.savefig("render_imgsize_procnum.png",bbox_inches='tight')     
 
