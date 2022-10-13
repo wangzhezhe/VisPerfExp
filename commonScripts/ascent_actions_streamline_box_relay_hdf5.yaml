@@ -1,0 +1,31 @@
+# this is still fail and the ascent could not support this currently
+- 
+  action: "add_extracts"
+  extracts: 
+    e1: 
+      type: "relay"
+      pipeline: "pl1"
+      params: 
+        path: "streamline_box_output"
+        protocol: "blueprint/mesh/hdf5"
+
+-
+  action: "add_pipelines"
+  pipelines:
+    pl1:
+      f1:
+        type: "streamline"
+        params:
+          field: "velocity"
+          num_seeds: 512
+          num_steps: 512
+          step_size: 0.01
+          seed_bounding_box_xmin: 0.0
+          seed_bounding_box_xmax: 10.0
+          seed_bounding_box_ymin: 0.0
+          seed_bounding_box_ymax: 10.0
+          seed_bounding_box_zmin: 0.0
+          seed_bounding_box_zmax: 10.0
+          record_trajectories: true 
+          write_streamlines: false
+          seed_method: "box"
