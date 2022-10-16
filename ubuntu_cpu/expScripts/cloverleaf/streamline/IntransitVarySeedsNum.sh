@@ -33,7 +33,7 @@ cp ${scriptsDir}/clover.in_default clover.in
 # issue, the reader does not exist as expected
 #./reader --file=out.bp --read-method=SST --visualization-op=volume --sst-json-file=cloverleaf.json &> ./reader.log &
 
-mpirun -n 2 ./reader --file=out.bp --read-method=SST --visualization-op=advect --seed-method=box --advect-seed-box-extents=0,10,0,10,0,10 --advect-num-seeds=2048 --field-name=velocity --sst-json-file=./cloverleaf.json &> ./reader.log &
+mpirun -n 4 ./reader --file=out.bp --read-method=SST --visualization-op=advect --seed-method=box --advect-seed-box-extents=0,10,0,10,0,10 --advect-num-seeds=2048 --field-name=velocity --sst-json-file=./cloverleaf.json &> ./reader.log &
 
 echo "start reader, prepar sim"
 # start the sim to get the data

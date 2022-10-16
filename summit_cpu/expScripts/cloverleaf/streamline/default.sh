@@ -1,4 +1,5 @@
 #!/bin/bash
+# This is executed by the interactive pattern
 rm -rf ./defaultData
 
 mkdir defaultData
