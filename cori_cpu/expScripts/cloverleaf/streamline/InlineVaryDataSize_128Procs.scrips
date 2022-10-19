@@ -20,8 +20,9 @@ ln -s ../../../../install/ascent/examples/ascent/proxies/cloverleaf3d/cloverleaf
 cp ../../../../../commonScripts/clover.in_default clover.in
 cp ../../../../../commonScripts/ascent_actions_streamline_box.yaml ascent_actions.yaml
 SEEDS_NUM=1024
+STEP_SIZE=0.1
 sed -i "s/num_seeds: 512/num_seeds: ${SEEDS_NUM}/" ascent_actions.yaml
-
+sed -i "s/step_size: 0.01/step_size: ${STEP_SIZE}/" ascent_actions.yaml
 
 # the total data size is 8 times if every dim is 2 times than original one
 MESH_SIZE_LIST="64 128 256 512"
@@ -39,7 +40,8 @@ echo "test the mesh size ${MESH_SIZE}"
 # update config
 # use the defaut 512 seeds which is not that much easy to crash
 cp ${scriptsDir}/clover.in_default clover.in
-#sed -i "s/end_step=200/end_step=100/" clover.in
+sed -i "s/end_step=200/end_step=100/" clover.in
+sed -i "s/64/${MESH_SIZE}/" clover.in
 
 mkdir log_${MESH_SIZE}
 
