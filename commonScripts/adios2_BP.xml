@@ -1,0 +1,13 @@
+<!--vtkh adios writter use the engine type name as the IO name-->
+<?xml version="1.0"?>
+<adios-config>
+    <io name="BP4">
+        <engine type="BP4">
+            <parameter key="verbose" value="1"/>
+            <parameter key="RendezvousReaderCount" value="1"/>
+            <parameter key="QueueLimit" value="1"/>
+            <parameter key="QueueFullPolicy" value="Block"/>
+            <parameter key="OpenTimeoutSecs" value="600"/>
+        </engine>
+    </io>
+</adios-config>

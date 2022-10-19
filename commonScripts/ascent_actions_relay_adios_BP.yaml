@@ -5,5 +5,6 @@
     e1:
       type: ADIOS2
       params:
-        filename: "out.bp"
+        filename: "output/out.bp"
         engine: BPFile
+        endstep: 10
