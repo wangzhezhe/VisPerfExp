@@ -14,12 +14,12 @@ ln -s ../../../../install/visReader/reader reader
 scriptsDir=../../../../../commonScripts
 cp ${scriptsDir}/ascent_actions_relay_adios_SST.yaml ascent_actions.yaml
 sed -i "s/endstep: 10/endstep: 200/" ascent_actions.yaml
+# if we use the cloverleaf_in the end step is 600 
 
 # this is for fides writer
 cp ${scriptsDir}/adios2.xml adios2.xml
 # this is for the fides write operation
 cp ${scriptsDir}/cloverleaf.json cloverleaf.json
-cp ${scriptsDir}/clover.in_default clover.in
 
 #NUM_SEEDS_LIST="512 1024 2048 4096"
 NUM_SEEDS_LIST="512"
@@ -28,12 +28,29 @@ NUM_SEEDS_LIST="512"
 for NUM_SEEDS in ${NUM_SEEDS_LIST}
 do
 echo "test the seeds number ${NUM_SEEDS}"
-cp ${scriptsDir}/clover.in_default clover.in
+#cp ${scriptsDir}/clover.in_default clover.in
+cp ${scriptsDir}/clover.in_jet clover.in
+sed -i "s/end_step=600/end_step=200/" clover.in
+sed -i "s/64/256/" clover.in
+
 # start the reader firstly
 # issue, the reader does not exist as expected
 #./reader --file=out.bp --read-method=SST --visualization-op=volume --sst-json-file=cloverleaf.json &> ./reader.log &
 
-mpirun -n 4 ./reader --file=out.bp --read-method=SST --visualization-op=advect --seed-method=box --advect-seed-box-extents=0,10,0,10,0,10 --advect-num-seeds=2048 --field-name=velocity --sst-json-file=./cloverleaf.json &> ./reader.log &
+#mpirun -n 4 ./reader --file=out.bp --read-method=SST --visualization-op=advect --seed-method=box --advect-seed-box-extents=0,10,0,10,0,10 --advect-num-seeds=512 --field-name=velocity --sst-json-file=./cloverleaf.json &> ./reader.log &
+
+# if use the jet configuration
+mpirun -n 4 ./reader \
+--file=out.bp \
+--read-method=SST \
+--visualization-op=advect \
+--seed-method=box \
+--advect-seed-box-extents=0,4,0,4,0,8 \
+--advect-num-seeds=${NUM_SEEDS} \
+--advect-num-steps=100 \
+--advect-step-size=0.1 \
+--field-name=velocity \
+--sst-json-file=./cloverleaf.json &> ./reader.log &
 
 echo "start reader, prepar sim"
 # start the sim to get the data
@@ -58,3 +75,4 @@ cat sim.log.${MESH_SIZE} |grep "ascent_execution_time" | cut -d " " -f 8
 echo "check in transit processing time in timing.vis.0.${MESH_SIZE}.out"
 cat timing.vis.0.${MESH_SIZE}.out |grep "render" | cut -d " " -f 4
 done
+
