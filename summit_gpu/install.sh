@@ -2,13 +2,12 @@
 
 set -e
 
-#setting up necessary env on cori
-module purge
-module load cgpu cuda gcc openmpi
-module load cmake/3.22.1
+module load cuda/11.4
+module load gcc
+module load cmake
 
 HERE=`pwd`
-build_jobs=4
+build_jobs=8
 source $HERE/../settings.sh
 SOFTWARE_SRC_DIR="$HERE/src"
 SOFTWARE_BUILD_DIR="$HERE/build"
@@ -75,8 +74,8 @@ else
     -DENABLE_FORTRAN=ON \
     -DENABLE_MPI=ON \
     -DENABLE_PYTHON=OFF \
-    -DHDF5_DIR=${HDF5_INSTALL_DIR} \
     -DENABLE_TESTS=OFF \
+    -DHDF5_DIR=${HDF5_INSTALL_DIR} \
     -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
 
 
@@ -118,6 +117,7 @@ else
 
     # TODO, the gpu version can be different here
     # we only use the cpu version here
+
     cmake -B ${VTKM_BUILD_DIR} -S ${VTKM_SRC_DIR} \
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_SHARED_LIBS=OFF \
@@ -133,7 +133,7 @@ else
     -DVTKm_CUDA_Architecture=volta \
     -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
-    cmake --build ${VTKM_BUILD_DIR} -j${build_jobs}
+    cmake --build ${VTKM_BUILD_DIR} -j${build_jobs} \
 
     echo "**** Installing vtk-m"
     cmake --install ${VTKM_BUILD_DIR}
@@ -169,23 +169,22 @@ else
     cd $HERE
 
     # build and install
-    # static libraries are required when building with cuda
     echo "**** Building vtk-h"
 
     cmake -B ${VTKH_BUILD_DIR} -S ${VTKH_SRC_DIR}/src \
     -DVTKM_DIR=${VTKM_INSTALL_DIR} \
+    -DCMAKE_BUILD_TYPE=Release \
     -DENABLE_MPI=ON \
     -DENABLE_SERIAL=OFF \
     -DENABLE_TESTS=OFF \
     -DENABLE_GTEST=OFF \
     -DCMAKE_INSTALL_PREFIX=${VTKH_INSTALL_DIR} \
     -DBUILD_SHARED_LIBS=OFF \
-    -DENABLE_LOGGING=ON \
     -DENABLE_CUDA=ON \
+    -DENABLE_LOGGING=ON \
     -DCMAKE_CUDA_ARCHITECTURES=70 \
     -DBLT_CXX_STD=c++14 \
     -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
-    
     
     cmake --build ${VTKH_BUILD_DIR} -j${build_jobs}
 
@@ -220,12 +219,13 @@ else
 
     # TODO, the gpu version can be different here
     # we only use the cpu version here
-
+    # there are installing error on summit with cuda for adios
     cmake -B ${ADIOS_BUILD_DIR} -S ${ADIOS_SRC_DIR} \
-    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE=Debug \
     -DADIOS2_RUN_INSTALL_TEST=OFF \
     -DBUILD_TESTING=OFF \
     -DCMAKE_INSTALL_PREFIX=${ADIOS_INSTALL_DIR} \
+    -DADIOS2_USE_CUDA=OFF \
     -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
     
     cmake --build ${ADIOS_BUILD_DIR} -j${build_jobs}
@@ -261,8 +261,9 @@ else
     -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-1.0 \
     -DCMAKE_INSTALL_PREFIX=${FIDES_INSTALL_DIR} \
     -DENABLE_MPI=ON \
+    -DBUILD_SHARED_LIBS=OFF \
     -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
-    
+
     cd $HERE
 
     # build and install
@@ -296,8 +297,7 @@ else
     git checkout performanceStudy
     git submodule init
     git submodule update
-    
-    # statlic likbrary for cuda build
+
     cmake -B ${ASCENT_BUILD_DIR} -S ${ASCENT_SRC_DIR}/src \
     -DCONDUIT_DIR=${CONDUIT_INSTALL_DIR} \
     -DENABLE_PYTHON=OFF \
@@ -355,10 +355,9 @@ else
     git checkout Visualization_Performance_Study
     git submodule init
     git submodule update
-    
-    # there are some issues if we do not build the unit tests
+
     cmake -B ${AMRWIND_BUILD_DIR} -S ${AMRWIND_SRC_DIR} \
-    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE=Debug \
     -DAMR_WIND_ENABLE_ASCENT=ON \
     -DAMR_WIND_ENABLE_MPI=ON \
     -DAMR_WIND_ENABLE_HYPRE:BOOL=OFF \
@@ -367,7 +366,6 @@ else
     -DFides_DIR=${FIDES_INSTALL_DIR}/lib/cmake/fides \
     -DAMR_WIND_ENABLE_ADIOS2=ON \
     -DAMR_WIND_ENABLE_FIDES=ON \
-    -DAMR_WIND_ENABLE_UNIT_TESTS=OFF \
     -DCMAKE_INSTALL_PREFIX=${AMRWIND_INSTALL_DIR} \
     -DAMR_WIND_ENABLE_CUDA=ON \
     -DCMAKE_CUDA_ARCHITECTURES=70 \
@@ -407,6 +405,7 @@ else
     -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-1.0 \
     -DVTKH_DIR=${VTKH_INSTALL_DIR} \
     -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib64/cmake/adios2 \
+    -DBUILD_SHARED_LIBS=OFF \
     -DUSE_GPU=ON \
     -DCMAKE_CUDA_ARCHITECTURES=70 \
     -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
@@ -419,12 +418,12 @@ else
 fi
 echo "====> building intransit reader, ok"
 
+
 echo "try to add library path by executing:"
 echo "export LD_LIBRARY_PATH=${VTKM_INSTALL_DIR}/lib:\
-${ADIOS_INSTALL_DIR}/lib64:\
+${ADIOS_INSTALL_DIR}/lib:\
 ${FIDES_INSTALL_DIR}/lib:\
 ${ASCENT_INSTALL_DIR}/lib:\
 ${CONDUIT_INSTALL_DIR}/lib:\
 ${VTKH_INSTALL_DIR}/lib:\
-${HDF5_INSTALL_DIR}/lib:\
-/opt/cray/pe/gcc-libs/:\${LD_LIBRARY_PATH}"
+${HDF5_INSTALL_DIR}/lib:\${LD_LIBRARY_PATH}"
