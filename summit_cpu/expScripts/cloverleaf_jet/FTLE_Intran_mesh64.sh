@@ -76,6 +76,7 @@ jsrun -n ${NUM_READER_PROC} ./reader \
 --advect-num-steps=20 \
 --advect-step-size=0.1 \
 --field-name=velocity \
+--record-trajectories=false \
 --sst-json-file=./cloverleaf.json &> ./reader.log &
 
 echo "reader started, prepar sim"

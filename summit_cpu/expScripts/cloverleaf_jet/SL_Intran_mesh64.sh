@@ -71,6 +71,7 @@ jsrun -n ${NUM_READER_PROC} ./reader \
 --advect-num-seeds=${NUM_SEEDS} \
 --advect-num-steps=1000 \
 --advect-step-size=0.1 \
+--record-trajectories=false \
 --field-name=velocity \
 --sst-json-file=./cloverleaf.json &> ./reader.log &
 

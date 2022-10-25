@@ -53,10 +53,17 @@ def test_sim_g_ana():
     # TODO, there are still some issues, when we set the wait 
     # time as a really small number
     wf_model.compute_intran()
+
     print("compute_inline_time is ", compute_inline_time)
 
+    exec_simtime_intran = wf_model.exec_simtime_intran            
+    exec_anatime_intran = wf_model.exec_anatime_intran
 
-# supposed to be 70 85
+    print("compute_intran_sim_time is ", exec_simtime_intran)
+    print("compute_intran_ana_time is ", exec_anatime_intran)
+
+
+# intran supposed to be 70 85
 def test_sim_l_ana():
 
     print("---test test_sim_l_ana---")
@@ -76,7 +83,13 @@ def test_sim_l_ana():
     wf_model.compute_intran()
     print("compute_inline_time is ", compute_inline_time)
 
+    exec_simtime_intran = wf_model.exec_simtime_intran            
+    exec_anatime_intran = wf_model.exec_anatime_intran
 
+    print("compute_intran_sim_time is ", exec_simtime_intran)
+    print("compute_intran_ana_time is ", exec_anatime_intran)
+
+# intran supposed to be 80 95
 def test_customize():
 
     print("---test test_customize---")
@@ -96,9 +109,15 @@ def test_customize():
     wf_model.compute_intran()
     print("compute_inline_time is ", compute_inline_time)
 
+    exec_simtime_intran = wf_model.exec_simtime_intran            
+    exec_anatime_intran = wf_model.exec_anatime_intran
+
+    print("compute_intran_sim_time is ", exec_simtime_intran)
+    print("compute_intran_ana_time is ", exec_anatime_intran)
+
 if __name__ == "__main__":
-    #test_sim_g_ana()
-    #test_sim_l_ana()
+    test_sim_g_ana()
+    test_sim_l_ana()
 
     test_customize()
 

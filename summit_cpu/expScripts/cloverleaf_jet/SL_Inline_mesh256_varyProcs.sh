@@ -6,7 +6,7 @@
 
 #BSUB -J SL_Inline_mesh256_varyProcs
 #BSUB -o R_SL_Inline_mesh256_varyProcs.%J.out
-#BSUB -e R_SL_Inline_mesh256_varyProcs%J.err 
+#BSUB -e R_SL_Inline_mesh256_varyProcs.%J.err 
 
 CURRDIR=$(pwd)
 DATA_DIRNAME=SL_Inline_mesh256_varyProcs
@@ -27,6 +27,7 @@ ln -s $CURRDIR/../../install/ascent/examples/ascent/proxies/cloverleaf3d/cloverl
 
 scriptsDir=$CURRDIR/../../../commonScripts
 
+# it hangs here if the number of process is larger than mesh size
 NUM_PROCS_LIST="32 64 128 256 512 1024"
 NUM_SEEDS_LIST="1000"
 
