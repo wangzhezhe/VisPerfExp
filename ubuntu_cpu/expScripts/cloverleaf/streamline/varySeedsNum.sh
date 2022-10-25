@@ -18,7 +18,7 @@ cp ${scriptsDir}/clover.in_default clover.in
 #32
 cp ${scriptsDir}/ascent_actions_streamline_box.yaml ascent_actions.yaml
 sed -i 's/num_seeds: 512/num_seeds: 32/' ascent_actions.yaml
-./cloverleaf3d_par
+mpirun -n 4 ./cloverleaf3d_par
 mv timing.0.out timing.0.32.out
 
 #64
