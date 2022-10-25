@@ -3,17 +3,17 @@ from os import system
 import subprocess
 
 def parse(file_name, rank, iter_step):
-    print("---check {} Advec iterstep {}---".format(file_name,iter_step))
+    #print("---check {} Advec iterstep {}---".format(file_name,iter_step))
     labelstr = "rank_"+str(rank)+"_Advec_iterstep_" + str(iter_step)
     command = "cat " + file_name + " |grep Advec " + "|grep " + "_" + str(iter_step) + "_" + "| cut -d \" \" -f 2 | python3 analysis.py "
     
     command = command+labelstr
 
-    print(command)
+    #print(command)
     
     system(command)
     
-    print("---check {} Recv iterstep {}---".format(file_name,iter_step))
+    #print("---check {} Recv iterstep {}---".format(file_name,iter_step))
     labelstr = "rank_"+str(rank)+"_Recv_iterstep_" + str(iter_step)
     command = "cat " + file_name + " |grep Received "+ "|grep " + "_" + str(iter_step) + "_" + "| cut -d \" \" -f 2 | python3 analysis.py "
 

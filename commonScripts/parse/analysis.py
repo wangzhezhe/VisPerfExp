@@ -33,4 +33,4 @@ if __name__ == "__main__":
     print (labelstr+" min", min(real_data_list) )
     print (labelstr+" max", max(real_data_list) )
     #print ("std",statistics.stdev(real_data_list))
-    #print ("sum",sum(real_data_list))
+    print (labelstr+" sum",sum(real_data_list))
