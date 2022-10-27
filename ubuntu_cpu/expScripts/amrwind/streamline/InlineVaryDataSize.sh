@@ -16,9 +16,9 @@ cp ${scriptsDir}/damBreak.i damBreak.i
 # update the step
 sed -i "s/time.max_step                =   100000/time.max_step                =   20/" damBreak.i
 
-MESH_SIZE_LIST="64 128 256 512 1024"
+#MESH_SIZE_LIST="64 128 256 512 1024"
 
-#SEEDS_NUM_LIST="64"
+SEEDS_NUM_LIST="64"
 
 for SEEDS_NUM in ${MESH_SIZE_LIST}
 do
@@ -34,9 +34,11 @@ sed -i "s/num_seeds: 512/num_seeds: 1024/" ascent_actions.yaml
 ./amr_wind damBreak.i &> amrwindlog.out
 
 # processing log
-mkdir ${SEEDS_NUM}.timing
-mv amrwindlog.out ${SEEDS_NUM}.timing/ 
-mv timing.*.out ${SEEDS_NUM}.timing/
+logdir=${SEEDS_NUM}.timing
+mkdir ${logdir}
+mv amrwindlog.out ${logdir}
+mv timing.*.out ${logdir}
+mv counter* ${logdir}
 
 echo "ok for ${SEEDS_NUM}"
 done

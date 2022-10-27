@@ -4,12 +4,12 @@
 #BSUB -W 01:59
 #BSUB -nnodes 25
 
-#BSUB -J SL_Inline_mesh256_varyProcs
-#BSUB -o R_SL_Inline_mesh256_varyProcs.%J.out
-#BSUB -e R_SL_Inline_mesh256_varyProcs.%J.err 
+#BSUB -J SL_Inline_mesh64_varyProcs
+#BSUB -o R_SL_Inline_mesh64_varyProcs.%J.out
+#BSUB -e R_SL_Inline_mesh64_varyProcs.%J.err 
 
 CURRDIR=$(pwd)
-DATA_DIRNAME=SL_Inline_mesh256_varyProcs
+DATA_DIRNAME=SL_Inline_mesh64_varyProcs
 
 #rm -r $CURRDIR/$DATA_DIRNAME
 mkdir -p $CURRDIR/$DATA_DIRNAME
@@ -45,20 +45,19 @@ echo "test the seeds number ${NUM_SEEDS}"
 # cp it every time since we move it away at the end
 
 cp ${scriptsDir}/clover.in_jet clover.in
-sed -i "s/visit_initial_delay=300/visit_initial_delay=800/" clover.in
-sed -i "s/end_step=600/end_step=900/" clover.in
+#sed -i "s/visit_initial_delay=300/visit_initial_delay=800/" clover.in
+#sed -i "s/end_step=600/end_step=900/" clover.in
 
-sed -i "s/64/256/" clover.in
+#sed -i "s/64/256/" clover.in
 
 
 cp ${scriptsDir}/ascent_actions_streamline_box.yaml ascent_actions.yaml 
 # set the record trajectories as fals to do the particle advecation instead of streamline filter
 sed -i "s/record_trajectories: true/record_trajectories: false/" ascent_actions.yaml
 sed -i "s/num_seeds: 512/num_seeds: ${NUM_SEEDS}/" ascent_actions.yaml
-#sed -i "s/num_steps: 512/num_steps: 1000/" ascent_actions.yaml
 sed -i "s/num_steps: 512/num_steps: 1000/" ascent_actions.yaml
 sed -i "s/step_size: 0.01/step_size: 0.1/" ascent_actions.yaml
-sed -i "s/endstep: 10/endstep: 900/" ascent_actions.yaml
+sed -i "s/endstep: 10/endstep: 600/" ascent_actions.yaml
 
 # set bounds of the seeds method
 
