@@ -1,11 +1,11 @@
 #!/bin/bash
-rm -rf ./InlineVaryDataSizeData
+# rm -rf ./InlineVaryDataSizeData
 
 # the data size basically decide how much clear the figure is
 # for the same size of the data, it is more clear if we have a larger data mesh
 
 # create soft link
-mkdir InlineVaryDataSizeData
+mkdir -p InlineVaryDataSizeData
 cd InlineVaryDataSizeData
 ln -s ../../../../install/amr-wind/bin/amr_wind amr_wind
 
@@ -20,7 +20,7 @@ sed -i "s/time.max_step                =   100000/time.max_step                =
 
 SEEDS_NUM_LIST="64"
 
-for SEEDS_NUM in ${MESH_SIZE_LIST}
+for SEEDS_NUM in ${SEEDS_NUM_LIST}
 do
 
 echo "processing the ${SEEDS_NUM}"
@@ -29,12 +29,14 @@ cp ${scriptsDir}/ascent_actions_streamline_amrwind_box.yaml ascent_actions.yaml
 
 # update the seeds num
 sed -i "s/num_seeds: 512/num_seeds: 1024/" ascent_actions.yaml
+sed -i "s/record_trajectories: 'true'/record_trajectories: 'false'/" ascent_actions.yaml
+
 
 # execute
-./amr_wind damBreak.i &> amrwindlog.out
+mpirun -n 16 ./amr_wind damBreak.i &> amrwindlog.out
 
 # processing log
-logdir=${SEEDS_NUM}.timing
+logdir=${SEEDS_NUM}_16procs_log
 mkdir ${logdir}
 mv amrwindlog.out ${logdir}
 mv timing.*.out ${logdir}
@@ -45,8 +47,8 @@ done
 
 # TODO, show the advec time
 
-for SEEDS_NUM in ${SEEDS_NUM_LIST}
-do
-echo "checking the ${SEEDS_NUM}"
-cat ${SEEDS_NUM}.timing/timing.0.out |grep ParticleAdvectionFilter |cut -d " " -f 2
-done 
+#for SEEDS_NUM in ${SEEDS_NUM_LIST}
+#do
+#echo "checking the ${SEEDS_NUM}"
+#cat ${SEEDS_NUM}.timing/timing.0.out |grep ParticleAdvectionFilter |cut -d " " -f 2
+#done 

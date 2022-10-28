@@ -15,41 +15,26 @@ ln -s ../../../../install/ascent/examples/ascent/proxies/cloverleaf3d/cloverleaf
 # generate config file
 scriptsDir=../../../../../commonScripts
 cp ${scriptsDir}/ascent_actions_relay_adios_BP.yaml ascent_actions.yaml
-<<<<<<< HEAD
-
-MESH_SIZE_LIST="51 64 80 100 126 158"
-=======
 sed -i "s/endstep: 10/endstep: 200/" ascent_actions.yaml
 
 # this is necessary to make adios things works
 cp ${scriptsDir}/adios2_BP.xml adios2.xml
 
 MESH_SIZE_LIST="64"
->>>>>>> ae344d2 (update scripts)
 #MESH_SIZE_LIST="51"
 
 for MESH_SIZE in ${MESH_SIZE_LIST}
 do
-cp ${scriptsDir}/clover.in_default clover.in
+cp ${scriptsDir}/clover.in_jet clover.in
 # double quota for replacing the variable
 sed -i "s/64/${MESH_SIZE}/" clover.in
-<<<<<<< HEAD
-./cloverleaf3d_par &> ./temp.log
-mv temp.log temp.log.${MESH_SIZE}
-=======
 mpirun -n 8 ./cloverleaf3d_par 
->>>>>>> ae344d2 (update scripts)
 echo "ok for ${MESH_SIZE}"
 done
 
 
 for MESH_SIZE in ${MESH_SIZE_LIST}
 do
-<<<<<<< HEAD
-echo "check temp.log.${MESH_SIZE}"
-cat temp.log.${MESH_SIZE} |grep ascent_execution_time | cut -d " " -f 8
-=======
 #echo "check temp.log.${MESH_SIZE}"
 #cat temp.log.${MESH_SIZE} |grep ascent_execution_time | cut -d " " -f 8
->>>>>>> ae344d2 (update scripts)
 done

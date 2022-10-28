@@ -40,7 +40,7 @@ sed -i "s/end_step=600/end_step=400/" clover.in
 #mpirun -n 4 ./reader --file=out.bp --read-method=SST --visualization-op=advect --seed-method=box --advect-seed-box-extents=0,10,0,10,0,10 --advect-num-seeds=512 --field-name=velocity --sst-json-file=./cloverleaf.json &> ./reader.log &
 
 # if use the jet configuration
-mpirun -n 1 ./reader \
+mpirun -n 8 ./reader \
 --file=out.bp \
 --read-method=SST \
 --visualization-op=advect \
