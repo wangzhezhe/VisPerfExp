@@ -9,7 +9,7 @@
 #BSUB -e R_SL_Inline_mesh256_varyProcs.%J.err 
 
 CURRDIR=$(pwd)
-DATA_DIRNAME=SL_Inline_mesh256_varyProcs
+DATA_DIRNAME=SL_Inline_mesh256_varyProcs_Data
 
 #rm -r $CURRDIR/$DATA_DIRNAME
 mkdir -p $CURRDIR/$DATA_DIRNAME
