@@ -4,12 +4,12 @@
 #BSUB -W 01:59
 #BSUB -nnodes 32
 
-#BSUB -J SL_Intran_mesh64_varyProcs
-#BSUB -o R_SL_Intran_mesh64_varyProcs.%J.out
-#BSUB -e R_SL_Intran_mesh64_varyProcs.%J.err 
+#BSUB -J SL_Intran_mesh64_reader256_varyProcs
+#BSUB -o R_SL_Intran_mesh64_reader256_varyProcs.%J.out
+#BSUB -e R_SL_Intran_mesh64_reader256_varyProcs.%J.err 
 
 CURRDIR=$(pwd)
-DATA_DIRNAME=SL_Intran_mesh64_varyProcs_Data
+DATA_DIRNAME=SL_Intran_mesh64_reader256_varyProcs_Data
 
 #rm -r $CURRDIR/$DATA_DIRNAME
 mkdir -p $CURRDIR/$DATA_DIRNAME
@@ -28,7 +28,7 @@ ln -s $CURRDIR/../../install/visReader/reader reader
 
 scriptsDir=$CURRDIR/../../../commonScripts
 
-NUM_SIM_PROC_LIST="1024 512 256 128 64"
+NUM_SIM_PROC_LIST="1024 512 256"
 NUM_SEEDS_LIST="1000"
 NUM_READER_PROC_LIST="256"
 
