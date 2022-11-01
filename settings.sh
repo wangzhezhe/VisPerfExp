@@ -19,7 +19,9 @@ VTKH_REPO=https://github.com/wangzhezhe/vtk-h.git
 
 ASCENT_REPO=https://github.com/wangzhezhe/ascent.git
 
-AMRWIND_REPO=https://github.com/jameskress/amr-wind.git
+#AMRWIND_REPO=https://github.com/jameskress/amr-wind.git
+AMRWIND_REPO=https://github.com/wangzhezhe/amr-wind.git
+
 
 #INTRANSIT_READER_REPO=https://gitlab.com/jameskress/in_transit_reader.git
 #INTRANSIT_READER_REPO=https://gitlab.com/godenwangzhe/in_transit_reader.git

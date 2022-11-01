@@ -42,7 +42,7 @@ def parse_explicit(file_name, rank):
     global advect_dic_sum
     global recieve_dic_sum
     
-    #print("filename:",file_name,"rank:",rank,"iter_step_start:",iter_step_start,"iter_step_end:",iter_step_end)
+    #print("filename:",file_name,"rank:",rank)
 
     file_exists = exists(file_name)
     
@@ -70,7 +70,6 @@ def parse_explicit(file_name, rank):
             
             if (step in recieve_dic.keys()) and (rank in recieve_dic[step].keys()):
                     recieve_dic[step][rank]=recieve_dic[step][rank]+particlenum
-                    recieve_dic_sum[step]=recieve_dic_sum[step]+particlenum
             else:
                 inner_dic={}
                 inner_dic[rank]=particlenum
@@ -85,7 +84,6 @@ def parse_explicit(file_name, rank):
             
             if (step in advect_dic.keys()) and (rank in advect_dic[step].keys()):
                     advect_dic[step][rank]=advect_dic[step][rank]+particlenum
-                    
             else:
                 inner_dic={}
                 inner_dic[rank]=particlenum
@@ -122,29 +120,32 @@ if __name__ == "__main__":
 
     procs = int(sys.argv[1])
     dirPath = sys.argv[2]
-    step_start = 10
-    step_end = 20
-    visit_freq=10
+
+    #step_start = 10
+    #step_end = 20
+    #visit_freq=10
     
     #for s in range (step_start,step_end,visit_freq):
     #    for i in range (0,procs,1):
     #        file_name = "counter."+str(i)+".out"
     #        parse_syscommand(file_name,i,s)
 
-
-
     for i in range (0,procs,1):
         file_name = dirPath+"/counter."+str(i)+".out"
         parse_explicit(file_name,i)  
 
 
-    print("advec_map", advect_dic)
-    print("recv_map", recieve_dic)
+    #print("advec_map", advect_dic)
+    #print("recv_map", recieve_dic)
+
+    #print sum for each step
+    #print("advect_dic_sum",advect_dic_sum)
+    for key, val in advect_dic_sum.items():
+        print("advect key", key ,"val",val)
     
-    # print sum for each step
-    
-    print("advect_dic_sum",advect_dic_sum)
-    print("recieve_dic_sum",recieve_dic_sum)
-    
+    #print("recieve_dic_sum",recieve_dic_sum)
+    for key, val in recieve_dic_sum.items():
+        print("recv key", key ,"val",val)
+
     print("sorted_advect_dic_sum",sorted(advect_dic_sum.items(),key=lambda item: item[1]))
     print("sorted_recieve_dic_sum",sorted(recieve_dic_sum.items(),key=lambda item: item[1]))

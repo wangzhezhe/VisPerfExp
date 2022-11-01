@@ -27,5 +27,5 @@
           seed_bounding_box_ymax: 0.055
           seed_bounding_box_zmin: 0.0
           seed_bounding_box_zmax: 0.085
-          record_trajectories: 'true'
-          write_streamlines: 'false'
+          record_trajectories: true
+          write_streamlines: false
