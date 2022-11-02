@@ -144,7 +144,7 @@ if __name__ == "__main__":
         print("advect key", key ,"val",val)
     
     #print("recieve_dic_sum",recieve_dic_sum)
-    for key, val in recieve_dic_sum.items():
+    for key, val in sorted(recieve_dic_sum.items()):
         print("recv key", key ,"val",val)
 
     print("sorted_advect_dic_sum",sorted(advect_dic_sum.items(),key=lambda item: item[1]))

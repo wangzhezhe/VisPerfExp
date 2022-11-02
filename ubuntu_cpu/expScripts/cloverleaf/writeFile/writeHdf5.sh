@@ -23,8 +23,8 @@ MESH_SIZE_LIST="64"
 for MESH_SIZE in ${MESH_SIZE_LIST}
 do
 echo "test the mesh size ${MESH_SIZE}"
-cp ../../../../src/ascent/src/examples/proxies/cloverleaf3d-ref/clover.in_nozzle clover.in
-#cp ${scriptsDir}/clover.in_jet clover.in
+#cp ../../../../src/ascent/src/examples/proxies/cloverleaf3d-ref/clover.in_nozzle clover.in
+cp ${scriptsDir}/clover.in_jet clover.in
 #cp ${scriptsDir}/clover.in_nozzle clover.in
 #cp ${scriptsDir}/clover.in_balloffury clover.in
 
@@ -33,7 +33,7 @@ cp ../../../../src/ascent/src/examples/proxies/cloverleaf3d-ref/clover.in_nozzle
 #sed -i "s/256/${MESH_SIZE}/" clover.in
 #sed -i "s/128/${MESH_SIZE}/" clover.in
 
-mpirun -n 8 ./cloverleaf3d_par &> sim.log
+mpirun -n 10 ./cloverleaf3d_par &> sim.log
 
 # put the output in specific dir
 dirName=log_${MESH_SIZE}_8procs

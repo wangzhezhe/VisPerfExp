@@ -40,7 +40,7 @@ sed -i "s/end_step=600/end_step=400/" clover.in
 #mpirun -n 4 ./reader --file=out.bp --read-method=SST --visualization-op=advect --seed-method=box --advect-seed-box-extents=0,10,0,10,0,10 --advect-num-seeds=512 --field-name=velocity --sst-json-file=./cloverleaf.json &> ./reader.log &
 
 # if use the jet configuration
-mpirun -n 8 ./reader \
+mpirun -n 1 ./reader \
 --file=out.bp \
 --read-method=SST \
 --visualization-op=advect \
@@ -48,6 +48,7 @@ mpirun -n 8 ./reader \
 --advect-num-steps=1500 \
 --advect-step-size=0.05 \
 --field-name=velocity \
+--record-trajectories=false \
 --sst-json-file=./cloverleaf.json &> ./reader.log &
 
 echo "start reader, prepar sim"
@@ -55,7 +56,7 @@ echo "start reader, prepar sim"
 # sed -i "s/64/${MESH_SIZE}/" clover.in
 
 echo "start sim, executing"
-mpirun -n 8 ./cloverleaf3d_par &> ./sim.log
+mpirun -n 1 ./cloverleaf3d_par &> ./sim.log
 
 mv sim.log sim.log.${NUM_SEEDS}
 mv timing.vis.0.out timing.vis.0.${NUM_SEEDS}.out

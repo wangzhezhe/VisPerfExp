@@ -270,12 +270,13 @@ else
     # clone the source
     cd $SOFTWARE_SRC_DIR
     git clone --recursive $ASCENT_REPO
-    fi
-
     cd $ASCENT_SRC_DIR
     git checkout performanceStudy
     git submodule init
     git submodule update
+    fi
+
+
 
     cmake -B ${ASCENT_BUILD_DIR} -S ${ASCENT_SRC_DIR}/src \
     -DCONDUIT_DIR=${CONDUIT_INSTALL_DIR} \

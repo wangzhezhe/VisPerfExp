@@ -15,7 +15,7 @@ ln -s ../../../../install/ascent/examples/ascent/proxies/cloverleaf3d/cloverleaf
 # generate config file
 scriptsDir=../../../../../commonScripts
 cp ${scriptsDir}/ascent_actions_relay_adios_BP.yaml ascent_actions.yaml
-sed -i "s/endstep: 10/endstep: 200/" ascent_actions.yaml
+sed -i "s/endstep: 10/endstep: 600/" ascent_actions.yaml
 
 # this is necessary to make adios things works
 cp ${scriptsDir}/adios2_BP.xml adios2.xml
@@ -28,7 +28,7 @@ do
 cp ${scriptsDir}/clover.in_jet clover.in
 # double quota for replacing the variable
 sed -i "s/64/${MESH_SIZE}/" clover.in
-mpirun -n 8 ./cloverleaf3d_par 
+mpirun -n 10 ./cloverleaf3d_par 
 echo "ok for ${MESH_SIZE}"
 done
 

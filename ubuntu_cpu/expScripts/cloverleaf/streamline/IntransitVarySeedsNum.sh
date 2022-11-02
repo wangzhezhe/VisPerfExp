@@ -22,7 +22,7 @@ cp ${scriptsDir}/adios2.xml adios2.xml
 cp ${scriptsDir}/cloverleaf.json cloverleaf.json
 
 #NUM_SEEDS_LIST="512 1024 2048 4096"
-NUM_SEEDS_LIST="512"
+NUM_SEEDS_LIST="1000"
 #MESH_SIZE_LIST="51"
 
 for NUM_SEEDS in ${NUM_SEEDS_LIST}
@@ -30,8 +30,8 @@ do
 echo "test the seeds number ${NUM_SEEDS}"
 #cp ${scriptsDir}/clover.in_default clover.in
 cp ${scriptsDir}/clover.in_jet clover.in
-sed -i "s/end_step=600/end_step=200/" clover.in
-sed -i "s/64/256/" clover.in
+sed -i "s/end_step=600/end_step=600/" clover.in
+#sed -i "s/64/256/" clover.in
 
 # start the reader firstly
 # issue, the reader does not exist as expected
@@ -40,14 +40,15 @@ sed -i "s/64/256/" clover.in
 #mpirun -n 4 ./reader --file=out.bp --read-method=SST --visualization-op=advect --seed-method=box --advect-seed-box-extents=0,10,0,10,0,10 --advect-num-seeds=512 --field-name=velocity --sst-json-file=./cloverleaf.json &> ./reader.log &
 
 # if use the jet configuration
-mpirun -n 4 ./reader \
+mpirun -n 2 ./reader \
 --file=out.bp \
 --read-method=SST \
 --visualization-op=advect \
 --seed-method=box \
---advect-seed-box-extents=0,4,0,4,0,8 \
+--advect-seed-box-extents=1.5,2.5,1.5,2.5,0,8.0 \
 --advect-num-seeds=${NUM_SEEDS} \
---advect-num-steps=100 \
+--advect-num-steps=1000 \
+--record-trajectories=false \
 --advect-step-size=0.1 \
 --field-name=velocity \
 --sst-json-file=./cloverleaf.json &> ./reader.log &
@@ -57,7 +58,7 @@ echo "start reader, prepar sim"
 # sed -i "s/64/${MESH_SIZE}/" clover.in
 
 echo "start sim, executing"
-mpirun -n 4 ./cloverleaf3d_par &> ./sim.log
+mpirun -n 10 ./cloverleaf3d_par &> ./sim.log
 
 mv sim.log sim.log.${NUM_SEEDS}
 mv timing.vis.0.out timing.vis.0.${NUM_SEEDS}.out
