@@ -21,8 +21,6 @@ sed -i "s/time.plot_interval            =  5/time.plot_interval            =  7/
 #sed -i "s/0.2855/0.18/" damBreak.i
 sed -i "s/ascent.output_frequency = 10/ascent.output_frequency = 1/" damBreak.i
 
-
-
 #MESH_SIZE_LIST="64 128 256 512 1024"
 
 SEEDS_NUM_LIST="1000"
@@ -38,15 +36,18 @@ cp ${scriptsDir}/ascent_actions_streamline_amrwind_box.yaml ascent_actions.yaml
 sed -i "s/num_seeds: 512/num_seeds: ${SEEDS_NUM}/" ascent_actions.yaml
 sed -i "s/num_steps: 512/num_steps: 1000/" ascent_actions.yaml
 
-sed -i "s/record_trajectories: 'true'/record_trajectories: 'false'/" ascent_actions.yaml
+sed -i "s/record_trajectories: true/record_trajectories: true/" ascent_actions.yaml
+sed -i "s/write_streamlines: false/write_streamlines: true/" ascent_actions.yaml
+
 #sed -i "s/seed_bounding_box_xmax: 0.28/seed_bounding_box_xmax: 0.18/" ascent_actions.yaml
 
 
 # execute
-mpirun -n 2 ./amr_wind damBreak.i &> amrwindlog.out
+PROCNUM=10
+mpirun -n ${PROCNUM} ./amr_wind damBreak.i &> amrwindlog.out
 
 # processing log
-logdir=${SEEDS_NUM}_4procs_log
+logdir=${SEEDS_NUM}_${PROCNUM}procs_log
 mkdir ${logdir}
 mv amrwindlog.out ${logdir}
 mv timing.*.out ${logdir}

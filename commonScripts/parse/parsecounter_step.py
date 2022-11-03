@@ -18,12 +18,11 @@ def parse_step(file_name, rank, step):
     global accumulated_comm_time
     global accumulated_advec_time
 
-    local_comm_time=0
+    local_recv_time=0
     local_advec_time=0
-    local_init_time=0
-    local_update_time=0
-
-    local_comm = 0
+    local_comm_count = 0
+    local_comm_time = 0
+    local_advect_steps=0
     file_exists = exists(file_name)
     
     if file_exists==False:
@@ -34,8 +33,9 @@ def parse_step(file_name, rank, step):
     fo=open(file_name, "r")
     step_recv_identify_str="Received_"+str(step)+" "
     step_adev_identify_str="Advected_"+str(step)+" "
-    update_str = "UpdateActive"
-    init_str="Init"
+    comm_str = "Comm_"+str(step)+" "
+    advect_steps_str = "AdvectSteps_"+str(step)+" "
+
     for line in fo:
         line_strip=line.strip()
         #print(line_strip)
@@ -45,27 +45,27 @@ def parse_step(file_name, rank, step):
             split_str= line_strip.split(" ")
             comm_count=comm_count+1
             comm_seeds_sum=comm_seeds_sum+int(split_str[1])
-            local_comm=local_comm+1
-            accumulated_comm_time = accumulated_comm_time+float(split_str[2])
-            local_comm_time = local_comm_time + float(split_str[2])
+            local_comm_count=local_comm_count+1
+            local_recv_time = local_recv_time + float(split_str[2])
+
         if step_adev_identify_str in line_strip:
             split_str= line_strip.split(" ")
             accumulated_advec_time = accumulated_advec_time+float(split_str[2])
-            local_advec_time = local_advec_time +float(split_str[2])
-        
-        if update_str in line_strip:
-            split_str= line_strip.split(" ")
-            local_update_time = local_update_time +float(split_str[2])           
-        
-        if init_str in line_strip:
-            split_str= line_strip.split(" ")
-            local_init_time = local_init_time +float(split_str[2])        
-    
-    fo.close()
-    if local_comm>max_num_comm:
-        max_num_comm=local_comm
+            local_advec_time = local_advec_time +float(split_str[2])     
 
-    print("rank:", rank, "local_comm:",local_comm_time,"local_advec:", local_advec_time, "local_update_time:", local_update_time, "local_init_time:",local_init_time)
+        if comm_str in line_strip:
+            split_str= line_strip.split(" ")
+            local_comm_time = local_comm_time +float(split_str[2])    
+
+        if advect_steps_str in line_strip:
+            split_str= line_strip.split(" ")
+            local_advect_steps = local_advect_steps +int(split_str[1])  
+
+    fo.close()
+    if local_comm_time>max_num_comm:
+        max_num_comm=local_comm_time
+
+    print("rank:", rank, "advec_time:", local_advec_time, "comm_time",local_comm_time, "local_recv_time:",local_recv_time, "local_comm_count",local_comm_count, "comm_seeds_sum", comm_seeds_sum, "local_advect_steps",local_advect_steps)
     
     #print("rank:", rank, "local_comm:",local_comm_time,"local_advec:", local_advec_time)
     
