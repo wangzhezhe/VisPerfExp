@@ -28,7 +28,7 @@ do
 cp ${scriptsDir}/clover.in_jet clover.in
 # double quota for replacing the variable
 sed -i "s/64/${MESH_SIZE}/" clover.in
-mpirun -n 10 ./cloverleaf3d_par 
+mpirun -n 12 ./cloverleaf3d_par 
 echo "ok for ${MESH_SIZE}"
 done
 

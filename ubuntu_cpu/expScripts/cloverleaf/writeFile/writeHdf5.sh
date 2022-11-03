@@ -33,10 +33,10 @@ cp ${scriptsDir}/clover.in_jet clover.in
 #sed -i "s/256/${MESH_SIZE}/" clover.in
 #sed -i "s/128/${MESH_SIZE}/" clover.in
 
-mpirun -n 10 ./cloverleaf3d_par &> sim.log
+mpirun -n 12 ./cloverleaf3d_par &> sim.log
 
 # put the output in specific dir
-dirName=log_${MESH_SIZE}_8procs
+dirName=log_${MESH_SIZE}_12procs
 mkdir ${dirName}
 mv sim.log ${dirName}
 mv timing.*.out ${dirName}

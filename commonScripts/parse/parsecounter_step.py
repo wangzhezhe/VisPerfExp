@@ -20,6 +20,8 @@ def parse_step(file_name, rank, step):
 
     local_comm_time=0
     local_advec_time=0
+    local_init_time=0
+    local_update_time=0
 
     local_comm = 0
     file_exists = exists(file_name)
@@ -32,7 +34,8 @@ def parse_step(file_name, rank, step):
     fo=open(file_name, "r")
     step_recv_identify_str="Received_"+str(step)+" "
     step_adev_identify_str="Advected_"+str(step)+" "
-
+    update_str = "UpdateActive"
+    init_str="Init"
     for line in fo:
         line_strip=line.strip()
         #print(line_strip)
@@ -49,12 +52,22 @@ def parse_step(file_name, rank, step):
             split_str= line_strip.split(" ")
             accumulated_advec_time = accumulated_advec_time+float(split_str[2])
             local_advec_time = local_advec_time +float(split_str[2])
+        
+        if update_str in line_strip:
+            split_str= line_strip.split(" ")
+            local_update_time = local_update_time +float(split_str[2])           
+        
+        if init_str in line_strip:
+            split_str= line_strip.split(" ")
+            local_init_time = local_init_time +float(split_str[2])        
     
     fo.close()
     if local_comm>max_num_comm:
         max_num_comm=local_comm
 
-    print("rank:", rank, "local_comm:",local_comm_time,"local_advec:", local_advec_time)
+    print("rank:", rank, "local_comm:",local_comm_time,"local_advec:", local_advec_time, "local_update_time:", local_update_time, "local_init_time:",local_init_time)
+    
+    #print("rank:", rank, "local_comm:",local_comm_time,"local_advec:", local_advec_time)
     
 
 
@@ -72,9 +85,9 @@ if __name__ == "__main__":
         file_name = dirPath+"/counter."+str(i)+".out"
         parse_step(file_name,i,step)  
     
-    print("number of comm", comm_count)
+    print("total number of comm", comm_count)
     print("comm total seeds", comm_seeds_sum)
     print("max_num_comm", max_num_comm)
     #print("comm seeds each time in avg", comm_seeds_sum/comm_count)
-    print("accumulated_comm_time", accumulated_comm_time)
-    print("accumulated_advec_time", accumulated_advec_time)
+    #print("accumulated_comm_time", accumulated_comm_time)
+    #print("accumulated_advec_time", accumulated_advec_time)
