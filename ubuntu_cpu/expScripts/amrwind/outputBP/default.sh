@@ -33,8 +33,10 @@ mpirun -n 12 ./amr_wind damBreak.i
 
 # reader
 BPDir=/home/zw/cworkspace/VisPerfExp/ubuntu_cpu/expScripts/amrwind/outputBP/defaultData
+NUM_SEEDS=1000
+PROCNUM=12
 
-mpirun -n 4 ./reader \
+mpirun -n ${PROCNUM} ./reader \
 --read-method=BP4 \
 --file=${BPDir}/output/out.bp \
 --visualization-op=advect \

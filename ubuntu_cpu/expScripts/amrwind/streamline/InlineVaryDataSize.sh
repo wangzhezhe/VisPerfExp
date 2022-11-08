@@ -5,6 +5,7 @@
 # for the same size of the data, it is more clear if we have a larger data mesh
 
 # create soft link
+rm -r InlineVaryDataSizeData
 mkdir -p InlineVaryDataSizeData
 cd InlineVaryDataSizeData
 ln -s ../../../../install/amr-wind/bin/amr_wind amr_wind
@@ -36,14 +37,14 @@ cp ${scriptsDir}/ascent_actions_streamline_amrwind_box.yaml ascent_actions.yaml
 sed -i "s/num_seeds: 512/num_seeds: ${SEEDS_NUM}/" ascent_actions.yaml
 sed -i "s/num_steps: 512/num_steps: 1000/" ascent_actions.yaml
 
-sed -i "s/record_trajectories: true/record_trajectories: true/" ascent_actions.yaml
-sed -i "s/write_streamlines: false/write_streamlines: true/" ascent_actions.yaml
+sed -i "s/record_trajectories: true/record_trajectories: false/" ascent_actions.yaml
+sed -i "s/write_streamlines: false/write_streamlines: false/" ascent_actions.yaml
 
 #sed -i "s/seed_bounding_box_xmax: 0.28/seed_bounding_box_xmax: 0.18/" ascent_actions.yaml
 
 
 # execute
-PROCNUM=10
+PROCNUM=12
 mpirun -n ${PROCNUM} ./amr_wind damBreak.i &> amrwindlog.out
 
 # processing log

@@ -112,13 +112,14 @@ else
     # we only use the cpu version here
 
     cmake -B ${VTKM_BUILD_DIR} -S ${VTKM_SRC_DIR} \
-    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_SHARED_LIBS=ON \
     -DVTKm_USE_DEFAULT_TYPES_FOR_ASCENT=ON \
     -DVTKm_USE_DOUBLE_PRECISION=ON \
     -DVTKm_USE_64BIT_IDS=OFF \
     -DCMAKE_INSTALL_PREFIX=${VTKM_INSTALL_DIR} \
     -DVTKm_ENABLE_MPI=ON \
+    -DVTKm_ENABLE_OPENMP=ON \
     -DVTKm_ENABLE_LOGGING=ON \
     -DVTKm_ENABLE_TESTING=OFF 
     cmake --build ${VTKM_BUILD_DIR} -j${build_jobs}
@@ -161,7 +162,7 @@ else
 
     cmake -B ${VTKH_BUILD_DIR} -S ${VTKH_SRC_DIR}/src \
     -DVTKM_DIR=${VTKM_INSTALL_DIR} \
-    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_BUILD_TYPE=Release \
     -DENABLE_MPI=ON \
     -DENABLE_SERIAL=OFF \
     -DENABLE_TESTS=OFF \
@@ -205,7 +206,7 @@ else
     # we only use the cpu version here
 
     cmake -B ${ADIOS_BUILD_DIR} -S ${ADIOS_SRC_DIR} \
-    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_BUILD_TYPE=Release \
     -DADIOS2_RUN_INSTALL_TEST=OFF \
     -DBUILD_TESTING=OFF \
     -DCMAKE_INSTALL_PREFIX=${ADIOS_INSTALL_DIR}
@@ -290,6 +291,7 @@ else
     -DVTKH_DIR=${VTKH_INSTALL_DIR} \
     -DENABLE_SERIAL=OFF \
     -DENABLE_MPI=ON \
+    -DENABLE_OPENMP=ON \
     -DENABLE_TESTS=OFF \
     -DENABLE_EXAMPLES=ON \
     -DENABLE_LOGGING=ON \
@@ -332,7 +334,7 @@ else
     git submodule update
 
     cmake -B ${AMRWIND_BUILD_DIR} -S ${AMRWIND_SRC_DIR} \
-    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_BUILD_TYPE=Release \
     -DAMR_WIND_ENABLE_ASCENT=ON \
     -DAMR_WIND_ENABLE_MPI=ON \
     -DAMR_WIND_ENABLE_HYPRE:BOOL=OFF \
