@@ -62,11 +62,12 @@ def parse_explicit(file_name, rank):
         #print(split_str1)
         #print(split_str2)
 
-        step = int(split_str1[3])
+        
         particlenum = int(split_str2[1])
+        step = int(split_str2[0].split("_")[1])
      
 
-        if(split_str1[2]=="ParticlesReceived"):
+        if(split_str1[0]=="ParticlesReceived"):
             
             if (step in recieve_dic.keys()) and (rank in recieve_dic[step].keys()):
                     recieve_dic[step][rank]=recieve_dic[step][rank]+particlenum
@@ -80,7 +81,7 @@ def parse_explicit(file_name, rank):
             else:
                 recieve_dic_sum[step]=particlenum               
 
-        if(split_str1[2]=="ParticlesAdvected"):
+        if(split_str1[0]=="ParticlesAdvected"):
             
             if (step in advect_dic.keys()) and (rank in advect_dic[step].keys()):
                     advect_dic[step][rank]=advect_dic[step][rank]+particlenum

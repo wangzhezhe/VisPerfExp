@@ -1,0 +1,62 @@
+#!/bin/bash
+
+#SBATCH --qos=debug
+#SBATCH --nodes=8
+#SBATCH --tasks-per-node=32
+#SBATCH --time=29:00
+#SBATCH --licenses=cscratch1
+#SBATCH --constraint=haswell
+#SBATCH --output=R-%x.%j.out
+
+rm -rf ./InlineVaryDataSize_128Procs_CommBurdern_Data
+
+# create soft link
+mkdir -p InlineVaryDataSize_128Procs_CommBurdern_Data
+cd InlineVaryDataSize_128Procs_CommBurdern_Data
+
+ln -s ../../../../install/ascent/examples/ascent/proxies/cloverleaf3d/cloverleaf3d_par cloverleaf3d_par
+
+# generate config file
+cp ../../../../../commonScripts/ascent_actions_streamline_box.yaml ascent_actions.yaml
+
+SEEDS_NUM=1000
+NUM_STEPS=1000
+STEP_SIZE=0.1
+
+sed -i "s/num_seeds: 512/num_seeds: ${SEEDS_NUM}/" ascent_actions.yaml
+sed -i "s/num_steps: 512/num_steps: ${NUM_STEPS}/" ascent_actions.yaml
+sed -i "s/step_size: 0.01/step_size: ${STEP_SIZE}/" ascent_actions.yaml
+sed -i "s/record_trajectories: true/record_trajectories: false/" ascent_actions.yaml
+
+
+sed -i "s/xmin: 0.0/xmin: 1.5/" ascent_actions.yaml
+sed -i "s/xmax: 10.0/xmax: 2.5/" ascent_actions.yaml
+
+sed -i "s/ymin: 0.0/ymin: 1.5/" ascent_actions.yaml
+sed -i "s/ymax: 10.0/ymax: 2.5/" ascent_actions.yaml
+
+sed -i "s/zmin: 0.0/zmin: 0.0/" ascent_actions.yaml
+sed -i "s/zmax: 10.0/zmax: 8.0/" ascent_actions.yaml
+
+# generate config file
+scriptsDir=../../../../../commonScripts
+cp ${scriptsDir}/clover.in_jet clover.in
+sed -i "s/end_step=600/end_step=700/" clover.in
+sed -i "s/z_cells=64/z_cells=128/" clover.in
+sed -i "s/visit_frequency=10/visit_frequency=10/" clover.in
+sed -i "s/visit_initial_delay=300/visit_initial_delay=600/" clover.in
+
+
+SIMNODE=2
+# 32 core each node
+SIMTASK=64
+
+
+mkdir log_${SIMTASK}
+
+srun -C haswell -N $SIMNODE -n $SIMTASK ./cloverleaf3d_par &> sim.log
+
+mv sim.log log_${SIMTASK}/
+mv timing.*.out log_${SIMTASK}/
+echo "ok for ${SIMTASK}"
+

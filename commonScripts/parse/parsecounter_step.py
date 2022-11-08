@@ -10,6 +10,9 @@ comm_seeds_sum=0
 max_num_comm=0
 accumulated_comm_time=0
 accumulated_advec_time=0
+max_advec_time=0
+max_comm_time=0
+max_advec_time_procid=-1
 
 def parse_step(file_name, rank, step):
     global comm_count
@@ -17,6 +20,9 @@ def parse_step(file_name, rank, step):
     global max_num_comm
     global accumulated_comm_time
     global accumulated_advec_time
+    global max_advec_time
+    global max_comm_time
+    global max_advec_time_procid
 
     local_recv_time=0
     local_advec_time=0
@@ -46,8 +52,6 @@ def parse_step(file_name, rank, step):
     advect_steps_str = "AdvectSteps_"+str(step)+" "
     comm_str = "Comm_"+str(step)+" "
     
-    
-   
 
     for line in fo:
         line_strip=line.strip()
@@ -63,7 +67,8 @@ def parse_step(file_name, rank, step):
 
         if step_adev_identify_str in line_strip:
             accumulated_advec_time = accumulated_advec_time+float(split_str[2])
-            local_advec_time = local_advec_time +float(split_str[2])     
+            local_advec_time = local_advec_time +float(split_str[2])
+
 
         if comm_str in line_strip:
             local_comm_time = local_comm_time +float(split_str[2])
@@ -81,12 +86,17 @@ def parse_step(file_name, rank, step):
             local_advect_steps = local_advect_steps +int(split_str[1])  
 
     fo.close()
-    if local_comm_time>max_num_comm:
-        max_num_comm=local_comm_time
+    if local_comm_time>max_comm_time:
+        max_comm_time=local_comm_time
 
-    print("rank:", rank, "advec_time:", local_advec_time, "comm_time",local_comm_time, "local_recv_time:",local_recv_time, "local_comm_count",local_comm_count, "comm_seeds_sum", comm_seeds_sum, "local_advect_steps",local_advect_steps)
-    print("rank:", rank, "local_init_time",local_init_time,"local_before_while_time",local_before_while_time,"local_update_result_time",local_update_result_time )
-
+    if local_advec_time>max_advec_time:
+        max_advec_time = local_advec_time
+        max_advec_time_procid = rank
+    
+    if local_advec_time>0:
+        print("rank:", rank, "advec_time:", local_advec_time, "comm_time",local_comm_time, "local_recv_time:",local_recv_time, "local_comm_count",local_comm_count, "comm_seeds_sum", comm_seeds_sum, "local_advect_steps",local_advect_steps)
+    
+    #print("rank:", rank, "local_init_time",local_init_time,"local_before_while_time",local_before_while_time,"local_update_result_time",local_update_result_time )
     #print("rank:", rank, "local_comm:",local_comm_time,"local_advec:", local_advec_time)
     
 
@@ -107,7 +117,9 @@ if __name__ == "__main__":
     
     print("total number of comm", comm_count)
     print("comm total seeds", comm_seeds_sum)
-    print("max_num_comm", max_num_comm)
+    print("max_comm_time", max_comm_time)
+    print("max_advec_time",max_advec_time)
+    print("max_advec_time_procid",max_advec_time_procid)
     #print("comm seeds each time in avg", comm_seeds_sum/comm_count)
     #print("accumulated_comm_time", accumulated_comm_time)
     #print("accumulated_advec_time", accumulated_advec_time)
