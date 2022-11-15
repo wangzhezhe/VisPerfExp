@@ -50,7 +50,7 @@ sed -i "s/zmax: 10.0/zmax: 8.0/" ascent_actions.yaml
 
 
 
-mpirun -n 1 ./cloverleaf3d_par --bind-to none -x OMP_NUM_THREADS=1 &> sim.log
+mpirun -n 1 ./cloverleaf3d_par --bind-to none -x OMP_NUM_THREADS=8 &> sim.log
 #mv timing.0.out timing.0.${MESH_SIZE}.out
 #cat timing.0.${MESH_SIZE}.out |grep ParticleAdvectionFilter |cut -d " " -f 2
 
