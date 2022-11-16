@@ -78,7 +78,7 @@ def decompose(ds, nB, outNm) :
         f.write(x + '\n')
     f.close()
 
-def resampleDS(inDS, dims) :
+def resampleDS(ds, dims) :
     nx = dims[0]
     ny = dims[1]
     nz = dims[2]
@@ -101,13 +101,12 @@ def resampleDS(inDS, dims) :
     return resamp.GetOutput()
 
 
-#FILES = ['clover.0700', 'clover.2200']
-FILES = ['clover_650']
-#The size of each blocks
-DIMS = [(33,33,66)]
+FILES = ['cloverleafRaw_128_128_256.640']
+#DIMS = [(33,33,66)]
+DIMS = [(129,129,129)]
 #BLOCKS = [(2,2,2), (2,2,4)]
-#How many blockid in each dimension
-BLOCKS = [(2,2,2)]
+BLOCKS = [(3,4,5)]
+
 
 for f in FILES :
     for d in DIMS :
