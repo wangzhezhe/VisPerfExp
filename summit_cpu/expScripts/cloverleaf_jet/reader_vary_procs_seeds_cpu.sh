@@ -4,12 +4,15 @@
 #BSUB -W 01:59
 #BSUB -nnodes 32
 
-#BSUB -J reader_vary_procs_seeds
-#BSUB -o R_reader_vary_procs_seeds.%J.out
-#BSUB -e R_reader_vary_procs_seeds.%J.err 
+#BSUB -J reader_vary_procs_seeds_cpu
+#BSUB -o R_reader_vary_procs_seeds_cpu.%J.out
+#BSUB -e R_reader_vary_procs_seeds_cpu.%J.err 
 
 CURRDIR=$(pwd)
-DATA_DIRNAME=reader_vary_procs_seeds_data
+
+
+DATASET=/gpfs/alpine/proj-shared/csc143/zhewang/datasets/streamlineexp/x_cloverleafRaw_128_128_256.640.4_4_4.128_128_128.visit
+DATA_DIRNAME=reader_vary_procs_seeds_cpu_data/x_cloverleafRaw_128_128_256.640.4_4_4.128_128_128
 
 #rm -r $CURRDIR/$DATA_DIRNAME
 mkdir -p $CURRDIR/$DATA_DIRNAME
@@ -17,25 +20,19 @@ mkdir -p $CURRDIR/$DATA_DIRNAME
 cd $MEMBERWORK/csc143
 
 rm -rf $DATA_DIRNAME
-mkdir $DATA_DIRNAME
+mkdir -p $DATA_DIRNAME
 cd $DATA_DIRNAME
 
 ln -s $CURRDIR/../../install/visReader/visitReaderAdev visitReaderAdev
 
-#DATASET=../generatedData/x_clover_128_128_256.650.4_4_4.visit
-#DATASET=/gpfs/alpine/csc143/proj-shared/pugmire/forJay/clover.0700.64.visit
-DATASET=/gpfs/alpine/proj-shared/csc143/zhewang/datasets/streamlineexp/x_cloverleafRaw_128_128_256.640.3_4_5.visit
 FIELD=velocity
-
 
 NUMSTEPS=1000
 
-COREPERTASK=6
+COREPERTASK=21
+export OMP_NUM_THREADS=21
 
-# set GPU backend
-export ASCENT_VTKM_BACKEND=cuda
-
-NUM_PROCS_LIST="2 4 6 8 10"
+NUM_PROCS_LIST="2 4 8 16 32 64"
 
 NUM_SEEDS_LIST="1000 10000 100000"
 
