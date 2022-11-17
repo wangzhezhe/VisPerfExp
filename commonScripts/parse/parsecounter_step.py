@@ -93,10 +93,9 @@ def parse_step(file_name, rank, step):
         max_advec_time = local_advec_time
         max_advec_time_procid = rank
     
-    if local_advec_time>0:
-        print("rank:", rank, "advec_time:", local_advec_time, "comm_time",local_comm_time, "local_recv_time:",local_recv_time, "local_comm_count",local_comm_count, "comm_seeds_sum", comm_seeds_sum, "local_advect_steps",local_advect_steps)
-    
-    #print("rank:", rank, "local_init_time",local_init_time,"local_before_while_time",local_before_while_time,"local_update_result_time",local_update_result_time )
+    #if local_advec_time>0:
+    print("rank:", rank, "advec_time:", local_advec_time, "comm_time",local_comm_time, "local_recv_time:",local_recv_time, "local_comm_count",local_comm_count, "comm_seeds_sum", comm_seeds_sum, "local_advect_steps",local_advect_steps)
+    print("rank:", rank, "local_init_time",local_init_time,"local_before_while_time",local_before_while_time,"local_update_result_time",local_update_result_time )
     #print("rank:", rank, "local_comm:",local_comm_time,"local_advec:", local_advec_time)
     
 
