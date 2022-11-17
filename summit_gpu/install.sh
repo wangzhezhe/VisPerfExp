@@ -221,7 +221,7 @@ else
     # we only use the cpu version here
     # there are installing error on summit with cuda for adios
     cmake -B ${ADIOS_BUILD_DIR} -S ${ADIOS_SRC_DIR} \
-    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_BUILD_TYPE=Release \
     -DADIOS2_RUN_INSTALL_TEST=OFF \
     -DBUILD_TESTING=OFF \
     -DCMAKE_INSTALL_PREFIX=${ADIOS_INSTALL_DIR} \
@@ -357,7 +357,7 @@ else
     git submodule update
 
     cmake -B ${AMRWIND_BUILD_DIR} -S ${AMRWIND_SRC_DIR} \
-    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_BUILD_TYPE=Release \
     -DAMR_WIND_ENABLE_ASCENT=ON \
     -DAMR_WIND_ENABLE_MPI=ON \
     -DAMR_WIND_ENABLE_HYPRE:BOOL=OFF \
