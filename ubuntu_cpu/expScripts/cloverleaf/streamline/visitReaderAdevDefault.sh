@@ -15,7 +15,7 @@ DATASET=/home/zw/dataset/cloverleaf/x_clover_650.2_2_2.visit
 ./visitReaderAdev \
 --file=$DATASET \
 --field-name=velocity \
---advect-seed-box-extents=1.5,2.5,1.5,2.5,0.1,7.9 \
+--advect-seed-box-extents=0,99,0,99,0,99 \
 --advect-num-steps=1000 \
 --advect-num-seeds=1000 \
 --advect-step-size=0.1 \

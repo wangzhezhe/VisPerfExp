@@ -12,4 +12,7 @@ __pycache__
 R-*
 *.out
 *.log
+*.visit
+*.vtk
+commonScripts/generate_dataset/x_*/
 

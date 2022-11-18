@@ -32,6 +32,8 @@ def parse_step(file_name, rank, step):
     local_advect_steps=0
     local_before_while_time=0
     local_update_result_time=0
+    local_sent_time=0
+    local_recv_time=0
 
     file_exists = exists(file_name)
     
@@ -51,6 +53,8 @@ def parse_step(file_name, rank, step):
 
     advect_steps_str = "AdvectSteps_"+str(step)+" "
     comm_str = "Comm_"+str(step)+" "
+    sent_str = "ParticlesSent_"+str(step)+" " 
+
     
 
     for line in fo:
@@ -85,6 +89,10 @@ def parse_step(file_name, rank, step):
         if advect_steps_str in line_strip:
             local_advect_steps = local_advect_steps +int(split_str[1])  
 
+        if sent_str in line_strip:
+            local_sent_time = local_sent_time+float(split_str[2])
+
+
     fo.close()
     if local_comm_time>max_comm_time:
         max_comm_time=local_comm_time
@@ -94,8 +102,8 @@ def parse_step(file_name, rank, step):
         max_advec_time_procid = rank
     
     #if local_advec_time>0:
-    print("rank:", rank, "advec_time:", local_advec_time, "comm_time",local_comm_time, "local_recv_time:",local_recv_time, "local_comm_count",local_comm_count, "comm_seeds_sum", comm_seeds_sum, "local_advect_steps",local_advect_steps)
-    print("rank:", rank, "local_init_time",local_init_time,"local_before_while_time",local_before_while_time,"local_update_result_time",local_update_result_time )
+    print("rank:", rank, "advec_time:", local_advec_time, "comm_time",local_comm_time, "local_sent_time" , local_sent_time, "local_recv_time:",local_recv_time, "local_comm_count",local_comm_count, "comm_seeds_sum", comm_seeds_sum, "local_advect_steps",local_advect_steps)
+    print("rank:", rank, "local_init_time",local_init_time,"local_before_while_time",local_before_while_time, "local_update_result_time",local_update_result_time )
     #print("rank:", rank, "local_comm:",local_comm_time,"local_advec:", local_advec_time)
     
 

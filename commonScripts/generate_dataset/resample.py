@@ -1,8 +1,8 @@
 import vtk
 import os
 
-SPACING = (4.25, 4.25, 8.25)
-ORIGIN = (-.125, -.125, -.125)
+SPACING = (99,99,99)
+ORIGIN = (0,0,0)
 
 
 def writeDS(fname, ds) :
@@ -25,12 +25,12 @@ def readDS(fname) :
     return ds
 
 
-def decompose(ds, nB, outNm) :
+def decompose(ds, nB, outNm, bsize) :
     numBlocks = []
     if type(nB) == int : numBlocks = [nB, nB, nB]
     else : numBlocks = nB
 
-    blockString = '.%d_%d_%d' % (numBlocks[0], numBlocks[1], numBlocks[2])
+    blockString = '.%d_%d_%d.%d_%d_%d' % (numBlocks[0], numBlocks[1], numBlocks[2], bsize[0], bsize[1], bsize[2])
 
 
     outNm = outNm + blockString
@@ -101,16 +101,32 @@ def resampleDS(ds, dims) :
     return resamp.GetOutput()
 
 
-FILES = ['cloverleafRaw_128_128_256.640']
+#FILES = ['cloverleafRaw_128_128_256.640']
+FILES = ['sample_image_100_100_100WithVarVector']
 #DIMS = [(33,33,66)]
-DIMS = [(129,129,129)]
 #BLOCKS = [(2,2,2), (2,2,4)]
-BLOCKS = [(3,4,5)]
 
+BLOCKS = [(4,4,4)]
+BLOCK_SIZE_LIST = [(32,32,32)]
 
+'''
 for f in FILES :
     for d in DIMS :
         for b in BLOCKS :
             ds = readDS(f)
             r_ds = resampleDS(ds, d)
             decompose(r_ds, b, 'x_' + f)
+'''
+
+for f in FILES :
+    for b in BLOCKS :
+        for BLOCK_SIZE in BLOCK_SIZE_LIST :
+            print(b)
+            print(BLOCK_SIZE)
+            d = [BLOCK_SIZE[0] * b[0], BLOCK_SIZE[1] * b[1], BLOCK_SIZE[2] * b[2]]
+            print ("total dims:",d)
+            ds = readDS(f)
+            r_ds = resampleDS(ds, d)
+            outF = 'x_' + f
+            print('writing to: ', outF)
+            decompose(r_ds, b, outF, BLOCK_SIZE)
