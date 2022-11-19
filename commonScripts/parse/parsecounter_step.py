@@ -23,7 +23,8 @@ def parse_step(file_name, rank, step):
     global max_advec_time
     global max_comm_time
     global max_advec_time_procid
-
+    
+    # local time represents the time info for each rank
     local_recv_time=0
     local_advec_time=0
     local_comm_count = 0
@@ -34,6 +35,8 @@ def parse_step(file_name, rank, step):
     local_update_result_time=0
     local_sent_time=0
     local_recv_time=0
+    local_exchange_update_time=0
+    local_empty_wait=0
 
     file_exists = exists(file_name)
     
@@ -54,7 +57,8 @@ def parse_step(file_name, rank, step):
     advect_steps_str = "AdvectSteps_"+str(step)+" "
     comm_str = "Comm_"+str(step)+" "
     sent_str = "ParticlesSent_"+str(step)+" " 
-
+    exchange_update="ParticlesExchangeUpdate_"+str(step)+" " 
+    empty_wait_str="WorkloadEmptyWait_"+str(step)+" " 
     
 
     for line in fo:
@@ -92,6 +96,12 @@ def parse_step(file_name, rank, step):
         if sent_str in line_strip:
             local_sent_time = local_sent_time+float(split_str[2])
 
+        if exchange_update in line_strip:
+            local_exchange_update_time = local_exchange_update_time+float(split_str[2])
+
+        if empty_wait_str in line_strip:
+            local_empty_wait = local_empty_wait+float(split_str[2]) 
+
 
     fo.close()
     if local_comm_time>max_comm_time:
@@ -102,7 +112,9 @@ def parse_step(file_name, rank, step):
         max_advec_time_procid = rank
     
     #if local_advec_time>0:
-    print("rank:", rank, "advec_time:", local_advec_time, "comm_time",local_comm_time, "local_sent_time" , local_sent_time, "local_recv_time:",local_recv_time, "local_comm_count",local_comm_count, "comm_seeds_sum", comm_seeds_sum, "local_advect_steps",local_advect_steps)
+    print("rank:", rank, "advec_time:", local_advec_time, "comm_time",local_comm_time, "local_sent_time" , local_sent_time, "local_recv_time:",local_recv_time, "local_empty_wait",local_empty_wait,
+    "local_exchange_update_time",local_exchange_update_time,
+    "local_comm_count",local_comm_count, "comm_seeds_sum", comm_seeds_sum, "local_advect_steps",local_advect_steps)
     print("rank:", rank, "local_init_time",local_init_time,"local_before_while_time",local_before_while_time, "local_update_result_time",local_update_result_time )
     #print("rank:", rank, "local_comm:",local_comm_time,"local_advec:", local_advec_time)
     
