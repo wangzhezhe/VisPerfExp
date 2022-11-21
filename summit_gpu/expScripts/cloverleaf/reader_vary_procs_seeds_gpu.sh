@@ -30,7 +30,7 @@ FIELD=velocity
 
 NUMSTEPS=1000
 
-COREPERTASK=7
+COREPERTASK=1
 
 # set GPU backend
 export ASCENT_VTKM_BACKEND=cuda
