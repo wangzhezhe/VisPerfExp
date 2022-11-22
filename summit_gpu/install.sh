@@ -2,7 +2,7 @@
 
 set -e
 
-module load cuda/11.4
+module load cuda
 module load gcc
 module load cmake
 

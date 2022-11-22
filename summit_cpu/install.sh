@@ -252,9 +252,11 @@ else
     cmake -B ${FIDES_BUILD_DIR} -S ${FIDES_SRC_DIR} \
     -DADIOS2_DIR=${ADIOS_INSTALL_DIR}/lib64/cmake/adios2 \
     -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-1.0 \
+    -DFIDES_ENABLE_TESTING=OFF \
+    -DFIDES_ENABLE_EXAMPLES=OFF \
     -DCMAKE_INSTALL_PREFIX=${FIDES_INSTALL_DIR} \
     -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
-
+    
     cd $HERE
 
     # build and install

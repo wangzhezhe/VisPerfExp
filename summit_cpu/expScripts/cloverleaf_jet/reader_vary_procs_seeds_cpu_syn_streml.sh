@@ -2,18 +2,18 @@
  
 #BSUB -P csc143
 #BSUB -W 01:59
-#BSUB -nnodes 32
+#BSUB -nnodes 64
 
-#BSUB -J reader_vary_procs_seeds_gpu
-#BSUB -o R_reader_vary_procs_seeds_gpu.%J.out
-#BSUB -e R_reader_vary_procs_seeds_gpu.%J.err 
+#BSUB -J reader_vary_procs_seeds_cpu_syn_streml
+#BSUB -o R_reader_vary_procs_seeds_cpu_syn_streml.%J.out
+#BSUB -e R_reader_vary_procs_seeds_cpu_syn_streml.%J.err 
 
 CURRDIR=$(pwd)
 
 
-DATASET=/gpfs/alpine/proj-shared/csc143/zhewang/datasets/streamlineexp/x_cloverleafRaw_128_128_256.640.3_4_5.128_128_128.visit
-DATA_DIRNAME=reader_vary_procs_seeds_gpu_data/x_cloverleafRaw_128_128_256.640.3_4_5.128_128_128
-
+DATANAME=x_syn_symm_100_100_100.4_4_8.32_32_32.visit
+DATASETPATH=/gpfs/alpine/proj-shared/csc143/zhewang/datasets/streamlineexp/$DATANAME
+DATA_DIRNAME=reader_vary_procs_seeds_cpu_syn_streml_data/$DATANAME
 
 #rm -r $CURRDIR/$DATA_DIRNAME
 mkdir -p $CURRDIR/$DATA_DIRNAME
@@ -30,14 +30,12 @@ FIELD=velocity
 
 NUMSTEPS=1000
 
-COREPERTASK=1
+COREPERTASK=21
+export OMP_NUM_THREADS=21
 
-# set GPU backend
-export ASCENT_VTKM_BACKEND=cuda
+NUM_PROCS_LIST="2 4 8 16 32 64 128"
 
-NUM_PROCS_LIST="12 24 36 48 60"
-
-NUM_SEEDS_LIST="1000 100000"
+NUM_SEEDS_LIST="1000 10000 100000"
 
 for NUMSEEDS in ${NUM_SEEDS_LIST}
 do
@@ -45,12 +43,11 @@ do
 for NUM_PROCS in ${NUM_PROCS_LIST}
 do
 
-# refer to https://github.com/olcf-tutorials/jsrun_quick_start_guide
-# number of gpu per rs is fixed as 1
-jsrun -n $NUM_PROCS -c $COREPERTASK -g1 -a1 ./visitReaderAdev \
---file=$DATASET \
+
+jsrun -n $NUM_PROCS -c $COREPERTASK ./visitReaderAdev \
+--file=$DATASETPATH \
 --field-name=$FIELD \
---advect-seed-box-extents=1.5,2.5,1.5,2.5,0,7.9 \
+--advect-seed-box-extents=0,96,0,96,0,96 \
 --advect-num-steps=$NUMSTEPS \
 --advect-num-seeds=$NUMSEEDS \
 --advect-step-size=0.1 \

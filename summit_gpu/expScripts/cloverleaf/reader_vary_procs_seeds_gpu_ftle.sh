@@ -4,15 +4,15 @@
 #BSUB -W 01:59
 #BSUB -nnodes 32
 
-#BSUB -J reader_vary_procs_seeds_gpu
-#BSUB -o R_reader_vary_procs_seeds_gpu.%J.out
-#BSUB -e R_reader_vary_procs_seeds_gpu.%J.err 
+#BSUB -J reader_vary_procs_seeds_gpu_ftle
+#BSUB -o R_reader_vary_procs_seeds_gpu_ftle.%J.out
+#BSUB -e R_reader_vary_procs_seeds_gpu_ftle.%J.err 
 
 CURRDIR=$(pwd)
 
 
 DATASET=/gpfs/alpine/proj-shared/csc143/zhewang/datasets/streamlineexp/x_cloverleafRaw_128_128_256.640.3_4_5.128_128_128.visit
-DATA_DIRNAME=reader_vary_procs_seeds_gpu_data/x_cloverleafRaw_128_128_256.640.3_4_5.128_128_128
+DATA_DIRNAME=reader_vary_procs_seeds_gpu_ftle_data/x_cloverleafRaw_128_128_256.640.3_4_5.128_128_128
 
 
 #rm -r $CURRDIR/$DATA_DIRNAME
@@ -28,7 +28,7 @@ ln -s $CURRDIR/../../install/visReader/visitReaderAdev visitReaderAdev
 
 FIELD=velocity
 
-NUMSTEPS=1000
+NUMSTEPS=100
 
 COREPERTASK=1
 
@@ -37,7 +37,7 @@ export ASCENT_VTKM_BACKEND=cuda
 
 NUM_PROCS_LIST="12 24 36 48 60"
 
-NUM_SEEDS_LIST="1000 100000"
+NUM_SEEDS_LIST="1000000"
 
 for NUMSEEDS in ${NUM_SEEDS_LIST}
 do
@@ -58,7 +58,7 @@ jsrun -n $NUM_PROCS -c $COREPERTASK -g1 -a1 ./visitReaderAdev \
 --output-results=false \
 --sim-code=cloverleaf &> reader.log
 
-dirname=log_${NUMSEEDS}_${NUM_PROCS}
+dirname=log_${NUMSEEDS}_${NUMSTEPS}_${NUM_PROCS}
 
 mkdir -p $dirname
 mv reader.log $dirname

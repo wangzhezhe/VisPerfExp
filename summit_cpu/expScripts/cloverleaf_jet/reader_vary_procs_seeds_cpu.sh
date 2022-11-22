@@ -46,7 +46,7 @@ do
 jsrun -n $NUM_PROCS -c $COREPERTASK ./visitReaderAdev \
 --file=$DATASET \
 --field-name=$FIELD \
---advect-seed-box-extents=1.5,2.5,1.5,2.5,0,8.0 \
+--advect-seed-box-extents=1.5,2.5,1.5,2.5,0,7.9 \
 --advect-num-steps=$NUMSTEPS \
 --advect-num-seeds=$NUMSEEDS \
 --advect-step-size=0.1 \
