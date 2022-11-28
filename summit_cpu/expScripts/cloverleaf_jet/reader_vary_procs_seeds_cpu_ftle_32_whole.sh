@@ -4,15 +4,14 @@
 #BSUB -W 01:59
 #BSUB -nnodes 32
 
-#BSUB -J reader_vary_procs_seeds_cpu
-#BSUB -o R_reader_vary_procs_seeds_cpu.%J.out
-#BSUB -e R_reader_vary_procs_seeds_cpu.%J.err 
+#BSUB -J reader_vary_procs_seeds_cpu_ftle_32_whole
+#BSUB -o R_reader_vary_procs_seeds_cpu_ftle_32_whole.%J.out
+#BSUB -e R_reader_vary_procs_seeds_cpu_ftle_32_whole.%J.err 
 
 CURRDIR=$(pwd)
 
-
 DATASET=/gpfs/alpine/proj-shared/csc143/zhewang/datasets/streamlineexp/x_cloverleafRaw_128_128_256.640.4_4_4.128_128_128.visit
-DATA_DIRNAME=reader_vary_procs_seeds_cpu_data/x_cloverleafRaw_128_128_256.640.4_4_4.128_128_128
+DATA_DIRNAME=reader_vary_procs_seeds_cpu_ftle_32_whole/x_cloverleafRaw_128_128_256.640.4_4_4.128_128_128
 
 #rm -r $CURRDIR/$DATA_DIRNAME
 mkdir -p $CURRDIR/$DATA_DIRNAME
@@ -27,14 +26,14 @@ ln -s $CURRDIR/../../install/visReader/visitReaderAdev visitReaderAdev
 
 FIELD=velocity
 
-NUMSTEPS=1000
+NUMSTEPS=100
 
 COREPERTASK=21
 export OMP_NUM_THREADS=21
 
 NUM_PROCS_LIST="2 4 8 16 32 64"
 
-NUM_SEEDS_LIST="1000 10000 100000"
+NUM_SEEDS_LIST="1000000"
 
 for NUMSEEDS in ${NUM_SEEDS_LIST}
 do
@@ -46,7 +45,7 @@ do
 jsrun -n $NUM_PROCS -c $COREPERTASK ./visitReaderAdev \
 --file=$DATASET \
 --field-name=$FIELD \
---advect-seed-box-extents=1.5,2.5,1.5,2.5,0,7.9 \
+--advect-seed-box-extents=0.1,3.9,0.1,3.9,0.1,7.9 \
 --advect-num-steps=$NUMSTEPS \
 --advect-num-seeds=$NUMSEEDS \
 --advect-step-size=0.1 \
