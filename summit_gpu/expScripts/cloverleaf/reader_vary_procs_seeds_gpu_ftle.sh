@@ -2,7 +2,7 @@
  
 #BSUB -P csc143
 #BSUB -W 01:59
-#BSUB -nnodes 32
+#BSUB -nnodes 10
 
 #BSUB -J reader_vary_procs_seeds_gpu_ftle
 #BSUB -o R_reader_vary_procs_seeds_gpu_ftle.%J.out

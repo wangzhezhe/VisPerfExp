@@ -4,15 +4,15 @@
 #BSUB -W 01:59
 #BSUB -nnodes 10
 
-#BSUB -J reader_vary_procs_seeds_gpu
-#BSUB -o R_reader_vary_procs_seeds_gpu.%J.out
-#BSUB -e R_reader_vary_procs_seeds_gpu.%J.err 
+#BSUB -J reader_vary_procs_seeds_gpu_small
+#BSUB -o R_reader_vary_procs_seeds_gpu_small.%J.out
+#BSUB -e R_reader_vary_procs_seeds_gpu_small.%J.err 
 
 CURRDIR=$(pwd)
 
 
 DATASET=/gpfs/alpine/proj-shared/csc143/zhewang/datasets/streamlineexp/x_cloverleafRaw_128_128_256.640.3_4_5.128_128_128.visit
-DATA_DIRNAME=reader_vary_procs_seeds_gpu_data/x_cloverleafRaw_128_128_256.640.3_4_5.128_128_128
+DATA_DIRNAME=reader_vary_procs_seeds_gpu_small_data/x_cloverleafRaw_128_128_256.640.3_4_5.128_128_128
 
 
 #rm -r $CURRDIR/$DATA_DIRNAME
@@ -50,7 +50,7 @@ do
 jsrun -n $NUM_PROCS -c $COREPERTASK -g1 -a1 ./visitReaderAdev \
 --file=$DATASET \
 --field-name=$FIELD \
---advect-seed-box-extents=1.5,2.5,1.5,2.5,0,7.9 \
+--advect-seed-box-extents=1.5,2.5,1.5,2.5,3.0,5.0 \
 --advect-num-steps=$NUMSTEPS \
 --advect-num-seeds=$NUMSEEDS \
 --advect-step-size=0.1 \
