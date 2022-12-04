@@ -35,7 +35,7 @@ def advect_distribution(list_advec_all, go_time, figsize_x):
             x.append(t[0])
             y.append(t[1])
         #print(x,y)
-        axs[i].bar(x, y, width=0.2)
+        axs[i].bar(x, y, width=0.05)
         if i==procs-1:
             axs[i].set_xticks((0,figsize_x/2,figsize_x))
             axs[i].set_xticklabels((0,go_time/2, go_time))
@@ -68,7 +68,8 @@ if __name__ == "__main__":
         exit()
    
     procs=int(sys.argv[1])
-    step=int(sys.argv[2])
+    # for each procs, the operations are executed multiple steps
+    step=sys.argv[2]
     dirPath=sys.argv[3]
 
     rank0_start_time=0
@@ -81,8 +82,9 @@ if __name__ == "__main__":
     
     list_advec_all=[]
 
-    for i in range(0,procs,1):
-        file_name = dirPath+"/timetrace."+str(i)+".out"
+    for rank in range(0,procs,1):
+        file_name = dirPath+"/timetrace."+str(rank)+".out"
+        print(file_name)
 
         fo=open(file_name, "r")
     
@@ -122,18 +124,18 @@ if __name__ == "__main__":
 
         fo.close() 
 
-        if i==0:
+        if rank==0:
             rank0_start_time=go_start_time
         
-        if i==0:
+        if rank==0:
             offset=0
         else:
             offset= go_start_time - rank0_start_time
     
         go_time = (go_end_time - go_start_time)
-        print("rank",i,"total time ",go_time)
+        print("rank",rank,"total time ",go_time)
         offset = figsize_x*(offset/go_time)
-        print("rank",i,"offset",offset)
+        print("rank",rank,"offset",offset)
 
         advect_start_time_relative=0
         advect_end_time_relative=0
@@ -152,7 +154,8 @@ if __name__ == "__main__":
         # the start time is the same with the end time
         # the granularity is 1ms, if the two timer is less than 1ms, we could not draw it
 
-        plt.xticks([0,8,16], [0,go_time/2, go_time])
+        plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,go_time/4,go_time/2, 3*go_time/4,go_time])
+        #plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x])
 
         proc_id=list(range(0, procs))
         # tick position in figure and tick text value
@@ -177,6 +180,7 @@ if __name__ == "__main__":
             line_strip=line.strip()
             split_str= line_strip.split(" ")
 
+
             if init in line_strip:
                 init_time_relative=int(split_str[1])-go_start_time
                 width = (init_time_relative)/go_time
@@ -186,8 +190,9 @@ if __name__ == "__main__":
                 while_start_time_relative = int(split_str[1])-go_start_time
 
             if adevct_start in line_strip:
+                #print("advect line strip",line_strip)
                 advect_start_time_relative=int(split_str[1])-go_start_time
-                #print(advect_start_time_relative)
+                #print("adevct start",int(split_str[1]))
 
 
             if get_particle_ok in line_strip:
@@ -203,7 +208,7 @@ if __name__ == "__main__":
                 advect_end_time_relative=int(split_str[1])-go_start_time
                 #print(advect_end_time_relative)
                 #update plot
-                #print("advec",advect_end_time_relative-advect_start_time_relative)
+                #print("advec end",int(split_str[1]),advect_end_time_relative-advect_start_time_relative)
                 #the second parameter is the width of the plot
                 width = (advect_end_time_relative-advect_start_time_relative)/go_time
                 if width<0:
@@ -263,26 +268,31 @@ if __name__ == "__main__":
                 width = (while_end_time_relative-comm_end_time_relative)/go_time
                 barh_list_update_terminated.append((offset+figsize_x*(comm_end_time_relative/go_time),width*figsize_x))
 
+            #if rank==0:
+            #    print(line_strip,"timediff",int(split_str[1])-go_start_time)
     
         fo.close()
-        #print(barh_list_advec)
+        #if rank==0:
+        #    print("barh_list_advec",barh_list_advec)
+        #    print("barh_list_comm",barh_list_comm)
 
         #ax.broken_barh(xranges=barh_list_while,yrange=((i*figsize_y/procs,figsize_y/procs-0.1)),facecolors='tab:green', alpha=0.2)
         list_advec_all.append(barh_list_advec)
-        
+
         # draw the gant case
-        if i==0:
+        if rank==0:
             # use label here
-            ax.broken_barh(xranges=barh_list_init,yrange=(i*bar_height,bar_height-0.1),facecolors='brown',label='Init')
-            ax.broken_barh(xranges=barh_list_advec,yrange=(i*bar_height,bar_height-0.1),facecolors='tab:blue',label='Advec')
-            ax.broken_barh(xranges=barh_list_comm,yrange=(i*bar_height,bar_height-0.1),facecolors='tab:red',alpha=0.2,label='Comm')
-            ax.broken_barh(xranges=barh_list_actual_send,yrange=(i*bar_height,bar_height-0.1),facecolors='tab:green',label='Comm_send')
-            ax.broken_barh(xranges=barh_list_actual_recv,yrange=(i*bar_height,bar_height-0.1),facecolors='tab:purple',label='Comm_recv')
-            ax.broken_barh(xranges=barh_list_get_active_particles,yrange=(i*bar_height,bar_height-0.1),facecolors='yellow',label='GetActiveParticles')
-            ax.broken_barh(xranges=barh_list_update_result,yrange=(i*bar_height,bar_height-0.1),facecolors='lightgrey',label='UpdateResults')
-            ax.broken_barh(xranges=barh_list_update_terminated,yrange=(i*bar_height,bar_height-0.1),facecolors='orange',label='UpdateTerminatedParticles')
+            ax.broken_barh(xranges=barh_list_init,yrange=(rank*bar_height,bar_height-0.1),facecolors='brown',label='Init')
+            ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:blue',label='Advec')
+            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:red',alpha=0.2,label='Comm_other')
+            # actual send recv will cover the pink part, so the pink part shown in the figure is the wait time
+            ax.broken_barh(xranges=barh_list_actual_send,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:green',label='Comm_send')
+            ax.broken_barh(xranges=barh_list_actual_recv,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:purple',label='Comm_recv')
+            ax.broken_barh(xranges=barh_list_get_active_particles,yrange=(rank*bar_height,bar_height-0.1),facecolors='yellow',label='GetActiveParticles')
+            ax.broken_barh(xranges=barh_list_update_result,yrange=(rank*bar_height,bar_height-0.1),facecolors='lightgrey',label='UpdateResults')
+            ax.broken_barh(xranges=barh_list_update_terminated,yrange=(rank*bar_height,bar_height-0.1),facecolors='orange',label='UpdateTerminatedParticles')
                         
-            #ax.broken_barh(xranges=barh_list_while,yrange=((i*bar_height,bar_height-0.1)),facecolors='tab:green', alpha=0.2)
+            #ax.broken_barh(xranges=barh_list_while,yrange=((rank*bar_height,bar_height-0.1)),facecolors='tab:green', alpha=0.1)
 
             #print("barh_list_advec",len(barh_list_advec), barh_list_advec)
             #print("barh_list_advec_raw",len(barh_list_advec_raw),barh_list_advec_raw)
@@ -292,14 +302,14 @@ if __name__ == "__main__":
             #print("barh_list_actual_recv",barh_list_actual_recv)            
         else:
             # no label here
-            ax.broken_barh(xranges=barh_list_init,yrange=(i*bar_height,bar_height-0.1),facecolors='brown')
-            ax.broken_barh(xranges=barh_list_advec,yrange=(i*bar_height,bar_height-0.1),facecolors='tab:blue')
-            ax.broken_barh(xranges=barh_list_comm,yrange=(i*bar_height,bar_height-0.1),facecolors='tab:red',alpha=0.2)
-            ax.broken_barh(xranges=barh_list_actual_send,yrange=(i*bar_height,bar_height-0.1),facecolors='tab:green')
-            ax.broken_barh(xranges=barh_list_actual_recv,yrange=(i*bar_height,bar_height-0.1),facecolors='tab:purple')
-            ax.broken_barh(xranges=barh_list_get_active_particles,yrange=(i*bar_height,bar_height-0.1),facecolors='yellow')
-            ax.broken_barh(xranges=barh_list_update_result,yrange=(i*bar_height,bar_height-0.1),facecolors='lightgrey')
-            ax.broken_barh(xranges=barh_list_update_terminated,yrange=(i*bar_height,bar_height-0.1),facecolors='orange')
+            ax.broken_barh(xranges=barh_list_init,yrange=(rank*bar_height,bar_height-0.1),facecolors='brown')
+            ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:blue')
+            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:red',alpha=0.2)
+            ax.broken_barh(xranges=barh_list_actual_send,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:green')
+            ax.broken_barh(xranges=barh_list_actual_recv,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:purple')
+            ax.broken_barh(xranges=barh_list_get_active_particles,yrange=(rank*bar_height,bar_height-0.1),facecolors='yellow')
+            ax.broken_barh(xranges=barh_list_update_result,yrange=(rank*bar_height,bar_height-0.1),facecolors='lightgrey')
+            ax.broken_barh(xranges=barh_list_update_terminated,yrange=(rank*bar_height,bar_height-0.1),facecolors='orange')
             
     # get some space for legend in the center
     ax.broken_barh(xranges=[(0,1)],yrange=(procs*bar_height,bar_height),facecolors='None',edgecolor='None')
