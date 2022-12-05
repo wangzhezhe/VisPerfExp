@@ -1,8 +1,6 @@
 import vtk
 import os
 
-SPACING = (99,99,99)
-ORIGIN = (0,0,0)
 
 
 def writeDS(fname, ds) :
@@ -78,7 +76,7 @@ def decompose(ds, nB, outNm, bsize) :
         f.write(x + '\n')
     f.close()
 
-def resampleDS(ds, dims) :
+def resampleDS(ds, dims, SPACING, ORIGIN) :
     nx = dims[0]
     ny = dims[1]
     nz = dims[2]
@@ -101,6 +99,12 @@ def resampleDS(ds, dims) :
     return resamp.GetOutput()
 
 
+
+# specifying spacing and origin according to different data sets
+SPACING = (99,99,99)
+ORIGIN = (0,0,0)
+
+
 #FILES = ['cloverleafRaw_128_128_256.640']
 FILES = ['sample_image_100_100_100WithVarVector']
 #DIMS = [(33,33,66)]
@@ -108,15 +112,6 @@ FILES = ['sample_image_100_100_100WithVarVector']
 
 BLOCKS = [(4,4,4)]
 BLOCK_SIZE_LIST = [(32,32,32)]
-
-'''
-for f in FILES :
-    for d in DIMS :
-        for b in BLOCKS :
-            ds = readDS(f)
-            r_ds = resampleDS(ds, d)
-            decompose(r_ds, b, 'x_' + f)
-'''
 
 for f in FILES :
     for b in BLOCKS :
@@ -126,7 +121,7 @@ for f in FILES :
             d = [BLOCK_SIZE[0] * b[0], BLOCK_SIZE[1] * b[1], BLOCK_SIZE[2] * b[2]]
             print ("total dims:",d)
             ds = readDS(f)
-            r_ds = resampleDS(ds, d)
-            outF = 'x_' + f
+            r_ds = resampleDS(ds, d, SPACING, ORIGIN)
+            outF = 'fb_' + f
             print('writing to: ', outF)
             decompose(r_ds, b, outF, BLOCK_SIZE)

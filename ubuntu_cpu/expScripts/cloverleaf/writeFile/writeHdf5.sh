@@ -27,16 +27,20 @@ echo "test the mesh size ${MESH_SIZE}"
 cp ${scriptsDir}/clover.in_jet clover.in
 #cp ${scriptsDir}/clover.in_nozzle clover.in
 #cp ${scriptsDir}/clover.in_balloffury clover.in
+#cp ${scriptsDir}/clover.in_jet_multiple clover.in
 
 #sed -i "s/visit_initial_delay=300/visit_initial_delay=600/" clover.in
 #sed -i "s/end_step=600/end_step=700/" clover.in
 #sed -i "s/256/${MESH_SIZE}/" clover.in
 #sed -i "s/128/${MESH_SIZE}/" clover.in
 
-mpirun -n 12 ./cloverleaf3d_par &> sim.log
+#mpirun -n 8 ./cloverleaf3d_par &> sim.log
+
+mpirun -n 8 ./cloverleaf3d_par
+
 
 # put the output in specific dir
-dirName=log_${MESH_SIZE}_12procs
+dirName=log_${MESH_SIZE}_8procs
 mkdir ${dirName}
 mv sim.log ${dirName}
 mv timing.*.out ${dirName}
