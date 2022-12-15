@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-
+import statistics
 
 def advect_distribution(list_advec_all, go_time, figsize_x):
     # draw the distribution of the advect time
@@ -16,7 +16,10 @@ def advect_distribution(list_advec_all, go_time, figsize_x):
     procs = len(list_advec_all)
     #print(list_advec_all)
     #print("advect_distribution procs",procs)
+
+    # there are issues to use axs[0] if there are one procs
     fig, axs = plt.subplots(procs)
+    
     #figsize_y=2
     #plt.ylim([0, figsize_y])
 
@@ -35,6 +38,7 @@ def advect_distribution(list_advec_all, go_time, figsize_x):
             x.append(t[0])
             y.append(t[1])
         #print(x,y)
+        #print("debug",i,x,y)
         axs[i].bar(x, y, width=0.05)
         if i==procs-1:
             axs[i].set_xticks((0,figsize_x/2,figsize_x))
@@ -229,8 +233,8 @@ if __name__ == "__main__":
         # the start time is the same with the end time
         # the granularity is 1ms, if the two timer is less than 1ms, we could not draw it
 
-        #plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,go_time/4,go_time/2, 3*go_time/4,go_time])
-        plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x])
+        plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,go_time/4,go_time/2, 3*go_time/4,go_time])
+        #plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x])
 
         proc_id=list(range(0, procs))
         # tick position in figure and tick text value
@@ -446,19 +450,33 @@ if __name__ == "__main__":
 
     # try to do the sanity check to make sure the total sum match with measured data
     print(list_getp_accumulated)
+    print("getp avg",statistics.mean(list_getp_accumulated),"getp stdev",statistics.stdev(list_getp_accumulated))
+
     print(list_adv_accumulated)
+    print("adv avg",statistics.mean(list_adv_accumulated),"adv stdev",statistics.stdev(list_adv_accumulated))
+
     print(list_classify_accumulated)
+    print("classify avg",statistics.mean(list_classify_accumulated),"classify stdev",statistics.stdev(list_classify_accumulated))
+
     print(list_sr_accumulated)
+    print("sr avg",statistics.mean(list_sr_accumulated),"sr stdev",statistics.stdev(list_sr_accumulated))
+
     print(list_wait_accumulated)
+    print("wait avg",statistics.mean(list_wait_accumulated),"wait stdev",statistics.stdev(list_wait_accumulated))
+
     print(list_meta_accumulated)
+    print("meta avg",statistics.mean(list_meta_accumulated),"meta stdev",statistics.stdev(list_meta_accumulated))
+
     print("list_while_accumulated", list_while_accumulated)
 
     # draw the figure for target_rank
-    for target_rank in range (0,1,1):
+    for target_rank in range (0,procs,1):
 
         fig, ax = plt.subplots(figsize=(7,4.6))
         ax.set_xlabel('Time spent on key operations of rank ' + str(target_rank), fontsize='large')
         ax.set_ylabel('Time(ms)', fontsize='large')
+        #ax.set_ylim([0,5000])
+        ax.set_ylim([0,1500])
 
 
         N = 6
@@ -478,3 +496,4 @@ if __name__ == "__main__":
         ax.bar(ind, barvalues,  width, color="blue", capsize=3)
         filename = "rank_details_"+str(target_rank)
         fig.savefig(filename+".png",bbox_inches='tight')
+        print("rank", target_rank, "barvalues",barvalues)

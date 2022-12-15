@@ -24,10 +24,10 @@ for MESH_SIZE in ${MESH_SIZE_LIST}
 do
 echo "test the mesh size ${MESH_SIZE}"
 #cp ../../../../src/ascent/src/examples/proxies/cloverleaf3d-ref/clover.in_nozzle clover.in
-cp ${scriptsDir}/clover.in_jet clover.in
+#cp ${scriptsDir}/clover.in_jet clover.in
 #cp ${scriptsDir}/clover.in_nozzle clover.in
 #cp ${scriptsDir}/clover.in_balloffury clover.in
-#cp ${scriptsDir}/clover.in_jet_multiple clover.in
+cp ${scriptsDir}/clover.in_jet_multiple clover.in
 
 #sed -i "s/visit_initial_delay=300/visit_initial_delay=600/" clover.in
 #sed -i "s/end_step=600/end_step=700/" clover.in
@@ -36,7 +36,8 @@ cp ${scriptsDir}/clover.in_jet clover.in
 
 #mpirun -n 8 ./cloverleaf3d_par &> sim.log
 
-mpirun -n 8 ./cloverleaf3d_par
+
+./cloverleaf3d_par
 
 
 # put the output in specific dir
