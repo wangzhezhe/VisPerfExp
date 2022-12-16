@@ -64,7 +64,6 @@ def parse_explicit(file_name, rank):
         
         #print(split_str1)
         #print(split_str2)
-
         
         particlenum = int(split_str2[1])
         step = int(split_str2[0].split("_")[1])
