@@ -16,7 +16,7 @@ DATADIR=/home/zw/dataset/cloverleaf
 DATANAME="fb_clover_128_128_256.650.2_2_2.128_128_256.visit"
 DATASET=${DATADIR}/$DATANAME
 
-PARTICLE_LIST="10000"
+PARTICLE_LIST="1000"
 STEP_LIST="1000"
 
 # plans dir
@@ -48,7 +48,7 @@ mpirun -n 4 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
 --field-name=velocity \
 --advect-seed-box-extents=0,4,0,4,0,8 \
 --seeding-method=boxsample \
---seeding-sample=20,20,25 \
+--seeding-sample=10,10,20 \
 --advect-num-steps=${STEP} \
 --advect-num-seeds=${PARTICLE} \
 --advect-step-size=0.1 \

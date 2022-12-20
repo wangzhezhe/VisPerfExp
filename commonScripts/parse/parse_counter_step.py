@@ -4,6 +4,8 @@ import re
 from os.path import exists
 import sys
 import statistics
+import os
+import shutil
 
 # for each rank, for specific iteration(step)
 # collect ParticlesAdvected_0(actual work), ParticlesSend_0(actual comm), ParticleActive_0(what does it represent?), 
@@ -17,6 +19,10 @@ dic_advected_particles={}
 dic_send_particles={}
 
 intransit_proc_num=4
+
+dir_name_kmin="./assignment_kmin"
+dir_name_all="./assignment_all"
+
 
 def parse_step(file_name, rank, step):
     global total_send_particles
@@ -91,8 +97,12 @@ def compute_workload_stdev(assignment_option, dic_advected_particles):
 
 
 def outputAssignment(index, assignPlan):
+    
+    if not os.path.isdir(dir_name_all):
+        print('The directory is not present. Creating a new one..')
+        os.mkdir(dir_name_all)
 
-    f = open("./assignment/assign_options.config_"+str(index),'w')
+    f = open(dir_name_all+"/assign_options.config_"+str(index),'w')
     for option in assignPlan:
         option_str=""
         for index, blockid in enumerate(option):
@@ -130,34 +140,57 @@ if __name__ == "__main__":
     proclist = list(range(0,procs))
     min_workload_stdev=sys.maxsize
     index=0
+    workload_tuple_list=[]
     for n, p in enumerate(partition(proclist), 1):
-        #print(n, sorted(p), len(p))
-        # assume dedicated procs are intransit_proc_num
+        # print(n, sorted(p), len(p))
+        # assume dedicated procs are intransit_proc_num, such as how many processes
+        # are executing for the in-transit situation
         sorted_p_list=sorted(p)
         if len(sorted_p_list)==intransit_proc_num:
+            # this is the function that is used to output all assignement plan 
             outputAssignment(index,sorted_p_list)
             index=index+1
 
-            #workload_stdev = compute_workload_stdev(sorted_p_list,dic_advected_particles)
-            #if workload_stdev<min_workload_stdev:
-            #    min_workload_stdev=workload_stdev
-            #    assign_option_workload_balanced=sorted_p_list
+            workload_stdev = compute_workload_stdev(sorted_p_list,dic_advected_particles)
+            
+            temp_tuple=(index,workload_stdev)
+            workload_tuple_list.append(temp_tuple)
+
+            if workload_stdev<min_workload_stdev:
+                min_workload_stdev=workload_stdev
+                assign_option_workload_balanced=sorted_p_list
 
     # go through options, return the stdev
-    #print("assign_option_workload_balanced", assign_option_workload_balanced)
-    #print("min_workload_stdev",min_workload_stdev)
+    # TODO, here, it should be the kth minimal stdev assignment
+    print("assign_option_workload_balanced", assign_option_workload_balanced)
+    print("min_workload_stdev",min_workload_stdev)
 
     # ouput the balanced options into a file
-    #f = open("assign_options.config",'w')
-    #for option in assign_option_workload_balanced:
-    #    option_str=""
-    #    for index, blockid in enumerate(option):
-    #        if index==0:
-    #            option_str=str(blockid)
-    #        else:
-    #            option_str=option_str+" "+str(blockid)
-    #    f.write(option_str+"\n")
-    #f.close()    
+    f = open("assign_options.config",'w')
+    for option in assign_option_workload_balanced:
+        option_str=""
+        for index, blockid in enumerate(option):
+            if index==0:
+                option_str=str(blockid)
+            else:
+                option_str=option_str+" "+str(blockid)
+        f.write(option_str+"\n")
+    f.close()    
     
-    # Build the graph of the particle send/recv path
-    # TODO, find one there is balanced workload
+
+    # sort the tuple list
+    workload_tuple_list.sort(key = lambda x: x[1])
+
+    # output the minimal kth
+    # create dir if it is not exist
+    if not os.path.isdir(dir_name_kmin):
+        os.mkdir(dir_name_kmin)
+
+    for i in range (0,20,1):
+        print(workload_tuple_list[i])
+        plan_index=workload_tuple_list[i][0]
+        # put these restuls into a separate dir
+        src=dir_name_all+"/assign_options.config_"+str(plan_index)
+        dst=dir_name_kmin+"/assign_options.config_"+str(plan_index)
+        shutil.copyfile(src, dst)
+    
