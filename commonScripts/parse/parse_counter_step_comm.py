@@ -59,9 +59,10 @@ def check_comm(file_path):
 
     print("total_transfered_particles",total_transfered_particles)
 
-# based on the generated assign plan
-# output its comm number of particles
-# TODO, assign plan can be a dir
+# using the log for in-line in situ as the input
+# using the generated assign plan dir as the input
+# output its comm number of particles for plans in the dir
+
 if __name__ == "__main__":
     
     if len(sys.argv)!=5:

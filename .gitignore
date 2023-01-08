@@ -15,4 +15,4 @@ R-*
 *.visit
 *.vtk
 commonScripts/generate_dataset/x_*/
-
+assignment_all_*/

@@ -18,7 +18,7 @@ DATANAME_LIST="fb_syn_symm_multiple_100_100_100.2_2_2.16_16_16.visit fb_syn_symm
 for DATANAME in ${DATANAME_LIST}
 do
 
-DATASET=${DATADIR}/$DATANAME
+DATASET=$DATADIR/$DATANAME
 
 mpirun -n 8 ./visitReaderAdev \
 --file=$DATASET \

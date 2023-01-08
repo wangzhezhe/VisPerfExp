@@ -22,8 +22,7 @@ def advect_distribution(list_advec_all, go_time, figsize_x):
     
     #figsize_y=2
     #plt.ylim([0, figsize_y])
-
-    
+ 
     max_y=0
     for i in range (0,procs,1):
         for t in list_advec_all[i]:
@@ -57,9 +56,6 @@ def advect_distribution(list_advec_all, go_time, figsize_x):
         axs[i].yaxis.set_ticks_position('none')
 
         axs[i].set_xlim([0, figsize_x])
-
-
-
 
     #plt.xticks([0,8,16], [0,go_time/2, go_time])
     fig.savefig('advect_distribution_all.png')
@@ -122,7 +118,7 @@ def comm_distribution(list_comm_all, go_time, figsize_x):
 
 
 
-
+# parse the timetrace log and draw the gant chart
 if __name__ == "__main__":
     
     if len(sys.argv)!=4:
