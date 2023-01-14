@@ -103,5 +103,8 @@ m inline procs
 n intran procs
 each procs can go to n different slots
 total combinations are n^m
-Maybe using the rl to find a good solution?
+Maybe using the heuristic algorithm to find a good solution?
+
+is it an np hard problem to decide the optimal solution?
+even if we do not consier the communication, it is still an np hard problem (bin packing)
 '''

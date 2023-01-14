@@ -52,7 +52,7 @@ def check_active_time(file_path,step):
     fo.close()
     return local_active_particles_time  
 
-def new_time_and_particles(time_list, particle_list, max_time):
+def new_time_and_particles(time_list, particle_list, max_time, rank):
     #print(time_list,particle_list)
     new_time = [0] * max_time
     new_particles = [0] * max_time
@@ -69,18 +69,33 @@ def new_time_and_particles(time_list, particle_list, max_time):
     #otherwise, it is same with old one
     #print("len time_list",len(time_list))
     for index, v in enumerate(new_time):
-        #print(v,index_original,time_list[index_original])
+        if rank==0:
+            print(v,index_original,time_list[index_original])
         if v<time_list[index_original]:
             new_particles[index]=current_active_particles
         elif v==time_list[index_original]:
             new_particles[index]=particle_list[index_original]
+            # check redoundant time trace
+            # this is used for the next round with the same value
             current_active_particles=particle_list[index_original]
             if index_original<len(time_list)-1:
                 index_original=index_original+1
+                # process the case there are multiple time trace for same entry
+                # the results should be accumulated together
+                # the time (index) did not move forward here
                 while index_original<len(time_list)-1 and time_list[index_original]==time_list[index_original-1] :
+                    if rank==0:
+                        print("accumulated ", particle_list[index_original], " to ", index)
+                    new_particles[index]=new_particles[index]+particle_list[index_original]
                     # if there are redoundant time trace
                     # continue move
+                    # new_particles[index_original]=max(particle_list[index_original],temp_particle_num) 
+                    # temp_particle_num = particle_list[index_original]
+                    current_active_particles=new_particles[index]
                     index_original=index_original+1
+
+
+
         else:
             # till the end of the time array
             new_particles[index]=0
@@ -146,13 +161,15 @@ if __name__ == "__main__":
             raise Exception("#timetrace is supposed to equal #active_particles")
         
         # test
-        new_x,new_y=new_time_and_particles(x,y,max_x)
+        new_x,new_y=new_time_and_particles(x,y,max_x,rank)
         new_x_list.append(new_x)
         new_y_list.append(new_y)
         
         if rank==0:
-            print(x,y)
-            print(new_x,new_y)
+            print(x)
+            print(y)
+            print(new_x)
+            print(new_y)
         
         #print(procs-rank-1)
         #print("time",x)
@@ -164,7 +181,7 @@ if __name__ == "__main__":
         #the 0 axsindex is at the top of the figure
         #make the width as a large number
         #otherwise, the bar might be to thin and we can not see it
-        axs[axsindex].set_xlim(-20, max_x)
+        axs[axsindex].set_xlim(-10, max_x)
         #axs[axsindex].bar(x, y, width=8)
         #axs[axsindex].plot(x, y)
         axs[axsindex].bar(new_x, new_y, width=1)
@@ -191,7 +208,7 @@ if __name__ == "__main__":
  
 
     # create the bar graph, this means 100ms
-    histogram_bin_size = 1
+    histogram_bin_size = 10
     number_bin = math.ceil(max_x/histogram_bin_size)
 
     print("histogram_bin_size",histogram_bin_size,"number_bin",number_bin)
