@@ -69,8 +69,8 @@ def new_time_and_particles(time_list, particle_list, max_time, rank):
     #otherwise, it is same with old one
     #print("len time_list",len(time_list))
     for index, v in enumerate(new_time):
-        if rank==0:
-            print(v,index_original,time_list[index_original])
+        #if rank==0:
+        #    print(v,index_original,time_list[index_original])
         if v<time_list[index_original]:
             new_particles[index]=current_active_particles
         elif v==time_list[index_original]:
@@ -84,8 +84,8 @@ def new_time_and_particles(time_list, particle_list, max_time, rank):
                 # the results should be accumulated together
                 # the time (index) did not move forward here
                 while index_original<len(time_list)-1 and time_list[index_original]==time_list[index_original-1] :
-                    if rank==0:
-                        print("accumulated ", particle_list[index_original], " to ", index)
+                    #if rank==0:
+                    #    print("accumulated ", particle_list[index_original], " to ", index)
                     new_particles[index]=new_particles[index]+particle_list[index_original]
                     # if there are redoundant time trace
                     # continue move
@@ -165,11 +165,11 @@ if __name__ == "__main__":
         new_x_list.append(new_x)
         new_y_list.append(new_y)
         
-        if rank==0:
-            print(x)
-            print(y)
-            print(new_x)
-            print(new_y)
+        #if rank==0:
+        #    print(x)
+        #    print(y)
+        #    print(new_x)
+        #    print(new_y)
         
         #print(procs-rank-1)
         #print("time",x)
@@ -181,7 +181,7 @@ if __name__ == "__main__":
         #the 0 axsindex is at the top of the figure
         #make the width as a large number
         #otherwise, the bar might be to thin and we can not see it
-        axs[axsindex].set_xlim(-10, max_x)
+        axs[axsindex].set_xlim(-20, max_x)
         #axs[axsindex].bar(x, y, width=8)
         #axs[axsindex].plot(x, y)
         axs[axsindex].bar(new_x, new_y, width=1)
@@ -208,7 +208,7 @@ if __name__ == "__main__":
  
 
     # create the bar graph, this means 100ms
-    histogram_bin_size = 10
+    histogram_bin_size = 100
     number_bin = math.ceil(max_x/histogram_bin_size)
 
     print("histogram_bin_size",histogram_bin_size,"number_bin",number_bin)
