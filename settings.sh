@@ -8,6 +8,7 @@ CONDUIT_REPO=https://github.com/LLNL/conduit/releases/download/${conduit_version
 
 #VTKM_REPO=https://gitlab.kitware.com/jameskress/vtk-m.git
 VTKM_REPO=https://gitlab.kitware.com/zhe.wang/vtk-m.git
+VTKM_REPO_LATEST=https://gitlab.kitware.com/vtk/vtk-m.git
 
 ADIOS2_REPO=https://github.com/ornladios/ADIOS2.git
 ADIOS2_COMMIT=eac152529d4d70470bd79a2319119eacd91ae3b2
