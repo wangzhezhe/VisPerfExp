@@ -35,9 +35,7 @@ else
     if [ ! -d $VTKM_SRC_DIR ]; then
     # clone the source
     cd $SOFTWARE_SRC_DIR
-    git clone $VTKM_REPO_LATEST
-    cd $VTKM_SRC_DIR
-    git checkout master
+    git clone -b vtkm_trace $VTKM_REPO
     fi
     
     cd $HERE
@@ -78,13 +76,12 @@ INTRAN_READER_INSTALL_DIR="$SOFTWARE_INSTALL_DIR/visReader"
     if [ ! -d $INTRAN_READER_SRC_DIR ]; then
     # clone the source
     cd $SOFTWARE_SRC_DIR
-    git clone --recursive $INTRANSIT_READER_REPO
-    git checkout use_latest_vtkm
+    git clone -b use_latest_vtkm $INTRANSIT_READER_REPO
+
     fi
     # use the master branch
 
     cmake -B ${INTRAN_READER_INSTALL_DIR} -S ${INTRAN_READER_SRC_DIR} \
-    -DUSE_FIDES=OFF \
     -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-2.0 \
 
     cd $HERE

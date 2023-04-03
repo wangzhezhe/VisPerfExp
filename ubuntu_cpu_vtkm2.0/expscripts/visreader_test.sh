@@ -32,7 +32,7 @@ do
 # remember to set the assign strategy option
 
 # execute tasks
-mpirun -n 4 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
+mpirun -n 1 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
 --vtkm-device serial \
 --file=$DATASET \
 --field-name=velocity \
@@ -43,7 +43,7 @@ mpirun -n 4 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
 --advect-num-seeds=${PARTICLE} \
 --advect-step-size=0.1 \
 --record-trajectories=true \
---output-results=true \
+--output-results=false \
 --sim-code=cloverleaf 
 
 done
