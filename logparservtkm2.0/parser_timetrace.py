@@ -121,6 +121,6 @@ if __name__ == "__main__":
     ax.broken_barh(xranges=[(0,1)],yrange=(procs*bar_height,bar_height),facecolors='None',edgecolor='None')
     plt.xlabel('Time(ms)', fontsize="large")
     plt.ylabel('Rank', fontsize="large")
-    ax.legend(ncols=2, loc='upper center')
+    ax.legend(loc='upper center')
     
     fig.savefig("gant.png",bbox_inches='tight')

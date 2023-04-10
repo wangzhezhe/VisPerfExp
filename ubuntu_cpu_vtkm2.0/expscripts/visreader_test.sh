@@ -43,7 +43,6 @@ mpirun -n 1 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
 --seeding-method=boxfixed \
 --seeding-sample=10,10,20 \
 --advect-num-steps=${STEP} \
---advect-num-seeds=${PARTICLE} \
 --advect-step-size=0.1 \
 --record-trajectories=true \
 --output-results=false \
