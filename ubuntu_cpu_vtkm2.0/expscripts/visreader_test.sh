@@ -31,9 +31,12 @@ do
 # cover the existing plan file
 # remember to set the assign strategy option
 
+# try to not use the serial backend
+# there are seg fault in arrayhandle copy some time
+
 # execute tasks
 mpirun -n 1 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
---vtkm-device serial \
+--vtkm-device openmp \
 --file=$DATASET \
 --field-name=velocity \
 --advect-seed-box-extents=0,4,0,4,0,8 \
@@ -44,7 +47,8 @@ mpirun -n 1 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
 --advect-step-size=0.1 \
 --record-trajectories=true \
 --output-results=false \
---sim-code=cloverleaf 
+--sim-code=cloverleaf \
+--communication=sync
 
 done
 done
