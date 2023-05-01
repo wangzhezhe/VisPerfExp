@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib import ticker
 import statistics
-
+from matplotlib.patches import Patch
 
 # parse the timetrace log and draw the gantt chart
 if __name__ == "__main__":
@@ -110,8 +110,16 @@ if __name__ == "__main__":
         # draw the gant case
         if rank==0:
             # use label here
-            ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:blue',label='Advec')
-            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:red',alpha=0.2,label='Comm_Wait')          
+            #ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:blue',label='Advec')
+            #ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:red',alpha=0.2,label='Comm_Wait')          
+            ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:blue')
+            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:red',alpha=0.2)          
+            # customize the legend
+            legend_elems = [Patch(facecolor='tab:blue', edgecolor='black', label='Advec'),
+                            Patch(facecolor='tab:red', edgecolor='black', alpha=0.2, label='Comm and Wait'),
+                            Patch(facecolor='white', edgecolor='black', label='Other overhead'),]
+            legend = plt.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=12)
+            ax.add_artist(legend)
         else:
             # no label here
             ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:blue')
@@ -121,6 +129,4 @@ if __name__ == "__main__":
     ax.broken_barh(xranges=[(0,1)],yrange=(procs*bar_height,bar_height),facecolors='None',edgecolor='None')
     plt.xlabel('Time(ms)', fontsize="large")
     plt.ylabel('Rank', fontsize="large")
-    ax.legend(loc='upper center')
-    
     fig.savefig("gant.png",bbox_inches='tight')

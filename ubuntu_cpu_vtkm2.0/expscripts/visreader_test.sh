@@ -11,7 +11,7 @@ cd visreader_test_data
 ln -s ../../install/visReader/visitReaderAdev visitReaderAdev
 
 # for cloverleaf data
-DATADIR=/home/zw/dataset/cloverleaf
+DATADIR=/home/ubuntu/dataset/cloverleaf
 DATANAME="fb_clover_128_128_256.650.2_2_2.128_128_256.visit"
 DATASET=${DATADIR}/$DATANAME
 
@@ -35,7 +35,7 @@ do
 # there are seg fault in arrayhandle copy some time
 
 # execute tasks
-mpirun -n 1 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
+mpirun -n 4 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
 --vtkm-device openmp \
 --file=$DATASET \
 --field-name=velocity \
