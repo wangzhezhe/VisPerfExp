@@ -6,13 +6,13 @@ rm -rf ./visreader_test_data
 # for the same size of the data, it is more clear if we have a larger data mesh
 
 # create soft link
-mkdir visreader_test_data
-cd visreader_test_data
+mkdir visreader_test_synthetic_data
+cd visreader_test_synthetic_data
 ln -s ../../install/visReader/visitReaderAdev visitReaderAdev
 
 # for cloverleaf data
-DATADIR=/home/ubuntu/dataset/cloverleaf
-DATANAME="fb_clover_128_128_256.650.2_2_2.128_128_256.visit"
+DATADIR=/home/zw/dataset/synthetic
+DATANAME="fb_syn_symm_100_100_100.2_2_2.128_128_128.visit"
 DATASET=${DATADIR}/$DATANAME
 
 PARTICLE_LIST="1000"
@@ -39,12 +39,12 @@ mpirun -n 4 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
 --vtkm-device openmp \
 --file=$DATASET \
 --field-name=velocity \
---advect-seed-box-extents=0,4,0,4,0,8 \
+--advect-seed-box-extents=0,99,0,99,0,99 \
 --seeding-method=boxfixed \
 --seeding-sample=10,10,20 \
 --advect-num-steps=${STEP} \
 --advect-step-size=0.1 \
---record-trajectories=true \
+--record-trajectories=false \
 --output-results=false \
 --sim-code=cloverleaf \
 --communication=sync
