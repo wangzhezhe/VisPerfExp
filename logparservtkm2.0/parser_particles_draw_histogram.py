@@ -65,6 +65,10 @@ if __name__ == "__main__":
     all_particles_ratio_maxstep=[]
     all_particles_num_traverse_maxstep=[]
 
+    max_ratio=0
+    max_pid=0
+    max_num_traversed_blocks=0
+
     for rank in range(0,procs,1):
         file_name = dirPath+"/particle."+str(rank)+".out"
         print(file_name)
@@ -82,6 +86,12 @@ if __name__ == "__main__":
                 ratio = float(split_str[3])/filter_time
                 #particle=[int(split_str[1]),ratio,int(split_str[5]),split_str[2]]
                 reason = split_str[2]
+                if max_num_traversed_blocks<int(split_str[5]):
+                    max_num_traversed_blocks = max(max_num_traversed_blocks,int(split_str[5]))
+                    #print(split_str)
+                if(max_ratio<ratio):
+                    max_ratio = max(max_ratio,ratio)
+                    max_pid = split_str[1]
                 if reason == 'b':
                     all_particles_ratio_oob.append(ratio)
                     all_particles_num_traverse_oob.append(int(split_str[5]))
@@ -91,10 +101,14 @@ if __name__ == "__main__":
                 else:
                     all_particles_ratio_maxstep.append(ratio)
                     all_particles_num_traverse_maxstep.append(int(split_str[5]))
-        fo.close()
 
+        fo.close()
+    print(len(all_particles_ratio_oob),len(all_particles_ratio_zero),len(all_particles_ratio_maxstep))
     print("collected particle number :", len(all_particles_ratio_oob)+len(all_particles_ratio_zero)+len(all_particles_ratio_maxstep))
-    
+    print("max_num_traversed_blocks",max_num_traversed_blocks)
+    # for historgram drawing giving more space
+    max_y=max_num_traversed_blocks+20
+
     nbin_x=100
     nbin_y=100
     
@@ -103,27 +117,34 @@ if __name__ == "__main__":
     ax.set_xlabel('Particle lifeTime/Filter execution time', fontsize='large')
     ax.set_ylabel('Number of traveded blocks', fontsize='large')
 
-    plt.hist2d(all_particles_ratio_oob,
-                all_particles_num_traverse_oob,
-                cmin=1,
-                bins=(nbin_x, nbin_y),
-                norm="log",
-                cmap='Blues')
-
-    plt.hist2d(all_particles_ratio_zero,
-                all_particles_num_traverse_zero,
-                cmin=1,
-                bins=(nbin_x, nbin_y),
-                norm="log",
-                cmap='Reds')
 
     plt.hist2d(all_particles_ratio_maxstep,
                 all_particles_num_traverse_maxstep,
                 cmin=1,
                 bins=(nbin_x, nbin_y),
+                range=[[0,1.0],[0,max_y]],
                 norm="log",
                 cmap='Greens')
 
+    plt.hist2d(all_particles_ratio_oob,
+                all_particles_num_traverse_oob,
+                cmin=1,
+                bins=(nbin_x, nbin_y),
+                range=[[0,1],[0,max_y]],
+                norm="log",
+                cmap='Blues')
+    
+    
+    plt.hist2d(all_particles_ratio_zero,
+                all_particles_num_traverse_zero,
+                cmin=1,
+                bins=(nbin_x, nbin_y),
+                range=[[0,1],[0,max_y]],
+                norm="log",
+                cmap='Reds')
+
+
+    
     legend_elem_1 = [Patch(label='Out of bounds (Background color)',
                         facecolor='blue', alpha=0.6),
                      Patch(label='Zero velocity (Background color)',
@@ -131,7 +152,9 @@ if __name__ == "__main__":
                      Patch(label='Max step (Background color)',
                         facecolor='green', alpha=0.6)]
 
-    legend1 = plt.legend(handles=legend_elem_1, loc='upper right', ncol=1, fontsize=9)
+    legend1 = plt.legend(handles=legend_elem_1, loc='upper left', ncol=1, fontsize=9)
 
 
     fig.savefig("particles_histogram2d.png", bbox_inches='tight')
+
+    print("max_ratio", max_ratio, "max_pid", max_pid)

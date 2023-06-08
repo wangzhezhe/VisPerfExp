@@ -122,26 +122,6 @@ if __name__ == "__main__":
 
     legend1 = plt.legend(handles=legend_elem_1, loc='upper center', ncol=3, fontsize=12)
 
-    fig.savefig("particles_1.png",bbox_inches='tight')
-
-    # another plot
-    # print(bin_list)
-    fig, ax = plt.subplots()
-    width = 0.25 
-    
-    ind = np.arange(number_bin)
-    #plt.xticks(ind, ['(0,0.1]', '(0.1,0.2]' , '(0.2,0.3]', '(0.3,0.4]', '(0.4,0.5]','(0.5,0.6]','(0.6,0.7]','(0.7,0.8]','(0.8,0.9]','(0.9,1.0]'], fontsize=7.5)
-    ax.set_xlabel('Index of bin between 0% to 100%', fontsize='large')
-    ax.set_ylabel('Number of leaving particles', fontsize='large')
-    width = 0.8
-    bottom = np.zeros(number_bin)
-    p1 = ax.bar(ind,bin_list_oob,width, bottom=bottom,color='blue',alpha=0.8)
-    bottom+=bin_list_oob
-    p2 = ax.bar(ind,bin_list_zero,width,bottom=bottom,color='red',alpha=0.8)
-    bottom+=bin_list_zero
-    p3 = ax.bar(ind,bin_list_maxstep,width,bottom=bottom,color='green',alpha=0.8)
-
-    ax.legend((p1, p2, p3), ('Out of bounds', 'Zero velocity','Max step'),  ncol=1, fontsize='large')
-    fig.savefig("particles_2.png", bbox_inches='tight')
+    fig.savefig("particles_all_dots.png",bbox_inches='tight')
 
     

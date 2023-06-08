@@ -4,7 +4,7 @@
 
 set -e
 HERE=`pwd`
-build_jobs=8
+build_jobs=6
 source $HERE/../settings.sh
 SOFTWARE_SRC_DIR="$HERE/src"
 SOFTWARE_BUILD_DIR="$HERE/build"

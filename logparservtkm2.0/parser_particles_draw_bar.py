@@ -55,7 +55,8 @@ if __name__ == "__main__":
     bin_list_oob = [0]*number_bin
     bin_list_zero = [0]*number_bin
     bin_list_maxstep = [0]*number_bin
-
+    
+    total_particles = 0
     for rank in range(0,procs,1):
         file_name = dirPath+"/particle."+str(rank)+".out"
         print(file_name)
@@ -63,12 +64,14 @@ if __name__ == "__main__":
         fo=open(file_name, "r")
 
         cycle_identifier ="s"+str(simSycle)
-       
+        
         for line in fo:
             line_strip=line.strip()
             split_str= line_strip.split(",")
             #print(split_str)
+            
             if cycle_identifier in line_strip:
+                total_particles=total_particles+1
                 # id, lifetime/total execution time, traversed number of blocks, die reason
                 ratio = float(split_str[3])/filter_time
 
@@ -88,11 +91,26 @@ if __name__ == "__main__":
     # print(bin_list)
     fig, ax = plt.subplots()
     width = 0.25 
+
+    # dule ax
+    print("total_particles",total_particles)
+    ax2=ax.twinx()
+    ax2.set_ylim(0,total_particles)
+
+    # generate list for existing particles
+    active_particles=[]
+    curr_active_particles=total_particles
+    for i in range(number_bin):
+        active_particles.append(curr_active_particles)
+        curr_active_particles=curr_active_particles-bin_list_oob[i]-bin_list_zero[i]-bin_list_maxstep[i]
+
     
     ind = np.arange(number_bin)
     #plt.xticks(ind, ['(0,0.1]', '(0.1,0.2]' , '(0.2,0.3]', '(0.3,0.4]', '(0.4,0.5]','(0.5,0.6]','(0.6,0.7]','(0.7,0.8]','(0.8,0.9]','(0.9,1.0]'], fontsize=7.5)
     ax.set_xlabel('Index of bin between 0% to 100%', fontsize='large')
-    ax.set_ylabel('Number of leaving particles', fontsize='large')
+    ax.set_ylabel('Number of terminated particles', fontsize='large')
+    ax2.set_ylabel('# Active particles at the beginning of each bin', fontsize='large')
+
     width = 0.8
     bottom = np.zeros(number_bin)
     p1 = ax.bar(ind,bin_list_oob,width, bottom=bottom,color='blue',alpha=0.8)
@@ -101,7 +119,7 @@ if __name__ == "__main__":
     bottom+=bin_list_zero
     p3 = ax.bar(ind,bin_list_maxstep,width,bottom=bottom,color='green',alpha=0.8)
 
+    ax2.plot(ind,active_particles)
+
     ax.legend((p1, p2, p3), ('Out of bounds', 'Zero velocity','Max step'),  ncol=1, fontsize='large')
     fig.savefig("particles_draw_bar.png", bbox_inches='tight')
-
-    
