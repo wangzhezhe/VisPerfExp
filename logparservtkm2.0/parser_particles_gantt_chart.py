@@ -117,11 +117,7 @@ if __name__ == "__main__":
     #print(blockid_list)
 
     plt.clf()
-    # show the last 3/4
-    # select the last 3/4
-    # select the position at 3/4
-
-
+    # show the last 1/4 quantile
     fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))
     ax.broken_barh(xranges=advected_bar_fourth_quantile,yrange=(bar_height,2*bar_height-0.1),color=color_list)
     ax.set_xlabel('Time(ms)', fontsize='large')

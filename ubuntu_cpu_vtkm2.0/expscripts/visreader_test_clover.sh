@@ -36,6 +36,7 @@ do
 
 # execute tasks
 mpirun -n 4 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
+--vtkm-log-level Perf \
 --vtkm-device openmp \
 --file=$DATASET \
 --field-name=velocity \

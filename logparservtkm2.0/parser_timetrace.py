@@ -22,7 +22,7 @@ if __name__ == "__main__":
     dirPath=sys.argv[3]
 
     figsize_x = 16
-    bar_height=0.5
+    bar_height=0.1
     # give some place for legend
     figsize_y = procs*bar_height+1
     fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))  
@@ -36,8 +36,8 @@ if __name__ == "__main__":
 
         fo=open(file_name, "r")
         
-        adevct_start="AdvectStart_"+str(step)+" "
-        adevct_end="AdvectEnd_"+str(step)+" "
+        adevct_start="ParticleAdvectStart_"+str(step)+" "
+        adevct_end="ParticleAdvectEnd_"+str(step)+" "
 
         comm_start="CommStart_"+str(step)+" "
         comm_end="CommEnd_"+str(step)+" "
@@ -59,6 +59,7 @@ if __name__ == "__main__":
         fo.close()
 
         filter_time = filter_end_time-filter_start_time
+        print("filter_time",filter_time)
         plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,filter_time/4,filter_time/2, 3*filter_time/4,filter_time])
         #ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.3f}"))
 
@@ -68,6 +69,7 @@ if __name__ == "__main__":
 
         barh_list_advec=[]
         barh_list_comm=[]
+        
 
         # read file again
         fo=open(file_name, "r")
@@ -112,8 +114,8 @@ if __name__ == "__main__":
             # use label here
             #ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:blue',label='Advec')
             #ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:red',alpha=0.2,label='Comm_Wait')          
-            ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:blue')
-            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:red',alpha=0.2)          
+            ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height),facecolors='tab:blue')
+            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.2)          
             # customize the legend
             legend_elems = [Patch(facecolor='tab:blue', edgecolor='black', label='Advec'),
                             Patch(facecolor='tab:red', edgecolor='black', alpha=0.2, label='Comm and Wait'),
@@ -122,8 +124,8 @@ if __name__ == "__main__":
             ax.add_artist(legend)
         else:
             # no label here
-            ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:blue')
-            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:red',alpha=0.2)
+            ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height),facecolors='tab:blue')
+            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.2)
 
     # get some space for legend in the center
     ax.broken_barh(xranges=[(0,1)],yrange=(procs*bar_height,bar_height),facecolors='None',edgecolor='None')

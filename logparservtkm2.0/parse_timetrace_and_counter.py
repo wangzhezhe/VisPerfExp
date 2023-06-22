@@ -38,8 +38,12 @@ if __name__ == "__main__":
     adevct_start="ParticleAdvectStart_"+str(step)+" "
     adevct_end="ParticleAdvectEnd_"+str(step)+" "
 
-    comm_start="CommStart_"+str(step)+" "
-    comm_end="CommEnd_"+str(step)+" "
+    #comm_start="CommStart_"+str(step)+" "
+    #comm_end="CommEnd_"+str(step)+" "
+    
+    comm_start="SyncCommStart_"+str(step)+" "
+    comm_end="SyncCommEnd_"+str(step)+" "
+
 
     filter_start="FilterStart_"+str(step)+" "
     filter_end="FilterEnd_"+str(step)+" "
@@ -60,6 +64,8 @@ if __name__ == "__main__":
             filter_end_time = float(split_str[1])
     fo.close()
 
+    print("filter_start_time",filter_start_time,"filter_end_time",filter_end_time)
+
     filter_time = filter_end_time-filter_start_time
 
     # drawing the gant chart
@@ -69,6 +75,9 @@ if __name__ == "__main__":
 
     advected_steps_list=[]
     particle_number_list=[]
+
+    advect_spent_time_whole=0
+    comm_spent_time_whole=0
 
     fo=open(file_name, "r")
     # read file again to compute bar
@@ -85,6 +94,7 @@ if __name__ == "__main__":
         if adevct_end in line_strip:
             advect_end_time_relative=float(split_str[1])-filter_start_time
             advect_spent_time=advect_end_time_relative-advect_start_time_relative
+            advect_spent_time_whole=advect_spent_time_whole+advect_spent_time
             width = (advect_spent_time)/filter_time
                 
             if width<0:
@@ -94,10 +104,14 @@ if __name__ == "__main__":
 
         if comm_start in line_strip:
             comm_start_time_relative=float(split_str[1])-filter_start_time
+            print("comm_start_time_relative",comm_start_time_relative)
         if comm_end in line_strip:
             comm_end_time_relative=float(split_str[1])-filter_start_time
+            print("comm_end_time_relative",comm_end_time_relative)
             #print("comm",comm_end_time_relative-comm_start_time_relative)
             comm_spent_time=comm_end_time_relative-comm_start_time_relative
+            print("comm_spent_time",comm_spent_time)
+            comm_spent_time_whole=comm_spent_time_whole+comm_spent_time
             width = (comm_spent_time)/filter_time
             #use start position
             if width<0:
@@ -184,4 +198,6 @@ if __name__ == "__main__":
     plt.plot(round_start_time_list,avg_list)
     fig.savefig("gant_avg_list.png",bbox_inches='tight')
 
-    
+
+    print("filter time",filter_time, "advect_spent_time_whole",advect_spent_time_whole,"comm_spent_time_whole",comm_spent_time_whole,"overhead",
+          filter_time-comm_spent_time_whole-advect_spent_time_whole)
