@@ -35,19 +35,20 @@ do
 # there are seg fault in arrayhandle copy some time
 
 # execute tasks
-mpirun -n 4 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
+mpirun -n 8 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
 --vtkm-device openmp \
 --file=$DATASET \
 --field-name=velocity \
 --advect-seed-box-extents=0,0.98,0,0.98,0,0.98 \
---seeding-method=boxfixed \
---seeding-sample=10,10,20 \
+--seeding-method=domainrandom \
+--advect-num-seeds=5000 \
 --advect-num-steps=${STEP} \
 --advect-step-size=0.001 \
 --record-trajectories=false \
 --output-results=false \
 --sim-code=cloverleaf \
---communication=sync
+--communication=sync \
+--trace_particle_id=2451 \
 
 done
 done

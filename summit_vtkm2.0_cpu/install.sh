@@ -3,6 +3,10 @@
 #!/bin/bash
 
 set -e
+
+module load gcc
+module load cmake
+
 HERE=`pwd`
 build_jobs=6
 source $HERE/../settings.sh

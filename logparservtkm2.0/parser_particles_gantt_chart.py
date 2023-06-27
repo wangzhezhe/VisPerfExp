@@ -24,6 +24,14 @@ if __name__ == "__main__":
     # go through all files and sorting the particle according to advected steps
     particle_list=[]
 
+    advect_whole=0
+    advect_steps_whole=0
+    comm_start_time=0
+    comm_start_list=[]
+    comm_end_time=0
+    comm_time_list=[]
+    actual_comm_list=[]
+    recv_time_list=[]
     for proc in range(0,procs,1):
         file_name = dirPath+"/particle_tracing_details."+str(proc)+".out"
         fo=open(file_name, "r")
@@ -39,36 +47,53 @@ if __name__ == "__main__":
             # Event,SimCycle,BlockID(RankId),ParticleID,CurrTime,AdvectedSteps
             if str(step)==split_str[1] and str(tracing_particle_id)==split_str[3] :
                 #print(split_str)
-                if split_str[0]=="ADVECTSTART":
+                if split_str[0]=="WORKLET_Start":
                     advect_start_time=float(split_str[4])
                     advect_step_before=float(split_str[5])
-                if split_str[0]=="ADVECTEND":
+                if split_str[0]=="WORKLET_End":
                     advect_end_time=float(split_str[4])
                     advect_step_after=float(split_str[5])
                     blockid = int(split_str[2])
+                    pnum = int(split_str[6])
                     # start time, end time, advec steps, blockid
-                    particle_list.append([advect_start_time,advect_end_time,advect_step_after-advect_step_before,blockid])
+                    advect_steps_whole=advect_steps_whole+advect_step_after-advect_step_before
+                    particle_list.append([advect_start_time,advect_end_time,advect_step_after-advect_step_before,blockid,pnum])
+
+                if split_str[0]=="GANG_COMM_START":
+                    comm_start_time=float(split_str[4])
+                    comm_start_list.append(comm_start_time)
+                if split_str[0]=="GANG_COMM_END":
+                    comm_end_time=float(split_str[4])
+                    comm_time_list.append((comm_start_time,comm_end_time-comm_start_time))
+                    actual_comm_list.append(comm_end_time-comm_start_time)
+
+                if split_str[0]=="RECVOK":
+                    recv_time_list.append(float(split_str[4]))
 
 
     #sorting all particle list
     particle_list_sorted=sorted(particle_list, key=lambda x: x[0])
-    print(particle_list_sorted)
+    #print(particle_list_sorted)
     particle_live_time = particle_list_sorted[-1][1]
     #print(particle_live_time)
 
 
     bar_height=0.2
-    figsize_x=20
+    #figsize_x=20
+    figsize_x=6
     figsize_y=bar_height*8
     
     #extract advected start/end time
     advected_bar=[]
     blockid_list=[]
+    pnum_list=[]
     advected_bar_fourth_quantile=[]
     particle_live_time_last_quantile=3.0*particle_live_time/4.0
     for p in particle_list_sorted:
         advect_spent_time=p[1]-p[0]
+        advect_whole=advect_whole+advect_spent_time
         width = (1.0*advect_spent_time)/(1.0*particle_live_time)
+        pnum_list.append(p[4])
 
         # use start position
         advected_bar.append((figsize_x*(p[0]*1.0/particle_live_time),width*figsize_x))
@@ -100,7 +125,6 @@ if __name__ == "__main__":
 
     fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))
 
-    
     ax.broken_barh(xranges=advected_bar,yrange=(bar_height,2*bar_height-0.1),color=color_list)
     ax.set_xlabel('Time(ms)', fontsize='large')
     ax.set_ylabel('ParticleId='+str(tracing_particle_id), fontsize='large') 
@@ -110,21 +134,51 @@ if __name__ == "__main__":
     plt.yticks([])
     plt.xticks([0.0,figsize_x/4.0,figsize_x/2.0,3.0*figsize_x/4.0,figsize_x], [0.0,particle_live_time/4.0,particle_live_time/2.0,3*particle_live_time/4.0,particle_live_time])
     
-    
+    print("recv_time_list",recv_time_list)
+    recv_time_list_xpoints = [figsize_x*t/particle_live_time for t in recv_time_list]
+    print("recv_time_list_xpoints",recv_time_list_xpoints)
+
+    comm_start_list_xpoints= [figsize_x*t/particle_live_time for t in comm_start_list]
+
+    for v in recv_time_list_xpoints:
+       plt.axvline(x = v, ls='--', lw=1, color = 'r', alpha=0.8)
+
+    for v in comm_start_list_xpoints:
+       plt.axvline(x = v, ls='--', lw=1, color = 'b', alpha=0.8)
+
     fig.savefig("particle_gantt.png",bbox_inches='tight')
     
     #print(advected_bar)
     #print(blockid_list)
+    print("comm_time_list",comm_time_list)
 
+ 
     plt.clf()
     # show the last 1/4 quantile
     fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))
     ax.broken_barh(xranges=advected_bar_fourth_quantile,yrange=(bar_height,2*bar_height-0.1),color=color_list)
     ax.set_xlabel('Time(ms)', fontsize='large')
-    ax.set_ylabel('ParticleId='+str(tracing_particle_id), fontsize='large') 
+    ax.set_ylabel('ParticleId='+str(tracing_particle_id), fontsize='medium') 
        
     plt.yticks([])
     plt.xticks([0.0,figsize_x/2.0,figsize_x], [3*particle_live_time/4.0,14*particle_live_time/16.0,particle_live_time])
     
     
     fig.savefig("particle_gantt_zoomin.png",bbox_inches='tight')
+
+    print("particle_live_time",particle_live_time,"advect_whole",advect_whole,"other",particle_live_time-advect_whole)
+    print("advect_steps_whole",advect_steps_whole)
+
+    print("pnum_list",pnum_list)    
+    plt.clf()
+    fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))
+    ax.plot(pnum_list)
+    ax.set_xlabel('Traverse number', fontsize='large')
+    ax.set_ylabel('Size of batch', fontsize='medium') 
+    fig.savefig("particle_pnum_list.png",bbox_inches='tight')
+
+    plt.clf()
+    ax.plot(actual_comm_list)
+    print(actual_comm_list)
+    fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))
+    fig.savefig("particle_actual_comm_list.png",bbox_inches='tight')

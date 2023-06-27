@@ -21,8 +21,11 @@ if __name__ == "__main__":
     step=int(sys.argv[2])
     dirPath=sys.argv[3]
 
-    figsize_x = 16
-    bar_height=0.1
+    dirname = dirPath.split("/")[-2]
+    print("dirname",dirname)
+
+    figsize_x = 12
+    bar_height=0.08
     # give some place for legend
     figsize_y = procs*bar_height+1
     fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))  
@@ -36,8 +39,11 @@ if __name__ == "__main__":
 
         fo=open(file_name, "r")
         
-        adevct_start="ParticleAdvectStart_"+str(step)+" "
-        adevct_end="ParticleAdvectEnd_"+str(step)+" "
+        #adevct_start="ParticleAdvectStart_"+str(step)+" "
+        #adevct_end="ParticleAdvectEnd_"+str(step)+" "
+
+        adevct_start="WORKLET_Start_"+str(step)+" "
+        adevct_end="WORKLET_End_"+str(step)+" "
 
         comm_start="CommStart_"+str(step)+" "
         comm_end="CommEnd_"+str(step)+" "
@@ -63,8 +69,9 @@ if __name__ == "__main__":
         plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,filter_time/4,filter_time/2, 3*filter_time/4,filter_time])
         #ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.3f}"))
 
-        proc_id=list(range(0, procs))
+        proc_id=list(range(0, procs, 4))
         # tick position in figure and tick text value
+        # do not tick every rank
         plt.yticks(bar_height*np.array(proc_id)+0.5*bar_height-0.05,proc_id)
 
         barh_list_advec=[]
@@ -120,7 +127,7 @@ if __name__ == "__main__":
             legend_elems = [Patch(facecolor='tab:blue', edgecolor='black', label='Advec'),
                             Patch(facecolor='tab:red', edgecolor='black', alpha=0.2, label='Comm and Wait'),
                             Patch(facecolor='white', edgecolor='black', label='Other overhead'),]
-            legend = plt.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=12)
+            legend = plt.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=10)
             ax.add_artist(legend)
         else:
             # no label here
@@ -131,4 +138,4 @@ if __name__ == "__main__":
     ax.broken_barh(xranges=[(0,1)],yrange=(procs*bar_height,bar_height),facecolors='None',edgecolor='None')
     plt.xlabel('Time(ms)', fontsize="large")
     plt.ylabel('Rank', fontsize="large")
-    fig.savefig("gant.png",bbox_inches='tight')
+    fig.savefig("gantt_worklet_"+dirname+".png",bbox_inches='tight')
