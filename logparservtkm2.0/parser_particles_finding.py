@@ -28,10 +28,10 @@ if __name__ == "__main__":
     filter_start="FilterStart_"+str(simSycle)+" "
     filter_end="FilterEnd_"+str(simSycle)+" "
     
+    max_filter_time=0
     for rank in range(0,procs,1):
         file_name = dirPath+"/timetrace."+str(rank)+".out"
         fo=open(file_name, "r")
-        max_filter_time=0
         filter_time=0
         filter_start_time=0
         filter_end_time=0
@@ -46,7 +46,7 @@ if __name__ == "__main__":
             max_filter_time = max(max_filter_time,filter_time)
         fo.close()
     
-    #print("filter execution time is", max_filter_time)
+    print("filter execution time is", max_filter_time)
     
     max_num_traversed_blocks=0
     max_num_traversed_blocks_id=0
@@ -59,7 +59,7 @@ if __name__ == "__main__":
     execution_ratio_range=[0.8,1.0]
     
     searched_particle_list=[]
-
+    
     for rank in range(0,procs,1):
         file_name = dirPath+"/particle."+str(rank)+".out"
         #print(file_name)
@@ -73,7 +73,7 @@ if __name__ == "__main__":
             line_strip=line.strip()
             if cycle_identifier in line_strip:
                 split_str= line_strip.split(",")
-                ratio = float(split_str[3])/filter_time
+                ratio = float(split_str[3])/max_filter_time
                 terminat_reason = split_str[2]
                 num_traversed_blocks = int(split_str[5])
                 
@@ -83,20 +83,19 @@ if __name__ == "__main__":
                     max_alive_id_termreason=terminat_reason
                     max_alive_id_traversed_blocks=num_traversed_blocks
 
-                if max_num_traversed_blocks<int(split_str[5]):
-                    max_num_traversed_blocks = max(max_num_traversed_blocks,num_traversed_blocks)
-                    max_num_traversed_blocks_id=split_str[1]
-                    max_num_traversed_ratio=ratio
+                #if max_num_traversed_blocks<int(split_str[5]):
+                #    max_num_traversed_blocks = max(max_num_traversed_blocks,num_traversed_blocks)
+                #    max_num_traversed_blocks_id=split_str[1]
+                #    max_num_traversed_ratio=ratio
 
-                if terminat_reason=='w' or terminat_reason=='b': 
-                    if (ratio>=execution_ratio_range[0] and ratio<=execution_ratio_range[1] and 
-                        num_traversed_blocks>=traversed_blocks_range[0] and num_traversed_blocks<=traversed_blocks_range[1]):
-                        searched_particle_list.append(split_str[1])
+                #if terminat_reason=='w' or terminat_reason=='b': 
+                #    if (ratio>=execution_ratio_range[0] and ratio<=execution_ratio_range[1] and 
+                #        num_traversed_blocks>=traversed_blocks_range[0] and num_traversed_blocks<=traversed_blocks_range[1]):
+                #        searched_particle_list.append(split_str[1])
 
     print("traversed_blocks_range",traversed_blocks_range)
     print("execution_ratio_range",execution_ratio_range)
-    print("searched_particle_list",searched_particle_list)                    
+    #print("searched_particle_list",searched_particle_list)                    
 
-    print("max_num_traversed_blocks_id",max_num_traversed_blocks_id, "max_num_traversed_blocks",max_num_traversed_blocks,"max_num_traversed_ratio",max_num_traversed_ratio)
+    print("max_num_traversed_blocks_id",max_num_traversed_blocks_id, "max_num_traversed_blocks",max_num_traversed_blocks,"max_num_traversed_ratio",max_num_traversed_ratio, "max alive ratio", max_alive)
     print("max_alive_id",max_alive_id,"max_alive_id_traversed_blocks",max_alive_id_traversed_blocks)
-
