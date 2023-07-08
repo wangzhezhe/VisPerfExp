@@ -90,12 +90,12 @@ DATA_DIR='/gpfs/alpine/csc143/proj-shared/pugmire/forJay/VisPerfExp/ubuntu_cpu_v
 # blocks : [(nodes, ranks), ...]
 INSITU_BLOCKS = {
  8 : [(1, 8)],
- 16 : [(1, 16)],
- 32 : [(1, 32)],
- 64 : [(2, 64)],
- 128 : [(4, 128)],
- 256 : [(8, 256)],
- 512 : [(16, 512)], 
+ #16 : [(1, 16)],
+ #32 : [(1, 32)],
+ #64 : [(2, 64)],
+ #128 : [(4, 128)],
+ #256 : [(8, 256)],
+ #512 : [(16, 512)], 
  }
 
 #blocks : [(nodes, rank), ...]
@@ -120,8 +120,8 @@ INTRANSIT_BLOCKS_NODES = {
 
 
 CMD = \
-'../visitReaderAdev ' \
-'--vtkm-device serial ' \
+'./visitReaderAdev ' \
+'--vtkm-device cuda ' \
 '--file=%s ' \
 '--advect-num-steps=%d ' \
 '--advect-num-seeds=%d ' \
@@ -180,33 +180,33 @@ def MakeLaunch(numNodes, numRanks) :
 
   ## (numRanks, numNodes) : 'jsrun ....'
   launchMap = {}
-  launchMap[(8,1)]  = 'jsrun -n2 -r2 -a4 -c4 -g0 -bpacked:1'
-  launchMap[(16,1)]  = 'jsrun -n2 -r2 -a8 -c8 -g0 -bpacked:1'
-  launchMap[(32,1)]  = 'jsrun -n2 -r2 -a16 -c16 -g0 -bpacked:1'
-  launchMap[(32,2)]  = 'jsrun -n4 -r2 -a8 -c8 -g0 -bpacked:1'
-  launchMap[(32,4)]  = 'jsrun -n8 -r2 -a4 -c4 -g0 -bpacked:1'
-  launchMap[(32,8)]  = 'jsrun -n16 -r2 -a2 -c2 -g0 -bpacked:1'
-  launchMap[(32,16)] = 'jsrun -n32 -r2 -a1 -c1 -g0 -bpacked:1'
+  launchMap[(8,1)]  = 'jsrun -n2 -r2 -a4 -c4 -g1 -bpacked:1'
+  launchMap[(16,1)]  = 'jsrun -n2 -r2 -a8 -c8 -g1 -bpacked:1'
+  launchMap[(32,1)]  = 'jsrun -n2 -r2 -a16 -c16 -g1 -bpacked:1'
+  launchMap[(32,2)]  = 'jsrun -n4 -r2 -a8 -c8 -g1 -bpacked:1'
+  launchMap[(32,4)]  = 'jsrun -n8 -r2 -a4 -c4 -g1 -bpacked:1'
+  launchMap[(32,8)]  = 'jsrun -n16 -r2 -a2 -c2 -g1 -bpacked:1'
+  launchMap[(32,16)] = 'jsrun -n32 -r2 -a1 -c1 -g1 -bpacked:1'
 
-  launchMap[(64,2)]  = 'jsrun -n4 -r2 -a16 -c16 -g0 -bpacked:1'
-  launchMap[(64,4)]  = 'jsrun -n8 -r2 -a8 -c8 -g0 -bpacked:1'
-  launchMap[(64,8)]  = 'jsrun -n16 -r2 -a4 -c4 -g0 -bpacked:1'
-  launchMap[(64,16)] = 'jsrun -n32 -r2 -a2 -c2 -g0 -bpacked:1'
-  launchMap[(64,32)] = 'jsrun -n64 -r2 -a1 -c1 -g0 -bpacked:1'
+  launchMap[(64,2)]  = 'jsrun -n4 -r2 -a16 -c16 -g1 -bpacked:1'
+  launchMap[(64,4)]  = 'jsrun -n8 -r2 -a8 -c8 -g1 -bpacked:1'
+  launchMap[(64,8)]  = 'jsrun -n16 -r2 -a4 -c4 -g1 -bpacked:1'
+  launchMap[(64,16)] = 'jsrun -n32 -r2 -a2 -c2 -g1 -bpacked:1'
+  launchMap[(64,32)] = 'jsrun -n64 -r2 -a1 -c1 -g1 -bpacked:1'
 
-  launchMap[(128,4)] = 'jsrun -n8 -r2 -a16 -c16 -g0 -bpacked:1'
-  launchMap[(128,8)] = 'jsrun -n16 -r2 -a8 -c8 -g0 -bpacked:1'
-  launchMap[(128,16)] = 'jsrun -n32 -r2 -a4 -c4 -g0 -bpacked:1'
-  launchMap[(128,32)] = 'jsrun -n64 -r2 -a2 -c2 -g0 -bpacked:1'
-  launchMap[(128,64)] = 'jsrun -n128 -r2 -a1 -c1 -g0 -bpacked:1'
+  launchMap[(128,4)] = 'jsrun -n8 -r2 -a16 -c16 -g1 -bpacked:1'
+  launchMap[(128,8)] = 'jsrun -n16 -r2 -a8 -c8 -g1 -bpacked:1'
+  launchMap[(128,16)] = 'jsrun -n32 -r2 -a4 -c4 -g1 -bpacked:1'
+  launchMap[(128,32)] = 'jsrun -n64 -r2 -a2 -c2 -g1 -bpacked:1'
+  launchMap[(128,64)] = 'jsrun -n128 -r2 -a1 -c1 -g1 -bpacked:1'
 
-  launchMap[(256,8)] = 'jsrun -n16 -r2 -a16 -c16 -g0 -bpacked:1'
-  launchMap[(256,16)] = 'jsrun -n32 -r2 -a8 -c8 -g0 -bpacked:1'
-  launchMap[(256,32)] = 'jsrun -n64 -r2 -a4 -c4 -g0 -bpacked:1'
-  launchMap[(256,64)] = 'jsrun -n128 -r2 -a2 -c2 -g0 -bpacked:1'
-  launchMap[(256,128)] = 'jsrun -n256 -r2 -a1 -c1 -g0 -bpacked:1'
+  launchMap[(256,8)] = 'jsrun -n16 -r2 -a16 -c16 -g1 -bpacked:1'
+  launchMap[(256,16)] = 'jsrun -n32 -r2 -a8 -c8 -g1 -bpacked:1'
+  launchMap[(256,32)] = 'jsrun -n64 -r2 -a4 -c4 -g1 -bpacked:1'
+  launchMap[(256,64)] = 'jsrun -n128 -r2 -a2 -c2 -g1 -bpacked:1'
+  launchMap[(256,128)] = 'jsrun -n256 -r2 -a1 -c1 -g1 -bpacked:1'
 
-  launchMap[(512,16)] = 'jsrun -n32 -r2 -a16 -c16 -g0 -bpacked:1'
+  launchMap[(512,16)] = 'jsrun -n32 -r2 -a16 -c16 -g1 -bpacked:1'
 
   return launchMap[(numRanks, numNodes)]
 
@@ -261,10 +261,10 @@ def makeRunCmd(dataDir, dataNm, numBlocks, syncComm, numP, numS, seedBox, output
                  syncCommStr)
     if pid >= 0 : cmd = cmd + ' --trace_particle_id=%d ' % pid
 
-    tmpDir = tempfile.mkdtemp(dir='./')
-    mkdirCmd = 'mkdir -p %s; mkdir -p %s; cd %s' % (outputDir, tmpDir, tmpDir)
+    #tmpDir = tempfile.mkdtemp(dir='./')
+    mkdirCmd = 'rm -r %s; mkdir -p %s; cd %s; ln -s $CURRDIR/../install/visReader/visitReaderAdev visitReaderAdev; ' % (outputDir, outputDir, outputDir)
     #mvCmd = 'mv *.out *.vtk ../%s; cd ..; rmdir %s' % (outputDir, tmpDir)
-    mvCmd = 'mv *.out ../%s; cd ..; rmdir %s' % (outputDir, tmpDir)
+    mvCmd = 'cd ../../; '
     return (cmd, mkdirCmd, mvCmd)
 
 
@@ -272,8 +272,8 @@ PARTICLE_LIST = [10000]
 PARTICLE_LIST = [5000]
 #PARTICLE_LIST = [2500, 5000]
 #PARTICLE_LIST = [1000]
-#STEP_LIST = [50, 100, 500, 1000, 2000]
-STEP_LIST = [2000]
+STEP_LIST = [50, 100, 500, 1000, 2000]
+#STEP_LIST = [1000]
 #STEP_LIST = [250]
 #STEP_LIST = [101]
 #PARTICLE_LIST=[101]
@@ -292,12 +292,12 @@ if doGang :
    PARTICLE_LIST=[1, 10, 100, 1000, 10000]
    STEP_LIST=[1000,2000,4000, 500]
    
-#doPID = ''
-doPID = 'astro'
+doPID = ''
+#doPID = 'astro'
 
 if doPID == 'astro' :
   ## astro 128 blocks, 1000 steps
-  PID = 45715 ## longest, Box=A
+  #PID = 45715 ## longest, Box=A
   #PID = 255124   ## early longers, Box=C
   STEP_LIST = [1000]
   #PARTICLE_LIST=[1]
@@ -328,8 +328,6 @@ def makeHeader(numNodes) :
     hdr += 'CURRDIR=$(pwd)\n'
     hdr += 'export OMP_NUM_THREADS=1\n'
     hdr += 'cd $MEMBERWORK/csc143\n'
-    hdr += 'rm visitReaderAdev\n'
-    hdr += 'ln -s $CURRDIR/../install/visReader/visitReaderAdev visitReaderAdev'
     
     return hdr
 
@@ -367,7 +365,7 @@ if doWeakScaling :
    #INTRANSIT_BLOCKS_NODES
    #INSITU_BLOCKS_NODES
    for syncComm in [False] :
-    if PID >= 0 : createRuns(INSITU_BLOCKS, syncComm, [doPID], 'C')
+    if PID >= 0 : createRuns(INSITU_BLOCKS, syncComm, [doPID], 'B')
     elif doGang : createRuns(INSITU_BLOCKS, syncComm, ['syn', 'syn2', 'syn3', 'syn4', 'syn5'], 'G', checkExists=False)
     else : createRuns(INSITU_BLOCKS, syncComm, ['astro'], 'B', False)
     #createRuns(INSITU_BLOCKS, syncComm, ['clover', 'fishtank', 'fusion', 'astro'], 'B')

@@ -16,7 +16,7 @@ DATANAME="astro.2_2_2.visit"
 DATASET=${DATADIR}/$DATANAME
 
 PARTICLE_LIST="1000"
-STEP_LIST="1000"
+STEP_LIST="500"
 
 # the mpirun will oversubscribe the omp threads
 # if we do not set the OMP_NUM_THREADS
@@ -39,16 +39,16 @@ mpirun -n 8 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
 --vtkm-device openmp \
 --file=$DATASET \
 --field-name=velocity \
---advect-seed-box-extents=0,0.98,0,0.98,0,0.98 \
+--advect-seed-box-extents=.01,.99,0.01,.99,0.01,.99 \
 --seeding-method=domainrandom \
---advect-num-seeds=5000 \
+--advect-num-seeds=10 \
 --advect-num-steps=${STEP} \
---advect-step-size=0.001 \
+--advect-step-size=0.01 \
 --record-trajectories=false \
 --output-results=false \
 --sim-code=cloverleaf \
 --communication=sync \
---trace_particle_id=28210 \
+--trace_particle_id=10 \
 
 done
 done
