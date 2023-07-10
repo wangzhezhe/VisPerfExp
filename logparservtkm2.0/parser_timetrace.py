@@ -25,7 +25,7 @@ if __name__ == "__main__":
     dirname = dirPath.split("/")[-2]
     print("dirname",dirname)
 
-    figsize_x = 8
+    figsize_x = 6
     bar_height=0.08
     # give some place for legend
     figsize_y = procs*bar_height+1
