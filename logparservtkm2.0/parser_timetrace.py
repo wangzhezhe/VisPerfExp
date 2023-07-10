@@ -20,11 +20,12 @@ if __name__ == "__main__":
     # for each procs, the operations are executed multiple steps
     step=int(sys.argv[2])
     dirPath=sys.argv[3]
-
+    
+    # the dirname should end with /
     dirname = dirPath.split("/")[-2]
     print("dirname",dirname)
 
-    figsize_x = 12
+    figsize_x = 8
     bar_height=0.08
     # give some place for legend
     figsize_y = procs*bar_height+1
