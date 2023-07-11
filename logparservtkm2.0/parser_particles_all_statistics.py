@@ -27,6 +27,9 @@ if __name__ == "__main__":
     dirPath=sys.argv[2]
     particleID=sys.argv[3]
 
+    dirname = dirPath.split("/")[-2]
+    print("dirname:",dirname)
+
     # extract largest total exeuction time
     filter_start="FilterStart_"+str(simSycle)+" "
     filter_end="FilterEnd_"+str(simSycle)+" "
@@ -68,28 +71,29 @@ if __name__ == "__main__":
             split_str= line_strip.split(",")
             #print(split_str)
             #SimCycle,ParticleID,RemovedReason,ActiveTime,NumComm,TraversedNumofBlocks,AccBO,AccEO,AccAdv,AccWait
-            #or
-            #SimCycle,ParticleID,RemovedReason,ActiveTime,NumComm,TraversedNumofBlocks,AccBO,AccEO,AccAdv,AccAllAdv,AccWait,NumSteps,NumSmallSteps
             if cycle_identifier in line_strip:
                 if split_str[1]==particleID:
                     print(split_str) 
                     if len(split_str)==10:
                         aliveTime = float(split_str[3])
-                        print ("Init",initTime,float(initTime)/aliveTime)
-                        print( "bo", split_str[6], float(split_str[6])/aliveTime 
-                          ,"eo", split_str[7], float(split_str[7])/aliveTime, 
-                           "a",split_str[8], float(split_str[8])/aliveTime, 
-                           "wait", split_str[9], float(split_str[9])/aliveTime, 
+                        print ("Init",initTime,"{:.1%}".format(float(initTime)/aliveTime))
+                        print( "bo", split_str[6], "{:.1%}".format(float(split_str[6])/aliveTime) 
+                          ,"eo", split_str[7], "{:.1%}".format(float(split_str[7])/aliveTime), 
+                           "a",split_str[8], "{:.1%}".format(float(split_str[8])/aliveTime), 
+                           "wait", split_str[9], "{:.1%}".format(float(split_str[9])/aliveTime), 
                            "alive", split_str[3])
                         commTime=aliveTime-float(initTime)-float(split_str[6])-float(split_str[7])-float(split_str[8])-float(split_str[9])
-                        print("comm", commTime, commTime/aliveTime)
-                    if len(split_str)==11:
+                        print("comm", commTime, "{:.1%}".format(commTime/aliveTime))
+                    else:
+                        #SimCycle,ParticleID,RemovedReason,ActiveTime,NumComm,TraversedNumofBlocks,AccBO,AccEO,AccAdv,AccAllAdv,AccWait,NumSteps,NumSmallSteps
                         aliveTime = float(split_str[3])
                         print ("Init",initTime,float(initTime)/aliveTime)
-                        print( "bo", split_str[6], float(split_str[6])/aliveTime 
-                          ,"eo", split_str[7], float(split_str[7])/aliveTime, 
-                           "a",split_str[8], float(split_str[8])/aliveTime, 
-                           "wait", split_str[10], float(split_str[10])/aliveTime, 
+                        print( "bo", split_str[6], "{:.1%}".format(float(split_str[6])/aliveTime)
+                          ,"eo", split_str[7], "{:.1%}".format(float(split_str[7])/aliveTime), 
+                           "a",split_str[8], "{:.1%}".format(float(split_str[8])/aliveTime), 
+                           "wait", split_str[10], "{:.1%}".format(float(split_str[10])/aliveTime), 
                            "alive", split_str[3])
                         commTime=aliveTime-float(initTime)-float(split_str[6])-float(split_str[7])-float(split_str[8])-float(split_str[10])
-                        print("comm", commTime, commTime/aliveTime)
+                        print("comm", commTime, "{:.1%}".format(commTime/aliveTime))
+
+                        

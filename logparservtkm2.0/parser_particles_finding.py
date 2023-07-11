@@ -24,6 +24,9 @@ if __name__ == "__main__":
     simSycle=0
     dirPath=sys.argv[2]
 
+    dirname = dirPath.split("/")[-2]
+    print("dirname:",dirname)
+
     # extract largest total exeuction time
     filter_start="FilterStart_"+str(simSycle)+" "
     filter_end="FilterEnd_"+str(simSycle)+" "
