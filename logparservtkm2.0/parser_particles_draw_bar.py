@@ -10,7 +10,7 @@ import statistics
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
 
-# parse the timetrace log and draw the gantt chart
+# parse the timetrace log and draw the bar for current number of particles
 if __name__ == "__main__":
     
     if len(sys.argv)!=3:
