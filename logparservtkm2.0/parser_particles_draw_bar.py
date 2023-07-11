@@ -10,7 +10,7 @@ import statistics
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
 
-# parse the timetrace log and draw the bar for current number of particles
+# parse the timetrace log and draw the gantt chart
 if __name__ == "__main__":
     
     if len(sys.argv)!=3:
@@ -21,6 +21,8 @@ if __name__ == "__main__":
     # for each procs, the operations are executed multiple steps
     simSycle=0
     dirPath=sys.argv[2]
+
+    dirName = dirPath.split("/")[-2]
 
     # extract largest total exeuction time
     filter_start="FilterStart_"+str(simSycle)+" "
@@ -59,7 +61,7 @@ if __name__ == "__main__":
     total_particles = 0
     for rank in range(0,procs,1):
         file_name = dirPath+"/particle."+str(rank)+".out"
-        print(file_name)
+        #print(file_name)
 
         fo=open(file_name, "r")
 
@@ -122,4 +124,4 @@ if __name__ == "__main__":
     ax2.plot(ind,active_particles)
 
     ax.legend((p1, p2, p3), ('Out of bounds', 'Zero velocity','Max step'),  ncol=1, fontsize='large')
-    fig.savefig("particles_draw_bar.png", bbox_inches='tight')
+    fig.savefig("existing_particles_"+dirName+".png", bbox_inches='tight')
