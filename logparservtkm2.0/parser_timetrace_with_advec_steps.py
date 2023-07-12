@@ -24,6 +24,9 @@ if __name__ == "__main__":
     dirPath=sys.argv[3]
     tracing_rank_id=int(sys.argv[4])
 
+    dirname = dirPath.split("/")[-2]
+    print("dirname",dirname)
+
     figsize_x = 8
     bar_height=1
     # give some place for legend
@@ -36,8 +39,10 @@ if __name__ == "__main__":
 
 
     # setting identify string
-    adevct_start="ParticleAdvectStart_"+str(step)+" "
-    adevct_end="ParticleAdvectEnd_"+str(step)+" "
+    #adevct_start="ParticleAdvectStart_"+str(step)+" "
+    #adevct_end="ParticleAdvectEnd_"+str(step)+" "
+    adevct_start="WORKLET_Start_"+str(step)+" "
+    adevct_end="WORKLET_End_"+str(step)+" "
 
     comm_start="CommStart_"+str(step)+" "
     comm_end="CommEnd_"+str(step)+" "
@@ -115,8 +120,8 @@ if __name__ == "__main__":
     plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,filter_time/4,filter_time/2, 3*filter_time/4,filter_time])
     plt.yticks([])
 
-    print(len(barh_list_advec))
-    print(len(barh_list_comm))
+    #print(len(barh_list_advec))
+    #print(len(barh_list_comm))
 
     ax.broken_barh(xranges=barh_list_advec,yrange=(0,bar_height-0.1),facecolors='tab:blue')
     ax.broken_barh(xranges=barh_list_comm,yrange=(0,bar_height-0.1),facecolors='tab:red',alpha=0.2)   
@@ -132,28 +137,28 @@ if __name__ == "__main__":
 
     plt.xlabel('Time(ms)', fontsize="large")
     plt.ylabel('Rank' + str(tracing_rank_id), fontsize="large")
-    fig.savefig("gant.png",bbox_inches='tight')
+    fig.savefig("gantt_rank_"+str(tracing_rank_id)+"_"+dirname+".png",bbox_inches='tight')
     
     # look for counter information
     counter_file_name = dirPath+"/counter."+str(tracing_rank_id)+".out"
-    print(counter_file_name)
+    #print(counter_file_name)
 
     fo=open(counter_file_name, "r")
 
     
     plt.clf()
 
-    print("round_start_time_list size",len(round_start_time_list))
-    print("round_start_time_list",round_start_time_list)
+    #print("round_start_time_list size",len(round_start_time_list))
+    #print("round_start_time_list",round_start_time_list)
 
-    print("particle_number_list size",len(particle_number_list))
-    print("particle_number_list",particle_number_list)
-    print("advected_steps_list",advected_steps_list)
+    #print("particle_number_list size",len(particle_number_list))
+    #print("particle_number_list",particle_number_list)
+    #print("advected_steps_list",advected_steps_list)
 
     plt.plot(round_start_time_list,particle_number_list)
     plt.xlabel('Time(ms)', fontsize="large")
     plt.ylabel('#Particles', fontsize="large")
-    fig.savefig("gant_particle_number_list.png",bbox_inches='tight')
+    fig.savefig("gant_particle_number_list_rank"+str(tracing_rank_id)+"_"+dirname+".png",bbox_inches='tight')
 
     plt.clf()
     figsize_x = 8
@@ -164,7 +169,7 @@ if __name__ == "__main__":
     plt.xlabel('Time(ms)', fontsize="large")
     plt.ylabel('#Advected steps', fontsize="large")  
     plt.plot(round_start_time_list,advected_steps_list)
-    fig.savefig("gant_advected_steps_list.png",bbox_inches='tight')
+    fig.savefig("gant_advected_steps_list_rank"+str(tracing_rank_id)+"_"+dirname+".png",bbox_inches='tight')
 
     # advected_steps_list/particle_number_list
     avg_list = [m/n for m, n in zip(advected_steps_list, particle_number_list)]
@@ -175,4 +180,4 @@ if __name__ == "__main__":
     plt.xlabel('Time(ms)', fontsize="large")
     plt.ylabel('#Advected steps per particle', fontsize="small")  
     plt.plot(round_start_time_list,avg_list)
-    fig.savefig("gant_avg_list.png",bbox_inches='tight')
+    fig.savefig("gant_avg_list_rank"+str(tracing_rank_id)+"_"+dirname+".png",bbox_inches='tight')

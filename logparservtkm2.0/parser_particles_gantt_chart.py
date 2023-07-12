@@ -20,6 +20,8 @@ if __name__ == "__main__":
     step=int(sys.argv[2])
     dirPath=sys.argv[3]
     tracing_particle_id=int(sys.argv[4])
+    
+    dirname = dirPath.split("/")[-2]
 
     # go through all files and sorting the particle according to advected steps
     particle_list=[]
@@ -32,6 +34,7 @@ if __name__ == "__main__":
     comm_time_list=[]
     actual_comm_list=[]
     recv_time_list=[]
+    send_end_list=[]
     for proc in range(0,procs,1):
         file_name = dirPath+"/particle_tracing_details."+str(proc)+".out"
         fo=open(file_name, "r")
@@ -45,7 +48,7 @@ if __name__ == "__main__":
                    
             # for in-transit case, the rankid may not eauqls to proc number
             # Event,SimCycle,BlockID(RankId),ParticleID,CurrTime,AdvectedSteps
-            if str(step)==split_str[1] and str(tracing_particle_id)==split_str[3] :
+            if str(step)==split_str[1] :
                 #print(split_str)
                 if split_str[0]=="WORKLET_Start":
                     advect_start_time=float(split_str[4])
@@ -61,19 +64,20 @@ if __name__ == "__main__":
 
                 if split_str[0]=="GANG_COMM_START":
                     comm_start_time=float(split_str[4])
+                    #print("comm_start_time",comm_start_time)
                     comm_start_list.append(comm_start_time)
                 if split_str[0]=="GANG_COMM_END":
                     comm_end_time=float(split_str[4])
                     comm_time_list.append((comm_start_time,comm_end_time-comm_start_time))
                     actual_comm_list.append(comm_end_time-comm_start_time)
-
+                    send_end_list.append(comm_end_time)
                 if split_str[0]=="RECVOK":
                     recv_time_list.append(float(split_str[4]))
 
 
     #sorting all particle list
     particle_list_sorted=sorted(particle_list, key=lambda x: x[0])
-    #print(particle_list_sorted)
+    print(particle_list_sorted)
     particle_live_time = particle_list_sorted[-1][1]
     #print(particle_live_time)
 
@@ -134,23 +138,25 @@ if __name__ == "__main__":
     plt.yticks([])
     plt.xticks([0.0,figsize_x/4.0,figsize_x/2.0,3.0*figsize_x/4.0,figsize_x], [0.0,particle_live_time/4.0,particle_live_time/2.0,3*particle_live_time/4.0,particle_live_time])
     
-    print("recv_time_list",recv_time_list)
+    print("recv_time_list",sorted(recv_time_list))
     recv_time_list_xpoints = [figsize_x*t/particle_live_time for t in recv_time_list]
     print("recv_time_list_xpoints",recv_time_list_xpoints)
-
+    
+    print("comm_start_list",sorted(comm_start_list))
+    print("send_end_list", sorted(send_end_list))
     comm_start_list_xpoints= [figsize_x*t/particle_live_time for t in comm_start_list]
 
-    for v in recv_time_list_xpoints:
-       plt.axvline(x = v, ls='--', lw=1, color = 'r', alpha=0.8)
+    #for v in recv_time_list_xpoints:
+    #   plt.axvline(x = v, ls='--', lw=1, color = 'r', alpha=0.8)
 
-    for v in comm_start_list_xpoints:
-       plt.axvline(x = v, ls='--', lw=1, color = 'b', alpha=0.8)
+    #for v in comm_start_list_xpoints:
+    #   plt.axvline(x = v, ls='--', lw=1, color = 'b', alpha=0.8)
 
-    fig.savefig("particle_gantt.png",bbox_inches='tight')
+    fig.savefig("particle_gantt_"+dirname+".png",bbox_inches='tight')
     
     #print(advected_bar)
-    #print(blockid_list)
-    print("comm_time_list",comm_time_list)
+    print(blockid_list)
+    #print("comm_start_list",comm_start_list)
 
  
     plt.clf()

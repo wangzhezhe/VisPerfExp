@@ -49,6 +49,7 @@ mpirun -n 8 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
 --sim-code=cloverleaf \
 --communication=sync \
 --trace_particle_id=10 \
+--output-seeds=true \
 
 done
 done
