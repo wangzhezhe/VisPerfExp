@@ -120,7 +120,7 @@ INTRANSIT_BLOCKS_NODES = {
 
 
 CMD = \
-'../visitReaderAdev ' \
+'./visitReaderAdev ' \
 '--vtkm-device serial ' \
 '--file=%s ' \
 '--advect-num-steps=%d ' \
@@ -133,7 +133,7 @@ CMD = \
 '--output-results=false ' \
 '--sim-code=cloverleaf ' \
 '--assign-strategy=roundroubin ' \
-'--communication=%s &> readerlog.out'
+'--communication=%s'
 
 CMD_GANG = \
 '../visitReaderAdev ' \
@@ -148,7 +148,7 @@ CMD_GANG = \
 '--output-results=false ' \
 '--sim-code=cloverleaf ' \
 '--assign-strategy=roundroubin ' \
-'--communication=%s &> readerlog.out'
+'--communication=%s'
 
 #'--random-seed=%d '
 #'--output-results=true ' \
@@ -259,12 +259,14 @@ def makeRunCmd(dataDir, dataNm, numBlocks, syncComm, numP, numS, seedBox, output
                  seedBox[0][2], seedBox[1][2],
                  DATA_INFO[dataNm]['STEP_SIZE'],
                  syncCommStr)
-    if pid >= 0 : cmd = cmd + ' --trace_particle_id=%d ' % pid
+    if pid >= 0 : cmd = cmd + ' --trace_particle_id=%d &> readerlog.out' % pid
+    else:
+       cmd = cmd + '&> readerlog.out'
 
-    tmpDir = tempfile.mkdtemp(dir='./')
-    mkdirCmd = 'mkdir -p %s; mkdir -p %s; cd %s' % (outputDir, tmpDir, tmpDir)
+    #tmpDir = tempfile.mkdtemp(dir='./')
+    mkdirCmd = 'rm -r %s; mkdir -p %s; cd %s; ln -s $CURRDIR/../install/visReader/visitReaderAdev visitReaderAdev; ' % (outputDir, outputDir, outputDir)
     #mvCmd = 'mv *.out *.vtk ../%s; cd ..; rmdir %s' % (outputDir, tmpDir)
-    mvCmd = 'mv *.out ../%s; cd ..; rmdir %s' % (outputDir, tmpDir)
+    mvCmd = 'cd ../../; '
     return (cmd, mkdirCmd, mvCmd)
 
 
@@ -297,23 +299,34 @@ doPID = 'astro'
 
 if doPID == 'astro' :
   ## astro 128 blocks, 1000 steps
-  PID = 45715 ## longest, Box=A
+  #PID = 45715 ## longest, Box=A
+  PID = 89999 ## 128*2000
   #PID = 255124   ## early longers, Box=C
-  STEP_LIST = [1000]
+  STEP_LIST = [2000]
   #PARTICLE_LIST=[1]
 elif doPID == 'clover' :
   ## clover 128, 1000 steps
-  PID = 278131
-  STEP_LIST = [1000]
+  #PID = 278131
+  PID = 110861 ## 128*2000
+  STEP_LIST = [2000]
 elif doPID == 'fishtank' :
   ## fishtank 128, 1000 steps
-  PID = 463815
-  STEP_LIST = [1000]
+  #PID = 463815
+  #STEP_LIST = [1000]
+  PID = 625027 ## 128*2000
+  STEP_LIST = [2000]
 elif doPID == 'fusion' :
   ## fusion 128, 1000 steps
-  PID = 543021
-  STEP_LIST = [1000]
-
+  #PID = 543021
+  #STEP_LIST = [1000]
+  PID = 540040 #128*2000
+  STEP_LIST = [2000]
+elif doPID == 'syn' :
+  ## fusion 128, 1000 steps
+  #PID = 543021
+  #STEP_LIST = [1000]
+  PID = 400556 #128*2000
+  STEP_LIST = [2000]
 
 def makeHeader(numNodes) :
     hdr = ''
@@ -328,8 +341,6 @@ def makeHeader(numNodes) :
     hdr += 'CURRDIR=$(pwd)\n'
     hdr += 'export OMP_NUM_THREADS=1\n'
     hdr += 'cd $MEMBERWORK/csc143\n'
-    hdr += 'rm visitReaderAdev\n'
-    hdr += 'ln -s $CURRDIR/../install/visReader/visitReaderAdev visitReaderAdev'
     
     return hdr
 
@@ -362,12 +373,12 @@ clearBSUB()
 doWeakScaling = True
 
 if doWeakScaling :
-   OUT_DIR = './weak-weak-output2'
+   OUT_DIR = './weak-weak-output3'
 
    #INTRANSIT_BLOCKS_NODES
    #INSITU_BLOCKS_NODES
    for syncComm in [False] :
-    if PID >= 0 : createRuns(INSITU_BLOCKS, syncComm, [doPID], 'C')
+    if PID >= 0 : createRuns(INSITU_BLOCKS, syncComm, [doPID], 'B')
     elif doGang : createRuns(INSITU_BLOCKS, syncComm, ['syn', 'syn2', 'syn3', 'syn4', 'syn5'], 'G', checkExists=False)
     else : createRuns(INSITU_BLOCKS, syncComm, ['astro'], 'B', False)
     #createRuns(INSITU_BLOCKS, syncComm, ['clover', 'fishtank', 'fusion', 'astro'], 'B')

@@ -1,14 +1,10 @@
-# the installing scripts only contains vtkh vtkm and visreader
-
 #!/bin/bash
-
-set -e
 
 module load gcc
 module load cmake
 
 HERE=`pwd`
-build_jobs=6
+build_jobs=8
 source $HERE/../settings.sh
 SOFTWARE_SRC_DIR="$HERE/src"
 SOFTWARE_BUILD_DIR="$HERE/build"
