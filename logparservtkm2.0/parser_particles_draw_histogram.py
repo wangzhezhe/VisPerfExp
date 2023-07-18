@@ -9,6 +9,7 @@ from matplotlib import ticker
 import statistics
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
+import matplotlib.colors as colors
 
 # parse the timetrace log and draw the gantt chart
 if __name__ == "__main__":
@@ -21,6 +22,9 @@ if __name__ == "__main__":
     # for each procs, the operations are executed multiple steps
     simSycle=0
     dirPath=sys.argv[2]
+
+    dirname = dirPath.split("/")[-2]
+    print("dirname",dirname)
 
     # extract largest total exeuction time
     filter_start="FilterStart_"+str(simSycle)+" "
@@ -123,7 +127,7 @@ if __name__ == "__main__":
                 cmin=1,
                 bins=(nbin_x, nbin_y),
                 range=[[0,1.0],[0,max_y]],
-                norm="log",
+                norm=colors.LogNorm(1, len(all_particles_ratio_maxstep)),
                 cmap='Greens')
 
     plt.hist2d(all_particles_ratio_oob,
@@ -131,7 +135,7 @@ if __name__ == "__main__":
                 cmin=1,
                 bins=(nbin_x, nbin_y),
                 range=[[0,1],[0,max_y]],
-                norm="log",
+                norm=colors.LogNorm(1, len(all_particles_ratio_maxstep)),
                 cmap='Blues')
     
     
@@ -140,7 +144,7 @@ if __name__ == "__main__":
                 cmin=1,
                 bins=(nbin_x, nbin_y),
                 range=[[0,1],[0,max_y]],
-                norm="log",
+                norm=colors.LogNorm(1, len(all_particles_ratio_zero)),
                 cmap='Reds')
 
 
@@ -152,9 +156,9 @@ if __name__ == "__main__":
                      Patch(label='Max step (Background color)',
                         facecolor='green', alpha=0.6)]
 
-    legend1 = plt.legend(handles=legend_elem_1, loc='upper left', ncol=1, fontsize=9)
+    legend1 = plt.legend(handles=legend_elem_1, loc='upper right', ncol=1, fontsize=9)
 
 
-    fig.savefig("particles_histogram2d.png", bbox_inches='tight')
+    fig.savefig("particles_histogram2d_"+dirname+".png", bbox_inches='tight')
 
     print("max_ratio", max_ratio, "max_pid", max_pid)
