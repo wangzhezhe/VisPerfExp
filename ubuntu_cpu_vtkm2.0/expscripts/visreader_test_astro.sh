@@ -7,16 +7,20 @@ rm -rf ./visreader_test_astro_data
 
 # create soft link
 mkdir visreader_test_astro_data
+
+cp assign_options.config ./visreader_test_astro_data
+
 cd visreader_test_astro_data
 ln -s ../../install/visReader/visitReaderAdev visitReaderAdev
+
 
 # for cloverleaf data
 DATADIR=/home/zw/dataset/astro
 DATANAME="astro.2_2_2.visit"
 DATASET=${DATADIR}/$DATANAME
 
-PARTICLE_LIST="1000"
-STEP_LIST="500"
+PARTICLE_LIST="5000"
+STEP_LIST="4000"
 
 # the mpirun will oversubscribe the omp threads
 # if we do not set the OMP_NUM_THREADS
@@ -41,15 +45,19 @@ mpirun -n 8 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
 --field-name=velocity \
 --advect-seed-box-extents=.01,.99,0.01,.99,0.01,.99 \
 --seeding-method=domainrandom \
---advect-num-seeds=10 \
+--advect-num-seeds=$PARTICLE \
 --advect-num-steps=${STEP} \
 --advect-step-size=0.01 \
 --record-trajectories=false \
 --output-results=false \
 --sim-code=cloverleaf \
---communication=sync \
---trace_particle_id=10 \
---output-seeds=true \
+--communication=async \
+--trace_particle_id=2607 \
+--assign-strategy=file \
+--output-seeds=false \
+--num-recievers=64 \
+--num-particles-per-packet=128 \
+
 
 done
 done

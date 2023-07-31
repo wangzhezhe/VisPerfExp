@@ -82,7 +82,7 @@ INTRAN_READER_INSTALL_DIR="$SOFTWARE_INSTALL_DIR/visReader"
     # use the master branch
 
     cmake -B ${INTRAN_READER_INSTALL_DIR} -S ${INTRAN_READER_SRC_DIR} \
-    -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-2.0 \
+    -DCMAKE_BUILD_TYPE=Release -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-2.0 \
 
     cd $HERE
 

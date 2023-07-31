@@ -84,7 +84,7 @@ if __name__ == "__main__":
 
     bar_height=0.2
     #figsize_x=20
-    figsize_x=6
+    figsize_x=36
     figsize_y=bar_height*8
     
     #extract advected start/end time
@@ -93,8 +93,10 @@ if __name__ == "__main__":
     pnum_list=[]
     advected_bar_fourth_quantile=[]
     particle_live_time_last_quantile=3.0*particle_live_time/4.0
+    advect_spent_time_sum=0
     for p in particle_list_sorted:
         advect_spent_time=p[1]-p[0]
+        advect_spent_time_sum=advect_spent_time_sum+advect_spent_time
         advect_whole=advect_whole+advect_spent_time
         width = (1.0*advect_spent_time)/(1.0*particle_live_time)
         pnum_list.append(p[4])
@@ -113,21 +115,40 @@ if __name__ == "__main__":
     #create facecolors according to blockid_list
     block_list_set = set(blockid_list)
     distinct_block_ids = len(block_list_set)
+    
     print("distinct_block_ids len",distinct_block_ids)
-
+    print("distinct block ids set", block_list_set)
     
     #colors = plt.cm.jet(np.linspace(0,1,distinct_block_ids))
     colors = plt.cm.viridis(np.linspace(0,1,distinct_block_ids))
 
+    #map block id to 0-distinct_block_ids-1
+    colordic={}
+    #key is the block id
+    #val is the color id from 0 to distinct_block_ids-1
+    index = 0
+    for _, val in enumerate(blockid_list):
+        # if key exist, continue
+        if val in colordic.keys():
+            continue
+        else:    
+        # if key not exist, create a new pair, index++
+            colordic[val]=index
+            index=index+1
+
+    print("colordic", colordic)
+
     color_list=[]
     # go through each value in the block id list
     # find a uniq color for it
-    for id,val in enumerate(block_list_set):
+    for id,val in enumerate(blockid_list):
         #print(id, val)
-        color_list.append(colors[id])
+        color_list.append(colors[colordic[val]])
     
 
     fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))
+
+    print("advect_spent_time_sum",advect_spent_time_sum)
 
     ax.broken_barh(xranges=advected_bar,yrange=(bar_height,2*bar_height-0.1),color=color_list)
     ax.set_xlabel('Time(ms)', fontsize='large')

@@ -300,33 +300,35 @@ doPID = 'astro'
 if doPID == 'astro' :
   ## astro 128 blocks, 1000 steps
   #PID = 45715 ## longest, Box=A
-  PID = 89999 ## 128*2000
+  #PID = 89999 ## 128*2000
   #PID = 255124   ## early longers, Box=C
+  #PID = 259700 ## 128*2000*sync
+  PID=208001
   STEP_LIST = [2000]
   #PARTICLE_LIST=[1]
 elif doPID == 'clover' :
   ## clover 128, 1000 steps
   #PID = 278131
-  PID = 110861 ## 128*2000
-  STEP_LIST = [2000]
+  PID = 275499 ## 128*2000
+  STEP_LIST = [1000,2000]
 elif doPID == 'fishtank' :
   ## fishtank 128, 1000 steps
   #PID = 463815
   #STEP_LIST = [1000]
-  PID = 625027 ## 128*2000
-  STEP_LIST = [2000]
+  PID = 588164 ## 128*2000
+  STEP_LIST = [1000,2000]
 elif doPID == 'fusion' :
   ## fusion 128, 1000 steps
   #PID = 543021
   #STEP_LIST = [1000]
-  PID = 540040 #128*2000
-  STEP_LIST = [2000]
+  PID = 582493 #128*2000
+  STEP_LIST = [1000,2000]
 elif doPID == 'syn' :
   ## fusion 128, 1000 steps
   #PID = 543021
   #STEP_LIST = [1000]
-  PID = 400556 #128*2000
-  STEP_LIST = [2000]
+  PID = 365728 #128*2000
+  STEP_LIST = [1000,2000]
 
 def makeHeader(numNodes) :
     hdr = ''
@@ -373,7 +375,7 @@ clearBSUB()
 doWeakScaling = True
 
 if doWeakScaling :
-   OUT_DIR = './weak-weak-output3'
+   OUT_DIR = './weak-weak-output-testWB'
 
    #INTRANSIT_BLOCKS_NODES
    #INSITU_BLOCKS_NODES
@@ -388,6 +390,5 @@ else :
   #INTRANSIT_BLOCKS_NODES
   for syncComm in [False] :
     createRuns(INTRANSIT_BLOCKS, syncComm, ['astro', 'clover', 'fishtank', 'fusion', 'syn'], 'B')
-
-
+    
 sys.exit()

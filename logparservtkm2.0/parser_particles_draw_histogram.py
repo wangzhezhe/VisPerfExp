@@ -92,10 +92,12 @@ if __name__ == "__main__":
                 reason = split_str[2]
                 if max_num_traversed_blocks<int(split_str[5]):
                     max_num_traversed_blocks = max(max_num_traversed_blocks,int(split_str[5]))
-                    #print(split_str)
+                    print(split_str)
                 if(max_ratio<ratio):
                     max_ratio = max(max_ratio,ratio)
                     max_pid = split_str[1]
+                    if(max_pid=="625027"):
+                        print(split_str)
                 if reason == 'b':
                     all_particles_ratio_oob.append(ratio)
                     all_particles_num_traverse_oob.append(int(split_str[5]))
@@ -111,8 +113,8 @@ if __name__ == "__main__":
     print("collected particle number :", len(all_particles_ratio_oob)+len(all_particles_ratio_zero)+len(all_particles_ratio_maxstep))
     print("max_num_traversed_blocks",max_num_traversed_blocks)
     # for historgram drawing giving more space
-    max_y=max_num_traversed_blocks+20
-
+    # max_y=max_num_traversed_blocks+20
+    max_y=20
     nbin_x=100
     nbin_y=100
     
@@ -121,25 +123,25 @@ if __name__ == "__main__":
     ax.set_xlabel('Particle lifeTime/Filter execution time', fontsize='large')
     ax.set_ylabel('Number of traveded blocks', fontsize='large')
 
-
-    plt.hist2d(all_particles_ratio_maxstep,
+    if len(all_particles_ratio_maxstep)>1:
+        plt.hist2d(all_particles_ratio_maxstep,
                 all_particles_num_traverse_maxstep,
                 cmin=1,
                 bins=(nbin_x, nbin_y),
                 range=[[0,1.0],[0,max_y]],
                 norm=colors.LogNorm(1, len(all_particles_ratio_maxstep)),
                 cmap='Greens')
-
-    plt.hist2d(all_particles_ratio_oob,
+    if len(all_particles_ratio_oob)>1:
+        plt.hist2d(all_particles_ratio_oob,
                 all_particles_num_traverse_oob,
                 cmin=1,
                 bins=(nbin_x, nbin_y),
                 range=[[0,1],[0,max_y]],
-                norm=colors.LogNorm(1, len(all_particles_ratio_maxstep)),
+                norm=colors.LogNorm(1, len(all_particles_num_traverse_oob)),
                 cmap='Blues')
     
-    
-    plt.hist2d(all_particles_ratio_zero,
+    if len(all_particles_ratio_zero)>1:
+        plt.hist2d(all_particles_ratio_zero,
                 all_particles_num_traverse_zero,
                 cmin=1,
                 bins=(nbin_x, nbin_y),
@@ -157,8 +159,8 @@ if __name__ == "__main__":
                         facecolor='green', alpha=0.6)]
 
     legend1 = plt.legend(handles=legend_elem_1, loc='upper right', ncol=1, fontsize=9)
-
+    
 
     fig.savefig("particles_histogram2d_"+dirname+".png", bbox_inches='tight')
 
-    print("max_ratio", max_ratio, "max_pid", max_pid)
+    print("max_ratio", max_ratio, "max_pid", max_pid, "max_num_traversed_blocks", max_num_traversed_blocks)

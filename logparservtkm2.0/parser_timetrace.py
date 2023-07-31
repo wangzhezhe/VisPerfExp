@@ -28,7 +28,7 @@ if __name__ == "__main__":
     figsize_x = 6
     bar_height=0.08
     # give some place for legend
-    figsize_y = procs*bar_height+1
+    figsize_y = procs*bar_height+5
     fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))  
 
     list_advec_all=[]
@@ -67,7 +67,7 @@ if __name__ == "__main__":
 
         filter_time = filter_end_time-filter_start_time
         print("filter_time",filter_time)
-        plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,filter_time/4,filter_time/2, 3*filter_time/4,filter_time])
+        plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,round(filter_time/4,2),round(filter_time/2,2), round(3*filter_time/4,2),round(filter_time,2)])
         #ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.3f}"))
 
         proc_id=list(range(0, procs, 4))

@@ -2,6 +2,7 @@
 build/
 install/
 src/
+src*/
 *data/
 .vscode/
 *Data/
