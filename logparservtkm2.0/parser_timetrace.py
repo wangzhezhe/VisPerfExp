@@ -26,9 +26,9 @@ if __name__ == "__main__":
     print("dirname",dirname)
 
     figsize_x = 6
-    bar_height=0.08
+    bar_height=0.07
     # give some place for legend
-    figsize_y = procs*bar_height+5
+    figsize_y = procs*bar_height+2
     fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))  
 
     list_advec_all=[]

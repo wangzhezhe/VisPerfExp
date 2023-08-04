@@ -3,14 +3,6 @@
 import sys
 import os
 import matplotlib.pyplot as plt
-<<<<<<< HEAD
-import matplotlib.ticker as mticker
-import matplotlib
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-
-=======
->>>>>>> b666f42 (update several scripts)
 
 def cmp (x) :
     v = int(x.split('.')[2][1:])
@@ -208,7 +200,6 @@ def calcParticipation(pdata, TIMES, numBins, imageNm, drawPlots=True) :
     return (participationRate, X, pdata)
 
 
-<<<<<<< HEAD
 def parseAndPlotParticipation(logPath, logName, numRanks, numBins, drawPlots=True):
     #print(fname)
     fname = logPath+"/"+logName
@@ -228,14 +219,11 @@ def parseAndPlotParticipation(logPath, logName, numRanks, numBins, drawPlots=Tru
     return (pr, X, binData)
 
 
-=======
->>>>>>> b666f42 (update several scripts)
 def gatherParticipation(outputDir, data, numRanks, steps, numBins) :
     runs = GET_RUNS(outputDir, data, rankSel=numRanks, stepSel=None )
     participationResults = []
     # show each what runs are parsed
     print(runs)
-<<<<<<< HEAD
 
     # the step is x axis
     # the rank participatio is y axis
@@ -244,13 +232,6 @@ def gatherParticipation(outputDir, data, numRanks, steps, numBins) :
         participationResults.append((run, pr, X,binData))
     
     
-=======
-    '''
-    for run in runs :
-        (pr, X, binData) = parseAndPlotParticipation(run, numRanks, numBins, False)
-        participationResults.append((run, pr, X,binData))
-        
->>>>>>> b666f42 (update several scripts)
     results = []
     binData = []
     for s in steps :
@@ -259,18 +240,11 @@ def gatherParticipation(outputDir, data, numRanks, steps, numBins) :
                 results.append((pr[1], pr[2], pr[3])) ## PR, X, BinData
                 break
     return results
-<<<<<<< HEAD
     
 
 def parsePRRanks(outputdir, dataType, ranks, steps, numBins) :
     results = []
     # go through each rank and append results
-=======
-    '''
-
-def parsePRRanks(outputdir, dataType, ranks, steps, numBins) :
-    results = []
->>>>>>> b666f42 (update several scripts)
     for rank in ranks :
         print('parse: ', dataType, 'rank=', rank)
         pr_x_bins = gatherParticipation(outputdir, dataType, rank, steps, numBins)
@@ -283,7 +257,6 @@ dataNameMap = {'astro' : 'Supernova',
                'fusion' : 'Fusion',
                'syn' : 'Synthetic'}
 
-<<<<<<< HEAD
 
 def plotRPRanks(dataName, allData, ranks, steps) :
     fig, ax = plt.subplots(figsize=(8,4))
@@ -319,8 +292,6 @@ def plotRPRanks(dataName, allData, ranks, steps) :
 
 
 
-=======
->>>>>>> b666f42 (update several scripts)
 if __name__ == "__main__":
     
     if len(sys.argv)!=3:
@@ -331,27 +302,14 @@ if __name__ == "__main__":
     dataname=sys.argv[2]
     
     STEPS = [50,100,250,500,1000,2000]
-<<<<<<< HEAD
     #RankList=[8,16,32,64,128]
     RankList=[32,64,128]
     
 
-=======
-    RankList=[8,16,32,64,128]
-    
->>>>>>> b666f42 (update several scripts)
     #TIMES, EVENTS = readTimeTrace(dirPath, numRanks)
     #print(TIMES)
     #print(EVENTS)
     NUM_BINS = 50
-<<<<<<< HEAD
     astroData = parsePRRanks(outputdir, 'astro', RankList, STEPS, NUM_BINS)
 
     plotRPRanks('astro', astroData, RankList, STEPS)
-=======
-    #ALLBINS=participationBins(TIMES,numBins)
-    #PARTICIPATION = computeParticipation(ALLBINS, numRanks, numBins)
-    #calcParticipation(PARTICIPATION, TIMES, numBins, fileName, True)
-
-    parsePRRanks(outputdir, 'astro', RankList, STEPS, NUM_BINS)
->>>>>>> b666f42 (update several scripts)
