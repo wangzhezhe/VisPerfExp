@@ -259,7 +259,7 @@ dataNameMap = {'astro' : 'Supernova',
 
 
 def plotRPRanks(dataName, allData, ranks, steps) :
-    fig, ax = plt.subplots(figsize=(8,4))
+    fig, ax = plt.subplots(figsize=(6,6))
     dataTitle = dataNameMap[dataName]
     ax.title.set_text(dataTitle)
     ax.set_ylim([0.0, 1.1])
@@ -269,6 +269,7 @@ def plotRPRanks(dataName, allData, ranks, steps) :
     #ax.set_xscale('log')
     
     #print(len(allData), len(steps), len(ranks))
+    print(steps)
     for (rank, data) in zip(ranks, allData) :
         #print(rank, len(data))
         X = []
@@ -278,6 +279,7 @@ def plotRPRanks(dataName, allData, ranks, steps) :
             X.append(step)
             Y.append(ds[0])
         ax.plot(X, Y, label='%d Ranks'%rank)
+        print(rank)
         print(X)
         #ax.set_xticks(X)
         #ax.xaxis.set_major_locator(mticker.FixedLocator(X))
@@ -286,9 +288,9 @@ def plotRPRanks(dataName, allData, ranks, steps) :
     
     #ax.ticklabel_format(useOffset=False, style='plain')
     #plt.ticklabel_format(useOffset=False)
-    ax.legend()
+    ax.legend(loc='upper right')
     #plt.show()
-    plt.savefig("rank_participation_gather_"+dataTitle+".png")   
+    plt.savefig("rank_participation_gather_"+dataTitle+".png",bbox_inches='tight')   
 
 
 
@@ -301,15 +303,20 @@ if __name__ == "__main__":
     outputdir=sys.argv[1]
     dataname=sys.argv[2]
     
-    STEPS = [50,100,250,500,1000,2000]
+    STEPS = [50,100,500,1000,2000]
     #RankList=[8,16,32,64,128]
-    RankList=[32,64,128]
+    RankList=[8,16,32,64,128]
     
 
     #TIMES, EVENTS = readTimeTrace(dirPath, numRanks)
     #print(TIMES)
     #print(EVENTS)
     NUM_BINS = 50
-    astroData = parsePRRanks(outputdir, 'astro', RankList, STEPS, NUM_BINS)
 
-    plotRPRanks('astro', astroData, RankList, STEPS)
+    # go through RankList
+    # for each RankList, go through all steps
+    # for each Rank*Step, we have one run
+    # for this run, we can get one point
+    astroData = parsePRRanks(outputdir, dataname, RankList, STEPS, NUM_BINS)
+
+    plotRPRanks(dataname, astroData, RankList, STEPS)

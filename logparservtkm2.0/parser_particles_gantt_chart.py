@@ -183,7 +183,7 @@ if __name__ == "__main__":
     plt.clf()
     # show the last 1/4 quantile
     fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))
-    ax.broken_barh(xranges=advected_bar_fourth_quantile,yrange=(bar_height,2*bar_height-0.1),color=color_list)
+    ax.broken_barh(xranges=advected_bar_fourth_quantile,yrange=(bar_height,2*bar_height-0.1),color=color_list,edgecolor="none")
     ax.set_xlabel('Time(ms)', fontsize='large')
     ax.set_ylabel('ParticleId='+str(tracing_particle_id), fontsize='medium') 
        

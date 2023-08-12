@@ -19,7 +19,7 @@ DATADIR=/home/zw/dataset/astro
 DATANAME="astro.2_2_2.visit"
 DATASET=${DATADIR}/$DATANAME
 
-PARTICLE_LIST="5000"
+PARTICLE_LIST="10"
 STEP_LIST="4000"
 
 # the mpirun will oversubscribe the omp threads
@@ -57,6 +57,7 @@ mpirun -n 8 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
 --output-seeds=false \
 --num-recievers=64 \
 --num-particles-per-packet=128 \
+--block-duplicate=true \
 
 
 done
