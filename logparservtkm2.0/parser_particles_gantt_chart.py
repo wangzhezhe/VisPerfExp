@@ -150,7 +150,7 @@ if __name__ == "__main__":
 
     print("advect_spent_time_sum",advect_spent_time_sum)
 
-    ax.broken_barh(xranges=advected_bar,yrange=(bar_height,2*bar_height-0.1),color=color_list)
+    ax.broken_barh(xranges=advected_bar,yrange=(bar_height,2*bar_height-0.1),color=color_list,edgecolor="none")
     ax.set_xlabel('Time(ms)', fontsize='large')
     ax.set_ylabel('ParticleId='+str(tracing_particle_id), fontsize='large') 
     
