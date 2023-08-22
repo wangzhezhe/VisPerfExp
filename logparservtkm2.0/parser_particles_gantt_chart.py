@@ -35,12 +35,22 @@ if __name__ == "__main__":
     actual_comm_list=[]
     recv_time_list=[]
     send_end_list=[]
+
+    advct_cost=[]
+
     for proc in range(0,procs,1):
         file_name = dirPath+"/particle_tracing_details."+str(proc)+".out"
         fo=open(file_name, "r")
         
+        # init variables
         advect_start_time=0
         advect_step_before=0
+        advect_end_time=-1
+
+        advected_steps_begin=-1
+        advected_steps_end=-1
+        blockid=-1
+        pnum=-1
 
         for line in fo:
             line_strip=line.strip()
@@ -50,6 +60,7 @@ if __name__ == "__main__":
             # Event,SimCycle,BlockID(RankId),ParticleID,CurrTime,AdvectedSteps
             if str(step)==split_str[1] :
                 #print(split_str)
+
                 if split_str[0]=="WORKLET_Start":
                     advect_start_time=float(split_str[4])
                     advect_step_before=float(split_str[5])
@@ -60,7 +71,7 @@ if __name__ == "__main__":
                     pnum = int(split_str[6])
                     # start time, end time, advec steps, blockid
                     advect_steps_whole=advect_steps_whole+advect_step_after-advect_step_before
-                    particle_list.append([advect_start_time,advect_end_time,advect_step_after-advect_step_before,blockid,pnum])
+
 
                 if split_str[0]=="GANG_COMM_START":
                     comm_start_time=float(split_str[4])
@@ -74,7 +85,18 @@ if __name__ == "__main__":
                 if split_str[0]=="RECVOK":
                     recv_time_list.append(float(split_str[4]))
 
+                if split_str[0]=="ADVECTSTART":
+                    advected_steps_begin=int(split_str[5])
 
+                if split_str[0]=="ADVECTEND":
+                    advected_steps_end=int(split_str[5])
+                    particle_list.append([advect_start_time,advect_end_time,advected_steps_end,blockid,pnum])
+                    advct_cost.append([advected_steps_begin, advected_steps_end, (advect_end_time-advect_start_time)/float(advected_steps_end-advected_steps_begin)])
+
+    print("advct_cost")
+    advct_cost_sorted=sorted(advct_cost, key=lambda x: x[0])
+    print(advct_cost_sorted)
+    
     #sorting all particle list
     particle_list_sorted=sorted(particle_list, key=lambda x: x[0])
     print(particle_list_sorted)

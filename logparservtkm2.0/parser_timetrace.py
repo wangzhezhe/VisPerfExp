@@ -26,9 +26,9 @@ if __name__ == "__main__":
     print("dirname",dirname)
 
     figsize_x = 6
-    bar_height=0.07
+    bar_height=0.02
     # give some place for legend
-    figsize_y = procs*bar_height+2
+    figsize_y = procs*bar_height+3
     fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))  
 
     list_advec_all=[]
@@ -40,11 +40,11 @@ if __name__ == "__main__":
 
         fo=open(file_name, "r")
         
-        #adevct_start="ParticleAdvectStart_"+str(step)+" "
-        #adevct_end="ParticleAdvectEnd_"+str(step)+" "
+        adevct_start="AdvectStart_"+str(step)+" "
+        adevct_end="AdvectEnd_"+str(step)+" "
 
-        adevct_start="WORKLET_Start_"+str(step)+" "
-        adevct_end="WORKLET_End_"+str(step)+" "
+        #adevct_start="WORKLET_Start_"+str(step)+" "
+        #adevct_end="WORKLET_End_"+str(step)+" "
 
         comm_start="CommStart_"+str(step)+" "
         comm_end="CommEnd_"+str(step)+" "
@@ -64,16 +64,18 @@ if __name__ == "__main__":
                 filter_end_time = float(split_str[1])
 
         fo.close()
-
+        
+        # the filter start time is supposed to be the start time of tracer
+        filter_start_time=0
         filter_time = filter_end_time-filter_start_time
         print("filter_time",filter_time)
         plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,round(filter_time/4,2),round(filter_time/2,2), round(3*filter_time/4,2),round(filter_time,2)])
         #ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.3f}"))
 
-        proc_id=list(range(0, procs, 4))
+        proc_id=list(range(0, procs, 2))
         # tick position in figure and tick text value
         # do not tick every rank
-        plt.yticks(bar_height*np.array(proc_id)+0.5*bar_height-0.05,proc_id)
+        plt.yticks(bar_height*np.array(proc_id)+0.5*bar_height,proc_id)
 
         barh_list_advec=[]
         barh_list_comm=[]

@@ -35,8 +35,8 @@ do
 # there are seg fault in arrayhandle copy some time
 
 # execute tasks
-mpirun -n 2 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
---vtkm-log-level Perf \
+mpirun -n 8 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
+--vtkm-log-level Info \
 --vtkm-device openmp \
 --file=$DATASET \
 --field-name=velocity \

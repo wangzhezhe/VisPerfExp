@@ -114,7 +114,7 @@ if __name__ == "__main__":
     print("max_num_traversed_blocks",max_num_traversed_blocks)
     # for historgram drawing giving more space
     # max_y=max_num_traversed_blocks+20
-    max_y=20
+    max_y=200
     nbin_x=100
     nbin_y=100
     
