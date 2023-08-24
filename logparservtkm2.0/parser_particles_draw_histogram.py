@@ -68,6 +68,7 @@ if __name__ == "__main__":
     all_particles_num_traverse_zero=[]
     all_particles_ratio_maxstep=[]
     all_particles_num_traverse_maxstep=[]
+    completed_particles_gang_size=[]
 
     max_ratio=0
     max_pid=0
@@ -86,18 +87,19 @@ if __name__ == "__main__":
             split_str= line_strip.split(",")
             #print(split_str)
             if cycle_identifier in line_strip:
+                # SimCycle,ParticleID,RemovedReason,ActiveTime,NumComm,TraversedNumofBlocks,AccBO,AccEO,AccAdv,AccAllAdv,AccWait,AccWB,NumSteps,NumSmallSteps,AccGangSize,AccPrevGangSize
                 # id, lifetime/total execution time, traversed number of blocks, die reason
                 ratio = float(split_str[3])/filter_time
                 #particle=[int(split_str[1]),ratio,int(split_str[5]),split_str[2]]
                 reason = split_str[2]
+                accGangSize = split_str[14]
+                
                 if max_num_traversed_blocks<int(split_str[5]):
                     max_num_traversed_blocks = max(max_num_traversed_blocks,int(split_str[5]))
                     print(split_str)
                 if(max_ratio<ratio):
                     max_ratio = max(max_ratio,ratio)
                     max_pid = split_str[1]
-                    if(max_pid=="625027"):
-                        print(split_str)
                 if reason == 'b':
                     all_particles_ratio_oob.append(ratio)
                     all_particles_num_traverse_oob.append(int(split_str[5]))
@@ -107,6 +109,7 @@ if __name__ == "__main__":
                 else:
                     all_particles_ratio_maxstep.append(ratio)
                     all_particles_num_traverse_maxstep.append(int(split_str[5]))
+                    completed_particles_gang_size.append(accGangSize)
 
         fo.close()
     print(len(all_particles_ratio_oob),len(all_particles_ratio_zero),len(all_particles_ratio_maxstep))
