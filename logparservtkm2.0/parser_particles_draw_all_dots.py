@@ -107,11 +107,11 @@ if __name__ == "__main__":
         if p[3]=='b':
             #bin_index= int(p[1]/bin_length)
             #psize = psize*scale*bin_list_oob[bin_index]/bin_list_oob_avg
-            plt.scatter(p[1],p[2],s=psize, c='blue', alpha=0.02)
+            plt.scatter(p[1],p[2],s=psize, c='blue', alpha=0.05)
         elif p[3]=='z':
-            plt.scatter(p[1],p[2],s=psize,c='red', alpha=0.02)
+            plt.scatter(p[1],p[2],s=psize,c='red', alpha=0.05)
         else:
-            plt.scatter(p[1],p[2],s=psize,c='green', alpha=0.02)
+            plt.scatter(p[1],p[2],s=psize,c='green', alpha=0.05)
 
 
     legend_elem_1 = [Line2D([0], [0], marker='o', color='w', label='Out of bounds',
