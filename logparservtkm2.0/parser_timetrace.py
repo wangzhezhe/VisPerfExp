@@ -57,7 +57,7 @@ if __name__ == "__main__":
     plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,round(filter_time/4,2),round(filter_time/2,2), round(3*filter_time/4,2),round(filter_time,2)],fontsize=15)
     #ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.3f}"))
 
-    proc_id=list(range(0, procs, 4))
+    proc_id=list(range(0, procs, 8))
     # tick position in figure and tick text value
     # do not tick every rank
     plt.yticks(bar_height*np.array(proc_id)+0.5*bar_height,proc_id, fontsize=15)
@@ -128,7 +128,7 @@ if __name__ == "__main__":
             legend_elems = [Patch(facecolor='tab:blue', edgecolor='black', label='Advec'),
                             Patch(facecolor='tab:red', edgecolor='black', alpha=0.2, label='Comm and Wait'),
                             Patch(facecolor='white', edgecolor='black', label='Other overhead'),]
-            legend = plt.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=13)
+            legend = plt.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=16)
             ax.add_artist(legend)
         else:
             # no label here
@@ -137,6 +137,6 @@ if __name__ == "__main__":
 
     # get some space for legend in the center
     ax.broken_barh(xranges=[(0,1)],yrange=(procs*bar_height,bar_height),facecolors='None',edgecolor='None')
-    plt.xlabel('Time(ms)', fontsize=15)
-    plt.ylabel('Rank', fontsize=15)
+    plt.xlabel('Time(ms)', fontsize=20)
+    plt.ylabel('Rank', fontsize=20)
     fig.savefig("gantt_worklet_"+dirname+".png",bbox_inches='tight')

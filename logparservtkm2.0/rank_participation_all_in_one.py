@@ -77,7 +77,7 @@ def readTimeTrace(fdir, nRanks) :
                     TIME.append(AT1)
                     EVENT.append(['A', 'A'])
             if event == 'CommStart' : C0 = time
-            if event == 'SendDataEnd' : # this part represents the time consumed in sending data, MPI send time
+            if event == 'SendDataEnd' : 
                 C1 = time
                 if C1-C0 > 1 :
                     TIME.append(C0)
@@ -111,7 +111,11 @@ def mkLabel(imageNm) :
 
     return res
 
-def calcParticipation(pdata, TIMES, numBins, imageNm, drawPlots=True) :
+labelSize = 25
+tickSize = 23
+lwidth=2.5
+
+def calcParticipation(ax, pdata, TIMES, numBins, imageNm, drawPlots=True) :
     (tMin, tMax) = getTimeRange(TIMES)
     dT = tMax/(numBins)
     #print('************************************* dT= ', dT)
@@ -127,36 +131,55 @@ def calcParticipation(pdata, TIMES, numBins, imageNm, drawPlots=True) :
     participationRate = SUM/numBins
     
     if drawPlots :
-        fig, ax = plt.subplots(figsize=(7,6))
-        #ax.title.set_text('%s Avg= %f' %(imgLabel, participationRate))
+        #fig, ax = plt.subplots(figsize=(7,6))
+        ax.title.set_text(imgLabel)
+        ax.title.set_fontsize(labelSize)
+
         ax.set_ylim([0.0, 1.1])
-        ax.set_xlabel('Time (ms)', fontsize="large")
-        ax.set_aspect('auto')
-        ax.set_ylabel('Rank Participation', fontsize="large")
-        ax.plot(X, pdata)
-        fig.savefig("rank_participation_"+imageNm + '.png',bbox_inches='tight')
+        #ax.set_xlabel(imageNm, fontsize=labelSize)
+        #ax.set_aspect('auto')
+        if imageNm=="Tokamak":
+            #only label at the first one
+            ax.set_ylabel('Rank Participation', fontsize=labelSize)
+
+        ax.tick_params(axis='y', labelsize=tickSize)
+        ax.tick_params(axis='x', labelsize=tickSize)
+
+
+        ax.plot(X, pdata,linewidth=lwidth)
     return (participationRate, X, pdata)
 
 if __name__ == "__main__":
     
     if len(sys.argv)!=3:
-        print("<binary> <procs> <dirpath>")
+        print("<binary> <procs> <dirpath for all>")
         exit()
     
     numRanks=int(sys.argv[1])
     dirPath=sys.argv[2]
 
-    fileName=dirPath.split("/")[-2]
+    dataname=["fusion.A.b128.n4.r128.B_p5000_s2000",
+              "astro.A.b128.n4.r128.B_p5000_s2000",
+              "fishtank.A.b128.n4.r128.B_p5000_s2000_id625027",
+              "clover.A.b128.n4.r128.B_p5000_s2000",
+              "syn.A.b128.n4.r128.B_p5000_s2000"]
+
+    official_name = ["Tokamak","Supernova","Hydraulics","CloverLeaf3D","Synthetic"]
+
+    fig, axs = plt.subplots(nrows=1, ncols=5,figsize=(7*5,6))
+
+    for index, data in enumerate(dataname):
+        dir_path_complete = dirPath+"/"+data
+        print("process ", dir_path_complete )
+        TIMES, EVENTS = readTimeTrace(dir_path_complete, numRanks)
+
+        numBins = 50
+
+        ALLBINS=participationBins(TIMES,numBins)
+
+        PARTICIPATION = computeParticipation(ALLBINS, numRanks, numBins)
+        calcParticipation(axs[index], PARTICIPATION, TIMES, numBins, official_name[index], True)
     
-    TIMES, EVENTS = readTimeTrace(dirPath, numRanks)
-
-    print(TIMES[0])
-    print(EVENTS[0])
-
-    numBins = 50
-
-    ALLBINS=participationBins(TIMES,numBins)
-    print(ALLBINS[0])
-
-    PARTICIPATION = computeParticipation(ALLBINS, numRanks, numBins)
-    calcParticipation(PARTICIPATION, TIMES, numBins, fileName, True)
+    fig.text(0.5, 0.0, 'Time (ms)', ha='center',fontsize=labelSize+2)
+    fig.savefig("rank_participation_all.png",bbox_inches='tight')
+    fig.savefig("rank_participation_all.pdf",bbox_inches='tight')

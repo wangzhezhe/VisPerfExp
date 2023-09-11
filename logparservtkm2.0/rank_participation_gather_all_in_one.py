@@ -287,7 +287,11 @@ def plotRPRanks(ax, dataName, allData, ranks, steps) :
             #print(step, ds[0])
             X.append(step)
             Y.append(ds[0])
+<<<<<<< HEAD
         ax.plot(X, Y, label='%d Ranks'%rank, linewidth=lwidth)
+=======
+        ax.plot(X, Y, label='%d Ranks'%rank)
+>>>>>>> b68ad6a (add all in one figure)
         print(rank)
         print(X)
         #ax.set_xticks(X)
@@ -321,7 +325,11 @@ if __name__ == "__main__":
     #print(EVENTS)
     NUM_BINS = 50
 
+<<<<<<< HEAD
     fig, axs = plt.subplots(nrows=1, ncols=5,figsize=(6*5,6))
+=======
+    fig, axs = plt.subplots(nrows=1, ncols=5,figsize=(9*5,9))
+>>>>>>> b68ad6a (add all in one figure)
 
     # go through RankList
     # for each RankList, go through all steps
@@ -331,8 +339,11 @@ if __name__ == "__main__":
         astroData = parsePRRanks(outputdir, dataname, RankList, STEPS, NUM_BINS)
         plotRPRanks(axs[index], dataname, astroData, RankList, STEPS)
     
+<<<<<<< HEAD
     plt.subplots_adjust(top=0.8)
 
+=======
+>>>>>>> b68ad6a (add all in one figure)
     handles, labels = axs[4].get_legend_handles_labels()
     fig.legend(handles, labels, ncol=5, loc='upper center', fontsize=legendsize)
 
