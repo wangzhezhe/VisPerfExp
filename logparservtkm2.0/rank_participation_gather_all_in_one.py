@@ -272,7 +272,7 @@ def plotRPRanks(ax, dataName, allData, ranks, steps) :
     #ax.set_xlabel('Steps', fontsize=labelSize)
     #ax.set_aspect('auto')
     if dataTitle=="Tokamak":
-        ax.set_ylabel('Avg rank participation', fontsize=labelSize)
+        ax.set_ylabel('Aggregated rank participation', fontsize=labelSize)
     #ax.set_xscale('log')
     
     ax.tick_params(axis='y', labelsize=tickSize)
@@ -288,10 +288,14 @@ def plotRPRanks(ax, dataName, allData, ranks, steps) :
             X.append(step)
             Y.append(ds[0])
 <<<<<<< HEAD
+<<<<<<< HEAD
         ax.plot(X, Y, label='%d Ranks'%rank, linewidth=lwidth)
 =======
         ax.plot(X, Y, label='%d Ranks'%rank)
 >>>>>>> b68ad6a (add all in one figure)
+=======
+        ax.plot(X, Y, label='%d Ranks'%rank, linewidth=lwidth)
+>>>>>>> 2b4fd17 (update plot scripts)
         print(rank)
         print(X)
         #ax.set_xticks(X)
@@ -326,10 +330,14 @@ if __name__ == "__main__":
     NUM_BINS = 50
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     fig, axs = plt.subplots(nrows=1, ncols=5,figsize=(6*5,6))
 =======
     fig, axs = plt.subplots(nrows=1, ncols=5,figsize=(9*5,9))
 >>>>>>> b68ad6a (add all in one figure)
+=======
+    fig, axs = plt.subplots(nrows=1, ncols=5,figsize=(6*5,6))
+>>>>>>> 2b4fd17 (update plot scripts)
 
     # go through RankList
     # for each RankList, go through all steps
@@ -340,10 +348,15 @@ if __name__ == "__main__":
         plotRPRanks(axs[index], dataname, astroData, RankList, STEPS)
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     plt.subplots_adjust(top=0.8)
 
 =======
 >>>>>>> b68ad6a (add all in one figure)
+=======
+    plt.subplots_adjust(top=0.8)
+
+>>>>>>> 2b4fd17 (update plot scripts)
     handles, labels = axs[4].get_legend_handles_labels()
     fig.legend(handles, labels, ncol=5, loc='upper center', fontsize=legendsize)
 

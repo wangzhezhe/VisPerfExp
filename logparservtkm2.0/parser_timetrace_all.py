@@ -96,6 +96,8 @@ def draw_rank_gantt(ax, index, dirPath, officalname, procs):
                 if width<0:
                     print("comm error",comm_end_time_relative, comm_start_time_relative)
                 if width*figsize_x>=minWidth:
+                    if rank==0:
+                        print((figsize_x*(comm_start_time_relative/filter_time),width*figsize_x))
                     barh_list_comm.append((figsize_x*(comm_start_time_relative/filter_time),width*figsize_x))            
 
         fo.close()
@@ -105,8 +107,9 @@ def draw_rank_gantt(ax, index, dirPath, officalname, procs):
 
         # draw the gant case
         # no label here
-        ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height),facecolors='tab:blue')
-        ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.2)
+        if rank==0:
+            ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height),facecolors='tab:blue', edgecolor="none")
+            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.2,edgecolor="none")
 
     if officalname=="Tokamak":
         ax.set_ylabel('Rank', fontsize=labelSize)
@@ -126,8 +129,7 @@ if __name__ == "__main__":
               "fishtank.A.b128.n4.r128.B_p5000_s2000_id625027",
               "clover.A.b128.n4.r128.B_p5000_s2000",
               "syn.A.b128.n4.r128.B_p5000_s2000"]
-    dataname_test=["fusion.A.b128.n4.r128.B_p5000_s2000",
-              "astro.A.b128.n4.r128.B_p5000_s2000"]
+    dataname_test=["fusion.A.b128.n4.r128.B_p5000_s2000"]
 
     official_name = ["Tokamak","Supernova","Hydraulics","CloverLeaf3D","Synthetic"]
     
@@ -143,7 +145,7 @@ if __name__ == "__main__":
 
     fig, axs = plt.subplots(nrows=1, ncols=5, figsize=(figsize_x,figsize_y))  
 
-    for index, data in enumerate(dataname):
+    for index, data in enumerate(dataname_test):
         draw_rank_gantt(axs[index],index,dirPath+"/"+data,official_name[index],procs)
     
 
