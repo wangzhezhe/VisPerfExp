@@ -46,7 +46,11 @@ def draw_rank_gantt(ax, index, dirPath, officalname, procs):
     proc_id=list(range(0, procs, 8))
     # tick position in figure and tick text value
     # do not tick every rank
-    ax.set_yticks(bar_height*np.array(proc_id)+0.5*bar_height,proc_id, fontsize=ticksize)
+    if officalname=="Tokamak":
+        # only set the y label for the first one
+        ax.set_yticks(bar_height*np.array(proc_id)+0.5*bar_height,proc_id, fontsize=ticksize)
+    else:
+        ax.set_yticks([])
 
     for rank in range(0,procs,1):
         file_name = dirPath+"/timetrace."+str(rank)+".out"
@@ -58,8 +62,8 @@ def draw_rank_gantt(ax, index, dirPath, officalname, procs):
         adevct_start="WORKLET_Start_"+str(step)+" "
         adevct_end="WORKLET_End_"+str(step)+" "
 
-        comm_start="CommStart_"+str(step)+" "
-        comm_end="CommEnd_"+str(step)+" "
+        comm_start="CommStart_"+str(step)
+        comm_end="CommEnd_"+str(step)
 
         barh_list_advec=[]
         barh_list_comm=[]
@@ -85,9 +89,9 @@ def draw_rank_gantt(ax, index, dirPath, officalname, procs):
                 if width*figsize_x>=minWidth:
                     barh_list_advec.append((figsize_x*(advect_start_time_relative/filter_time),width*figsize_x))
 
-            if comm_start in line_strip:
+            if comm_start == split_str[0]:
                 comm_start_time_relative=float(split_str[1])-filter_start_time
-            if comm_end in line_strip:
+            if comm_end == split_str[0]:
                 comm_end_time_relative=float(split_str[1])-filter_start_time
                 #print("comm",comm_end_time_relative-comm_start_time_relative)
                 comm_spent_time=comm_end_time_relative-comm_start_time_relative
@@ -96,8 +100,8 @@ def draw_rank_gantt(ax, index, dirPath, officalname, procs):
                 if width<0:
                     print("comm error",comm_end_time_relative, comm_start_time_relative)
                 if width*figsize_x>=minWidth:
-                    if rank==0:
-                        print((figsize_x*(comm_start_time_relative/filter_time),width*figsize_x))
+                    #if rank==0:
+                    #    print((figsize_x*(comm_start_time_relative/filter_time),width*figsize_x))
                     barh_list_comm.append((figsize_x*(comm_start_time_relative/filter_time),width*figsize_x))            
 
         fo.close()
@@ -107,15 +111,16 @@ def draw_rank_gantt(ax, index, dirPath, officalname, procs):
 
         # draw the gant case
         # no label here
-        if rank==0:
-            ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height),facecolors='tab:blue', edgecolor="none")
-            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.2,edgecolor="none")
+        
+        ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height),facecolors='tab:blue', edgecolor="none")
+        ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor="none")
 
     if officalname=="Tokamak":
         ax.set_ylabel('Rank', fontsize=labelSize)
     
-    ax.set_xlabel(officalname, fontsize=labelSize)
-
+    #ax.set_xlabel(officalname, fontsize=labelSize)
+    ax.title.set_text(officalname)
+    ax.title.set_fontsize(labelSize)
 
 # parse the timetrace log and draw the gantt chart
 if __name__ == "__main__":
@@ -145,15 +150,15 @@ if __name__ == "__main__":
 
     fig, axs = plt.subplots(nrows=1, ncols=5, figsize=(figsize_x,figsize_y))  
 
-    for index, data in enumerate(dataname_test):
+    for index, data in enumerate(dataname):
         draw_rank_gantt(axs[index],index,dirPath+"/"+data,official_name[index],procs)
     
 
     legend_elems = [Patch(facecolor='tab:blue', edgecolor='black', label='Advection'),
-                            Patch(facecolor='tab:red', edgecolor='black', alpha=0.2, label='Communication and Wait'),
+                            Patch(facecolor='tab:red', edgecolor='black', alpha=0.35, label='Communication and Wait'),
                             Patch(facecolor='white', edgecolor='black', label='Other overhead'),]
     fig.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=legendSize)
         
-    fig.text(0.5, 0.001, 'Time (ms)', ha='center',fontsize=labelSize)
-    fig.savefig("rank_gantt_all.png",bbox_inches='tight')
+    fig.text(0.5, 0.03, 'Time (ms)', ha='center',fontsize=labelSize)
+    fig.savefig("rank_gantt_all.png",bbox_inches='tight',dpi=800)
     fig.savefig("rank_gantt_all.pdf",bbox_inches='tight')

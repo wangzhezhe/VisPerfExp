@@ -115,7 +115,8 @@ if __name__ == "__main__":
         # get advect_bar
         # get blockid_list
         particle_list_sorted = get_particle_list_sorted(dir_id_pair[0],dir_id_pair[1])
-        #print(particle_list_sorted)
+        #if dir_id_pair[1]=="418463":
+        print(particle_list_sorted[:2])
         particle_list_sorted_all.append(particle_list_sorted)
         #print(particle_list_sorted)
         print("long particle time", particle_list_sorted[-1][1])
@@ -123,8 +124,8 @@ if __name__ == "__main__":
 
     # make sure the x coordinates 
     # then draw each bar separately
-    figsize_x=8
-    bar_height=0.8
+    figsize_x=20
+    bar_height=0.7
     figsize_y=bar_height*5+0.5
     fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))
     print("max_particle_live_time",max_particle_live_time)
@@ -199,7 +200,7 @@ if __name__ == "__main__":
         
 
         ax.broken_barh(xranges=advected_bar,yrange=(bar_height*data_index,bar_height-0.1),color=color_list,edgecolor="none")
-        ax.broken_barh(xranges=comm_wait_bar,yrange=(bar_height*data_index,bar_height-0.1),facecolors='tab:red',alpha=0.2, edgecolor="none")
+        ax.broken_barh(xranges=comm_wait_bar,yrange=(bar_height*data_index,bar_height-0.1),facecolors='tab:red',alpha=0.25, edgecolor="none")
 
 
     fig.savefig("particle_gantt_five_datasets_red_wait.png",bbox_inches='tight')

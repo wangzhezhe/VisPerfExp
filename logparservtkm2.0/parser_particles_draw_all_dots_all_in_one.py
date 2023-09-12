@@ -144,11 +144,11 @@ if __name__ == "__main__":
     #fig.subplots_adjust(top=1.0)
 
     legend_elem_1 = [Line2D([0], [0], marker='o', color='w', label='Out of bounds',
-                        facecolor='blue', markersize=legendsize),
+                        markerfacecolor='blue', markersize=legendsize),
                      Line2D([0], [2], marker='o', color='w', label='Zero velocity',
-                        facecolor='red', markersize=legendsize),
+                        markerfacecolor='red', markersize=legendsize),
                      Line2D([0], [4], marker='o', color='w', label='Max step',
-                        facecolor='green', markersize=legendsize)]
+                        markerfacecolor='green', markersize=legendsize)]
     
     fig.legend(handles=legend_elem_1, bbox_to_anchor=(0.62,1.08), ncol=3, fontsize=legendsize)
     fig.text(0.5, 0.0, 'Particle life time/Filter execution time', ha='center',fontsize=labelSize)
