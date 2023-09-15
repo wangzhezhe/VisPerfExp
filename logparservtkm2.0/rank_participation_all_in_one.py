@@ -141,6 +141,8 @@ def calcParticipation(ax, pdata, TIMES, numBins, imageNm, drawPlots=True) :
         if imageNm=="Tokamak":
             #only label at the first one
             ax.set_ylabel('Rank Participation', fontsize=labelSize)
+        else:
+            ax.set_yticks([])
 
         ax.tick_params(axis='y', labelsize=tickSize)
         ax.tick_params(axis='x', labelsize=tickSize)

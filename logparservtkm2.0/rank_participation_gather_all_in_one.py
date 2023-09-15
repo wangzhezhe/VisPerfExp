@@ -257,6 +257,13 @@ dataNameMap = {'astro' : 'Supernova',
                'fusion' : 'Tokamak',
                'syn' : 'Synthetic'}
 
+
+markerMap = {8: '.',
+               16 : '*',
+               32 : '+',
+               64 : 'd',
+               128 : 'x'}
+
 labelSize = 25
 tickSize = 23
 lwidth=2.5
@@ -273,6 +280,9 @@ def plotRPRanks(ax, dataName, allData, ranks, steps) :
     #ax.set_aspect('auto')
     if dataTitle=="Tokamak":
         ax.set_ylabel('Aggregated rank participation', fontsize=labelSize)
+    else:
+        ax.set_yticks([])
+
     #ax.set_xscale('log')
     
     ax.tick_params(axis='y', labelsize=tickSize)
@@ -287,17 +297,12 @@ def plotRPRanks(ax, dataName, allData, ranks, steps) :
             #print(step, ds[0])
             X.append(step)
             Y.append(ds[0])
-<<<<<<< HEAD
-<<<<<<< HEAD
-        ax.plot(X, Y, label='%d Ranks'%rank, linewidth=lwidth)
-=======
-        ax.plot(X, Y, label='%d Ranks'%rank)
->>>>>>> b68ad6a (add all in one figure)
-=======
-        ax.plot(X, Y, label='%d Ranks'%rank, linewidth=lwidth)
->>>>>>> 2b4fd17 (update plot scripts)
+
+        ax.plot(X, Y, label='%d Ranks'%rank, linewidth=lwidth, marker=markerMap[rank])
+
         print(rank)
         print(X)
+
         #ax.set_xticks(X)
         #ax.xaxis.set_major_locator(mticker.FixedLocator(X))
         #ax.xaxis.set_minor_locator(mticker.FixedLocator(X))
@@ -329,15 +334,7 @@ if __name__ == "__main__":
     #print(EVENTS)
     NUM_BINS = 50
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     fig, axs = plt.subplots(nrows=1, ncols=5,figsize=(6*5,6))
-=======
-    fig, axs = plt.subplots(nrows=1, ncols=5,figsize=(9*5,9))
->>>>>>> b68ad6a (add all in one figure)
-=======
-    fig, axs = plt.subplots(nrows=1, ncols=5,figsize=(6*5,6))
->>>>>>> 2b4fd17 (update plot scripts)
 
     # go through RankList
     # for each RankList, go through all steps
@@ -347,20 +344,12 @@ if __name__ == "__main__":
         astroData = parsePRRanks(outputdir, dataname, RankList, STEPS, NUM_BINS)
         plotRPRanks(axs[index], dataname, astroData, RankList, STEPS)
     
-<<<<<<< HEAD
-<<<<<<< HEAD
     plt.subplots_adjust(top=0.8)
 
-=======
->>>>>>> b68ad6a (add all in one figure)
-=======
-    plt.subplots_adjust(top=0.8)
-
->>>>>>> 2b4fd17 (update plot scripts)
     handles, labels = axs[4].get_legend_handles_labels()
     fig.legend(handles, labels, ncol=5, loc='upper center', fontsize=legendsize)
 
-    fig.text(0.5, 0.0, 'Advection steps', ha='center',fontsize=labelSize+2)
+    fig.text(0.5, 0.0, 'Total number of advection steps', ha='center',fontsize=labelSize+2)
 
     plt.savefig("rank_participation_gather_all.png",bbox_inches='tight')   
     plt.savefig("rank_participation_gather_all.pdf",bbox_inches='tight')   

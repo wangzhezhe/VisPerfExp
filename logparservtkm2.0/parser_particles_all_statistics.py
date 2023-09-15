@@ -57,7 +57,7 @@ if __name__ == "__main__":
         fo.close()
     
     print("filter execution time is", max_filter_time)
-
+    print("SimCycle,ParticleID,RemovedReason,ActiveTime,NumComm,TraversedNumofBlocks,AccBO,AccEO,AccAdv,AccAllAdv,AccWait,AccWB,NumSteps,NumSmallSteps,AccGangSize,AccPrevGangSize")
     # find information for associated id
     for rank in range(0,procs,1):
         file_name = dirPath+"/particle."+str(rank)+".out"
@@ -82,8 +82,8 @@ if __name__ == "__main__":
                            "a",split_str[8], "{:.1%}".format(float(split_str[8])/aliveTime), 
                            "wait", split_str[9], "{:.1%}".format(float(split_str[9])/aliveTime), 
                            "alive", split_str[3])
-                        commTime=aliveTime-float(initTime)-float(split_str[6])-float(split_str[7])-float(split_str[8])-float(split_str[9])
-                        print("comm", commTime, "{:.1%}".format(commTime/aliveTime))
+                        other=aliveTime-float(initTime)-float(split_str[6])-float(split_str[7])-float(split_str[8])-float(split_str[9])
+                        print("other", other, "{:.1%}".format(other/aliveTime))
                     else:
                         #SimCycle,ParticleID,RemovedReason,ActiveTime,NumComm,TraversedNumofBlocks,AccBO,AccEO,AccAdv,AccAllAdv,AccWait,NumSteps,NumSmallSteps
                         aliveTime = float(split_str[3])
@@ -93,7 +93,7 @@ if __name__ == "__main__":
                            "a",split_str[8], "{:.1%}".format(float(split_str[8])/aliveTime), 
                            "wait", split_str[10], "{:.1%}".format(float(split_str[10])/aliveTime), 
                            "alive", split_str[3])
-                        commTime=aliveTime-float(initTime)-float(split_str[6])-float(split_str[7])-float(split_str[8])-float(split_str[10])
-                        print("comm", commTime, "{:.1%}".format(commTime/aliveTime))
+                        other=aliveTime-float(initTime)-float(split_str[6])-float(split_str[7])-float(split_str[8])-float(split_str[10])
+                        print("other", other, "{:.1%}".format(other/aliveTime))
 
                         

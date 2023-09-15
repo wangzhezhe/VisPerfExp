@@ -53,6 +53,7 @@ def draw_one_bar_fig(ax, dirPath, procs, data_official_name):
     bin_list_maxstep = [0]*number_bin
     
     total_particles = 0
+    long_exec = 0 
     for rank in range(0,procs,1):
         file_name = dirPath+"/particle."+str(rank)+".out"
         #print(file_name)
@@ -68,16 +69,21 @@ def draw_one_bar_fig(ax, dirPath, procs, data_official_name):
                 total_particles=total_particles+1
                 # id, lifetime/total execution time, traversed number of blocks, die reason
                 ratio = float(split_str[3])/filter_time
-
+                num_adv_steps=int(split_str[12])
                 #compute the bin_index
                 bin_index= int(ratio/bin_length)
                 #sequence is outof bounud, zero velocity and max step
                 if(split_str[2]=='b'):
                     bin_list_oob[bin_index]+=1
+                    if num_adv_steps>1800:
+                        long_exec=long_exec+1
                 elif(split_str[2]=='z'):
                     bin_list_zero[bin_index]+=1
+                    if num_adv_steps>1800:
+                        long_exec=long_exec+1
                 else:
                     bin_list_maxstep[bin_index]+=1
+                    long_exec+=1
         
         fo.close()
 
@@ -134,10 +140,15 @@ def draw_one_bar_fig(ax, dirPath, procs, data_official_name):
     p3 = ax.bar(ind,bin_list_maxstep,width,bottom=bottom,color='green',alpha=0.8)
 
 
-    ax2.plot(ind,active_particles,linewidth=lwidth)
+    ax2.plot(ind,active_particles,linewidth=lwidth, color='orange')
 
     #ax.legend((p1, p2, p3), ('Out of bounds', 'Zero velocity','Max step'),  ncol=1, fontsize='large')
     #fig.savefig("existing_particles_"+dirName+".png", bbox_inches='tight')
+    print("out of bound particles ratio:", "{:.1%}".format(sum(bin_list_oob)/total_particles))
+    print("zero velocity particles ratio:", "{:.1%}".format(sum(bin_list_zero)/total_particles))
+    print("max step particles ratio:", "{:.1%}".format(sum(bin_list_maxstep)/total_particles))
+
+    #print("long exec particles ratio:", 1.0*long_exec/total_particles)
 
 
 # parse the timetrace log and draw the gantt chart
@@ -169,11 +180,11 @@ if __name__ == "__main__":
         draw_one_bar_fig(axs[index],dirname_complete, procs, official_name[index])
     
     legend_elem_1 = [Patch( label='Out of bounds',
-                        facecolor='blue', edgecolor='b'),
+                        facecolor='blue', edgecolor=None),
                      Patch(label='Zero velocity',
-                        facecolor='red', edgecolor='b'),
+                        facecolor='red', edgecolor=None),
                      Patch( label='Max step',
-                        facecolor='green', edgecolor='b')]
+                        facecolor='green', edgecolor=None)]
     
     fig.legend(handles=legend_elem_1, bbox_to_anchor=(0.62,1.08), ncol=3, fontsize=legendsize)
 

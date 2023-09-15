@@ -17,8 +17,10 @@ lwidth=2.5
 
 def draw_astro_exec(ax):
     # set titles
-    ax.set_xlabel('(b.1) Supernova', fontsize=labelSize)
-
+    #ax.set_xlabel('(b.1) Supernova', fontsize=labelSize)
+    ax.title.set_text('(b.1) Supernova')
+    ax.title.set_fontsize(labelSize)
+    
     ax.grid(axis='y')
     ax.set_axisbelow(True)
 
@@ -49,7 +51,9 @@ def draw_fishtank_exec(ax):
     # set titles
     #ax.set_xlabel('Number of ranks (log scale)', fontsize=labelSize)
     #ax.set_ylabel('Time(ms) (log scale)', fontsize=labelSize)
-    ax.set_xlabel('(c.1) Hydraulics', fontsize=labelSize)
+    #ax.set_xlabel('(c.1) Hydraulics', fontsize=labelSize)
+    ax.title.set_text('(c.1) Hydraulics')
+    ax.title.set_fontsize(labelSize)
 
     ax.grid(axis='y')
     ax.set_axisbelow(True)
@@ -80,7 +84,9 @@ def draw_fishtank_exec(ax):
 
 
 def draw_cloverleaf_exec(ax):
-    ax.set_xlabel('(d.1) CloverLeaf3D', fontsize=labelSize)
+    #ax.set_xlabel('(d.1) CloverLeaf3D', fontsize=labelSize)
+    ax.title.set_text('(d.1) CloverLeaf3D')
+    ax.title.set_fontsize(labelSize)
 
     ax.grid(axis='y')
     ax.set_axisbelow(True)
@@ -111,7 +117,10 @@ def draw_cloverleaf_exec(ax):
 def draw_fusion_exec(ax):
     ax.set_ylabel('Time(ms) (log scale)', fontsize=labelSize)
     #ax.set_xlabel('Number of ranks (log scale) \n(a) Tokamak', fontsize=labelSize)
-    ax.set_xlabel('(a.1) Tokamak', fontsize=labelSize)
+    #ax.set_xlabel('(a.1) Tokamak', fontsize=labelSize)
+    ax.title.set_text('(a.1) Tokamak')
+    ax.title.set_fontsize(labelSize)
+
 
     ax.grid(axis='y')
     ax.set_axisbelow(True)
@@ -141,8 +150,9 @@ def draw_fusion_exec(ax):
 
 
 def draw_syn_exec(ax):
-    ax.set_xlabel('(e.1) Synthetic', fontsize=labelSize)
-
+    #ax.set_xlabel('(e.1) Synthetic', fontsize=labelSize)
+    ax.title.set_text('(e.1) Synthetic')
+    ax.title.set_fontsize(labelSize)
     ax.grid(axis='y')
     ax.set_axisbelow(True)
 
@@ -171,8 +181,9 @@ def draw_syn_exec(ax):
 
 def draw_fusion_eff(ax):
     ax.set_ylabel('Weak scaling efficiency', fontsize=labelSize)
-    ax.set_xlabel('(a.2) Tokamak', fontsize=labelSize)
-    
+    #ax.set_xlabel('(a.2) Tokamak', fontsize=labelSize)
+    ax.title.set_text('(a.2) Tokamak')
+    ax.title.set_fontsize(labelSize)    
     step_50 = (239.024000,282.016000,371.916000,480.013000,539.107000)
     step_100 = (402.658000,477.712000,677.778000,874.209000,1002.778000)
     step_500 = (1558,2435,3454,4177,5019)
@@ -202,8 +213,9 @@ def draw_fusion_eff(ax):
     p4 = ax.plot(step_2000_eff, color='purple',linewidth=lwidth)
 
 def draw_astro_eff(ax):
-    ax.set_xlabel('(b.2) Supernova', fontsize=labelSize)
-    
+    #ax.set_xlabel('(b.2) Supernova', fontsize=labelSize)
+    ax.title.set_text('(b.2) Supernova')
+    ax.title.set_fontsize(labelSize)     
     step_50 = (258.076000,320.496000,474.643000,747.654000,1074.158000)
     step_100 = ( 510.783000,803.907000,1528.412000,2774.308000,4498.726000)
     step_500 = ( 1502.149000,2639.681000,5542.308000,8422.152000,15915.459000)
@@ -232,8 +244,9 @@ def draw_astro_eff(ax):
     p4 = ax.plot(step_2000_eff, color='purple', label='Step=2000',linewidth=lwidth)
 
 def draw_fishtank_eff(ax):
-    ax.set_xlabel('(c.2) Hydraulics', fontsize=labelSize)
-
+    #ax.set_xlabel('(c.2) Hydraulics', fontsize=labelSize)
+    ax.title.set_text('(c.2) Hydraulics')
+    ax.title.set_fontsize(labelSize)  
     step_50 = (297.619000,425.723000,483.097000,622.801000,1000.654000)
     step_100 = (476.124000,660.840000,794.918000,1092.481000,1925.061000)
     step_500 = (1214.262000,1649.678000,2067.996000,3044.389000,5094.329000)
@@ -271,7 +284,10 @@ def draw_cloverleaf_eff(ax):
     step_2000 = ( 12605.805000,34055.785000,50192.493000,107640.017000,235403.245000)
 
     N = 5
-    ax.set_xlabel('(d.2) CloverLeaf3D', fontsize=labelSize)
+    #ax.set_xlabel('(d.2) CloverLeaf3D', fontsize=labelSize)
+    ax.title.set_text('(d.2) CloverLeaf3D')
+    ax.title.set_fontsize(labelSize) 
+    
     ax.tick_params(axis='y', labelsize=ticksize)
     ax.set_xticks(range(N), ['8', '16' , '32', '64', '128'], fontsize=ticksize)
     ax.grid(axis='y')
@@ -301,7 +317,10 @@ def draw_syn_eff(ax):
     step_2000 = (11796,	11967,	25351,	37331,	41957 )
 
     N = 5
-    ax.set_xlabel('(e.2) Synthetic', fontsize=labelSize)
+    #ax.set_xlabel('(e.2) Synthetic', fontsize=labelSize)
+    ax.title.set_text('(e.2) Synthetic')
+    ax.title.set_fontsize(labelSize) 
+
     ax.tick_params(axis='y', labelsize=ticksize)
     ax.set_xticks(range(N), ['8', '16' , '32', '64', '128'], fontsize=ticksize)
     ax.grid(axis='y')
@@ -341,7 +360,7 @@ def all_exec_eff_time():
     handles, labels = axs[0][4].get_legend_handles_labels()
     fig.legend(handles, labels, ncol=5, loc='upper center', fontsize=legendsize)
 
-    fig.text(0.5, 0.01, 'Number of ranks (log scale)', ha='center',fontsize=labelSize+5)
+    fig.text(0.5, 0.04, 'Number of ranks (log scale)', ha='center',fontsize=labelSize+5)
 
     plt.savefig("all_exec_eff_time.png", bbox_inches='tight')
     plt.savefig("all_exec_eff_time.pdf", bbox_inches='tight')
