@@ -80,22 +80,22 @@ if __name__ == "__main__":
 
     # dataset dir and id
     
-    syn_dir="/Users/zw1/Downloads/0911/syn.A.b128.n4.r128.B_p5000_s2000_id365728/"
+    syn_dir="/Users/zw1/Downloads/0914/syn.A.b128.n4.r128.B_p5000_s2000_id365728/"
     syn_id="365728"
     
-    clover_dir="/Users/zw1/Downloads/0911/clover.A.b128.n4.r128.B_p5000_s2000_id275499/"
+    clover_dir="/Users/zw1/Downloads/0914/clover.A.b128.n4.r128.B_p5000_s2000_id275499/"
     clover_id="275499"
     
-    fishtank_dir="/Users/zw1/Downloads/0911/fishtank.A.b128.n4.r128.B_p5000_s2000_id625027/"
+    fishtank_dir="/Users/zw1/Downloads/0914/fishtank.A.b128.n4.r128.B_p5000_s2000_id625027/"
     fishtank_id="625027"
 
-    astro_dir="/Users/zw1/Downloads/0911/astro.A.b128.n4.r128.B_p5000_s2000_id418463/"
+    astro_dir="/Users/zw1/Downloads/0914/astro.A.b128.n4.r128.B_p5000_s2000_id418463/"
     astro_id="418463"
 
-    fusion_dir="/Users/zw1/Downloads/0911/fusion.A.b128.n4.r128.B_p5000_s2000_id582493/"
+    fusion_dir="/Users/zw1/Downloads/0914/fusion.A.b128.n4.r128.B_p5000_s2000_id582493/"
     fusion_id="582493"
 
-    astro_dir_temp="/Users/zw1/Downloads/0824/astro.A.b128.n4.r128.B_p5000_s2000_id418463/"
+    astro_dir_temp="/Users/zw1/Downloads/0914/astro.A.b128.n4.r128.B_p5000_s2000_id418463/"
     astro_id_temp="418463"
 
     dataset_dir=[syn_dir,clover_dir,fishtank_dir,astro_dir,fusion_dir]
