@@ -73,7 +73,7 @@ def draw_alive_time(ax,procs,dirPath,data_name, figid):
     ax.set_xticks([])
 
     if data_name=="Tokamak":
-        ax.set_ylabel('Alive time', fontsize=labelSize)
+        ax.set_ylabel('Alive time (us)', fontsize=labelSize)
         ax.tick_params(axis='y', labelsize=tickSize)
     else:
         ax.set_yticks([])
@@ -124,7 +124,7 @@ def draw_acc_group_size(ax,procs,dirPath,data_name,figid):
     
 
     #ax.set_ylim([0,np.log(3.5*1e6)])
-    ax.set_ylim([0,3.5*1e6])
+    ax.set_ylim([0,9*1e6])
     
     xpos = range(0, len(time_list),1)
     print(len(xpos),len(time_list))
@@ -370,7 +370,7 @@ def draw_acc_wait(ax,procs,dirPath,data_name,figid):
     for p in all_particles_sorted:
         time_list.append(p[1])
     
-    ax.set_ylim([0,0.2*1e9])
+    ax.set_ylim([0,0.1*1e9])
     xpos = range(0, len(time_list),1)
     print(len(xpos),len(time_list))
 
@@ -379,7 +379,7 @@ def draw_acc_wait(ax,procs,dirPath,data_name,figid):
     #ax.set_xticks([0,len(xpos)/2,len(xpos)])
     #ax.set_xticklabels(['0','320000','640000'])
     if data_name=="Tokamak":
-        ax.set_ylabel('Acc wait time', fontsize=labelSize)
+        ax.set_ylabel('Acc wait time (us)', fontsize=labelSize)
         ax.tick_params(axis='y', labelsize=tickSize)
     else:
         ax.set_yticks([])
@@ -428,7 +428,7 @@ def draw_acc_adv(ax,procs,dirPath,data_name,figid):
     for p in all_particles_sorted:
         time_list.append(p[1])
     
-    ax.set_ylim([0,0.06*1e9])
+    ax.set_ylim([0,2*1e8])
     xpos = range(0, len(time_list),1)
     print(len(xpos),len(time_list))
 
@@ -437,7 +437,7 @@ def draw_acc_adv(ax,procs,dirPath,data_name,figid):
     #ax.set_xticklabels(['0','320000','640000'])
     ax.set_xticks([])
     if data_name=="Tokamak":
-        ax.set_ylabel('Acc adv time', fontsize=labelSize)
+        ax.set_ylabel('Acc adv time (us)', fontsize=labelSize)
         ax.tick_params(axis='y', labelsize=tickSize)
     else:
         ax.set_yticks([])
@@ -489,7 +489,7 @@ def draw_acc_bo_eo(ax,procs,dirPath,data_name,figid):
     for p in all_particles_sorted:
         time_list.append(p[1])
     
-    ax.set_ylim([0,0.021*1e6])
+    ax.set_ylim([0,0.8*1e8])
     xpos = range(0, len(time_list),1)
     print(len(xpos),len(time_list))
 
@@ -498,7 +498,7 @@ def draw_acc_bo_eo(ax,procs,dirPath,data_name,figid):
     #ax.set_xticklabels(['0','320000','640000'])
     ax.set_xticks([])
     if data_name=="Tokamak":
-        ax.set_ylabel('Acc BO and EO', fontsize=labelSize)
+        ax.set_ylabel('Acc BO and EO (us)', fontsize=labelSize)
         ax.tick_params(axis='y', labelsize=tickSize)
     else:
         ax.set_yticks([])
@@ -531,10 +531,16 @@ if __name__ == "__main__":
               "clover.A.b128.n4.r128.B_p5000_s2000_id275499",
               "syn.A.b128.n4.r128.B_p5000_s2000_id365728"]
 
+    # dataname=["fusion.A.b128.n4.r128.B_p5000_s2000_id582493_PPP6000",
+    #           "astro.A.b128.n4.r128.B_p5000_s2000_id255124_PPP6000",
+    #           "fishtank.A.b128.n4.r128.B_p5000_s2000_id625027_PPP6000",
+    #           "clover.A.b128.n4.r128.B_p5000_s2000_id275499_PPP6000",
+    #           "syn.A.b128.n4.r128.B_p5000_s2000_id365728_PPP6000"]
+
     official_name = ["Tokamak","Supernova","Hydraulics","CloverLeaf3D","Synthetic"]
    
-
-    fig, axs = plt.subplots(nrows=7, ncols=5, figsize=(figsize_x*5,figsize_y*7)) 
+    nr=6
+    fig, axs = plt.subplots(nrows=nr, ncols=5, figsize=(figsize_x*5,figsize_y*nr)) 
 
     for index, data in enumerate(dataname):
         dirname_complete = dirPath+"/"+data
@@ -568,11 +574,11 @@ if __name__ == "__main__":
         figid = "(e."+str(index+1)+")"
         draw_acc_group_size(axs[4][index],procs,dirname_complete, official_name[index],figid)
 
-    for index, data in enumerate(dataname):
-        dirname_complete = dirPath+"/"+data
-        print("dirname",dirname_complete,"index",index)
-        figid = "(f."+str(index+1)+")"
-        draw_acc_prev_group_size(axs[5][index],procs,dirname_complete, official_name[index],figid)
+    # for index, data in enumerate(dataname):
+    #     dirname_complete = dirPath+"/"+data
+    #     print("dirname",dirname_complete,"index",index)
+    #     figid = "(f."+str(index+1)+")"
+    #     draw_acc_prev_group_size(axs[5][index],procs,dirname_complete, official_name[index],figid)
 
     # for index, data in enumerate(dataname):
     #     dirname_complete = dirPath+"/"+data
@@ -583,10 +589,10 @@ if __name__ == "__main__":
     for index, data in enumerate(dataname):
         dirname_complete = dirPath+"/"+data
         print("dirname",dirname_complete,"index",index)
-        figid = "(g."+str(index+1)+")"
-        draw_comm_times(axs[6][index],procs,dirname_complete, official_name[index],figid)
+        figid = "(f."+str(index+1)+")"
+        draw_comm_times(axs[5][index],procs,dirname_complete, official_name[index],figid)
 
     fig.text(0.5, 0.08, 'Particles sorted by current group size', ha='center',fontsize=labelSize)
 
-    fig.savefig("particles_all_dots_statistics.png",bbox_inches='tight',dpi=600)
+    fig.savefig("particles_all_dots_statistics.png",bbox_inches='tight',dpi=800)
     fig.savefig("particles_all_dots_statistics.pdf",bbox_inches='tight')

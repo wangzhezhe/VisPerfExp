@@ -21,7 +21,7 @@ def draw_rank_gantt(ax, index, dirPath, officalname, procs):
     ax.set_xlim(0,figsize_x)
     ax.set_ylim(0,figsize_y)
 
-    minWidth=0.00001
+    minWidth=0.000001
     filter_time=0
 
     # get filter time, use the rank0's filter time as the total one
@@ -36,11 +36,13 @@ def draw_rank_gantt(ax, index, dirPath, officalname, procs):
             filter_end_time = float(split_str[1])
             filter_time = filter_end_time-0.0+100.0
     fo.close()
-
+    usToms = 1000
+    usTous = 1
     print("filter_time",filter_time)
-    print("tick ", 0, int(filter_time/2),int(filter_time))
-    print("tick pos", 0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x)
-    ax.set_xticks([0,figsize_x/2,figsize_x], [0,int(filter_time/2),int(filter_time)],fontsize=ticksize)
+    print("tick ", 0, int(filter_time/2/usToms),int(filter_time/usToms))
+    print("tick pos", 0,figsize_x/4,figsize_x/2, 3*figsize_x/4,figsize_x)
+    # x positions on labels and x ticks
+    ax.set_xticks([0,figsize_x/2,figsize_x], [0,int(filter_time/2/usToms),int(filter_time/usToms)],fontsize=ticksize)
     #ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.3f}"))
 
     proc_id=list(range(0, procs, 8))
@@ -125,15 +127,22 @@ def draw_rank_gantt(ax, index, dirPath, officalname, procs):
 # parse the timetrace log and draw the gantt chart
 if __name__ == "__main__":
     
-    if len(sys.argv)!=4:
-        print("<binary> <procs> <step/cycle> <dirpath for all data>")
+    if len(sys.argv)!=5:
+        print("<binary> <procs> <step/cycle> <dirpath for all data> <unit>")
         exit()
 
-    dataname=["fusion.A.b128.n4.r128.B_p5000_s2000",
-              "astro.A.b128.n4.r128.B_p5000_s2000",
-              "fishtank.A.b128.n4.r128.B_p5000_s2000_id625027",
-              "clover.A.b128.n4.r128.B_p5000_s2000",
-              "syn.A.b128.n4.r128.B_p5000_s2000"]
+    # dataname=["fusion.A.b128.n4.r128.B_p5000_s2000",
+    #           "astro.A.b128.n4.r128.B_p5000_s2000",
+    #           "fishtank.A.b128.n4.r128.B_p5000_s2000_id625027",
+    #           "clover.A.b128.n4.r128.B_p5000_s2000",
+    #           "syn.A.b128.n4.r128.B_p5000_s2000"]
+
+    dataname=["fusion.A.b128.n4.r128.B_p5000_s2000_id582493",
+               "astro.A.b128.n4.r128.B_p5000_s2000_id418463",
+               "fishtank.A.b128.n4.r128.B_p5000_s2000_id625027",
+               "clover.A.b128.n4.r128.B_p5000_s2000_id275499",
+               "syn.A.b128.n4.r128.B_p5000_s2000_id365728"]
+
     dataname_test=["fusion.A.b128.n4.r128.B_p5000_s2000"]
 
     official_name = ["Tokamak","Supernova","Hydraulics","CloverLeaf3D","Synthetic"]
@@ -142,7 +151,7 @@ if __name__ == "__main__":
     # for each procs, the operations are executed multiple steps
     step=int(sys.argv[2])
     dirPath=sys.argv[3]
-
+    printUnit=sys.argv[4]
  
     # give some place for legend
     global figsize_y
@@ -158,7 +167,11 @@ if __name__ == "__main__":
                             Patch(facecolor='tab:red', edgecolor='black', alpha=0.35, label='Communication and Wait'),
                             Patch(facecolor='white', edgecolor='black', label='Other overhead'),]
     fig.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=legendSize)
-        
-    fig.text(0.5, 0.03, 'Time (ms)', ha='center',fontsize=labelSize)
-    fig.savefig("rank_gantt_all.png",bbox_inches='tight',dpi=800)
-    fig.savefig("rank_gantt_all.pdf",bbox_inches='tight')
+
+    if printUnit=="ms":
+        fig.text(0.5, 0.03, 'Time (ms)', ha='center',fontsize=labelSize)
+    if printUnit=="us":
+        fig.text(0.5, 0.03, 'Time (us)', ha='center',fontsize=labelSize)
+    #fig.savefig("rank_gantt_all.png",bbox_inches='tight',dpi=800)
+    fig.savefig("rank_gantt_all.png",bbox_inches='tight',dpi=100)
+    #fig.savefig("rank_gantt_all.pdf",bbox_inches='tight')
