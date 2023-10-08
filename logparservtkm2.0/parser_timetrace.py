@@ -1,6 +1,7 @@
 from os import system
 from os.path import exists
 import sys
+import math
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
@@ -8,6 +9,61 @@ import matplotlib.patches as mpatches
 from matplotlib import ticker
 import statistics
 from matplotlib.patches import Patch
+
+def get_barh_other_overhead(barh_list_advec, barh_list_comm):
+    barh_list_other_overhead=[]
+    #print("barh_list_advec",barh_list_advec[0:10])
+    #print("barh_list_comm",barh_list_comm[0:10])
+    # two pointer i, j
+    i=0
+    j=0
+    
+    last_bar_end=0
+    curr_bar_star=0
+    print("len(barh_list_advec)",len(barh_list_advec),"len(barh_list_comm)",len(barh_list_comm))
+
+    while(i<len(barh_list_advec) and j<len(barh_list_comm)):
+        #print("debug i, j",i,j)
+        if i==0 and j==0:
+            last_bar_end=0
+        # if i==392 and j==565:
+        #    print("debug", barh_list_advec[i],barh_list_comm[j])
+        #    exit(0)
+    
+        curr_bar_star=min(barh_list_advec[i][0],barh_list_comm[j][0])
+        barh_list_other_overhead.append((last_bar_end,curr_bar_star-last_bar_end))
+     
+        # move i j and update last bar end position 
+        if barh_list_advec[i][0]+barh_list_advec[i][1] < barh_list_comm[j][0] or (math.fabs(barh_list_advec[i][0]+barh_list_advec[i][1]- barh_list_comm[j][0])<0.000001):
+            last_bar_end = barh_list_advec[i][0]+barh_list_advec[i][1]
+            i=i+1
+            continue
+        if barh_list_comm[j][0]+barh_list_comm[j][1] < barh_list_advec[i][0] or (math.fabs(barh_list_comm[j][0]+barh_list_comm[j][1] - barh_list_advec[i][0])<0.000001):
+            last_bar_end = barh_list_comm[j][0]+barh_list_comm[j][1]
+            j=j+1
+            continue
+        
+    # when either i and j end, put last one
+    while i<len(barh_list_advec):
+        curr_bar_start=barh_list_advec[i][0]
+        barh_list_other_overhead.append((last_bar_end,curr_bar_start-last_bar_end))
+        last_bar_end=curr_bar_start+barh_list_advec[i][1]
+        i+=1
+
+
+    while j<len(barh_list_advec):
+        curr_bar_start=barh_list_comm[j][0]
+        last_bar_end=curr_bar_start+barh_list_comm[j][1]
+        barh_list_other_overhead.append((last_bar_end,curr_bar_start-last_bar_end))
+        j+=1
+
+
+    return barh_list_other_overhead
+
+        
+
+
+
 
 # parse the timetrace log and draw the gantt chart
 if __name__ == "__main__":
@@ -126,20 +182,26 @@ if __name__ == "__main__":
             #ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:blue',label='Advec')
             #ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:red',alpha=0.2,label='Comm_Wait')          
             ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height),facecolors='tab:blue',edgecolor='None')
-            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor='None')          
+            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='white',alpha=0.35,edgecolor='None')          
+            
+            barh_other_overhead=get_barh_other_overhead(barh_list_advec,barh_list_comm)
+            ax.broken_barh(xranges=barh_other_overhead,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor='None')          
+
             # customize the legend
             legend_elems = [Patch(facecolor='tab:blue', edgecolor='None', label='Advec'),
-                            Patch(facecolor='tab:red', alpha=0.35, edgecolor='None', label='Comm and Wait'),
-                            Patch(facecolor='white', edgecolor='black', label='Other overhead'),]
+                            Patch(facecolor='white', alpha=0.35, edgecolor='black', label='Comm and Wait'),
+                            Patch(facecolor='tab:red', alpha=0.35, edgecolor='None', label='Other overhead'),]
             legend = plt.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=10)
             ax.add_artist(legend)
         else:
             # no label here
             ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height),facecolors='tab:blue',edgecolor='None')
-            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor='None')
+            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='white',alpha=0.35,edgecolor='None')
+            barh_other_overhead=get_barh_other_overhead(barh_list_advec,barh_list_comm)
+            ax.broken_barh(xranges=barh_other_overhead,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor='None')          
 
     # get some space for legend in the center
     ax.broken_barh(xranges=[(0,1)],yrange=(procs*bar_height,bar_height),facecolors='None',edgecolor='None')
-    plt.xlabel('Time(ms)', fontsize=15)
+    plt.xlabel('Time(us)', fontsize=15)
     plt.ylabel('Rank', fontsize=15)
-    fig.savefig("gantt_worklet_"+dirname+".png",bbox_inches='tight', dpi=600)
+    fig.savefig("gantt_chart_rank_"+dirname+".png",bbox_inches='tight', dpi=600)
