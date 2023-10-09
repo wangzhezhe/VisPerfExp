@@ -58,10 +58,13 @@ def readTimeTrace(fdir, nRanks) :
         EVENT = []
         for line in allLines :
             x = line.strip().split(' ')
-            #print(x)
+            if "**" in x:
+                # new log add ** at the start position
+                continue
             event = x[0].split('_')[0]
             step = int(x[0].split('_')[-1])
-            time = float(x[1])
+            # change to ms
+            time = float(x[1])/1000
             # do not consider the case when step is 1
             # we only process the case when step is 0
             if step != 0 : continue
@@ -160,11 +163,17 @@ if __name__ == "__main__":
     numRanks=int(sys.argv[1])
     dirPath=sys.argv[2]
 
-    dataname=["fusion.A.b128.n4.r128.B_p5000_s2000",
-              "astro.A.b128.n4.r128.B_p5000_s2000",
-              "fishtank.A.b128.n4.r128.B_p5000_s2000_id625027",
-              "clover.A.b128.n4.r128.B_p5000_s2000",
-              "syn.A.b128.n4.r128.B_p5000_s2000"]
+    # dataname=["fusion.A.b128.n4.r128.B_p5000_s2000",
+    #           "astro.A.b128.n4.r128.B_p5000_s2000",
+    #           "fishtank.A.b128.n4.r128.B_p5000_s2000_id625027",
+    #           "clover.A.b128.n4.r128.B_p5000_s2000",
+    #           "syn.A.b128.n4.r128.B_p5000_s2000"]
+
+    dataname=["fusion.A.b128.n4.r128.B_p5000_s2000_id582493",
+               "astro.A.b128.n4.r128.B_p5000_s2000_id418463",
+               "fishtank.A.b128.n4.r128.B_p5000_s2000_id625027",
+               "clover.A.b128.n4.r128.B_p5000_s2000_id275499",
+               "syn.A.b128.n4.r128.B_p5000_s2000_id365728"]
 
     official_name = ["Tokamak","Supernova","Hydraulics","CloverLeaf3D","Synthetic"]
 

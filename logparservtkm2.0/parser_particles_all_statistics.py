@@ -92,7 +92,7 @@ if __name__ == "__main__":
                           ,"eo", split_str[7], "{:.1%}".format(float(split_str[7])/aliveTime), 
                            "a",split_str[8], "{:.1%}".format(float(split_str[8])/aliveTime),
                            "wait", split_str[10], "{:.1%}".format(float(split_str[10])/aliveTime), 
-                           "alive", split_str[3])
+                           "alive (us)", split_str[3],"alive (s)", float(split_str[3])/1000000)
                         other=aliveTime-float(initTime)-float(split_str[6])-float(split_str[7])-float(split_str[8])-float(split_str[10])
                         print("other", other, "{:.1%}".format(other/aliveTime))
 

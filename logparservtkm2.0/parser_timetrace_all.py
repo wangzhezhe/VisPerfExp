@@ -8,7 +8,7 @@ import matplotlib.patches as mpatches
 from matplotlib import ticker
 import statistics
 from matplotlib.patches import Patch
-
+import math
 
 figsize_x=5*6
 bar_height=0.08
@@ -16,8 +16,58 @@ ticksize=20
 labelSize=26
 legendSize=22
 
+def get_barh_other_overhead(barh_list_advec, barh_list_comm):
+    barh_list_other_overhead=[]
+    #print("barh_list_advec",barh_list_advec[0:10])
+    #print("barh_list_comm",barh_list_comm[0:10])
+    # two pointer i, j
+    i=0
+    j=0
+    
+    last_bar_end=0
+    curr_bar_star=0
+    #print("len(barh_list_advec)",len(barh_list_advec),"len(barh_list_comm)",len(barh_list_comm))
+
+    while(i<len(barh_list_advec) and j<len(barh_list_comm)):
+        #print("debug i, j",i,j)
+        if i==0 and j==0:
+            last_bar_end=0
+        # if i==392 and j==565:
+        #    print("debug", barh_list_advec[i],barh_list_comm[j])
+        #    exit(0)
+    
+        curr_bar_star=min(barh_list_advec[i][0],barh_list_comm[j][0])
+        barh_list_other_overhead.append((last_bar_end,curr_bar_star-last_bar_end))
+     
+        # move i j and update last bar end position 
+        if barh_list_advec[i][0]+barh_list_advec[i][1] < barh_list_comm[j][0] or (math.fabs(barh_list_advec[i][0]+barh_list_advec[i][1]- barh_list_comm[j][0])<0.000001):
+            last_bar_end = barh_list_advec[i][0]+barh_list_advec[i][1]
+            i=i+1
+            continue
+        if barh_list_comm[j][0]+barh_list_comm[j][1] < barh_list_advec[i][0] or (math.fabs(barh_list_comm[j][0]+barh_list_comm[j][1] - barh_list_advec[i][0])<0.000001):
+            last_bar_end = barh_list_comm[j][0]+barh_list_comm[j][1]
+            j=j+1
+            continue
+        
+    # when either i and j end, put last one
+    while i<len(barh_list_advec):
+        curr_bar_start=barh_list_advec[i][0]
+        barh_list_other_overhead.append((last_bar_end,curr_bar_start-last_bar_end))
+        last_bar_end=curr_bar_start+barh_list_advec[i][1]
+        i+=1
+
+
+    while j<len(barh_list_advec):
+        curr_bar_start=barh_list_comm[j][0]
+        last_bar_end=curr_bar_start+barh_list_comm[j][1]
+        barh_list_other_overhead.append((last_bar_end,curr_bar_start-last_bar_end))
+        j+=1
+
+
+    return barh_list_other_overhead
+
 def draw_rank_gantt(ax, index, dirPath, officalname, procs):
-    print(index, dirPath, officalname)
+    #print(index, dirPath, officalname)
     ax.set_xlim(0,figsize_x)
     ax.set_ylim(0,figsize_y)
 
@@ -115,7 +165,13 @@ def draw_rank_gantt(ax, index, dirPath, officalname, procs):
         # no label here
         
         ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height),facecolors='tab:blue', edgecolor="none")
-        ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor="none")
+        ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='white',alpha=0.35,edgecolor="none")
+
+
+        barh_other_overhead=get_barh_other_overhead(barh_list_advec,barh_list_comm)
+        ax.broken_barh(xranges=barh_other_overhead,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor='None')          
+
+
 
     if officalname=="Tokamak":
         ax.set_ylabel('Rank', fontsize=labelSize)
@@ -163,9 +219,9 @@ if __name__ == "__main__":
         draw_rank_gantt(axs[index],index,dirPath+"/"+data,official_name[index],procs)
     
 
-    legend_elems = [Patch(facecolor='tab:blue', edgecolor='black', label='Advection'),
-                            Patch(facecolor='tab:red', edgecolor='black', alpha=0.35, label='Communication and Wait'),
-                            Patch(facecolor='white', edgecolor='black', label='Other overhead'),]
+    legend_elems = [Patch(facecolor='tab:blue', edgecolor='None', label='Advection'),
+                            Patch(facecolor='white', edgecolor='black', alpha=0.35, label='Communication and Wait'),
+                            Patch(facecolor='tab:red', edgecolor='None', alpha=0.35, label='Other overhead'),]
     fig.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=legendSize)
 
     if printUnit=="ms":
