@@ -79,23 +79,27 @@ def get_particle_list_sorted(data_dir, particle_id):
 if __name__ == "__main__":
 
     # dataset dir and id
+
+    #dir = "/Users/zw1/Downloads/0914/"
+    dir = "/Users/zw1/Downloads/0928_async_probe/"
+
     
-    syn_dir="/Users/zw1/Downloads/0914/syn.A.b128.n4.r128.B_p5000_s2000_id365728/"
+    syn_dir=dir+"syn.A.b128.n4.r128.B_p5000_s2000_id365728/"
     syn_id="365728"
     
-    clover_dir="/Users/zw1/Downloads/0914/clover.A.b128.n4.r128.B_p5000_s2000_id275499/"
+    clover_dir=dir+"clover.A.b128.n4.r128.B_p5000_s2000_id275499/"
     clover_id="275499"
     
-    fishtank_dir="/Users/zw1/Downloads/0914/fishtank.A.b128.n4.r128.B_p5000_s2000_id625027/"
+    fishtank_dir=dir+"fishtank.A.b128.n4.r128.B_p5000_s2000_id625027/"
     fishtank_id="625027"
 
-    astro_dir="/Users/zw1/Downloads/0914/astro.A.b128.n4.r128.B_p5000_s2000_id418463/"
+    astro_dir=dir+"astro.A.b128.n4.r128.B_p5000_s2000_id418463/"
     astro_id="418463"
 
-    fusion_dir="/Users/zw1/Downloads/0914/fusion.A.b128.n4.r128.B_p5000_s2000_id582493/"
+    fusion_dir=dir+"fusion.A.b128.n4.r128.B_p5000_s2000_id582493/"
     fusion_id="582493"
 
-    astro_dir_temp="/Users/zw1/Downloads/0914/astro.A.b128.n4.r128.B_p5000_s2000_id418463/"
+    astro_dir_temp=dir+"astro.A.b128.n4.r128.B_p5000_s2000_id418463/"
     astro_id_temp="418463"
 
     dataset_dir=[syn_dir,clover_dir,fishtank_dir,astro_dir,fusion_dir]
@@ -133,7 +137,7 @@ if __name__ == "__main__":
     plt.yticks(bar_height*np.array(list(range(0, 5, 1)))+0.5*bar_height-0.05,["Synthetic","CloverLeaf3D","Hydraulics","Supernova","Tokamak"])
     ax.tick_params(axis='y', labelsize=20)
     ax.tick_params(axis='x', labelsize=20)
-    ax.set_xlabel('Time(ms)', fontsize=20)
+    ax.set_xlabel('Time(us)', fontsize=20)
 
     for data_index in range(0,5,1):
         # get advection time

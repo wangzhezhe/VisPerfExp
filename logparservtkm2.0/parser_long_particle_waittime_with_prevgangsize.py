@@ -20,7 +20,7 @@ simSycle=0
 figsize_x = 8
 figsize_y = 5
 
-scatterSize=12
+scatterSize=60
 
 def draw_comm_wait_time_with_prev_gang(ax,procs,dirPath,data_name,figid):
     all_particles=[]
@@ -31,6 +31,7 @@ def draw_comm_wait_time_with_prev_gang(ax,procs,dirPath,data_name,figid):
         gang_comm_start=0
         prev_gang=0
         desirilize_time=0
+        curr_gang_size=0
         file_name = dirPath+"/particle_tracing_details."+str(rank)+".out"
         fo=open(file_name, "r")
 
@@ -41,10 +42,13 @@ def draw_comm_wait_time_with_prev_gang(ax,procs,dirPath,data_name,figid):
             if split_str[0]=="RECVOK":
                 recvok=float(split_str[4])
 
+            if split_str[0]=="ADVECTSTART":
+                curr_gang_size=float(split_str[6])
+
             #if split_str[0]=="GANG_COMM_END":
             if split_str[0]=="ParticleSendEnd":
                 gang_send_out=float(split_str[4])
-                all_particles.append([recvok,gang_send_out,rank])
+                all_particles.append([recvok,gang_send_out,rank,curr_gang_size ])
 
     all_particles_sorted=sorted(all_particles, key=lambda x: x[0])
     
@@ -66,6 +70,7 @@ def draw_comm_wait_time_with_prev_gang(ax,procs,dirPath,data_name,figid):
     wait_time =[]
     prev_group=[]
     all_time_pos =[]
+    curr_gang_size_list=[]
     for index, p in enumerate(all_particles_sorted):
         if index>0:
             debug_time=101826000
@@ -73,6 +78,8 @@ def draw_comm_wait_time_with_prev_gang(ax,procs,dirPath,data_name,figid):
             send_time_from_src=all_particles_sorted[index-1][1]
             recv_time_of_dst=all_particles_sorted[index][0]
             dst_rank=all_particles_sorted[index][2]
+            temp_curr_group=all_particles_sorted[index-1][3]
+            
             wait_time.append(recv_time_of_dst-send_time_from_src)
             if int(recv_time_of_dst)==debug_time:
                 print("debug start",send_time_from_src,recv_time_of_dst)
@@ -149,13 +156,23 @@ def draw_comm_wait_time_with_prev_gang(ax,procs,dirPath,data_name,figid):
 
             prev_group.append(prev_group_element)
             all_time_pos.append(all_particles_sorted[index][0])
+            curr_gang_size_list.append(temp_curr_group)
+
     
     #print(all_wait_time)
     #print(len(all_particles_sorted))
     #print(len(prev_group))
     #print(len(wait_time))
     #print("debug prev_group", prev_group)
-    ax.scatter(prev_group, wait_time, s=scatterSize, c=all_time_pos, cmap='viridis_r')
+    # color by all time pos
+    scatter_plot = ax.scatter(prev_group, wait_time, s=scatterSize, c=all_time_pos, cmap='viridis_r')
+    # color by current gang size
+    #scatter_plot = ax.scatter(prev_group, wait_time, s=scatterSize, c=curr_gang_size_list, cmap='viridis_r')
+
+
+
+    #plt.colorbar(scatter_plot,cax=ax,orientation='horizontal')
+    fig.colorbar(scatter_plot, ax=ax)
 
     # draw the fitted poly line
     b, a = np.polyfit(prev_group, wait_time, deg=1)
@@ -219,7 +236,6 @@ if __name__ == "__main__":
         print("dirname",dirname_complete,"index",index)
         figid = ""
         draw_comm_wait_time_with_prev_gang(axs[index],procs,dirname_complete, official_name[index], figid)
-
 
     fig.text(0.5, 0.01, 'Total sizes of advected groups in dest rank during comm&wait time (partially overlapped group is also counted)', ha='center',fontsize=labelSize)
 
