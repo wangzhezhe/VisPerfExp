@@ -8,8 +8,62 @@ import matplotlib.patches as mpatches
 from matplotlib import ticker
 import statistics
 from matplotlib.patches import Patch
+import math
+
+def get_barh_other_overhead(barh_list_advec, barh_list_comm):
+    barh_list_other_overhead=[]
+    #print("barh_list_advec",barh_list_advec[0:10])
+    #print("barh_list_comm",barh_list_comm[0:10])
+    # two pointer i, j
+    i=0
+    j=0
+    
+    last_bar_end=0
+    curr_bar_star=0
+    print("len(barh_list_advec)",len(barh_list_advec),"len(barh_list_comm)",len(barh_list_comm))
+
+    while(i<len(barh_list_advec) and j<len(barh_list_comm)):
+        #print("debug i, j",i,j)
+        if i==0 and j==0:
+            last_bar_end=0
+        #if i==203 and j==202:
+        #   print("debug", barh_list_advec[i],barh_list_comm[j])
+        #   exit(0)
+    
+        curr_bar_star=min(barh_list_advec[i][0],barh_list_comm[j][0])
+        barh_list_other_overhead.append((last_bar_end,curr_bar_star-last_bar_end))
+     
+        # move i j and update last bar end position 
+        if barh_list_advec[i][0]+barh_list_advec[i][1] < barh_list_comm[j][0] or (math.fabs(barh_list_advec[i][0]+barh_list_advec[i][1]- barh_list_comm[j][0])<0.000001):
+            last_bar_end = barh_list_advec[i][0]+barh_list_advec[i][1]
+            i=i+1
+            continue
+        elif barh_list_comm[j][0]+barh_list_comm[j][1] < barh_list_advec[i][0] or (math.fabs(barh_list_comm[j][0]+barh_list_comm[j][1] - barh_list_advec[i][0])<0.000001):
+            last_bar_end = barh_list_comm[j][0]+barh_list_comm[j][1]
+            j=j+1
+            continue
+        else:
+            print("debug issue data", barh_list_advec[i],barh_list_comm[j])
+            i+=1
+            j+=1
+            continue
+        
+    # when either i and j end, put last one
+    while i<len(barh_list_advec):
+        curr_bar_start=barh_list_advec[i][0]
+        barh_list_other_overhead.append((last_bar_end,curr_bar_start-last_bar_end))
+        last_bar_end=curr_bar_start+barh_list_advec[i][1]
+        i+=1
 
 
+    while j<len(barh_list_comm):
+        curr_bar_start=barh_list_comm[j][0]
+        last_bar_end=curr_bar_start+barh_list_comm[j][1]
+        barh_list_other_overhead.append((last_bar_end,curr_bar_start-last_bar_end))
+        j+=1
+
+
+    return barh_list_other_overhead
 
 def get_particle_list_sorted(data_dir, particle_id):
 
@@ -68,7 +122,7 @@ def get_particle_list_sorted(data_dir, particle_id):
                     send_end_list.append(comm_end_time)
                     # put one path into the path list once the gang comm end
                     #print([recvok_time,advect_start_time,advect_end_time,comm_start_time,blockid])
-                    particle_path.append([recvok_time,advect_start_time,advect_end_time,comm_start_time,blockid])
+                    particle_path.append([recvok_time,advect_start_time,advect_end_time,comm_start_time,blockid,comm_end_time])
 
     #sorting all particle list
     #print(particle_list)
@@ -103,6 +157,7 @@ if __name__ == "__main__":
     astro_id_temp="418463"
 
     dataset_dir=[syn_dir,clover_dir,fishtank_dir,astro_dir,fusion_dir]
+    
     particle_id=[syn_id,clover_id,fishtank_id,astro_id,fusion_id]
 
     dataset_dir_test=[astro_dir_temp]
@@ -123,21 +178,26 @@ if __name__ == "__main__":
         print(particle_list_sorted[:2])
         particle_list_sorted_all.append(particle_list_sorted)
         #print(particle_list_sorted)
-        print("long particle time", particle_list_sorted[-1][1])
-        max_particle_live_time=max(max_particle_live_time,particle_list_sorted[-1][1])
+        print("long particle time", particle_list_sorted[-1][5])
+        #choose the largest one among five data sets
+        max_particle_live_time=max(max_particle_live_time,particle_list_sorted[-1][5])
 
     # make sure the x coordinates 
     # then draw each bar separately
-    figsize_x=20
+    figsize_x=20.0
     bar_height=0.7
     figsize_y=bar_height*5+0.5
     fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))
+    # TODO, use the end of the comm as the particle alive time, do not use the filter time here
     print("max_particle_live_time",max_particle_live_time)
-    plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,int(max_particle_live_time/4),int(max_particle_live_time/2), int(3*max_particle_live_time/4),int(max_particle_live_time)])
-    plt.yticks(bar_height*np.array(list(range(0, 5, 1)))+0.5*bar_height-0.05,["Synthetic","CloverLeaf3D","Hydraulics","Supernova","Tokamak"])
+    
+    usTos=1000000
+    plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,round((max_particle_live_time/4/usTos),2),round((max_particle_live_time/2/usTos),2), round((3*max_particle_live_time/4/usTos),2),round((max_particle_live_time/usTos),2)])
+    ax.set_yticks(bar_height*np.array(list(range(0, 5, 1)))+0.5*bar_height-0.05,["Synthetic","CloverLeaf3D","Hydraulics","Supernova","Tokamak"])
+    
     ax.tick_params(axis='y', labelsize=20)
     ax.tick_params(axis='x', labelsize=20)
-    ax.set_xlabel('Time(us)', fontsize=20)
+    ax.set_xlabel('Time(s)', fontsize=20)
 
     for data_index in range(0,5,1):
         # get advection time
@@ -153,23 +213,20 @@ if __name__ == "__main__":
             width = (1.0*advect_spent_time)/(1.0*max_particle_live_time)
 
             # use start position
-            advected_bar.append((figsize_x*(p[1]*1.0/max_particle_live_time),width*figsize_x))
+            advected_bar.append((figsize_x*(p[1]*1.0/max_particle_live_time),figsize_x*width))
             blockid_list.append(p[4])
             
             comm_wait_time = 0
-            if p[0]==0:
+            if int(p[0])==0:
                 comm_wait_time = 0
             else:
                 comm_wait_time = p[0]-last_comm_start
             
             #print("comm start",last_comm_start,"recv time", p[0], "comm_wait_time", comm_wait_time)
             comm_wiat_bar_width = (1.0*comm_wait_time)/(1.0*max_particle_live_time)
-            comm_wait_bar.append((figsize_x*(last_comm_start*1.0/max_particle_live_time),comm_wiat_bar_width*figsize_x))
-            
+            comm_wait_bar.append((figsize_x*(last_comm_start*1.0/(1.0*max_particle_live_time)),figsize_x*comm_wiat_bar_width))
             
             last_comm_start = p[3]
-
-
 
         # compute color map
         block_list_set = set(blockid_list)
@@ -204,8 +261,10 @@ if __name__ == "__main__":
         
 
         ax.broken_barh(xranges=advected_bar,yrange=(bar_height*data_index,bar_height-0.1),color=color_list,edgecolor="none")
-        ax.broken_barh(xranges=comm_wait_bar,yrange=(bar_height*data_index,bar_height-0.1),facecolors='tab:red',alpha=0.25, edgecolor="none")
+        ax.broken_barh(xranges=comm_wait_bar,yrange=(bar_height*data_index,bar_height-0.1),facecolors='white',alpha=0.25, edgecolor="None")
+        barh_other_overhead=get_barh_other_overhead(advected_bar,comm_wait_bar)
+        print(len(barh_other_overhead))
+        ax.broken_barh(xranges=barh_other_overhead,yrange=(bar_height*data_index,bar_height-0.1),facecolors='tab:red',alpha=0.25,edgecolor='None')          
 
-
-    fig.savefig("particle_gantt_five_datasets_red_wait.png",bbox_inches='tight')
-    fig.savefig("particle_gantt_five_datasets_red_wait.pdf",bbox_inches='tight')
+    fig.savefig("particle_gantt_five_datasets_white_wait.png",bbox_inches='tight')
+    fig.savefig("particle_gantt_five_datasets_white_wait.pdf",bbox_inches='tight')
