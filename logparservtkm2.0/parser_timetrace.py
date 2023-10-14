@@ -202,6 +202,6 @@ if __name__ == "__main__":
 
     # get some space for legend in the center
     ax.broken_barh(xranges=[(0,1)],yrange=(procs*bar_height,bar_height),facecolors='None',edgecolor='None')
-    plt.xlabel('Time(us)', fontsize=15)
-    plt.ylabel('Rank', fontsize=15)
-    fig.savefig("gantt_chart_rank_"+dirname+".png",bbox_inches='tight', dpi=600)
+    plt.xlabel('Time(ms)', fontsize=20)
+    plt.ylabel('Rank', fontsize=20)
+    fig.savefig("gantt_chart_"+dirname+".png",bbox_inches='tight', dpi=600)

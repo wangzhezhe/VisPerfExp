@@ -163,11 +163,17 @@ if __name__ == "__main__":
     simSycle=0
     dirPath=sys.argv[2]
 
-    dataname=["fusion.A.b128.n4.r128.B_p5000_s2000",
-              "astro.A.b128.n4.r128.B_p5000_s2000",
+    # dataname=["fusion.A.b128.n4.r128.B_p5000_s2000",
+    #           "astro.A.b128.n4.r128.B_p5000_s2000",
+    #           "fishtank.A.b128.n4.r128.B_p5000_s2000_id625027",
+    #           "clover.A.b128.n4.r128.B_p5000_s2000",
+    #           "syn.A.b128.n4.r128.B_p5000_s2000"]
+
+    dataname=["fusion.A.b128.n4.r128.B_p5000_s2000_id582493",
+              "astro.A.b128.n4.r128.B_p5000_s2000_id418463",
               "fishtank.A.b128.n4.r128.B_p5000_s2000_id625027",
-              "clover.A.b128.n4.r128.B_p5000_s2000",
-              "syn.A.b128.n4.r128.B_p5000_s2000"]
+              "clover.A.b128.n4.r128.B_p5000_s2000_id275499",
+              "syn.A.b128.n4.r128.B_p5000_s2000_id365728"]
 
     official_name = ["Tokamak","Supernova","Hydraulics","CloverLeaf3D","Synthetic"]
 

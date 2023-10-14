@@ -210,7 +210,7 @@ def draw_adjust_prev_gang_time(ax,procs,dirPath,data_name,figid):
     print("debug data set",data_name)
 
     if data_name=="Tokamak":
-        ax.set_ylabel('Adjusted prev gang', fontsize=labelSize)
+        ax.set_ylabel('Prev gang sizes', fontsize=labelSize)
         ax.tick_params(axis='y', labelsize=tickSize)
     else:
         ax.set_yticks([])
@@ -598,7 +598,7 @@ if __name__ == "__main__":
 
     official_name = ["Tokamak","Supernova","Hydraulics","CloverLeaf3D","Synthetic"]
    
-    nr=5
+    nr=4
     fig, axs = plt.subplots(nrows=nr, ncols=5, figsize=(figsize_x*5,figsize_y*nr)) 
 
     for index, data in enumerate(dataname):
@@ -635,12 +635,12 @@ if __name__ == "__main__":
         draw_adjust_prev_gang_time(axs[3][index],procs,dirname_complete, official_name[index], figid)
     
     #draw prev_group_num_list for sanity check
-    for index, data in enumerate(dataname):
-        dirname_complete = dirPath+"/"+data
-        print("dirname",dirname_complete,"index",index)
-        figid = "(d."+str(index+1)+")"
-        #if official_name[index]=="CloverLeaf3D":
-        draw_adjust_prev_group_num(axs[4][index],procs,dirname_complete, official_name[index], figid)   
+    # for index, data in enumerate(dataname):
+    #     dirname_complete = dirPath+"/"+data
+    #     print("dirname",dirname_complete,"index",index)
+    #     figid = "(d."+str(index+1)+")"
+    #     #if official_name[index]=="CloverLeaf3D":
+    #     draw_adjust_prev_group_num(axs[4][index],procs,dirname_complete, official_name[index], figid)   
 
     fig.text(0.5, 0.08, 'Time (us)', ha='center',fontsize=labelSize)
 

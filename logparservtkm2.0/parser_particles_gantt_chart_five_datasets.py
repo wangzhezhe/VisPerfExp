@@ -135,7 +135,7 @@ if __name__ == "__main__":
     # dataset dir and id
 
     #dir = "/Users/zw1/Downloads/0914/"
-    dir = "/Users/zw1/Downloads/0928_async_probe/"
+    dir = "/Users/zw1/Downloads/0928_async_iprobe/"
 
     
     syn_dir=dir+"syn.A.b128.n4.r128.B_p5000_s2000_id365728/"
@@ -166,7 +166,7 @@ if __name__ == "__main__":
 
     particle_list_sorted_all=[]
     max_particle_live_time=0
-
+    particle_live_time_list=[]
     for dir_id_pair in zip(dataset_dir,particle_id):
         print(dir_id_pair[0],dir_id_pair[1])
         #draw figure using one x axis and y axis
@@ -181,6 +181,7 @@ if __name__ == "__main__":
         print("long particle time", particle_list_sorted[-1][5])
         #choose the largest one among five data sets
         max_particle_live_time=max(max_particle_live_time,particle_list_sorted[-1][5])
+        particle_live_time_list.append(particle_list_sorted[-1][5])
 
     # make sure the x coordinates 
     # then draw each bar separately
@@ -265,6 +266,11 @@ if __name__ == "__main__":
         barh_other_overhead=get_barh_other_overhead(advected_bar,comm_wait_bar)
         print(len(barh_other_overhead))
         ax.broken_barh(xranges=barh_other_overhead,yrange=(bar_height*data_index,bar_height-0.1),facecolors='tab:red',alpha=0.25,edgecolor='None')          
+        # add a small vertical line at the end
+        # get the end of position
+        # parameter is x and yrange
+        final_line_pos = figsize_x*particle_live_time_list[data_index]*1.0/(1.0*max_particle_live_time)
+        ax.vlines(final_line_pos,bar_height*data_index-0.05,bar_height*data_index+0.65,colors='k')
 
     fig.savefig("particle_gantt_five_datasets_white_wait.png",bbox_inches='tight')
     fig.savefig("particle_gantt_five_datasets_white_wait.pdf",bbox_inches='tight')

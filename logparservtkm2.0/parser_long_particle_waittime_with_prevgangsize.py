@@ -165,26 +165,26 @@ def draw_comm_wait_time_with_prev_gang(ax,procs,dirPath,data_name,figid):
     #print(len(wait_time))
     #print("debug prev_group", prev_group)
     # color by all time pos
-    scatter_plot = ax.scatter(prev_group, wait_time, s=scatterSize, c=all_time_pos, cmap='viridis_r')
+    #scatter_plot = ax.scatter(prev_group, wait_time, s=scatterSize, c=all_time_pos, cmap='viridis_r')
     # color by current gang size
-    #scatter_plot = ax.scatter(prev_group, wait_time, s=scatterSize, c=curr_gang_size_list, cmap='viridis_r')
+    scatter_plot = ax.scatter(prev_group, wait_time, s=scatterSize, c=curr_gang_size_list, cmap='viridis_r')
 
 
 
     #plt.colorbar(scatter_plot,cax=ax,orientation='horizontal')
     fig.colorbar(scatter_plot, ax=ax)
 
-    # draw the fitted poly line
-    b, a = np.polyfit(prev_group, wait_time, deg=1)
+    # # draw the fitted poly line
+    # b, a = np.polyfit(prev_group, wait_time, deg=1)
 
-    # Create sequence of 100 numbers from 0 to 100 
-    xseq = np.linspace(0, max(prev_group), num=100)
+    # # Create sequence of 100 numbers from 0 to 100 
+    # xseq = np.linspace(0, max(prev_group), num=100)
 
-    # Plot regression line
-    ax.plot(xseq, a + b * xseq, color="k", lw=1.0)
+    # # Plot regression line
+    # ax.plot(xseq, a + b * xseq, color="k", lw=1.0)
 
-    corr = scipy.stats.pearsonr(prev_group, wait_time)
-    print(corr)
+    # corr = scipy.stats.pearsonr(prev_group, wait_time)
+    # print(corr)
 
 
 if __name__ == "__main__":
@@ -239,5 +239,5 @@ if __name__ == "__main__":
 
     fig.text(0.5, 0.01, 'Total sizes of advected groups in dest rank during comm&wait time (partially overlapped group is also counted)', ha='center',fontsize=labelSize)
 
-    fig.savefig("parser_long_particle_waittime_with_prevgangsize.png",bbox_inches='tight',dpi=400)
-    fig.savefig("parser_long_particle_waittime_with_prevgangsize.pdf",bbox_inches='tight')
+    fig.savefig("parser_long_particle_waittime_with_prevgangsize_color_by_curr_gang.png",bbox_inches='tight',dpi=400)
+    fig.savefig("parser_long_particle_waittime_with_prevgangsize_color_by_curr_gang.pdf",bbox_inches='tight')

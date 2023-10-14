@@ -136,7 +136,7 @@ def draw_acc_group_size(ax,procs,dirPath,data_name,figid):
     #ax.set_xticklabels(['0','320000','640000'])
     ax.set_xticks([])
     if data_name=="Tokamak":
-        ax.set_ylabel('Current group size', fontsize=labelSize)
+        ax.set_ylabel('Acc group sizes', fontsize=labelSize)
         ax.tick_params(axis='y', labelsize=tickSize)
     else:
         ax.set_yticks([])
@@ -379,7 +379,7 @@ def draw_acc_wait(ax,procs,dirPath,data_name,figid):
     #ax.set_xticks([0,len(xpos)/2,len(xpos)])
     #ax.set_xticklabels(['0','320000','640000'])
     if data_name=="Tokamak":
-        ax.set_ylabel('Acc wait time (us)', fontsize=labelSize)
+        ax.set_ylabel('Acc comm&wait time (us)', fontsize=labelSize)
         ax.tick_params(axis='y', labelsize=tickSize)
     else:
         ax.set_yticks([])
@@ -592,7 +592,7 @@ if __name__ == "__main__":
         figid = "(f."+str(index+1)+")"
         draw_comm_times(axs[5][index],procs,dirname_complete, official_name[index],figid)
 
-    fig.text(0.5, 0.08, 'Particles sorted by current group size', ha='center',fontsize=labelSize)
+    fig.text(0.5, 0.08, 'Particles sorted by accumulated group size', ha='center',fontsize=labelSize)
 
     fig.savefig("particles_all_dots_statistics.png",bbox_inches='tight',dpi=800)
     fig.savefig("particles_all_dots_statistics.pdf",bbox_inches='tight')
