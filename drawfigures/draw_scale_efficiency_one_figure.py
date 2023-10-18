@@ -24,7 +24,7 @@ def draw_astro_exec(ax):
     ax.grid(axis='y')
     ax.set_axisbelow(True)
 
-    ax.set_ylim([7.5,18])
+    ax.set_ylim([5,13])
 
     # set tick
     N = 5
@@ -33,19 +33,19 @@ def draw_astro_exec(ax):
     # set the value of the figure here
     # use the capsize to control the error bar
     step_50 = (258.076000,320.496000,474.643000,747.654000,1074.158000)
-    p1 = ax.plot(np.log2(step_50), color=gblue, label='Step=50',linewidth=lwidth )
+    p1 = ax.plot(np.log(step_50), color=gblue, label='Step=50',linewidth=lwidth )
 
     step_100 = ( 510.783000,803.907000,1528.412000,2774.308000,4498.726000)
-    p2 = ax.plot(np.log2(step_100), color=gred, label='Step=100',linewidth=lwidth)
+    p2 = ax.plot(np.log(step_100), color=gred, label='Step=100',linewidth=lwidth)
 
     step_500 = ( 1502.149000,2639.681000,5542.308000,8422.152000,15915.459000)
-    p3 = ax.plot(np.log2(step_500), color=gyellow, label='Step=500',linewidth=lwidth)
+    p3 = ax.plot(np.log(step_500), color=gyellow, label='Step=500',linewidth=lwidth)
 
     step_1000 = (1807.770000, 3960.569000,9751.240000,12736.243000,40163.814000)
-    p4 = ax.plot(np.log2(step_1000), color=ggreen, label='Step=1000',linewidth=lwidth)
+    p4 = ax.plot(np.log(step_1000), color=ggreen, label='Step=1000',linewidth=lwidth)
     
     step_2000 = (2100.566000, 6377.275000,16464.272000,22266.060000,92132.543000)
-    p4 = ax.plot(np.log2(step_2000), color='purple', label='Step=2000',linewidth=lwidth)
+    p4 = ax.plot(np.log(step_2000), color='purple', label='Step=2000',linewidth=lwidth)
 
 def draw_fishtank_exec(ax):
     # set titles
@@ -58,7 +58,7 @@ def draw_fishtank_exec(ax):
     ax.grid(axis='y')
     ax.set_axisbelow(True)
 
-    ax.set_ylim([7.5,18])
+    ax.set_ylim([5,13])
 
     # set tick
     N = 5
@@ -68,19 +68,19 @@ def draw_fishtank_exec(ax):
     # use the capsize to control the error bar
     step_50 = (297.619000,425.723000,483.097000,622.801000,1000.654000)
     
-    p1 = ax.plot(np.log2(step_50), color=gblue, label='Step=50',linewidth=lwidth)
+    p1 = ax.plot(np.log(step_50), color=gblue, label='Step=50',linewidth=lwidth)
 
     step_100 = (476.124000,660.840000,794.918000,1092.481000,1925.061000)
-    p2 = ax.plot(np.log2(step_100), color=gred, label='Step=100',linewidth=lwidth)
+    p2 = ax.plot(np.log(step_100), color=gred, label='Step=100',linewidth=lwidth)
 
     step_500 = (1214.262000,1649.678000,2067.996000,3044.389000,5094.329000)
-    p3 = ax.plot(np.log2(step_500), color=gyellow, label='Step=500',linewidth=lwidth)
+    p3 = ax.plot(np.log(step_500), color=gyellow, label='Step=500',linewidth=lwidth)
 
     step_1000 = (1423.630000,1977.669000,2467.479000,3614.343000,6022.233000)
-    p4 = ax.plot(np.log2(step_1000), color=ggreen, label='Step=1000',linewidth=lwidth)
+    p4 = ax.plot(np.log(step_1000), color=ggreen, label='Step=1000',linewidth=lwidth)
     
     step_2000 = (1516.090000,	2130.307000,	2659.044000,	3910.404000,	6585.829000 )
-    p4 = ax.plot(np.log2(step_2000), color='purple', label='Step=2000',linewidth=lwidth)
+    p4 = ax.plot(np.log(step_2000), color='purple', label='Step=2000',linewidth=lwidth)
 
 
 def draw_cloverleaf_exec(ax):
@@ -91,7 +91,7 @@ def draw_cloverleaf_exec(ax):
     ax.grid(axis='y')
     ax.set_axisbelow(True)
 
-    ax.set_ylim([7.5,18])
+    ax.set_ylim([5,13])
 
     # set tick
     N = 5
@@ -99,23 +99,23 @@ def draw_cloverleaf_exec(ax):
     ax.set_xticks(range(N), ['8', '16' , '32', '64', '128'], fontsize=ticksize)
     step_50 = (304.810000,387.139000,592.253000,1014.135000,1523.190000)
     
-    p1 = ax.plot(np.log2(step_50), color=gblue, label='Step=50',linewidth=lwidth)
+    p1 = ax.plot(np.log(step_50), color=gblue, label='Step=50',linewidth=lwidth)
 
     step_100 = (618.046000,785.226000,1340.487000,2517.550000,3810.020000)
-    p2 = ax.plot(np.log2(step_100), color=gred, label='Step=100',linewidth=lwidth)
+    p2 = ax.plot(np.log(step_100), color=gred, label='Step=100',linewidth=lwidth)
 
     step_500 = (3030.954000,4376.861000,10701.690000,18607.122000,36782.186000 )
-    p3 = ax.plot(np.log2(step_500), color=gyellow, label='Step=500',linewidth=lwidth)
+    p3 = ax.plot(np.log(step_500), color=gyellow, label='Step=500',linewidth=lwidth)
 
     step_1000 = ( 6158.103000,10471.921000,29537.392000,47852.609000,101932.251000)
-    p4 = ax.plot(np.log2(step_1000), color=ggreen, label='Step=1000',linewidth=lwidth)
+    p4 = ax.plot(np.log(step_1000), color=ggreen, label='Step=1000',linewidth=lwidth)
     
     step_2000 = ( 12605.805000,34055.785000,50192.493000,107640.017000,235403.245000)
-    p4 = ax.plot(np.log2(step_2000), color='purple', label='Step=2000',linewidth=lwidth)
+    p4 = ax.plot(np.log(step_2000), color='purple', label='Step=2000',linewidth=lwidth)
 
 
 def draw_fusion_exec(ax):
-    ax.set_ylabel('Time(ms) (log scale)', fontsize=labelSize)
+    ax.set_ylabel('Log(Time(ms))', fontsize=labelSize)
     #ax.set_xlabel('Number of ranks (log scale) \n(a) Tokamak', fontsize=labelSize)
     #ax.set_xlabel('(a.1) Tokamak', fontsize=labelSize)
     ax.title.set_text('(a.1) Tokamak')
@@ -125,7 +125,7 @@ def draw_fusion_exec(ax):
     ax.grid(axis='y')
     ax.set_axisbelow(True)
 
-    ax.set_ylim([7.5,18])
+    ax.set_ylim([5,13])
 
     # set tick
     N = 5
@@ -133,19 +133,19 @@ def draw_fusion_exec(ax):
     ax.set_xticks(range(N), ['8', '16' , '32', '64', '128'], fontsize=ticksize)
     step_50 = (239.024000,282.016000,371.916000,480.013000,539.107000)
     
-    p1 = ax.plot(np.log2(step_50), color=gblue, label='Step=50',linewidth=lwidth)
+    p1 = ax.plot(np.log(step_50), color=gblue, label='Step=50',linewidth=lwidth)
 
     step_100 = (402.658000,477.712000,677.778000,874.209000,1002.778000)
-    p2 = ax.plot(np.log2(step_100), color=gred, label='Step=100',linewidth=lwidth)
+    p2 = ax.plot(np.log(step_100), color=gred, label='Step=100',linewidth=lwidth)
 
     step_500 = (1558,2435,3454,4177,5019)
-    p3 = ax.plot(np.log2(step_500), color=gyellow, label='Step=500',linewidth=lwidth)
+    p3 = ax.plot(np.log(step_500), color=gyellow, label='Step=500',linewidth=lwidth)
 
     step_1000 = (2901,4588,6261,7572,9829)
-    p4 = ax.plot(np.log2(step_1000), color=ggreen, label='Step=1000',linewidth=lwidth)
+    p4 = ax.plot(np.log(step_1000), color=ggreen, label='Step=1000',linewidth=lwidth)
     
     step_2000 = (5689,8474,11369,14633,19520)
-    p4 = ax.plot(np.log2(step_2000), color='purple', label='Step=2000',linewidth=lwidth)
+    p4 = ax.plot(np.log(step_2000), color='purple', label='Step=2000',linewidth=lwidth)
 
 
 
@@ -156,7 +156,7 @@ def draw_syn_exec(ax):
     ax.grid(axis='y')
     ax.set_axisbelow(True)
 
-    ax.set_ylim([7.5,18])
+    ax.set_ylim([5,13])
 
     # set tick
     N = 5
@@ -164,19 +164,19 @@ def draw_syn_exec(ax):
     ax.set_xticks(range(N), ['8', '16' , '32', '64', '128'], fontsize=ticksize)
     step_50 = (401,	406,	672,	1022,	1110  )
     
-    p1 = ax.plot(np.log2(step_50), color=gblue, label='Step=50',linewidth=lwidth)
+    p1 = ax.plot(np.log(step_50), color=gblue, label='Step=50',linewidth=lwidth)
 
     step_100 = (712,	723,	1250,	1806,	2064 )
-    p2 = ax.plot(np.log2(step_100), color=gred, label='Step=100',linewidth=lwidth)
+    p2 = ax.plot(np.log(step_100), color=gred, label='Step=100',linewidth=lwidth)
 
     step_500 = (3039,	3089,	6272,	9366,	9319 )
-    p3 = ax.plot(np.log2(step_500), color=gyellow, label='Step=500',linewidth=lwidth)
+    p3 = ax.plot(np.log(step_500), color=gyellow, label='Step=500',linewidth=lwidth)
 
     step_1000 = (5982,	6094,	12533,	19025,	21751 )
-    p4 = ax.plot(np.log2(step_1000), color=ggreen, label='Step=1000',linewidth=lwidth)
+    p4 = ax.plot(np.log(step_1000), color=ggreen, label='Step=1000',linewidth=lwidth)
     
     step_2000 = (11796,	11967,	25351,	37331,	41957 )
-    p4 = ax.plot(np.log2(step_2000), color='purple', label='Step=2000',linewidth=lwidth)
+    p4 = ax.plot(np.log(step_2000), color='purple', label='Step=2000',linewidth=lwidth)
 
 
 def draw_fusion_eff(ax):
@@ -194,6 +194,7 @@ def draw_fusion_eff(ax):
     ax.tick_params(axis='y', labelsize=ticksize)
     ax.set_xticks(range(N), ['8', '16' , '32', '64', '128'], fontsize=ticksize)
     ax.grid(axis='y')
+    ax.set_ylim([0, 1.1])
     ax.set_axisbelow(True)
 
     step_50_eff = [step_50[0]/v for v in step_50]
@@ -226,6 +227,7 @@ def draw_astro_eff(ax):
     ax.tick_params(axis='y', labelsize=ticksize)
     ax.set_xticks(range(N), ['8', '16' , '32', '64', '128'], fontsize=ticksize)
     ax.grid(axis='y')
+    ax.set_ylim([0, 1.1])
     ax.set_axisbelow(True)
 
     step_50_eff = [step_50[0]/v for v in step_50]
@@ -257,6 +259,7 @@ def draw_fishtank_eff(ax):
     ax.tick_params(axis='y', labelsize=ticksize)
     ax.set_xticks(range(N), ['8', '16' , '32', '64', '128'], fontsize=ticksize)
     ax.grid(axis='y')
+    ax.set_ylim([0, 1.1])
     ax.set_axisbelow(True)
 
     step_50_eff = [step_50[0]/v for v in step_50]
@@ -291,6 +294,7 @@ def draw_cloverleaf_eff(ax):
     ax.tick_params(axis='y', labelsize=ticksize)
     ax.set_xticks(range(N), ['8', '16' , '32', '64', '128'], fontsize=ticksize)
     ax.grid(axis='y')
+    ax.set_ylim([0, 1.1])
     ax.set_axisbelow(True)
 
     step_50_eff = [step_50[0]/v for v in step_50]
@@ -324,6 +328,7 @@ def draw_syn_eff(ax):
     ax.tick_params(axis='y', labelsize=ticksize)
     ax.set_xticks(range(N), ['8', '16' , '32', '64', '128'], fontsize=ticksize)
     ax.grid(axis='y')
+    ax.set_ylim([0, 1.1])
     ax.set_axisbelow(True)
 
     step_50_eff = [step_50[0]/v for v in step_50]

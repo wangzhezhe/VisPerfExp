@@ -18,3 +18,4 @@ R-*
 commonScripts/generate_dataset/x_*/
 assignment_all_*/
 .DS_Store
+*.pkl
