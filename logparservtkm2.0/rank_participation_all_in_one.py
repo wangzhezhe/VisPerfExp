@@ -63,7 +63,7 @@ def readTimeTrace(fdir, nRanks) :
                 continue
             event = x[0].split('_')[0]
             step = int(x[0].split('_')[-1])
-            # change to ms
+            #change time to ms
             time = float(x[1])/1000
             # do not consider the case when step is 1
             # we only process the case when step is 0
@@ -147,6 +147,13 @@ def calcParticipation(ax, pdata, TIMES, numBins, imageNm, drawPlots=True) :
         else:
             ax.set_yticks([])
 
+        # this changes the value range to second for adding tick
+        print(tMax,tMin)
+        # the xlim should be the actual value range of x
+        ax.set_xlim([0.0, X[-1]])
+        #ax.set_xticks([0,X[-1]/4,X[-1]/2,3*X[-1]/4,X[-1]],[0,round(largest_x/4.0,1),round(largest_x/2.0,1),round(3*largest_x/4.0,1),round(largest_x,1)])
+        ax.set_xticks([0,X[-1]/4,X[-1]/2,3*X[-1]/4,X[-1]],[0,round(tMax/1000.0/4.0),round(tMax/1000.0/2.0),round(3*tMax/1000.0/4.0),round(tMax/1000.0)])
+
         ax.tick_params(axis='y', labelsize=tickSize)
         ax.tick_params(axis='x', labelsize=tickSize)
 
@@ -175,6 +182,8 @@ if __name__ == "__main__":
                "clover.A.b128.n4.r128.B_p5000_s2000_id275499",
                "syn.A.b128.n4.r128.B_p5000_s2000_id365728"]
 
+    # dataname=["fusion.A.b128.n4.r128.B_p5000_s2000_id582493"]
+
     official_name = ["Tokamak","Supernova","Hydraulics","CloverLeaf3D","Synthetic"]
 
     fig, axs = plt.subplots(nrows=1, ncols=5,figsize=(7*5,6))
@@ -191,6 +200,6 @@ if __name__ == "__main__":
         PARTICIPATION = computeParticipation(ALLBINS, numRanks, numBins)
         calcParticipation(axs[index], PARTICIPATION, TIMES, numBins, official_name[index], True)
     
-    fig.text(0.5, 0.0, 'Time (ms)', ha='center',fontsize=labelSize+2)
+    fig.text(0.5, 0.0, 'Time (second)', ha='center',fontsize=labelSize+2)
     fig.savefig("rank_participation_all.png",bbox_inches='tight')
     fig.savefig("rank_participation_all.pdf",bbox_inches='tight')

@@ -39,7 +39,7 @@ def search_particle(simSycleStr, procs, dirPath, particleId, ax):
 
 
     #print(particle_advectstep)
-    #print(particle_blockid)
+    print(particle_blockid)
     #y is block id
     #x is advec step
     ax.plot(particle_advectstep,particle_blockid)
@@ -67,8 +67,11 @@ if __name__ == "__main__":
     print(particle_id_list)
 
     fig, ax = plt.subplots()
-    for p_id in particle_id_list:
-        search_particle(simSycleStr,procs,dirPath,p_id,ax)
+    #for p_id in particle_id_list:
+    #    search_particle(simSycleStr,procs,dirPath,p_id,ax)
+    
+    search_particle(simSycleStr,procs,dirPath,275499,ax)
+    
 
     ax.set_xlabel('Time(ms)', fontsize='large')
     ax.set_ylabel('Block (Rank) id', fontsize='large') 

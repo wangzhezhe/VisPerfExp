@@ -1,0 +1,11 @@
+#BSUB -P csc143
+#BSUB -W 2:00
+#BSUB -nnodes 4
+#BSUB -J run_optimizer_summit
+#BSUB -o run_optimizer_summit.%J.out
+#BSUB -e run_optimizer_summit.%J.err
+#BSUB -q debug
+
+
+python3 pygad_optimizer_summit.py &> pygad_optimizer_summit.log
+

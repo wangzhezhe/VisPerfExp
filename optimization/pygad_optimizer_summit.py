@@ -53,18 +53,15 @@ def get_exec_time(solution_plan):
     f.close() 
     
     # call the particle advection based on plan
-    os.system('/bin/bash runtask.sh')
+    os.system('/bin/bash runtask-summit.sh')
     
     end = time.time()
     exec_time = end-start
     return exec_time,occupied_process
 
 def fitness_func(ga_instance, solution, solution_idx):
-    print("solution",solution)
-    #exec_time, occupied_process = get_exec_time(solution)
-    exec_time = 1+randint(1,3)
-    occupied_process=2+randint(1,3)/1000
-    sleep(randint(1,3)/1000)
+    #print("solution",solution)
+    exec_time, occupied_process = get_exec_time(solution)
     # count occupied process
     core_time=exec_time*occupied_process
     print("exec_time",exec_time,"occupied_process",occupied_process)
@@ -76,9 +73,9 @@ def fitness_func(ga_instance, solution, solution_idx):
 
 # parameters related to the optimization algorithm
 num_generations = 10 # Number of generations.
-num_parents_mating = 6 # Number of solutions to be selected as parents in the mating pool.
+num_parents_mating = 5 # Number of solutions to be selected as parents in the mating pool.
 
-sol_per_pop = 6 # Number of solutions in the population. # This value related to the number of eval in each generation
+sol_per_pop = 6 # Number of solutions in the population.
 num_genes = num_rank
 solution_range_low = 0
 solution_range_high= num_rank-1
@@ -115,8 +112,8 @@ print(f"Index of the best solution : {solution_idx}")
 
 #prediction = numpy.sum(numpy.array(function_inputs)*solution)
 #prediction = numpy.sum(numpy.array(function_inputs)*solution)
-#best_solution_time = get_exec_time(solution)
-#print(f"Output based on the best solution : {best_solution_time}")
+best_solution_time = get_exec_time(solution)
+print(f"Output based on the best solution : {best_solution_time}")
 
 if ga_instance.best_solution_generation != -1:
     print(f"Best fitness value reached after {ga_instance.best_solution_generation} generations.")

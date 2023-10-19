@@ -193,7 +193,9 @@ if __name__ == "__main__":
     print("max_particle_live_time",max_particle_live_time)
     
     usTos=1000000
-    plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,round((max_particle_live_time/4/usTos),2),round((max_particle_live_time/2/usTos),2), round((3*max_particle_live_time/4/usTos),2),round((max_particle_live_time/usTos),2)])
+    #plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,round((max_particle_live_time/4/usTos),2),round((max_particle_live_time/2/usTos),2), round((3*max_particle_live_time/4/usTos),2),round((max_particle_live_time/usTos),2)])
+    plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,round((max_particle_live_time/4/usTos)),round((max_particle_live_time/2/usTos)), round((3*max_particle_live_time/4/usTos)),round((max_particle_live_time/usTos))])
+    
     ax.set_yticks(bar_height*np.array(list(range(0, 5, 1)))+0.5*bar_height-0.05,["Synthetic","CloverLeaf3D","Hydraulics","Supernova","Tokamak"])
     
     ax.tick_params(axis='y', labelsize=20)

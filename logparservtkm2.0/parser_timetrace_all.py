@@ -86,13 +86,15 @@ def draw_rank_gantt(ax, index, dirPath, officalname, procs):
             filter_end_time = float(split_str[1])
             filter_time = filter_end_time-0.0+100.0
     fo.close()
+    usTos = 1000000
     usToms = 1000
     usTous = 1
     print("filter_time",filter_time)
-    print("tick ", 0, int(filter_time/2/usToms),int(filter_time/usToms))
+    print("tick ", 0, int(filter_time/2/usTos),int(filter_time/usTos))
     print("tick pos", 0,figsize_x/4,figsize_x/2, 3*figsize_x/4,figsize_x)
     # x positions on labels and x ticks
-    ax.set_xticks([0,figsize_x/2,figsize_x], [0,int(filter_time/2/usToms),int(filter_time/usToms)],fontsize=ticksize)
+    #ax.set_xticks([0,figsize_x/2,figsize_x], [0,round(filter_time/2/usTos,1),round(filter_time/usTos,1)],fontsize=ticksize)
+    ax.set_xticks([0,figsize_x/2,figsize_x], [0,round(filter_time/2/usTos),round(filter_time/usTos)],fontsize=ticksize)
     #ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.3f}"))
 
     proc_id=list(range(0, procs, 8))
@@ -224,8 +226,8 @@ if __name__ == "__main__":
                             Patch(facecolor='tab:red', edgecolor='None', alpha=0.35, label='Other overhead'),]
     fig.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=legendSize)
 
-    if printUnit=="ms":
-        fig.text(0.5, 0.03, 'Time (ms)', ha='center',fontsize=labelSize)
+    if printUnit=="s":
+        fig.text(0.5, 0.03, 'Time (second)', ha='center',fontsize=labelSize)
     if printUnit=="us":
         fig.text(0.5, 0.03, 'Time (us)', ha='center',fontsize=labelSize)
     #fig.savefig("rank_gantt_all.png",bbox_inches='tight',dpi=800)

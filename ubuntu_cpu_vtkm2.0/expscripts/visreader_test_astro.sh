@@ -19,7 +19,7 @@ DATADIR=/home/zw/dataset/astro
 DATANAME="astro.2_2_2.visit"
 DATASET=${DATADIR}/$DATANAME
 
-PARTICLE_LIST="5000"
+PARTICLE_LIST="50"
 STEP_LIST="2000"
 
 # the mpirun will oversubscribe the omp threads
@@ -48,8 +48,8 @@ mpirun -n 8 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
 --advect-num-seeds=$PARTICLE \
 --advect-num-steps=${STEP} \
 --advect-step-size=0.01 \
---record-trajectories=false \
---output-results=false \
+--record-trajectories=true \
+--output-results=true \
 --sim-code=cloverleaf \
 --communication=async_probe \
 --trace_particle_id=32774 \
@@ -57,7 +57,7 @@ mpirun -n 8 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
 --num-recievers=64 \
 --num-particles-per-packet=128 \
 --block-duplicate=false \
-
+--assign-strategy=file \
 
 done
 done

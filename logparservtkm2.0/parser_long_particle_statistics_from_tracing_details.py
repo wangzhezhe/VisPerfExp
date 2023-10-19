@@ -31,6 +31,8 @@ if __name__ == "__main__":
 
     particle_send_acc=0
     particle_worklet_acc=0
+    particle_smallstep_acc=0
+
     end_overhead_acc=0
     begin_overhead_acc=0
     go_start_time=0
@@ -39,6 +41,8 @@ if __name__ == "__main__":
         
         particle_send_begin=0
         particle_worklet_begin=0
+        particle_smallstep_begin=0
+        particle_smallstep_end=0
         end_overhead_begin=0
         begin_overhead_begin=0
         recv_ok_time=0
@@ -70,6 +74,12 @@ if __name__ == "__main__":
                     print("wrong log parser",file_name,begin_overhead_begin, begin_overhead_end)
                 begin_overhead_acc=begin_overhead_acc+(begin_overhead_end-begin_overhead_begin)
 
+            if split_str[0]=="SMALLSTEP_Start":   
+                particle_smallstep_begin=float(split_str[4]) 
+
+            if split_str[0]=="SMALLSTEP_End":   
+                particle_smallstep_end=float(split_str[4]) 
+                particle_smallstep_acc=particle_smallstep_acc+(particle_smallstep_end-particle_smallstep_begin)
 
             if split_str[0]=="WORKLET_End":
                 particle_worklet_end=float(split_str[4])
@@ -124,5 +134,9 @@ if __name__ == "__main__":
 
     percent_send_acc=particle_send_acc/particle_comm_wait_acc
     print("percent of particle_send_acc in particle_comm_wait_acc",particle_send_acc,"{:.0%}".format(percent_send_acc)) 
+
+    percent_smallstep_acc=particle_smallstep_acc/particle_worklet_acc
+    print("percent of particle_smallstep_acc in particle_worklet_acc",particle_smallstep_acc,"{:.3%}".format(percent_smallstep_acc)) 
+
 
     print("unmersured percent", 1.0-(percent_bo_acc+percent_eo_acc+percent_work_acc+percent_comm_wait_acc))

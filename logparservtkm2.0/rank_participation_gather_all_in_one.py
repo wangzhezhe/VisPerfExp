@@ -119,6 +119,8 @@ def readTimeTrace(fdir, nRanks) :
         C0, C1 = (0,0)
         EVENT = []
         for line in allLines :
+            if "**" in line:
+                continue
             x = line.strip().split(' ')
             #print(x)
             event = x[0].split('_')[0]

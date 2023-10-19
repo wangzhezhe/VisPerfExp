@@ -1,7 +1,6 @@
 from os import system
 from os.path import exists
 import sys
-import math
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
@@ -9,16 +8,15 @@ import matplotlib.patches as mpatches
 from matplotlib import ticker
 import statistics
 from matplotlib.patches import Patch
+import math
 
+figsize_x=2*6
+bar_height=0.08
 ticksize=20
 labelSize=26
 legendSize=22
 
 def get_barh_other_overhead(barh_list_advec, barh_list_comm):
-
-    print("len(barh_list_advec)",len(barh_list_advec),"len(barh_list_comm)",len(barh_list_comm))
-    if len(barh_list_comm)==0 and len(barh_list_advec)==0:
-        return []
     barh_list_other_overhead=[]
     #print("barh_list_advec",barh_list_advec[0:10])
     #print("barh_list_comm",barh_list_comm[0:10])
@@ -28,6 +26,7 @@ def get_barh_other_overhead(barh_list_advec, barh_list_comm):
     
     last_bar_end=0
     curr_bar_star=0
+    #print("len(barh_list_advec)",len(barh_list_advec),"len(barh_list_comm)",len(barh_list_comm))
 
     while(i<len(barh_list_advec) and j<len(barh_list_comm)):
         #print("debug i, j",i,j)
@@ -51,14 +50,14 @@ def get_barh_other_overhead(barh_list_advec, barh_list_comm):
             continue
         
     # when either i and j end, put last one
-    while i<len(barh_list_advec) and i<len(barh_list_advec):
+    while i<len(barh_list_advec):
         curr_bar_start=barh_list_advec[i][0]
         barh_list_other_overhead.append((last_bar_end,curr_bar_start-last_bar_end))
         last_bar_end=curr_bar_start+barh_list_advec[i][1]
         i+=1
 
 
-    while j<len(barh_list_advec) and j<len(barh_list_comm):
+    while j<len(barh_list_advec):
         curr_bar_start=barh_list_comm[j][0]
         last_bar_end=curr_bar_start+barh_list_comm[j][1]
         barh_list_other_overhead.append((last_bar_end,curr_bar_start-last_bar_end))
@@ -67,38 +66,12 @@ def get_barh_other_overhead(barh_list_advec, barh_list_comm):
 
     return barh_list_other_overhead
 
-        
-
-
-
-
-# parse the timetrace log and draw the gantt chart
-if __name__ == "__main__":
-    
-    if len(sys.argv)!=4:
-        print("<binary> <procs> <step/cycle> <dirpath>")
-        exit()
-
-    procs=int(sys.argv[1])
-    # for each procs, the operations are executed multiple steps
-    step=int(sys.argv[2])
-    dirPath=sys.argv[3]
-    
-    # the dirname should end with /
-    dirname = dirPath.split("/")[-2]
-    print("dirname",dirname)
-
-    figsize_x = 6
-    bar_height=0.08
-    # give some place for legend
-    figsize_y = procs*bar_height
-    fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))  
-
-    print("dpi is ", fig.dpi)
+def draw_rank_gantt(ax, index, dirPath, officalname, procs):
+    #print(index, dirPath, officalname)
     ax.set_xlim(0,figsize_x)
-    
-    # how to set this value properly?
-    minWidth=0.00001
+    ax.set_ylim(0,figsize_y)
+
+    minWidth=0.000001
     filter_time=0
 
     # get filter time, use the rank0's filter time as the total one
@@ -111,20 +84,29 @@ if __name__ == "__main__":
         split_str= line_strip.split(" ")    
         if filter_end in line_strip:
             filter_end_time = float(split_str[1])
-            filter_time = filter_end_time
+            filter_time = filter_end_time-0.0+100.0
     fo.close()
-
+    msTos = 1000
+    usTos = 1000000
+    usToms = 1000
+    usTous = 1
     print("filter_time",filter_time)
-    print("tick ", 0,round(filter_time/4,2),round(filter_time/2,2), round(3*filter_time/4,2),round(filter_time,2))
-    print("tick pos", 0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x)
-    usToms=1
-    plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,int(filter_time/4/usToms),int(filter_time/2/usToms), int(3*filter_time/4/usToms),int(filter_time/usToms)],fontsize=ticksize)
+    print("tick ", 0, int(filter_time/2/msTos),int(filter_time/msTos))
+    print("tick pos", 0,figsize_x/4,figsize_x/2, 3*figsize_x/4,figsize_x)
+    # x positions on labels and x ticks
+    #ax.set_xticks([0,figsize_x/2,figsize_x], [0,round(filter_time/2/msTos,1),round(filter_time/msTos,1)],fontsize=ticksize)
+    ax.set_xticks([0,figsize_x/2,figsize_x], [0,round(filter_time/2/msTos),round(filter_time/msTos)],fontsize=ticksize)
+    
     #ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.3f}"))
 
-    proc_id=list(range(0, procs, 4))
+    proc_id=list(range(0, procs, 8))
     # tick position in figure and tick text value
     # do not tick every rank
-    plt.yticks(bar_height*np.array(proc_id)+0.5*bar_height,proc_id, fontsize=15)
+    if officalname=="Supernova":
+        # only set the y label for the first one
+        ax.set_yticks(bar_height*np.array(proc_id)+0.5*bar_height,proc_id, fontsize=ticksize)
+    else:
+        ax.set_yticks([])
 
     for rank in range(0,procs,1):
         file_name = dirPath+"/timetrace."+str(rank)+".out"
@@ -165,9 +147,9 @@ if __name__ == "__main__":
 
             if comm_start == split_str[0]:
                 comm_start_time_relative=float(split_str[1])-filter_start_time
-            
             if comm_end == split_str[0]:
                 comm_end_time_relative=float(split_str[1])-filter_start_time
+                #print("comm",comm_end_time_relative-comm_start_time_relative)
                 comm_spent_time=comm_end_time_relative-comm_start_time_relative
                 width = (comm_spent_time)/filter_time
                 #use start position
@@ -175,8 +157,7 @@ if __name__ == "__main__":
                     print("comm error",comm_end_time_relative, comm_start_time_relative)
                 if width*figsize_x>=minWidth:
                     #if rank==0:
-                    #    print("comm start", comm_start_time_relative, "comm end", comm_end_time_relative)
-                    #    print("fig start", figsize_x*(comm_start_time_relative/filter_time), "width", width*figsize_x)
+                    #    print((figsize_x*(comm_start_time_relative/filter_time),width*figsize_x))
                     barh_list_comm.append((figsize_x*(comm_start_time_relative/filter_time),width*figsize_x))            
 
         fo.close()
@@ -185,31 +166,62 @@ if __name__ == "__main__":
         #list_comm_all.append(barh_list_comm)
 
         # draw the gant case
-        if rank==0:
-            # use label here
-            #ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:blue',label='Advec')
-            #ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:red',alpha=0.2,label='Comm_Wait')          
-            ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height),facecolors='tab:blue',edgecolor='None')
-            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='white',alpha=0.35,edgecolor='None')          
-            
-            barh_other_overhead=get_barh_other_overhead(barh_list_advec,barh_list_comm)
-            ax.broken_barh(xranges=barh_other_overhead,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor='None')          
+        # no label here
+        
+        ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height),facecolors='tab:blue', edgecolor="none")
+        ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='white',alpha=0.35,edgecolor="none")
 
-            # customize the legend
-            legend_elems = [Patch(facecolor='tab:blue', edgecolor='None', label='Advec'),
-                            Patch(facecolor='white', alpha=0.35, edgecolor='black', label='Comm and Wait'),
-                            Patch(facecolor='tab:red', alpha=0.35, edgecolor='None', label='Other overhead'),]
-            legend = plt.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=10)
-            ax.add_artist(legend)
-        else:
-            # no label here
-            ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height),facecolors='tab:blue',edgecolor='None')
-            ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='white',alpha=0.35,edgecolor='None')
-            barh_other_overhead=get_barh_other_overhead(barh_list_advec,barh_list_comm)
-            ax.broken_barh(xranges=barh_other_overhead,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor='None')          
 
-    # get some space for legend in the center
-    ax.broken_barh(xranges=[(0,1)],yrange=(procs*bar_height,bar_height),facecolors='None',edgecolor='None')
-    plt.xlabel('Time(ms)', fontsize=labelSize)
-    plt.ylabel('Rank', fontsize=labelSize)
-    fig.savefig("gantt_chart_"+dirname+".png",bbox_inches='tight', dpi=600)
+        barh_other_overhead=get_barh_other_overhead(barh_list_advec,barh_list_comm)
+        ax.broken_barh(xranges=barh_other_overhead,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor='None')          
+
+
+
+    if officalname=="Supernova":
+        ax.set_ylabel('Rank', fontsize=labelSize)
+    
+    #ax.set_xlabel(officalname, fontsize=labelSize)
+    ax.title.set_text(officalname)
+    ax.title.set_fontsize(labelSize)
+
+# parse the timetrace log and draw the gantt chart
+if __name__ == "__main__":
+    
+    if len(sys.argv)!=5:
+        print("<binary> <procs> <step/cycle> <dirpath for all data> <unit>")
+        exit()
+
+    # dir is /Users/zw1/Downloads/1020_optimization_result/
+    dataname=[ "5000_2000_optimized_earlyterm/weak-weak-output-optimization-earlyterm-astro",
+               "5000_2000_optimized_earlyterm/weak-weak-output-optimization-earlyterm-clover"]
+
+    official_name = ["Supernova","CloverLeaf3D"]
+    
+    procs=int(sys.argv[1])
+    # for each procs, the operations are executed multiple steps
+    step=int(sys.argv[2])
+    dirPath=sys.argv[3]
+    printUnit=sys.argv[4]
+ 
+    # give some place for legend
+    global figsize_y
+    figsize_y = procs*bar_height
+
+    fig, axs = plt.subplots(nrows=1, ncols=2, figsize=(figsize_x,figsize_y))  
+
+    for index, data in enumerate(dataname):
+        draw_rank_gantt(axs[index],index,dirPath+"/"+data,official_name[index],procs)
+    
+
+    legend_elems = [Patch(facecolor='tab:blue', edgecolor='None', label='Advection'),
+                            Patch(facecolor='white', edgecolor='black', alpha=0.35, label='Communication and Wait'),
+                            Patch(facecolor='tab:red', edgecolor='None', alpha=0.35, label='Other overhead'),]
+    fig.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=legendSize)
+
+    if printUnit=="s":
+        fig.text(0.5, 0.03, 'Time (second)', ha='center',fontsize=labelSize)
+    if printUnit=="us":
+        fig.text(0.5, 0.03, 'Time (us)', ha='center',fontsize=labelSize)
+    #fig.savefig("rank_gantt_all_earlyterm.png",bbox_inches='tight',dpi=800)
+    fig.savefig("rank_gantt_all_earlyterm.png",bbox_inches='tight',dpi=100)
+    #fig.savefig("rank_gantt_all.pdf",bbox_inches='tight')
