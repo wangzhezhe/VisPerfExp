@@ -1,4 +1,3 @@
-import pygad
 import numpy
 from random import randint
 from time import sleep
@@ -6,7 +5,7 @@ import time
 import matplotlib.pyplot as plt
 import shutil
 import os
-
+import sys
 # the source code come from
 # 
 num_rank=8
@@ -17,6 +16,7 @@ desired_output = 0 # Function output.
 
 # https://stackoverflow.com/questions/8713620/appending-to-one-list-in-a-list-of-lists-appends-to-all-other-lists-too
 # be carefule of this, modify one, modify all
+# generate assignment config from solution plan, and then execute the function, and get associated execution times
 def get_exec_time(solution_plan):
     # print("function_inputs:", function_inputs)
     # run the particle advection to get exec time
@@ -62,6 +62,8 @@ def get_exec_time(solution_plan):
 def fitness_func(ga_instance, solution, solution_idx):
     print("solution",solution)
     #exec_time, occupied_process = get_exec_time(solution)
+
+    #synthetic option
     exec_time = 1+randint(1,3)
     occupied_process=2+randint(1,3)/1000
     sleep(randint(1,3)/1000)
@@ -71,58 +73,57 @@ def fitness_func(ga_instance, solution, solution_idx):
     fitness = 1.0 / numpy.abs(core_time - desired_output + 0.001)
     return fitness
 
+def parse_log_get_adv_percentage(dirPath):
+# parse log and get advection percentage for each rank
+    filter_time=0
+    # get filter time, use the rank0's filter time as the total one
+    file_name = dirPath+"/timetrace.0.out"
+    fo=open(file_name, "r")
+    filter_end="FilterEnd_0"
+    for line in fo:
+        line_strip=line.strip()
+        split_str= line_strip.split(" ")    
+        if filter_end in line_strip:
+            filter_end_time = float(split_str[1])
+            filter_time = filter_end_time
+    fo.close()
+    print("filter_time",filter_time)    # get filter execution time, use rank 0's log
+    
+    for rank in range(0,num_rank,1):
+        # open timetrace file
+        file_name = dirPath+"/timetrace."+str(rank)+".out"
+        print(file_name)
+        fo=open(file_name, "r")
+        work_start="ParticleAdvectStart_0"
+        work_end="ParticleAdvectEnd_0"
+        work_start_time=0
+        acc_work_time=0
+        fo=open(file_name, "r")
+        for line in fo:
+            line_strip=line.strip()
+            split_str= line_strip.split(" ")
+            if work_start in line_strip:
+                work_start_time=float(split_str[1])
+            if work_end in line_strip:
+                work_end_tim = float(split_str[1])
+                acc_work_time = acc_work_time+(work_end_tim-work_start_time)
+        fo.close()
+        print("acc work time ratio for rank", rank, acc_work_time/filter_time)
 
-#print(get_exec_time([1,1,1,1,5,6,7,7]))
+# parse the log of previous output and get new execution plan
+# def parse_log_get_new_plan():
+# compute the adv percentage for each rank
 
-# parameters related to the optimization algorithm
-num_generations = 10 # Number of generations.
-num_parents_mating = 6 # Number of solutions to be selected as parents in the mating pool.
+# sort the percentage from small to large
 
-sol_per_pop = 6 # Number of solutions in the population. # This value related to the number of eval in each generation
-num_genes = num_rank
-solution_range_low = 0
-solution_range_high= num_rank-1
+# do assignment, long job first, set the upper limitation
 
+# if the percentage exceeds specific limiation, than move to a new process
+# this will determine how many process will be used, using the greedy strategy here
 
-
-last_fitness = 0
-def on_generation(ga_instance):
-    global last_fitness
-    print(f"Generation = {ga_instance.generations_completed}")
-    print(f"Fitness    = {ga_instance.best_solution(pop_fitness=ga_instance.last_generation_fitness)[1]}")
-    print(f"Change     = {ga_instance.best_solution(pop_fitness=ga_instance.last_generation_fitness)[1] - last_fitness}")
-    last_fitness = ga_instance.best_solution(pop_fitness=ga_instance.last_generation_fitness)[1]
-
-ga_instance = pygad.GA(num_generations=num_generations,
-                       num_parents_mating=num_parents_mating,
-                       sol_per_pop=sol_per_pop,
-                       num_genes=num_genes,
-                       fitness_func=fitness_func,
-                       on_generation=on_generation,
-                       init_range_low=solution_range_low,
-                       init_range_high=solution_range_high)
-
-# Running the GA to optimize the parameters of the function.
-ga_instance.run()
-
-ga_instance.plot_fitness()
-
-# Returning the details of the best solution.
-solution, solution_fitness, solution_idx = ga_instance.best_solution(ga_instance.last_generation_fitness)
-print(f"Parameters of the best solution : {solution}")
-print(f"Fitness value of the best solution = {solution_fitness}")
-print(f"Index of the best solution : {solution_idx}")
-
-#prediction = numpy.sum(numpy.array(function_inputs)*solution)
-#prediction = numpy.sum(numpy.array(function_inputs)*solution)
-#best_solution_time = get_exec_time(solution)
-#print(f"Output based on the best solution : {best_solution_time}")
-
-if ga_instance.best_solution_generation != -1:
-    print(f"Best fitness value reached after {ga_instance.best_solution_generation} generations.")
-
-# Saving the GA instance.
-filename = 'genetic' # The filename to which the instance is saved. The name is without extension.
-ga_instance.save(filename=filename)
-
-# draw results through another script
+if __name__ == "__main__":
+    if len(sys.argv)!=2:
+        print("<binary> <runDirPath>")
+        exit()
+    dirPath=sys.argv[1]
+    parse_log_get_adv_percentage(dirPath)
