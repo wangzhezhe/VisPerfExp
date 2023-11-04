@@ -1,0 +1,11 @@
+#BSUB -P csc143
+#BSUB -W 2:00
+#BSUB -nnodes 4
+#BSUB -J run_optimizer_heuristic_summit
+#BSUB -o run_optimizer_heuristic_summit.%J.out
+#BSUB -e run_optimizer_heuristic_summit.%J.err
+#BSUB -q debug
+
+
+python3 huristic_optimizer_summit.py $MEMBERWORK/csc143/weak-weak-output-optimization 128 &> optimizer_heuristic_summit.log
+

@@ -19,7 +19,7 @@ DATADIR=/home/zw/dataset/astro
 DATANAME="astro.2_2_2.visit"
 DATASET=${DATADIR}/$DATANAME
 
-PARTICLE_LIST="50"
+PARTICLE_LIST="5000"
 STEP_LIST="2000"
 
 # the mpirun will oversubscribe the omp threads
