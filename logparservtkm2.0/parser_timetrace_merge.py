@@ -10,7 +10,7 @@ import statistics
 from matplotlib.patches import Patch
 import math
 
-figsize_x=4*6
+figsize_x=2*6
 bar_height=0.08
 ticksize=20
 labelSize=26
@@ -101,7 +101,7 @@ def draw_rank_gantt(ax, index, dirPath, officalname, procs):
     proc_id=list(range(0, procs, 8))
     # tick position in figure and tick text value
     # do not tick every rank
-    if officalname=="Supernova (Duplicate)":
+    if officalname=="Supernova":
         # only set the y label for the first one
         ax.set_yticks(bar_height*np.array(proc_id)+0.5*bar_height,proc_id, fontsize=ticksize)
     else:
@@ -174,9 +174,7 @@ def draw_rank_gantt(ax, index, dirPath, officalname, procs):
         barh_other_overhead=get_barh_other_overhead(barh_list_advec,barh_list_comm)
         ax.broken_barh(xranges=barh_other_overhead,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor='None')          
 
-
-
-    if officalname=="Supernova (Duplicate)":
+    if officalname=="Supernova":
         ax.set_ylabel('Rank', fontsize=labelSize)
     
     #ax.set_xlabel(officalname, fontsize=labelSize)
@@ -190,20 +188,10 @@ if __name__ == "__main__":
         print("<binary> <procs> <step/cycle> <dirpath for all data> <unit>")
         exit()
 
-    # dataname=["fusion.A.b128.n4.r128.B_p5000_s2000",
-    #           "astro.A.b128.n4.r128.B_p5000_s2000",
-    #           "fishtank.A.b128.n4.r128.B_p5000_s2000_id625027",
-    #           "clover.A.b128.n4.r128.B_p5000_s2000",
-    #           "syn.A.b128.n4.r128.B_p5000_s2000"]
-
-    dataname=[ "astro_dup_76_77/astro.A.b128.n4.r128.B_p5000_s2000_id208001",
-               "astro_merge_76_77/astro.A.b128.n4.r128.B_p5000_s2000_id208001",
-               "clover_dup_53_45/clover.A.b128.n4.r128.B_p5000_s2000_id275499",
+    dataname=[ "astro_merge_76_77/astro.A.b128.n4.r128.B_p5000_s2000_id208001",
                "clover_merge_53_45/clover.A.b128.n4.r128.B_p5000_s2000_id275499"]
 
-    dataname_test=["fusion.A.b128.n4.r128.B_p5000_s2000"]
-
-    official_name = ["Supernova (Duplicate)","Supernova (Merge)","CloverLeaf3D (Duplicate)","CloverLeaf3D (Merge)"]
+    official_name = ["Supernova","CloverLeaf3D"]
     
     procs=int(sys.argv[1])
     # for each procs, the operations are executed multiple steps
@@ -215,7 +203,7 @@ if __name__ == "__main__":
     global figsize_y
     figsize_y = procs*bar_height
 
-    fig, axs = plt.subplots(nrows=1, ncols=4, figsize=(figsize_x,figsize_y))  
+    fig, axs = plt.subplots(nrows=1, ncols=2, figsize=(figsize_x,figsize_y))  
 
     for index, data in enumerate(dataname):
         draw_rank_gantt(axs[index],index,dirPath+"/"+data,official_name[index],procs)
@@ -230,6 +218,6 @@ if __name__ == "__main__":
         fig.text(0.5, 0.03, 'Time (second)', ha='center',fontsize=labelSize)
     if printUnit=="us":
         fig.text(0.5, 0.03, 'Time (us)', ha='center',fontsize=labelSize)
-    #fig.savefig("rank_gantt_all.png",bbox_inches='tight',dpi=800)
-    fig.savefig("rank_gantt_all_merge_duplicate.png",bbox_inches='tight',dpi=100)
-    #fig.savefig("rank_gantt_all.pdf",bbox_inches='tight')
+    #fig.savefig("rank_gantt_all_merge.png",bbox_inches='tight',dpi=800)
+    fig.savefig("rank_gantt_all_merge.png",bbox_inches='tight',dpi=100)
+    #fig.savefig("rank_gantt_all_merge.pdf",bbox_inches='tight')
