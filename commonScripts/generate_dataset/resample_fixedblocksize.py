@@ -1,8 +1,6 @@
 import vtk
 import os
 
-
-
 def writeDS(fname, ds) :
     writer = vtk.vtkDataSetWriter()
     writer.SetFileVersion(4)

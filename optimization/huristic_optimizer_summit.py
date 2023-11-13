@@ -64,7 +64,7 @@ def parse_log_get_new_plan(curr_plan, occupied_rank, dirPath):
     upper_limit = 0.6
     # the program just hangs there if there are too many blocks per rank
     # or the issue is caused by some irregular block assignment plan
-    upper_blocks_per_rank=20
+    upper_blocks_per_rank=30
 
     local_blockids=[]
     whole_blockids=[]
@@ -73,7 +73,7 @@ def parse_log_get_new_plan(curr_plan, occupied_rank, dirPath):
 
     for acc_ratio in acc_ratio_list_sorted:
         #print(acc_ratio, local_acc_value)
-        if (local_acc_value+acc_ratio[1]) <=upper_limit and len(local_blockids)<=upper_blocks_per_rank:
+        if (local_acc_value+acc_ratio[1]) <=upper_limit and (len(local_blockids)+len(acc_ratio[0]))<=upper_blocks_per_rank:
             # move blocks of this rank to current rank
             local_blockids=local_blockids+acc_ratio[0]
             local_acc_value=local_acc_value+acc_ratio[1]
