@@ -4,7 +4,7 @@
 #SBATCH -o %x-%j.out
 #SBATCH -t 1:00:00
 #SBATCH -p batch
-#SBATCH -N 1
+#SBATCH -N 2
 
 DATADIR=/lustre/orion/scratch/zw241/csc331/VisPerfData/resample2
 RUNDIR=/lustre/orion/scratch/zw241/csc331/VisPerfExp
@@ -12,23 +12,100 @@ CURRDIR=$(pwd)
 
 cd $RUNDIR
 
-# create soft link
 cp $CURRDIR/../install/visReader/workloadEstimation/StreamlineMPI StreamlineMPI
 
-srun -N 1 -n 8 ./StreamlineMPI $DATADIR/astro.2_2_2.visit velocity &> astro_8.log
+# astro data
+srun -N 1 -n 8 ./StreamlineMPI $DATADIR/astro.2_2_2.visit velocity &> estimate_astro_8.log
 
-srun -N 1 -n 16 ./StreamlineMPI $DATADIR/astro.2_2_4.visit velocity &> astro_16.log
+srun -N 1 -n 16 ./StreamlineMPI $DATADIR/astro.2_2_4.visit velocity &> estimate_astro_16.log
 
-srun -N 1 -n 32 ./StreamlineMPI $DATADIR/astro.2_4_4.visit velocity &> astro_32.log
+srun -N 1 -n 32 ./StreamlineMPI $DATADIR/astro.2_4_4.visit velocity &> estimate_astro_32.log
 
-srun -N 1 -n 64 ./StreamlineMPI $DATADIR/astro.4_4_4.visit velocity &> astro_64.log
+srun -N 2 -n 64 ./StreamlineMPI $DATADIR/astro.4_4_4.visit velocity &> estimate_astro_64.log
+
+# fusion data
+srun -N 1 -n 8 ./StreamlineMPI $DATADIR/fusion.2_2_2.visit velocity &> estimate_fusion_8.log
+
+srun -N 1 -n 16 ./StreamlineMPI $DATADIR/fusion.2_2_4.visit velocity &> estimate_fusion_16.log
+
+srun -N 1 -n 32 ./StreamlineMPI $DATADIR/fusion.2_4_4.visit velocity &> estimate_fusion_32.log
+
+srun -N 2 -n 64 ./StreamlineMPI $DATADIR/fusion.4_4_4.visit velocity &> estimate_fusion_64.log
+
+# create actual run
+cp $CURRDIR/../install/visReader/visitReaderAdev visitReaderAdev
+
+export OMP_NUM_THREADS=1
+
+# go through astro data set
+RUN_INFO_LIST="8:astro.2_2_2.visit:1 16:astro.2_2_4.visit:1 32:astro.2_4_4.visit:1 64:astro.4_4_4.visit:2"
+
+for INFO in ${RUN_INFO_LIST}
+do
+
+INFO_ARRAY=(${INFO//:/ })
+NUM_RANK=${INFO_ARRAY[0]}
+NAME_DATA=${INFO_ARRAY[1]}
+NUM_NODE=${INFO_ARRAY[2]}
+
+echo "Num of rank: ${NUM_RANK} Name of data: ${NAME_DATA} Numer of node: ${NUM_NODE}"
+
+logdirname=actual_astro_$NUM_RANK
+rm -rf $logdirname
+cd $logdirname
+
+srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
+--vtkm-device serial \
+--file=$DATADIR/$NAME_DATA \
+--advect-num-steps=2000 \
+--advect-num-seeds=5000 \
+--seeding-method=domainrandom \
+--advect-seed-box-extents=0.010000,0.990000,0.010000,0.990000,0.010000,0.990000 \
+--field-name=velocity \
+--advect-step-size=0.005000 \
+--record-trajectories=false \
+--output-results=false \
+--sim-code=cloverleaf \
+--assign-strategy=roundroubin \
+--communication=async_probe &> readerlog.out
+
+cd ..
+
+done
 
 
-srun -N 1 -n 8 ./StreamlineMPI $DATADIR/fusion.2_2_2.visit velocity &> fusion_8.log
+# go through fusion data set
+RUN_INFO_LIST="8:fusion.2_2_2.visit:1 16:fusion.2_2_4.visit:1 32:fusion.2_4_4.visit:1 64:fusion.4_4_4.visit:2"
 
-srun -N 1 -n 16 ./StreamlineMPI $DATADIR/fusion.2_2_4.visit velocity &> fusion_16.log
+for INFO in ${RUN_INFO_LIST}
+do
 
-srun -N 1 -n 32 ./StreamlineMPI $DATADIR/fusion.2_4_4.visit velocity &> fusion_32.log
+INFO_ARRAY=(${INFO//:/ })
+NUM_RANK=${INFO_ARRAY[0]}
+NAME_DATA=${INFO_ARRAY[1]}
+NUM_NODE=${INFO_ARRAY[2]}
 
-srun -N 1 -n 64 ./StreamlineMPI $DATADIR/fusion.4_4_4.visit velocity &> fusion_64.log
+echo "Num of rank: ${NUM_RANK} Name of data: ${NAME_DATA} Numer of node: ${NUM_NODE}"
 
+logdirname=actual_fusion_$NUM_RANK
+rm -rf $logdirname
+cd $logdirname
+
+srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
+--vtkm-device serial \
+--file=$DATADIR/$NAME_DATA \
+--advect-num-steps=2000 \
+--advect-num-seeds=5000 \
+--seeding-method=domainrandom \
+--advect-seed-box-extents=0.010000,0.990000,0.010000,0.990000,0.010000,0.990000 \
+--field-name=velocity \
+--advect-step-size=0.005000 \
+--record-trajectories=false \
+--output-results=false \
+--sim-code=cloverleaf \
+--assign-strategy=roundroubin \
+--communication=async_probe &> readerlog.out
+
+cd ..
+
+done
