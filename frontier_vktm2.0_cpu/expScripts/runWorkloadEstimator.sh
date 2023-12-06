@@ -52,6 +52,7 @@ echo "Num of rank: ${NUM_RANK} Name of data: ${NAME_DATA} Numer of node: ${NUM_N
 
 logdirname=actual_astro_$NUM_RANK
 rm -rf $logdirname
+mkdir $logdirname
 cd $logdirname
 
 srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
@@ -89,6 +90,7 @@ echo "Num of rank: ${NUM_RANK} Name of data: ${NAME_DATA} Numer of node: ${NUM_N
 
 logdirname=actual_fusion_$NUM_RANK
 rm -rf $logdirname
+mkdir $logdirname
 cd $logdirname
 
 srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
