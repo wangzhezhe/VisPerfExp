@@ -539,7 +539,7 @@ if __name__ == "__main__":
 
     official_name = ["Tokamak","Supernova","Hydraulics","CloverLeaf3D","Synthetic"]
    
-    nr=6
+    nr=5
     fig, axs = plt.subplots(nrows=nr, ncols=5, figsize=(figsize_x*5,figsize_y*nr)) 
 
     for index, data in enumerate(dataname):
@@ -586,11 +586,11 @@ if __name__ == "__main__":
     #     figid = "(d."+str(index+1)+")"
     #     draw_acc_and_prv_group_size(axs[3][index],procs,dirname_complete, official_name[index],figid)
 
-    for index, data in enumerate(dataname):
-        dirname_complete = dirPath+"/"+data
-        print("dirname",dirname_complete,"index",index)
-        figid = "(f."+str(index+1)+")"
-        draw_comm_times(axs[5][index],procs,dirname_complete, official_name[index],figid)
+    #for index, data in enumerate(dataname):
+    #    dirname_complete = dirPath+"/"+data
+    #    print("dirname",dirname_complete,"index",index)
+    #    figid = "(f."+str(index+1)+")"
+    #    draw_comm_times(axs[5][index],procs,dirname_complete, official_name[index],figid)
 
     fig.text(0.5, 0.08, 'Particles sorted by accumulated group size', ha='center',fontsize=labelSize)
 
