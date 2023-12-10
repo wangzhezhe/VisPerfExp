@@ -10,27 +10,37 @@ DATADIR=/lustre/orion/scratch/zw241/csc331/VisPerfData/resample2
 RUNDIR=/lustre/orion/scratch/zw241/csc331/VisPerfExp
 CURRDIR=$(pwd)
 
+mkdir $RUNDIR
+
 cd $RUNDIR
 
 cp $CURRDIR/../install/visReader/workloadEstimation/StreamlineMPI StreamlineMPI
 
+
+# <executable> <visitfileName> <fieldNm> <stepSize> <maxSteps> <NUM_TEST_POINTS> <NUM_SIM_POINTS_PER_DOM> <Nxyz>
+
+STEPSIZE=0.005000
+MAXSTEPS=2000
+NUM_TEST_POINTS=10
+NUM_SIM_POINTS_PER_DOM=100
+NXYZ=2
 # astro data
-srun -N 1 -n 8 ./StreamlineMPI $DATADIR/astro.2_2_2.visit velocity &> estimate_astro_8.log
+srun -N 1 -n 8 ./StreamlineMPI $DATADIR/astro.2_2_2.visit velocity $STEPSIZE $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> estimate_astro_8.log
 
-srun -N 1 -n 16 ./StreamlineMPI $DATADIR/astro.2_2_4.visit velocity &> estimate_astro_16.log
+srun -N 1 -n 16 ./StreamlineMPI $DATADIR/astro.2_2_4.visit velocity $STEPSIZE $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> estimate_astro_16.log
 
-srun -N 1 -n 32 ./StreamlineMPI $DATADIR/astro.2_4_4.visit velocity &> estimate_astro_32.log
+srun -N 1 -n 32 ./StreamlineMPI $DATADIR/astro.2_4_4.visit velocity $STEPSIZE $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> estimate_astro_32.log
 
-srun -N 2 -n 64 ./StreamlineMPI $DATADIR/astro.4_4_4.visit velocity &> estimate_astro_64.log
+srun -N 2 -n 64 ./StreamlineMPI $DATADIR/astro.4_4_4.visit velocity $STEPSIZE $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> estimate_astro_64.log
 
 # fusion data
-srun -N 1 -n 8 ./StreamlineMPI $DATADIR/fusion.2_2_2.visit velocity &> estimate_fusion_8.log
+srun -N 1 -n 8 ./StreamlineMPI $DATADIR/fusion.2_2_2.visit velocity $STEPSIZE $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> estimate_fusion_8.log
 
-srun -N 1 -n 16 ./StreamlineMPI $DATADIR/fusion.2_2_4.visit velocity &> estimate_fusion_16.log
+srun -N 1 -n 16 ./StreamlineMPI $DATADIR/fusion.2_2_4.visit velocity $STEPSIZE $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> estimate_fusion_16.log
 
-srun -N 1 -n 32 ./StreamlineMPI $DATADIR/fusion.2_4_4.visit velocity &> estimate_fusion_32.log
+srun -N 1 -n 32 ./StreamlineMPI $DATADIR/fusion.2_4_4.visit velocity $STEPSIZE $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> estimate_fusion_32.log
 
-srun -N 2 -n 64 ./StreamlineMPI $DATADIR/fusion.4_4_4.visit velocity &> estimate_fusion_64.log
+srun -N 2 -n 64 ./StreamlineMPI $DATADIR/fusion.4_4_4.visit velocity $STEPSIZE $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> estimate_fusion_64.log
 
 # create actual run
 cp $CURRDIR/../install/visReader/visitReaderAdev visitReaderAdev
@@ -58,12 +68,12 @@ cd $logdirname
 srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
 --vtkm-device serial \
 --file=$DATADIR/$NAME_DATA \
---advect-num-steps=2000 \
+--advect-num-steps=$MAXSTEPS \
 --advect-num-seeds=5000 \
 --seeding-method=domainrandom \
 --advect-seed-box-extents=0.010000,0.990000,0.010000,0.990000,0.010000,0.990000 \
 --field-name=velocity \
---advect-step-size=0.005000 \
+--advect-step-size=$STEPSIZE \
 --record-trajectories=false \
 --output-results=false \
 --sim-code=cloverleaf \
@@ -96,12 +106,12 @@ cd $logdirname
 srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
 --vtkm-device serial \
 --file=$DATADIR/$NAME_DATA \
---advect-num-steps=2000 \
+--advect-num-steps=$MAXSTEPS \
 --advect-num-seeds=5000 \
 --seeding-method=domainrandom \
 --advect-seed-box-extents=0.010000,0.990000,0.010000,0.990000,0.010000,0.990000 \
 --field-name=velocity \
---advect-step-size=0.005000 \
+--advect-step-size=$STEPSIZE \
 --record-trajectories=false \
 --output-results=false \
 --sim-code=cloverleaf \

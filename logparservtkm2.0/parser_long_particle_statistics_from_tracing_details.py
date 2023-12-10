@@ -33,7 +33,9 @@ if __name__ == "__main__":
     particle_worklet_acc=0
     particle_smallstep_acc=0
 
-    end_overhead_acc=0
+    end_overhead_acc_1=0
+    end_overhead_acc_2=0
+
     begin_overhead_acc=0
     go_start_time=0
 
@@ -86,15 +88,19 @@ if __name__ == "__main__":
                 particle_worklet_acc=particle_worklet_acc+(particle_worklet_end-particle_worklet_begin)
                 end_overhead_begin=particle_worklet_end
 
+            if split_str[0]=="ADVECTEND":
+                end_overhead_end_1=float(split_str[4])
+                end_overhead_acc_1=end_overhead_acc_1+(end_overhead_end_1-end_overhead_begin)
+
             if split_str[0]=="GANG_COMM_START":
-                end_overhead_end=float(split_str[4])
-                end_overhead_acc=end_overhead_acc+(end_overhead_end-end_overhead_begin)
+                end_overhead_end_2=float(split_str[4])
+                end_overhead_acc_2=end_overhead_acc_2+(end_overhead_end_2-end_overhead_end_1)
             
 
             if split_str[0]=="GANG_COMM_END":
                 comm_end=float(split_str[4])
                 # store two key point: adv and comm start
-                particle_comm_stard_recvok_list.append([recv_ok_time,end_overhead_end,comm_end,rank])
+                particle_comm_stard_recvok_list.append([recv_ok_time,end_overhead_end_2,comm_end,rank])
 
             if split_str[0]=="ParticleSendBegin":
                 particle_send_begin=float(split_str[4])
@@ -124,13 +130,24 @@ if __name__ == "__main__":
     
     percent_bo_acc=begin_overhead_acc/filter_time
     print("particle_begin_overhead_acc",begin_overhead_acc,"{:.0%}".format(percent_bo_acc))  
-    percent_eo_acc=end_overhead_acc/filter_time
-    print("particle_end_overhead_acc",end_overhead_acc,"{:.0%}".format(percent_eo_acc)) 
+
+    percent_eo_acc_1=end_overhead_acc_1/filter_time
+    print("particle_end_overhead_acc_1",end_overhead_acc_1,"{:.0%}".format(percent_eo_acc_1)) 
+
+
+    percent_eo_acc_2=end_overhead_acc_2/filter_time
+    print("particle_end_overhead_acc_2",end_overhead_acc_2,"{:.0%}".format(percent_eo_acc_2)) 
+
+
     percent_work_acc=particle_worklet_acc/filter_time
     print("particle_worklet_acc",particle_worklet_acc, "{:.0%}".format(percent_work_acc))    
     
     percent_comm_wait_acc=particle_comm_wait_acc/filter_time
     print("particle_comm_wait_acc",particle_comm_wait_acc,"{:.0%}".format(percent_comm_wait_acc)) 
+    
+    print("percent of particle_send_acc/filter time", "{:.0%}".format(particle_send_acc/filter_time) )
+          
+    print("percent of particle_pure_wait_acc/filter time", "{:.0%}".format((particle_comm_wait_acc-particle_send_acc)/filter_time))
 
     percent_send_acc=particle_send_acc/particle_comm_wait_acc
     print("percent of particle_send_acc in particle_comm_wait_acc",particle_send_acc,"{:.0%}".format(percent_send_acc)) 
@@ -139,4 +156,4 @@ if __name__ == "__main__":
     print("percent of particle_smallstep_acc in particle_worklet_acc",particle_smallstep_acc,"{:.3%}".format(percent_smallstep_acc)) 
 
 
-    print("unmersured percent", 1.0-(percent_bo_acc+percent_eo_acc+percent_work_acc+percent_comm_wait_acc))
+    print("unmersured percent", 1.0-(percent_bo_acc+percent_eo_acc_1+percent_eo_acc_2+percent_work_acc+percent_comm_wait_acc))
