@@ -51,6 +51,7 @@ def parse_log_get_adv_percentage(num_rank, dirPath):
 
 def parse_log_get_acc_advect_steps(dataset_name, num_rank, dirPath):
     acc_adv_step_list=[]
+    acc_adv_step_list_with_rankid=[]
     for rank in range(0,num_rank):
         total_adv_steps=0        
         file_name = dirPath+"/actual_"+dataset_name+"_"+str(num_rank)+"/timetrace."+str(rank)+".out"
@@ -63,11 +64,12 @@ def parse_log_get_acc_advect_steps(dataset_name, num_rank, dirPath):
 
             total_adv_steps=total_adv_steps+adv_steps
         acc_adv_step_list.append(total_adv_steps)
+        acc_adv_step_list_with_rankid.append([rank,total_adv_steps])
         fo.close()
-    return acc_adv_step_list
+    return acc_adv_step_list,acc_adv_step_list_with_rankid
 
-def parse_log_estimator_popularity(dataset_name,num_rank, dirPath):
-    file_name = dirPath+"/estimate_"+dataset_name+"_"+str(num_rank)+".log"
+def parse_log_estimator_popularity(dataset_name,num_rank, dirPath, num_test_points):
+    file_name = dirPath+"/estimate_"+dataset_name+"_r"+str(num_rank)+ "_tp" + str(num_test_points) + ".log"
     fo=open(file_name, "r")
     for line in fo:
         line_strip=line.strip()
@@ -79,29 +81,72 @@ def parse_log_estimator_popularity(dataset_name,num_rank, dirPath):
             #print(split_line)
             estimator_value_list = [float(v) for v in split_line]
     fo.close()
-    return estimator_value_list
+    estimator_value_list_with_rankid=[]
+    i=0
+    for v in estimator_value_list:
+        estimator_value_list_with_rankid.append([i,v])
+        i+=1
+    return estimator_value_list,estimator_value_list_with_rankid
 
 
 
 if __name__ == "__main__":
-    if len(sys.argv)!=4:
-        print("<binary> <dataset name> <runDirPath> <num_rank>",flush=True)
+    if len(sys.argv)!=5:
+        print("<binary> <dataset name> <runDirPath> <num_rank> <num_test_points>",flush=True)
         exit()
     dataset_name=sys.argv[1]
     dirPath=sys.argv[2]
     num_rank=int(sys.argv[3])
+    num_test_points=int(sys.argv[4])
     # acc_ratio_list, filter_time = parse_log_get_adv_percentage(num_rank, dirPath)
     # r=0
     # for v in acc_ratio_list: 
     #     print("rank",r,"ratio",v)
     #     r+=1
 
-    acc_adv_step_list = parse_log_get_acc_advect_steps(dataset_name, num_rank, dirPath)
-    acc_adv_step_list_norm = [float(i)/sum(acc_adv_step_list) for i in acc_adv_step_list]
+    acc_adv_step_list, acc_adv_step_list_with_rankid = parse_log_get_acc_advect_steps(dataset_name, num_rank, dirPath)
+    
+    adv_all_steps = sum(acc_adv_step_list)
+    acc_adv_step_list_norm = [float(i)/adv_all_steps for i in acc_adv_step_list]
+    
+    for v in acc_adv_step_list_with_rankid:
+        v[1]=v[1]/adv_all_steps
 
-    estimate_ratio=parse_log_estimator_popularity(dataset_name, num_rank, dirPath)
+    estimate_ratio,estimator_value_list_with_rankid=parse_log_estimator_popularity(dataset_name, num_rank, dirPath, num_test_points)
+
 
     r=0
     for v in acc_adv_step_list_norm: 
-        print("rank",r,"around_truth",format(v, '.6f'), "estimation", format(estimate_ratio[r], '.6f'), "diff", format(abs(estimate_ratio[r]-v), '.6f'))
+        print("rank",r,"around_truth",format(v, '.6f'), "estimation", \
+              format(estimate_ratio[r], '.6f'), "diff", \
+              format(abs(estimate_ratio[r]-v), '.6f'), \
+              "ratio", format(v/abs(estimate_ratio[r]), '.6f'))
         r+=1
+
+    # sorting block id accoring to estimate_ratio
+        
+    #print(acc_adv_step_list_with_rankid)
+    #print(estimator_value_list_with_rankid)
+
+
+    sorted_acc_adv_step_list_with_rankid=sorted(acc_adv_step_list_with_rankid, key=lambda x: x[1], reverse=True)
+    sorted_estimator_value_list_with_rankid=sorted(estimator_value_list_with_rankid, key=lambda x: x[1], reverse=True)
+
+    print("sorted_acc_adv_step_list_with_rankid")
+    print([v[0] for v in sorted_acc_adv_step_list_with_rankid])
+    print([format(v[1], '.6f') for v in sorted_acc_adv_step_list_with_rankid])
+
+    print("sorted_estimator_value_list_with_rankid")
+    print([v[0] for v in sorted_estimator_value_list_with_rankid])
+    print([format(v[1], '.6f') for v in sorted_estimator_value_list_with_rankid])
+
+    sorted_diff=0
+    i = 0 
+    for v in sorted_acc_adv_step_list_with_rankid:
+        if( v[0]!= sorted_estimator_value_list_with_rankid[i][0]):
+            sorted_diff+=1
+        i+=1
+    print("sorted_diff",sorted_diff)
+    
+    
+    # sorting block id accoring to acc_adv_step_list_norm

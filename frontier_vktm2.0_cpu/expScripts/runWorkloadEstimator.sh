@@ -2,7 +2,7 @@
 #SBATCH -A CSC331
 #SBATCH -J RunWorkloadEstimator
 #SBATCH -o %x-%j.out
-#SBATCH -t 00:30:00
+#SBATCH -t 01:30:00
 #SBATCH -p batch
 #SBATCH -N 2
 
@@ -94,10 +94,9 @@ srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
 --sim-code=cloverleaf \
 --assign-strategy=roundroubin \
 --communication=async_probe &> readerlog.out
-
 cd ..
-
 done
+
 
 
 # go through fusion data set
@@ -105,7 +104,6 @@ RUN_INFO_LIST="8:fusion.2_2_2.visit:1 16:fusion.2_2_4.visit:1 32:fusion.2_4_4.vi
 
 for INFO in ${RUN_INFO_LIST}
 do
-
 INFO_ARRAY=(${INFO//:/ })
 NUM_RANK=${INFO_ARRAY[0]}
 NAME_DATA=${INFO_ARRAY[1]}
@@ -132,13 +130,14 @@ srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
 --sim-code=cloverleaf \
 --assign-strategy=roundroubin \
 --communication=async_probe &> readerlog.out
+cd ..
+done
 
 # go through synthetic data set
 RUN_INFO_LIST="8:syn.2_2_2.visit:1 16:syn.2_2_4.visit:1 32:syn.2_4_4.visit:1 64:syn.4_4_4.visit:2"
 
 for INFO in ${RUN_INFO_LIST}
 do
-
 INFO_ARRAY=(${INFO//:/ })
 NUM_RANK=${INFO_ARRAY[0]}
 NAME_DATA=${INFO_ARRAY[1]}
@@ -165,7 +164,6 @@ srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
 --sim-code=cloverleaf \
 --assign-strategy=roundroubin \
 --communication=async_probe &> readerlog.out
-
 cd ..
-
 done
+
