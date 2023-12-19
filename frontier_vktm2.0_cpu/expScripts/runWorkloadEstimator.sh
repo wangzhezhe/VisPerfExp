@@ -27,8 +27,8 @@ NXYZ=2
 
 for NUM_TEST_POINTS in ${NUM_TEST_POINTS_LIST}
 do
-
-# astro data
+echo "NUM_TEST_POINTS:"$NUM_TEST_POINTS
+#astro data
 srun -N 1 -n 8 ./StreamlineMPI $DATADIR/astro.2_2_2.visit velocity $STEPSIZE $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> estimate_astro_r8_tp${NUM_TEST_POINTS}.log
 
 srun -N 1 -n 16 ./StreamlineMPI $DATADIR/astro.2_2_4.visit velocity $STEPSIZE $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> estimate_astro_r16_tp${NUM_TEST_POINTS}.log
@@ -54,7 +54,6 @@ srun -N 1 -n 16 ./StreamlineMPI $DATADIR/syn.2_2_4.visit velocity $STEPSIZE $MAX
 srun -N 1 -n 32 ./StreamlineMPI $DATADIR/syn.2_4_4.visit velocity $STEPSIZE $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> estimate_syn_r32_tp${NUM_TEST_POINTS}.log
 
 srun -N 2 -n 64 ./StreamlineMPI $DATADIR/syn.4_4_4.visit velocity $STEPSIZE $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> estimate_syn_r64_tp${NUM_TEST_POINTS}.log
-
 done
 
 # create actual run
@@ -166,4 +165,3 @@ srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
 --communication=async_probe &> readerlog.out
 cd ..
 done
-
