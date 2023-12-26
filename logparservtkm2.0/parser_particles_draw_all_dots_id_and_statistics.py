@@ -73,7 +73,7 @@ def draw_alive_time(ax,procs,dirPath,data_name, figid):
     ax.set_xticks([])
 
     if data_name=="Tokamak":
-        ax.set_ylabel('Alive time (us)', fontsize=labelSize)
+        ax.set_ylabel(r'$Σ T_P$ (us)', fontsize=labelSize)
         ax.tick_params(axis='y', labelsize=tickSize)
     else:
         ax.set_yticks([])
@@ -379,7 +379,7 @@ def draw_acc_wait(ax,procs,dirPath,data_name,figid):
     #ax.set_xticks([0,len(xpos)/2,len(xpos)])
     #ax.set_xticklabels(['0','320000','640000'])
     if data_name=="Tokamak":
-        ax.set_ylabel('Acc comm&wait time (us)', fontsize=labelSize)
+        ax.set_ylabel(r'$Σ T_{CW}$ (us)', fontsize=labelSize)
         ax.tick_params(axis='y', labelsize=tickSize)
     else:
         ax.set_yticks([])
@@ -437,7 +437,7 @@ def draw_acc_adv(ax,procs,dirPath,data_name,figid):
     #ax.set_xticklabels(['0','320000','640000'])
     ax.set_xticks([])
     if data_name=="Tokamak":
-        ax.set_ylabel('Acc adv time (us)', fontsize=labelSize)
+        ax.set_ylabel(r'Σ $T_A$ (us)', fontsize=labelSize)
         ax.tick_params(axis='y', labelsize=tickSize)
     else:
         ax.set_yticks([])
@@ -498,7 +498,7 @@ def draw_acc_bo_eo(ax,procs,dirPath,data_name,figid):
     #ax.set_xticklabels(['0','320000','640000'])
     ax.set_xticks([])
     if data_name=="Tokamak":
-        ax.set_ylabel('Acc BO and EO (us)', fontsize=labelSize)
+        ax.set_ylabel(r'$Σ T_{BO}+Σ T_{EO}$ (us)', fontsize=labelSize)
         ax.tick_params(axis='y', labelsize=tickSize)
     else:
         ax.set_yticks([])
@@ -541,7 +541,7 @@ if __name__ == "__main__":
    
     nr=5
     fig, axs = plt.subplots(nrows=nr, ncols=5, figsize=(figsize_x*5,figsize_y*nr)) 
-
+    plt.subplots_adjust(wspace=0, hspace=0.2)
     for index, data in enumerate(dataname):
         dirname_complete = dirPath+"/"+data
         print("dirname",dirname_complete,"index",index)

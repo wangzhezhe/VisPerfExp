@@ -200,6 +200,6 @@ if __name__ == "__main__":
         PARTICIPATION = computeParticipation(ALLBINS, numRanks, numBins)
         calcParticipation(axs[index], PARTICIPATION, TIMES, numBins, official_name[index], True)
     
-    fig.text(0.5, 0.0, 'Time (second)', ha='center',fontsize=labelSize+2)
+    fig.text(0.5, 0.0, 'Time (seconds)', ha='center',fontsize=labelSize+2)
     fig.savefig("rank_participation_all.png",bbox_inches='tight')
     fig.savefig("rank_participation_all.pdf",bbox_inches='tight')

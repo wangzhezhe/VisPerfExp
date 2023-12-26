@@ -11,10 +11,12 @@ import statistics
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
 
-labelSize = 23
-tickSize = 23
+labelSize = 22
+tickSize = 22
 legendsize=21
 sample_rate=1000
+figsize_x = 6
+figsize_y = 4.5
 
 def draw_dots_one_data(ax,procs,dirPath, data_name):
     all_particles=[]
@@ -54,18 +56,25 @@ def draw_dots_one_data(ax,procs,dirPath, data_name):
     # all_particles_sorted=sorted(all_particles, key=lambda x: x[0])
     # label the points on figure
     for p in all_particles:
-        ax.scatter(p[0],p[1],s=8, c='blue', alpha=0.05)
+        ax.scatter(p[0],p[1],s=40, c='blue', alpha=0.08)
+        if data_name=="Hydraulics":
+            print(p[1])
 
+    ylim=9000000
     if data_name=="Tokamak":
-        ax.set_ylabel('Accumulated group sizes', fontsize=labelSize)
+        ax.set_ylabel('Accumulated group size', fontsize=labelSize)
         ax.tick_params(axis='y', labelsize=tickSize)
+        
+        ax.set_yticks([0,ylim/3,2*ylim/3,ylim],['0','3e6','6e6','9e6'])
     else:
         ax.set_yticks([])
-
+    
     ax.tick_params(axis='x', labelsize=tickSize)
     ax.title.set_text(data_name)
+    ax.title.set_fontsize(labelSize)
+
     #ax.set_ylim(0,np.log10(10000000))
-    ax.set_ylim(0,10000000)
+    ax.set_ylim(0,ylim)
 
 
 # parse the timetrace log and draw the gantt chart
@@ -89,8 +98,7 @@ if __name__ == "__main__":
 
     official_name = ["Tokamak","Supernova","Hydraulics","CloverLeaf3D","Synthetic"]
    
-    figsize_x = 6
-    figsize_y = 5.5
+
     fig, axs = plt.subplots(nrows=1, ncols=5, figsize=(figsize_x*5,figsize_y)) 
 
     for index, data in enumerate(dataname):
@@ -108,7 +116,7 @@ if __name__ == "__main__":
     #                     markerfacecolor='green', markersize=legendsize)]
     
     #fig.legend(handles=legend_elem_1, bbox_to_anchor=(0.62,1.08), ncol=3, fontsize=legendsize)
-    fig.text(0.5, 0.0, 'Alive time of particle (second)', ha='center',fontsize=labelSize)
+    fig.text(0.5, -0.025, '$T_P$ (seconds)', ha='center',fontsize=labelSize)
     fig.savefig("particles_all_dots_all_alivetime_groupsize.png",bbox_inches='tight')
     fig.savefig("particles_all_dots_all_alivetime_groupsize.pdf",bbox_inches='tight')
 

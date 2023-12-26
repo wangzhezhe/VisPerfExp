@@ -200,7 +200,7 @@ if __name__ == "__main__":
     
     ax.tick_params(axis='y', labelsize=20)
     ax.tick_params(axis='x', labelsize=20)
-    ax.set_xlabel('Time(s)', fontsize=20)
+    ax.set_xlabel('$T_P$ (seconds)', fontsize=20)
 
     for data_index in range(0,5,1):
         # get advection time
@@ -274,5 +274,5 @@ if __name__ == "__main__":
         final_line_pos = figsize_x*particle_live_time_list[data_index]*1.0/(1.0*max_particle_live_time)
         ax.vlines(final_line_pos,bar_height*data_index-0.05,bar_height*data_index+0.65,colors='k')
 
-    fig.savefig("particle_gantt_five_datasets_white_wait.png",bbox_inches='tight')
+    fig.savefig("particle_gantt_five_datasets_white_wait.png",bbox_inches='tight',dpi=300)
     fig.savefig("particle_gantt_five_datasets_white_wait.pdf",bbox_inches='tight')

@@ -71,18 +71,23 @@ def parse_log_get_acc_advect_steps(dataset_name, num_rank, dirPath):
 def parse_log_estimator_popularity(dataset_name,num_rank, dirPath, num_test_points):
     file_name = dirPath+"/estimate_"+dataset_name+"_r"+str(num_rank)+ "_tp" + str(num_test_points) + ".log"
     fo=open(file_name, "r")
+    estimator_value_list=[]
     for line in fo:
         line_strip=line.strip()
-        if "NormBlockPopularity:" in line_strip:
+        #print(line_strip)
+        if "NormBlockPopularity" in line_strip:
             start =line_strip.find("[")
             end=line_strip.find("]")
             extract_num = line_strip[start+1:end-1]
             split_line = extract_num.split(" ")
-            #print(split_line)
+            print(split_line)
             estimator_value_list = [float(v) for v in split_line]
     fo.close()
     estimator_value_list_with_rankid=[]
     i=0
+    if len(estimator_value_list)==0:
+        print("No NormBlockPopularity log")
+        exit(0)
     for v in estimator_value_list:
         estimator_value_list_with_rankid.append([i,v])
         i+=1
@@ -105,7 +110,7 @@ if __name__ == "__main__":
     #     r+=1
 
     acc_adv_step_list, acc_adv_step_list_with_rankid = parse_log_get_acc_advect_steps(dataset_name, num_rank, dirPath)
-    
+    #print("acc_adv_step_list",acc_adv_step_list)
     adv_all_steps = sum(acc_adv_step_list)
     acc_adv_step_list_norm = [float(i)/adv_all_steps for i in acc_adv_step_list]
     
@@ -117,7 +122,7 @@ if __name__ == "__main__":
 
     r=0
     for v in acc_adv_step_list_norm: 
-        print("rank",r,"around_truth",format(v, '.6f'), "estimation", \
+        print("rank",r,"ground_truth",format(v, '.6f'), "estimation", \
               format(estimate_ratio[r], '.6f'), "diff", \
               format(abs(estimate_ratio[r]-v), '.6f'), \
               "ratio", format(v/abs(estimate_ratio[r]), '.6f'))

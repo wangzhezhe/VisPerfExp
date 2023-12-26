@@ -217,9 +217,9 @@ if __name__ == "__main__":
     fig.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=legendSize)
 
     if printUnit=="s":
-        fig.text(0.5, 0.03, 'Time (second)', ha='center',fontsize=labelSize)
+        fig.text(0.5, 0.03, 'Time (seconds)', ha='center',fontsize=labelSize)
     if printUnit=="us":
         fig.text(0.5, 0.03, 'Time (us)', ha='center',fontsize=labelSize)
-    #fig.savefig("rank_gantt_all.png",bbox_inches='tight',dpi=800)
-    fig.savefig("rank_gantt_all_duplicate.png",bbox_inches='tight',dpi=100)
-    #fig.savefig("rank_gantt_all.pdf",bbox_inches='tight')
+    fig.savefig("rank_gantt_all_duplicate_800.png",bbox_inches='tight',dpi=800)
+    fig.savefig("rank_gantt_all_duplicate_100.png",bbox_inches='tight',dpi=100)
+    fig.savefig("rank_gantt_all_duplicate.pdf",bbox_inches='tight')
