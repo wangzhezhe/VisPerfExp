@@ -212,4 +212,6 @@ if __name__ == "__main__":
     ax.broken_barh(xranges=[(0,1)],yrange=(procs*bar_height,bar_height),facecolors='None',edgecolor='None')
     plt.xlabel('Time(ms)', fontsize=labelSize)
     plt.ylabel('Rank', fontsize=labelSize)
-    fig.savefig("gantt_chart_"+dirname+".png",bbox_inches='tight', dpi=600)
+    file_name = "gantt_chart_"+dirname+".png"
+    fig.savefig(file_name,bbox_inches='tight', dpi=600)
+    print("generate file", file_name)
