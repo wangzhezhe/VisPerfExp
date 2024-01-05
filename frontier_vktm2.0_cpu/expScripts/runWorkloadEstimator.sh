@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -A CSC331
+#SBATCH -A csc143
 #SBATCH -J RunWorkloadEstimator
 #SBATCH -o %x-%j.out
 #SBATCH -t 01:30:00
