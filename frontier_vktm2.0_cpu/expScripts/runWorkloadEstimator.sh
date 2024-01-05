@@ -4,7 +4,7 @@
 #SBATCH -o %x-%j.out
 #SBATCH -t 01:30:00
 #SBATCH -p batch
-#SBATCH -N 2
+#SBATCH -N 1
 
 DATADIR=/lustre/orion/scratch/zw241/csc331/VisPerfData/resample2
 RUNDIR=/lustre/orion/scratch/zw241/csc331/VisPerfExp
@@ -25,7 +25,7 @@ STEPSIZE_FISH=0.001
 STEPSIZE_CLOVER=0.05
 
 MAXSTEPS=2000
-NUM_TEST_POINTS_LIST="100 1000"
+NUM_TEST_POINTS_LIST="100"
 NUM_SIM_POINTS_PER_DOM=5000
 NXYZ=2
 WIDTH_PCT=0.1

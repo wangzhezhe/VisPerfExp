@@ -130,8 +130,8 @@ if __name__ == "__main__":
 
     # sorting block id accoring to estimate_ratio
         
-    #print(acc_adv_step_list_with_rankid)
-    #print(estimator_value_list_with_rankid)
+    print(acc_adv_step_list_with_rankid)
+    print(estimator_value_list_with_rankid)
 
 
     sorted_acc_adv_step_list_with_rankid=sorted(acc_adv_step_list_with_rankid, key=lambda x: x[1], reverse=True)
