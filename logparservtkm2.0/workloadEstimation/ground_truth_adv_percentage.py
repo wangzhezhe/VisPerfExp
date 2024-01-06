@@ -79,7 +79,7 @@ def parse_log_estimator_popularity(dataset_name,num_rank, dirPath, num_test_poin
             start =line_strip.find("[")
             end=line_strip.find("]")
             extract_num = line_strip[start+1:end-1]
-            split_line = extract_num.split(" ")
+            split_line = extract_num.split(",")
             print(split_line)
             estimator_value_list = [float(v) for v in split_line]
     fo.close()
