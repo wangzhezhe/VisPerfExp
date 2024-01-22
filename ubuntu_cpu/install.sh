@@ -33,7 +33,8 @@ if [ ! -d ${HDF5_INSTALL_DIR} ]; then
 echo "**** Configuring HDF5"
 cmake -S ${HDF5_SRC_DIR} -B ${HDF5_BUILD_DIR} \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_INSTALL_PREFIX=${HDF5_INSTALL_DIR}
+  #-DHDF5_ENABLE_PARALLEL=ON this is used for mpi version of hdf5 otherwise, it is serial version
+  make  ${HDF5_INSTALL_DIR}
 
 echo "**** Building HDF5"
 cmake --build ${HDF5_BUILD_DIR} -j${build_jobs}

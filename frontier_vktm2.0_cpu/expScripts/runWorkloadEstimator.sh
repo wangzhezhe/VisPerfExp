@@ -6,6 +6,7 @@
 #SBATCH -p batch
 #SBATCH -N 2
 
+# it needs around 20 mins to complete the execution for whole execution (execution takes long time)
 DATADIR=/lustre/orion/scratch/zw241/csc331/VisPerfData/resample2
 RUNDIR=/lustre/orion/scratch/zw241/csc331/VisPerfExp
 CURRDIR=$(pwd)
@@ -24,63 +25,82 @@ STEPSIZE_ASTRO=0.005000
 STEPSIZE_FISH=0.001
 STEPSIZE_CLOVER=0.05
 
+# if run the actual case for the current run
+IF_RUN_ACTUAL_EXP=true
+
 MAXSTEPS=2000
-NUM_TEST_POINTS_LIST="50 100 200"
 NUM_SIM_POINTS_PER_DOM=5000
-NXYZ=2
-WIDTH_PCT=0.1
+
+NUM_TEST_POINTS_LIST="25 50 100"
+NXYZ_LIST="2 4 8"
+WIDTH_PCT_LIST="0.025 0.05 0.1 0.2"
 
 for NUM_TEST_POINTS in ${NUM_TEST_POINTS_LIST}
 do
+for NXYZ in ${NXYZ_LIST}
+do
+for WIDTH_PCT in ${WIDTH_PCT_LIST}
+do
+
 echo "NUM_TEST_POINTS:"$NUM_TEST_POINTS
+echo "NXYZ:"$NXYZ
+echo "WIDTH_PCT:"$WIDTH_PCT
+
+log_suffix=_tp${NUM_TEST_POINTS}_nxyz${NXYZ}_pc${WIDTH_PCT}.log
+
 #astro data
-srun -N 1 -n 8 ./StreamlineMPI $DATADIR/astro.2_2_2.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_astro_r8_tp${NUM_TEST_POINTS}.log
+srun -N 1 -n 8 ./StreamlineMPI $DATADIR/astro.2_2_2.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_astro_r8${log_suffix}
 
-srun -N 1 -n 16 ./StreamlineMPI $DATADIR/astro.2_2_4.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_astro_r16_tp${NUM_TEST_POINTS}.log
+srun -N 1 -n 16 ./StreamlineMPI $DATADIR/astro.2_2_4.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_astro_r16${log_suffix}
 
-srun -N 1 -n 32 ./StreamlineMPI $DATADIR/astro.2_4_4.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_astro_r32_tp${NUM_TEST_POINTS}.log
+srun -N 1 -n 32 ./StreamlineMPI $DATADIR/astro.2_4_4.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_astro_r32${log_suffix}
 
-srun -N 2 -n 64 ./StreamlineMPI $DATADIR/astro.4_4_4.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_astro_r64_tp${NUM_TEST_POINTS}.log
+srun -N 2 -n 64 ./StreamlineMPI $DATADIR/astro.4_4_4.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_astro_r64${log_suffix}
 
 #clover data
-srun -N 1 -n 8 ./StreamlineMPI $DATADIR/clover.2_2_2.visit velocity $STEPSIZE_CLOVER $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_clover_r8_tp${NUM_TEST_POINTS}.log
+srun -N 1 -n 8 ./StreamlineMPI $DATADIR/clover.2_2_2.visit velocity $STEPSIZE_CLOVER $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_clover_r8${log_suffix}
 
-srun -N 1 -n 16 ./StreamlineMPI $DATADIR/clover.2_2_4.visit velocity $STEPSIZE_CLOVER $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_clover_r16_tp${NUM_TEST_POINTS}.log
+srun -N 1 -n 16 ./StreamlineMPI $DATADIR/clover.2_2_4.visit velocity $STEPSIZE_CLOVER $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_clover_r16${log_suffix}
 
-srun -N 1 -n 32 ./StreamlineMPI $DATADIR/clover.2_4_4.visit velocity $STEPSIZE_CLOVER $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_clover_r32_tp${NUM_TEST_POINTS}.log
+srun -N 1 -n 32 ./StreamlineMPI $DATADIR/clover.2_4_4.visit velocity $STEPSIZE_CLOVER $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_clover_r32${log_suffix}
 
-srun -N 2 -n 64 ./StreamlineMPI $DATADIR/clover.4_4_4.visit velocity $STEPSIZE_CLOVER $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_clover_r64_tp${NUM_TEST_POINTS}.log
+srun -N 2 -n 64 ./StreamlineMPI $DATADIR/clover.4_4_4.visit velocity $STEPSIZE_CLOVER $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_clover_r64${log_suffix}
 
 
 # fusion data
-srun -N 1 -n 8 ./StreamlineMPI $DATADIR/fusion.2_2_2.visit velocity $STEPSIZE_FUSION $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fusion_r8_tp${NUM_TEST_POINTS}.log
+srun -N 1 -n 8 ./StreamlineMPI $DATADIR/fusion.2_2_2.visit velocity $STEPSIZE_FUSION $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fusion_r8${log_suffix}
 
-srun -N 1 -n 16 ./StreamlineMPI $DATADIR/fusion.2_2_4.visit velocity $STEPSIZE_FUSION $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fusion_r16_tp${NUM_TEST_POINTS}.log
+srun -N 1 -n 16 ./StreamlineMPI $DATADIR/fusion.2_2_4.visit velocity $STEPSIZE_FUSION $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fusion_r16${log_suffix}
 
-srun -N 1 -n 32 ./StreamlineMPI $DATADIR/fusion.2_4_4.visit velocity $STEPSIZE_FUSION $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fusion_r32_tp${NUM_TEST_POINTS}.log
+srun -N 1 -n 32 ./StreamlineMPI $DATADIR/fusion.2_4_4.visit velocity $STEPSIZE_FUSION $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fusion_r32${log_suffix}
 
-srun -N 2 -n 64 ./StreamlineMPI $DATADIR/fusion.4_4_4.visit velocity $STEPSIZE_FUSION $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fusion_r64_tp${NUM_TEST_POINTS}.log
+srun -N 2 -n 64 ./StreamlineMPI $DATADIR/fusion.4_4_4.visit velocity $STEPSIZE_FUSION $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fusion_r64${log_suffix}
 
 # syn data
-srun -N 1 -n 8 ./StreamlineMPI $DATADIR/syn.2_2_2.visit velocity $STEPSIZE_SYN $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_syn_r8_tp${NUM_TEST_POINTS}.log
+srun -N 1 -n 8 ./StreamlineMPI $DATADIR/syn.2_2_2.visit velocity $STEPSIZE_SYN $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_syn_r8${log_suffix}
 
-srun -N 1 -n 16 ./StreamlineMPI $DATADIR/syn.2_2_4.visit velocity $STEPSIZE_SYN $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_syn_r16_tp${NUM_TEST_POINTS}.log
+srun -N 1 -n 16 ./StreamlineMPI $DATADIR/syn.2_2_4.visit velocity $STEPSIZE_SYN $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_syn_r16${log_suffix}
 
-srun -N 1 -n 32 ./StreamlineMPI $DATADIR/syn.2_4_4.visit velocity $STEPSIZE_SYN $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_syn_r32_tp${NUM_TEST_POINTS}.log
+srun -N 1 -n 32 ./StreamlineMPI $DATADIR/syn.2_4_4.visit velocity $STEPSIZE_SYN $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_syn_r32${log_suffix}
 
-srun -N 2 -n 64 ./StreamlineMPI $DATADIR/syn.4_4_4.visit velocity $STEPSIZE_SYN $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_syn_r64_tp${NUM_TEST_POINTS}.log
+srun -N 2 -n 64 ./StreamlineMPI $DATADIR/syn.4_4_4.visit velocity $STEPSIZE_SYN $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_syn_r64${log_suffix}
 
 
 #fishtank data
-srun -N 1 -n 8 ./StreamlineMPI $DATADIR/fishtank.2_2_2.visit velocity $STEPSIZE_FISH $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fishtank_r8_tp${NUM_TEST_POINTS}.log
+srun -N 1 -n 8 ./StreamlineMPI $DATADIR/fishtank.2_2_2.visit velocity $STEPSIZE_FISH $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fishtank_r8${log_suffix}
 
-srun -N 1 -n 16 ./StreamlineMPI $DATADIR/fishtank.2_2_4.visit velocity $STEPSIZE_FISH $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fishtank_r16_tp${NUM_TEST_POINTS}.log
+srun -N 1 -n 16 ./StreamlineMPI $DATADIR/fishtank.2_2_4.visit velocity $STEPSIZE_FISH $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fishtank_r16${log_suffix}
 
-srun -N 1 -n 32 ./StreamlineMPI $DATADIR/fishtank.2_4_4.visit velocity $STEPSIZE_FISH $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fishtank_r32_tp${NUM_TEST_POINTS}.log
+srun -N 1 -n 32 ./StreamlineMPI $DATADIR/fishtank.2_4_4.visit velocity $STEPSIZE_FISH $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fishtank_r32${log_suffix}
 
-srun -N 2 -n 64 ./StreamlineMPI $DATADIR/fishtank.4_4_4.visit velocity $STEPSIZE_FISH $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fishtank_r64_tp${NUM_TEST_POINTS}.log
+srun -N 2 -n 64 ./StreamlineMPI $DATADIR/fishtank.4_4_4.visit velocity $STEPSIZE_FISH $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fishtank_r64${log_suffix}
 
 done
+done
+done
+
+# The actual run
+if $IF_RUN_ACTUAL_EXP; then
 
 # create actual run
 cp $CURRDIR/../install/visReader/visitReaderAdev visitReaderAdev
@@ -266,3 +286,5 @@ srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
 --communication=async_probe &> readerlog.out
 cd ..
 done
+
+fi
