@@ -74,8 +74,9 @@ def get_aectual_acc_in_out_particles_num(dataset_name, num_rank, dirPath):
     return acc_in_particles_num_list,acc_out_particles_num_list
 
 
-def get_estimated_info(dataset_name,num_rank, dirPath, num_test_points):
-    file_name = dirPath+"/estimate_"+dataset_name+"_r"+str(num_rank)+ "_tp" + str(num_test_points) + ".log"
+def get_estimated_info(dataset_name,num_rank, dirPath, num_test_points, nxyz, pc):
+    file_name = dirPath+"/estimate_"+dataset_name+"_r"+str(num_rank)+ "_tp" + str(num_test_points)+ "_nxyz"+str(nxyz)+"_pc" + pc+ ".log"
+    print("est file name",file_name)
     fo=open(file_name, "r")
     estimator_steps_popularity_list=[]
     estimator_particle_in_list=[]
@@ -121,17 +122,24 @@ def draw_two_lines(actual_data, estimated_data, actual_title, estimated_title,fi
     fig, ax = plt.subplots(figsize=(9,4.5))
     p1 = ax.plot(actual_data, color=gblue, marker='^', label=actual_title)
     p2 = ax.plot(estimated_data, '--', color=gred, marker='o', label=estimated_title)
+    ylimit1 = max(actual_data)
+    ylimit2 = max(estimated_data)
+    ylimit = max(ylimit1,ylimit2)
+    ax.set_ylim([0,1.2*ylimit])
     ax.legend(ncol=2, loc='upper left', fontsize='large')
     plt.savefig(figure_name+".png", bbox_inches='tight')
 
 if __name__ == "__main__":
-    if len(sys.argv)!=5:
-        print("<binary> <dataset name> <runDirPath> <num_rank> <num_test_points>",flush=True)
+    if len(sys.argv)!=8:
+        print("<binary> <dataset name> <runDirPath> <estimate dir path> <num_rank> <num_test_points> <nxyz> <pc>",flush=True)
         exit()
     dataset_name=sys.argv[1]
     dirPath=sys.argv[2]
-    num_rank=int(sys.argv[3])
-    num_test_points=int(sys.argv[4])
+    estPath=sys.argv[3]
+    num_rank=int(sys.argv[4])
+    num_test_points=int(sys.argv[5])
+    nxyz=int(sys.argv[6])
+    pc=str(sys.argv[7])
 
     # extract info from actual data
     actual_acc_advect_steps=get_aectual_acc_advect_steps(dataset_name,num_rank,dirPath)
@@ -159,7 +167,7 @@ if __name__ == "__main__":
         rank+=1
 
     # extract info from estimated data
-    estimated_adv_popularity,estimated_in_particles,estimated_out_particles=get_estimated_info(dataset_name,num_rank,dirPath,num_test_points)
+    estimated_adv_popularity,estimated_in_particles,estimated_out_particles=get_estimated_info(dataset_name,num_rank,estPath,num_test_points,nxyz,pc)
     print("estimated_adv_popularity")
     print(estimated_adv_popularity)
     print("estimated_in_particles")
@@ -167,16 +175,18 @@ if __name__ == "__main__":
     print("estimated_out_particles")
     print(estimated_out_particles)
 
+    suffix="_tp" + str(num_test_points)+ "_nxyz"+str(nxyz)+"_pc" + pc
+
     # draw it, from rank 0 to rank n-1
     # steps
-    fig_name=dataset_name+"_rank"+str(num_rank)+"_tp"+str(num_test_points)+"_advsteps"
+    fig_name=dataset_name+"_rank"+str(num_rank)+suffix+"_advsteps"
     draw_two_lines(actual_acc_advect_steps_popularity,estimated_adv_popularity,"actual popularity","estimated popularity",fig_name)
 
     #particle in
-    fig_name=dataset_name+"_rank"+str(num_rank)+"_tp"+str(num_test_points)+"_particle_in"
+    fig_name=dataset_name+"_rank"+str(num_rank)+suffix+"_particle_in"
     draw_two_lines(actual_acc_in_particles_num,estimated_in_particles,"actual received particle","estimated received particle",fig_name)
 
 
     #particle out
-    fig_name=dataset_name+"_rank"+str(num_rank)+"_tp"+str(num_test_points)+"_particle_out"
+    fig_name=dataset_name+"_rank"+str(num_rank)+suffix+"_particle_out"
     draw_two_lines(actual_acc_out_particles_num,estimated_out_particles,"actual send particle","estimated send particle",fig_name)
