@@ -7,8 +7,8 @@
 #SBATCH -N 1
 
 # it needs around 20 mins to complete the execution for whole execution (execution takes long time)
-DATADIR=/lustre/orion/scratch/zw241/csc331/VisPerfData/resample2
-RUNDIR=/lustre/orion/scratch/zw241/csc331/VisPerfExp
+DATADIR=/lustre/orion/scratch/zw241/csc143/VisPerfData/resample2
+RUNDIR=/lustre/orion/scratch/zw241/csc143/VisPerfExp
 CURRDIR=$(pwd)
 
 mkdir $RUNDIR
@@ -33,8 +33,8 @@ IF_RUN_ACTUAL_EXP=false
 MAXSTEPS=2000
 NUM_SIM_POINTS_PER_DOM=1000
 
-NUM_TEST_POINTS_LIST="50 100"
-NXYZ_LIST="4 8"
+NUM_TEST_POINTS_LIST="50"
+NXYZ_LIST="4"
 WIDTH_PCT_LIST="0.1"
 BINARY_LIST="StreamlineMPI StreamlineMPI2"
 
@@ -109,8 +109,22 @@ srun -N 1 -n 32 ./StreamlineMPI $DATADIR/syn.2_4_4.visit velocity $STEPSIZE_SYN 
 
 #srun -N 2 -n 64 ./StreamlineMPI $DATADIR/syn.4_4_4.visit velocity $STEPSIZE_SYN $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_syn_r64${log_suffix}
 
+srun -N 1 -n 8 ./StreamlineMPI2 $DATADIR/syn.2_2_2.visit velocity $STEPSIZE_SYN $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> sl2_estimate_syn_r8${log_suffix}
+
+srun -N 1 -n 16 ./StreamlineMPI2 $DATADIR/syn.2_2_4.visit velocity $STEPSIZE_SYN $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> sl2_estimate_syn_r16${log_suffix}
+
+srun -N 1 -n 32 ./StreamlineMPI2 $DATADIR/syn.2_4_4.visit velocity $STEPSIZE_SYN $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> sl2_estimate_syn_r32${log_suffix}
+
 
 #fishtank data
+
+srun -N 1 -n 8 ./StreamlineMPI $DATADIR/fishtank.2_2_2.visit velocity $STEPSIZE_FISH $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> sl1_estimate_fishtank_r8${log_suffix}
+
+srun -N 1 -n 16 ./StreamlineMPI $DATADIR/fishtank.2_2_4.visit velocity $STEPSIZE_FISH $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> sl1_estimate_fishtank_r16${log_suffix}
+
+srun -N 1 -n 32 ./StreamlineMPI $DATADIR/fishtank.2_4_4.visit velocity $STEPSIZE_FISH $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> sl1_estimate_fishtank_r32${log_suffix}
+
+
 srun -N 1 -n 8 ./StreamlineMPI2 $DATADIR/fishtank.2_2_2.visit velocity $STEPSIZE_FISH $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> sl2_estimate_fishtank_r8${log_suffix}
 
 srun -N 1 -n 16 ./StreamlineMPI2 $DATADIR/fishtank.2_2_4.visit velocity $STEPSIZE_FISH $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> sl2_estimate_fishtank_r16${log_suffix}
@@ -118,6 +132,7 @@ srun -N 1 -n 16 ./StreamlineMPI2 $DATADIR/fishtank.2_2_4.visit velocity $STEPSIZ
 srun -N 1 -n 32 ./StreamlineMPI2 $DATADIR/fishtank.2_4_4.visit velocity $STEPSIZE_FISH $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> sl2_estimate_fishtank_r32${log_suffix}
 
 # srun -N 2 -n 64 ./StreamlineMPI $DATADIR/fishtank.4_4_4.visit velocity $STEPSIZE_FISH $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_fishtank_r64${log_suffix}
+
 
 
 done
