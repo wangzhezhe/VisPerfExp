@@ -21,7 +21,7 @@ cp $CURRDIR/../install/visReader/workloadEstimation/StreamlineMPI2 StreamlineMPI
 
 # <executable> <visitfileName> <fieldNm> <stepSize> <maxSteps> <NUM_TEST_POINTS> <NUM_SIM_POINTS_PER_DOM> <Nxyz> <WIDTH_PCT>
 
-STEPSIZE_SYN=0.0005000
+STEPSIZE_SYN=0.0001000
 STEPSIZE_FUSION=0.005
 STEPSIZE_ASTRO=0.005000
 STEPSIZE_FISH=0.001
@@ -55,15 +55,16 @@ log_suffix=_tp${NUM_TEST_POINTS}_nxyz${NXYZ}_pc${WIDTH_PCT}.log
 #astro data
 srun -N 1 -n 8 ./StreamlineMPI $DATADIR/astro.2_2_2.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> sl1_estimate_astro_r8${log_suffix}
 
-srun -N 1 -n 8 ./StreamlineMPI2 $DATADIR/astro.2_2_2.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> sl2_estimate_astro_r8${log_suffix}
-
 srun -N 1 -n 16 ./StreamlineMPI $DATADIR/astro.2_2_4.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> sl1_estimate_astro_r16${log_suffix}
-
-srun -N 1 -n 16 ./StreamlineMPI $DATADIR/astro.2_2_4.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> sl2_estimate_astro_r16${log_suffix}
 
 srun -N 1 -n 32 ./StreamlineMPI $DATADIR/astro.2_4_4.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> sl1_estimate_astro_r32${log_suffix}
 
-srun -N 1 -n 32 ./StreamlineMPI $DATADIR/astro.2_4_4.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> sl2_estimate_astro_r32${log_suffix}
+srun -N 1 -n 8 ./StreamlineMPI2 $DATADIR/astro.2_2_2.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> sl2_estimate_astro_r8${log_suffix}
+
+srun -N 1 -n 16 ./StreamlineMPI2 $DATADIR/astro.2_2_4.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> sl2_estimate_astro_r16${log_suffix}
+
+srun -N 1 -n 32 ./StreamlineMPI2 $DATADIR/astro.2_4_4.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> sl2_estimate_astro_r32${log_suffix}
+
 
 
 #srun -N 2 -n 64 ./StreamlineMPI $DATADIR/astro.4_4_4.visit velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ $WIDTH_PCT &> estimate_astro_r64${log_suffix}
