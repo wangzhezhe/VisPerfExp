@@ -24,7 +24,8 @@ cp $CURRDIR/../install/visReader/workloadEstimation/StreamlineMPI2 StreamlineMPI
 STEPSIZE_SYN=0.0001000
 STEPSIZE_FUSION=0.005
 STEPSIZE_ASTRO=0.005000
-STEPSIZE_FISH=0.001
+# set the small step size to avoid the empty in the fishtank dataset
+STEPSIZE_FISH=0.0001
 STEPSIZE_CLOVER=0.001
 
 # if run the actual case for the current run
