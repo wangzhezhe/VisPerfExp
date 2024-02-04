@@ -15,8 +15,8 @@ mkdir $RUNDIR
 
 cd $RUNDIR
 
-cp $CURRDIR/../install/visReader/workloadEstimation/StreamlineMPI StreamlineMPI
-cp $CURRDIR/../install/visReader/workloadEstimation/StreamlineMPI2 StreamlineMPI2
+ln -s $CURRDIR/../install/visReader/workloadEstimation/StreamlineMPI StreamlineMPI
+ln -s $CURRDIR/../install/visReader/workloadEstimation/StreamlineMPI2 StreamlineMPI2
 
 
 # <executable> <visitfileName> <fieldNm> <stepSize> <maxSteps> <NUM_TEST_POINTS> <NUM_SIM_POINTS_PER_DOM> <Nxyz> <WIDTH_PCT>
@@ -145,7 +145,7 @@ done
 if $IF_RUN_ACTUAL_EXP; then
 
 # create actual run
-cp $CURRDIR/../install/visReader/visitReaderAdev visitReaderAdev
+ln -s $CURRDIR/../install/visReader/visitReaderAdev visitReaderAdev
 
 export OMP_NUM_THREADS=1
 
