@@ -8,15 +8,16 @@
 
 # it needs around 20 mins to complete the execution for whole execution (execution takes long time)
 DATADIR=/lustre/orion/scratch/zw241/csc143/VisPerfData/resample2
-RUNDIR=/lustre/orion/scratch/zw241/csc143/VisPerfExpAssignStrategeis
+RUNDIR=/lustre/orion/scratch/zw241/csc143/VisPerfExpAssignStrategeis_${1}
 CURRDIR=$(pwd)
 
 mkdir $RUNDIR
 
 cd $RUNDIR
 
-cp $CURRDIR/../install/visReader/workloadEstimation/StreamlineMPI StreamlineMPI
-cp $CURRDIR/../install/visReader/workloadEstimation/StreamlineMPI2 StreamlineMPI2
+ln -s $CURRDIR/../install/visReader/workloadEstimation/StreamlineMPI StreamlineMPI
+ln -s $CURRDIR/../install/visReader/workloadEstimation/StreamlineMPI2 StreamlineMPI2
+ln -s $CURRDIR/../install/visReader/visitReaderAdev visitReaderAdev
 
 # init parameters
 STEPSIZE_ASTRO=0.005000
@@ -26,7 +27,7 @@ NUM_SIM_POINTS_PER_DOM=1000
 
 NUM_TEST_POINTS=50
 NXYZ=4
-WIDTH_PCT_LIST=0.1
+WIDTH_PCT=0.1
 
 echo "NUM_TEST_POINTS:"$NUM_TEST_POINTS
 echo "NXYZ:"$NXYZ
@@ -39,6 +40,9 @@ NUM_RANK=32
 NUM_BLOCKS=32
 
 DATA_NAME=astro.2_4_4.visit
+
+mkdir one_data_per_rank
+cd one_data_per_rank
 
 srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
 --vtkm-device serial \
@@ -55,20 +59,28 @@ srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
 --assign-strategy=roundroubin \
 --communication=async_probe &> readerlog.out
 
+# go back to the parend dir
+cd ..
 
 # Step 2 run with workload estimator
 log_suffix=_r${NUM_RANK}_tp${NUM_TEST_POINTS}_nxyz${NXYZ}_pc${WIDTH_PCT}.log
-srun -N $NUM_NODE -n $NUM_RANK ./StreamlineMPI2 $DATADIR/${DATA_NAME} velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> sl2_estimate_astro${log_suffix}
+estimate_log_file=sl2_estimate_astro${log_suffix}
+srun -N $NUM_NODE -n $NUM_RANK ./StreamlineMPI2 $DATADIR/${DATA_NAME} velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> ${estimate_log_file}
 
 
 # Step 3 run through rrb based on workload estimator results
 # generate the rrb file firstly, replace the assign_options.config
-NUM_RANK=8
-python3 $CURRDIR/generate_assignment_rrb.py $NUM_BLOCKS $NUM_RANK
+mkdir rrb_placement
+cd rrb_placement
+NUM_RANK_REDUCED=8
+python3 $CURRDIR/generate_assignment_rrb.py $NUM_BLOCKS $NUM_RANK_REDUCED
 # the configuration is the rrb now
-srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
+for run_index in {1..3}
+do
+
+srun -N $NUM_NODE -n $NUM_RANK_REDUCED ../visitReaderAdev \
 --vtkm-device serial \
---file=$DATADIR/astro.2_4_4.visit \
+--file=$DATADIR/${DATA_NAME} \
 --advect-num-steps=$MAXSTEPS \
 --advect-num-seeds=$NUM_SIM_POINTS_PER_DOM \
 --seeding-method=domainrandom \
@@ -79,16 +91,27 @@ srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
 --output-results=false \
 --sim-code=cloverleaf \
 --assign-strategy=file \
---communication=async_probe &> rrb_readerlog.out
+--communication=async_probe &> readerlog_rrb_${run_index}.out
+
+done
 
 # Step 4 run through first fit backpacking based on workload estimator results
+cd ..
+mkdir bpacking_placement
+cd bpacking_placement
 # generate the backpacking file, replace the assign config file
-python3 $CURRDIR/generate_assignment_we_bpacking.py sl2_estimate_astro${log_suffix} $NUM_BLOCKS $NUM_RANK
+python3 $CURRDIR/generate_assignment_we_bpacking.py ../${estimate_log_file} $NUM_BLOCKS $NUM_RANK_REDUCED
 # the configuration file is now updated into a new one now
 # run the program
-srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
+# run it three times
+# keep the log for last time
+
+for run_index in {1..3}
+do
+
+srun -N $NUM_NODE -n $NUM_RANK_REDUCED ../visitReaderAdev \
 --vtkm-device serial \
---file=$DATADIR/astro.2_4_4.visit \
+--file=$DATADIR/${DATA_NAME} \
 --advect-num-steps=$MAXSTEPS \
 --advect-num-seeds=$NUM_SIM_POINTS_PER_DOM \
 --seeding-method=domainrandom \
@@ -99,4 +122,7 @@ srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
 --output-results=false \
 --sim-code=cloverleaf \
 --assign-strategy=file \
---communication=async_probe &> bpacking_readerlog.out
+--communication=async_probe &> readerlog_bpacking_${run_index}.out
+
+done
+
