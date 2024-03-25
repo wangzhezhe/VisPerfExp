@@ -123,6 +123,37 @@ srun -N $NUM_NODE -n $NUM_RANK_REDUCED ../visitReaderAdev \
 --sim-code=cloverleaf \
 --assign-strategy=file \
 --communication=async_probe &> readerlog_bpacking_${run_index}.out
+done
+
+
+# Step 5 run through first fit backpacking with duplication based on workload estimator results
+cd ..
+mkdir bpacking_placement_dup
+cd bpacking_placement_dup
+# generate the backpacking file, replace the assign config file
+python3 $CURRDIR/generate_assignment_we_bpacking_dup.py ../${estimate_log_file} $NUM_BLOCKS $NUM_RANK_REDUCED
+# the configuration file is now updated into a new one now
+# run the program
+# run it three times
+# keep the log for last time
+
+for run_index in {1..3}
+do
+
+srun -N $NUM_NODE -n $NUM_RANK_REDUCED ../visitReaderAdev \
+--vtkm-device serial \
+--file=$DATADIR/${DATA_NAME} \
+--advect-num-steps=$MAXSTEPS \
+--advect-num-seeds=$NUM_SIM_POINTS_PER_DOM \
+--seeding-method=domainrandom \
+--advect-seed-box-extents=0.010000,0.990000,0.010000,0.990000,0.010000,0.990000 \
+--field-name=velocity \
+--advect-step-size=$STEPSIZE_ASTRO \
+--record-trajectories=false \
+--output-results=false \
+--sim-code=cloverleaf \
+--assign-strategy=file \
+--communication=async_probe &> readerlog_bpacking_dup_${run_index}.out
 
 done
 
