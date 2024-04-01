@@ -39,14 +39,16 @@ NUM_NODE=1
 NUM_RANK=32
 NUM_BLOCKS=32
 
-DATA_NAME=astro.2_4_4.visit
-
 mkdir one_data_per_rank
 cd one_data_per_rank
 
+# define a function to execute on astro data
+# first one is dataset and second one is execution index
+call_astro () {
+echo "executing astro on dataset ${1} execution index is ${2}"
 srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
 --vtkm-device serial \
---file=$DATADIR/${DATA_NAME} \
+--file=$DATADIR/${1} \
 --advect-num-steps=$MAXSTEPS \
 --advect-num-seeds=$NUM_SIM_POINTS_PER_DOM \
 --seeding-method=domainrandom \
@@ -57,7 +59,13 @@ srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
 --output-results=false \
 --sim-code=cloverleaf \
 --assign-strategy=roundroubin \
---communication=async_probe &> readerlog.out
+--communication=async_probe &> readerlog_${2}.out
+}
+
+#executing the work
+DATA_NAME=astro.2_4_4.visit
+call_astro $DATA_NAME 0
+
 
 # go back to the parend dir
 cd ..
@@ -78,20 +86,7 @@ python3 $CURRDIR/generate_assignment_rrb.py $NUM_BLOCKS $NUM_RANK_REDUCED
 for run_index in {1..3}
 do
 
-srun -N $NUM_NODE -n $NUM_RANK_REDUCED ../visitReaderAdev \
---vtkm-device serial \
---file=$DATADIR/${DATA_NAME} \
---advect-num-steps=$MAXSTEPS \
---advect-num-seeds=$NUM_SIM_POINTS_PER_DOM \
---seeding-method=domainrandom \
---advect-seed-box-extents=0.010000,0.990000,0.010000,0.990000,0.010000,0.990000 \
---field-name=velocity \
---advect-step-size=$STEPSIZE_ASTRO \
---record-trajectories=false \
---output-results=false \
---sim-code=cloverleaf \
---assign-strategy=file \
---communication=async_probe &> readerlog_rrb_${run_index}.out
+call_astro $DATA_NAME $run_index
 
 done
 
@@ -108,21 +103,7 @@ python3 $CURRDIR/generate_assignment_we_bpacking.py ../${estimate_log_file} $NUM
 
 for run_index in {1..3}
 do
-
-srun -N $NUM_NODE -n $NUM_RANK_REDUCED ../visitReaderAdev \
---vtkm-device serial \
---file=$DATADIR/${DATA_NAME} \
---advect-num-steps=$MAXSTEPS \
---advect-num-seeds=$NUM_SIM_POINTS_PER_DOM \
---seeding-method=domainrandom \
---advect-seed-box-extents=0.010000,0.990000,0.010000,0.990000,0.010000,0.990000 \
---field-name=velocity \
---advect-step-size=$STEPSIZE_ASTRO \
---record-trajectories=false \
---output-results=false \
---sim-code=cloverleaf \
---assign-strategy=file \
---communication=async_probe &> readerlog_bpacking_${run_index}.out
+call_astro $DATA_NAME $run_index
 done
 
 
@@ -140,20 +121,7 @@ python3 $CURRDIR/generate_assignment_we_bpacking_dup.py ../${estimate_log_file} 
 for run_index in {1..3}
 do
 
-srun -N $NUM_NODE -n $NUM_RANK_REDUCED ../visitReaderAdev \
---vtkm-device serial \
---file=$DATADIR/${DATA_NAME} \
---advect-num-steps=$MAXSTEPS \
---advect-num-seeds=$NUM_SIM_POINTS_PER_DOM \
---seeding-method=domainrandom \
---advect-seed-box-extents=0.010000,0.990000,0.010000,0.990000,0.010000,0.990000 \
---field-name=velocity \
---advect-step-size=$STEPSIZE_ASTRO \
---record-trajectories=false \
---output-results=false \
---sim-code=cloverleaf \
---assign-strategy=file \
---communication=async_probe &> readerlog_bpacking_dup_${run_index}.out
+call_astro $DATA_NAME $run_index
 
 done
 

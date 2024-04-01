@@ -10,9 +10,13 @@ from matplotlib import ticker
 import statistics
 from matplotlib.patches import Patch
 
-ticksize=20
-labelSize=26
-legendSize=22
+# ticksize=20
+# labelSize=26
+# legendSize=22
+
+ticksize=5
+labelSize=2
+legendSize=5
 
 def get_barh_other_overhead(barh_list_advec, barh_list_comm):
 
@@ -199,7 +203,7 @@ if __name__ == "__main__":
             legend_elems = [Patch(facecolor='tab:blue', edgecolor='None', label='Advec'),
                             Patch(facecolor='white', alpha=0.35, edgecolor='black', label='Comm and Wait'),
                             Patch(facecolor='tab:red', alpha=0.35, edgecolor='None', label='Other overhead'),]
-            legend = plt.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=10)
+            legend = plt.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=labelSize)
             ax.add_artist(legend)
         else:
             # no label here
