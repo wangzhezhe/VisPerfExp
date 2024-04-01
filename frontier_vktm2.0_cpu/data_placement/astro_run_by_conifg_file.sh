@@ -45,10 +45,11 @@ cd one_data_per_rank
 # define a function to execute on astro data
 # first one is dataset and second one is execution index
 call_astro () {
-echo "executing astro on dataset ${1} execution index is ${2}"
-srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
+echo "number of node ${1} number of ranks ${2}"
+echo "executing astro on dataset ${3} execution index is ${4} block dup is ${5}"
+srun -N ${1} -n ${2} ../visitReaderAdev \
 --vtkm-device serial \
---file=$DATADIR/${1} \
+--file=$DATADIR/${3} \
 --advect-num-steps=$MAXSTEPS \
 --advect-num-seeds=$NUM_SIM_POINTS_PER_DOM \
 --seeding-method=domainrandom \
@@ -59,15 +60,15 @@ srun -N $NUM_NODE -n $NUM_RANK ../visitReaderAdev \
 --output-results=false \
 --sim-code=cloverleaf \
 --assign-strategy=roundroubin \
---communication=async_probe &> readerlog_${2}.out
+--block-duplicate=${5} \
+--communication=async_probe &> readerlog_${4}.out
 }
 
 #executing the work
 DATA_NAME=astro.2_4_4.visit
-call_astro $DATA_NAME 0
+call_astro $NUM_NODE $NUM_RANK $DATA_NAME 0 false
 
-
-# go back to the parend dir
+# go back to the parent dir
 cd ..
 
 # Step 2 run with workload estimator
@@ -75,8 +76,14 @@ log_suffix=_r${NUM_RANK}_tp${NUM_TEST_POINTS}_nxyz${NXYZ}_pc${WIDTH_PCT}.log
 estimate_log_file=sl2_estimate_astro${log_suffix}
 srun -N $NUM_NODE -n $NUM_RANK ./StreamlineMPI2 $DATADIR/${DATA_NAME} velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> ${estimate_log_file}
 
+# Step 3
+# parsing workload estimation results
+# parsing original run resutls
+# comparing the differences between these two
+python3 $CURRDIR/parser_compare_actual_and_estimation_run.py $RUNDIR/one_data_per_rank $RUNDIR/${estimate_log_file} ${NUM_RANK}
 
-# Step 3 run through rrb based on workload estimator results
+
+# Step 4 run through rrb based on workload estimator results
 # generate the rrb file firstly, replace the assign_options.config
 mkdir rrb_placement
 cd rrb_placement
@@ -86,11 +93,11 @@ python3 $CURRDIR/generate_assignment_rrb.py $NUM_BLOCKS $NUM_RANK_REDUCED
 for run_index in {1..3}
 do
 
-call_astro $DATA_NAME $run_index
+call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index false
 
 done
 
-# Step 4 run through first fit backpacking based on workload estimator results
+# Step 5 run through first fit backpacking based on workload estimator results
 cd ..
 mkdir bpacking_placement
 cd bpacking_placement
@@ -103,11 +110,11 @@ python3 $CURRDIR/generate_assignment_we_bpacking.py ../${estimate_log_file} $NUM
 
 for run_index in {1..3}
 do
-call_astro $DATA_NAME $run_index
+call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index false
 done
 
 
-# Step 5 run through first fit backpacking with duplication based on workload estimator results
+# Step 6 run through first fit backpacking with duplication based on workload estimator results
 cd ..
 mkdir bpacking_placement_dup
 cd bpacking_placement_dup
@@ -120,8 +127,9 @@ python3 $CURRDIR/generate_assignment_we_bpacking_dup.py ../${estimate_log_file} 
 
 for run_index in {1..3}
 do
-
-call_astro $DATA_NAME $run_index
+# setting block duplication as true
+# and setting SetBlockIDs manually
+call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index true
 
 done
 

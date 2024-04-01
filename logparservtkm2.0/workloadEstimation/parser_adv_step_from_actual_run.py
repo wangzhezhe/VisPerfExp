@@ -1,4 +1,4 @@
-import numpy
+import numpy as np
 from random import randint
 from time import sleep
 import time
@@ -37,5 +37,6 @@ if __name__ == "__main__":
     
     # go through the data dir to find the actual advection steps
     acc_adv_step_list, acc_adv_step_list_with_rankid = parse_log_get_acc_advect_steps(log_dir_path,num_rank)
-
+    sum_adv_steps = sum(acc_adv_step_list)
+    # start from 0 to the largest one
     print(acc_adv_step_list_with_rankid)
