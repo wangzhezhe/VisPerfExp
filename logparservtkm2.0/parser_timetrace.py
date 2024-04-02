@@ -217,5 +217,5 @@ if __name__ == "__main__":
     plt.xlabel('Time(ms)', fontsize=labelSize)
     plt.ylabel('Rank', fontsize=labelSize)
     file_name = "gantt_chart_"+dirname+".png"
-    fig.savefig(file_name,bbox_inches='tight', dpi=600)
+    fig.savefig(file_name,bbox_inches='tight', dpi=800)
     print("generate file: ", file_name)

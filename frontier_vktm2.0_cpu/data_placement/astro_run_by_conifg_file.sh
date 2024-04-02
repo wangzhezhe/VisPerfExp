@@ -46,7 +46,7 @@ cd one_data_per_rank
 # first one is dataset and second one is execution index
 call_astro () {
 echo "number of node ${1} number of ranks ${2}"
-echo "executing astro on dataset ${3} execution index is ${4} block dup is ${5}"
+echo "executing astro on dataset ${3} execution index is ${4} strategy ${5}"
 srun -N ${1} -n ${2} ../visitReaderAdev \
 --vtkm-device serial \
 --file=$DATADIR/${3} \
@@ -59,14 +59,14 @@ srun -N ${1} -n ${2} ../visitReaderAdev \
 --record-trajectories=false \
 --output-results=false \
 --sim-code=cloverleaf \
---assign-strategy=roundroubin \
---block-duplicate=${5} \
+--assign-strategy=${5} \
+--block-manual-id=true \
 --communication=async_probe &> readerlog_${4}.out
 }
 
 #executing the work
 DATA_NAME=astro.2_4_4.visit
-call_astro $NUM_NODE $NUM_RANK $DATA_NAME 0 false
+call_astro $NUM_NODE $NUM_RANK $DATA_NAME 0 roundroubin
 
 # go back to the parent dir
 cd ..
@@ -93,7 +93,7 @@ python3 $CURRDIR/generate_assignment_rrb.py $NUM_BLOCKS $NUM_RANK_REDUCED
 for run_index in {1..3}
 do
 
-call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index false
+call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 
 done
 
@@ -110,7 +110,7 @@ python3 $CURRDIR/generate_assignment_we_bpacking.py ../${estimate_log_file} $NUM
 
 for run_index in {1..3}
 do
-call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index false
+call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
 
 
@@ -129,7 +129,7 @@ for run_index in {1..3}
 do
 # setting block duplication as true
 # and setting SetBlockIDs manually
-call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index true
+call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 
 done
 
