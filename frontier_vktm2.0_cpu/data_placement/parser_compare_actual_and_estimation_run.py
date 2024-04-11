@@ -102,7 +102,8 @@ if __name__ == "__main__":
     # start from 0 to the largest one
     actual_acc_advect_steps_popularity = np.array(acc_adv_step_list)/sum_adv_steps
     print(acc_adv_step_list_with_rankid)
-
+    
+    print("actual_acc_advect_steps_popularity",actual_acc_advect_steps_popularity)
     # looking at the estimation results
 
     sl2_estimated_adv_popularity,sl2_estimated_in_particles,sl2_estimated_out_particles=get_estimated_info(estimation_run_log_file)

@@ -6,7 +6,8 @@
 #SBATCH -p batch
 #SBATCH -N 1
 
-# it needs around 20 mins to complete the execution for whole execution (execution takes long time)
+# This script using the results from workload estimation to generate the block assignment plan
+
 DATADIR=/lustre/orion/scratch/zw241/csc143/VisPerfData/resample2
 RUNDIR=/lustre/orion/scratch/zw241/csc143/VisPerfExpAssignStrategeis_${1}
 CURRDIR=$(pwd)
@@ -80,7 +81,7 @@ srun -N $NUM_NODE -n $NUM_RANK ./StreamlineMPI2 $DATADIR/${DATA_NAME} velocity $
 # parsing workload estimation results
 # parsing original run resutls
 # comparing the differences between these two
-python3 $CURRDIR/parser_compare_actual_and_estimation_run.py $RUNDIR/one_data_per_rank $RUNDIR/${estimate_log_file} ${NUM_RANK}
+python3 $CURRDIR/parser_compare_actual_and_estimation_run.py $RUNDIR/one_data_per_rank $RUNDIR/${estimate_log_file} ${NUM_RANK} &> parser.log
 
 
 # Step 4 run through rrb based on workload estimator results
@@ -97,13 +98,20 @@ call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 
 done
 
+
+# Step 5 run through first fit backpacking based on workload popularity from actual run log
+
+
+
 # Step 5 run through first fit backpacking based on workload estimator results
 cd ..
 mkdir bpacking_placement
 cd bpacking_placement
 # generate the backpacking file, replace the assign config file
 python3 $CURRDIR/generate_assignment_we_bpacking.py ../${estimate_log_file} $NUM_BLOCKS $NUM_RANK_REDUCED
+
 # the configuration file is now updated into a new one now
+sleep 1
 # run the program
 # run it three times
 # keep the log for last time
@@ -120,6 +128,7 @@ mkdir bpacking_placement_dup
 cd bpacking_placement_dup
 # generate the backpacking file, replace the assign config file
 python3 $CURRDIR/generate_assignment_we_bpacking_dup.py ../${estimate_log_file} $NUM_BLOCKS $NUM_RANK_REDUCED
+sleep 1
 # the configuration file is now updated into a new one now
 # run the program
 # run it three times
