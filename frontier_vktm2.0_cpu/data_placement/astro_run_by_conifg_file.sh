@@ -75,70 +75,84 @@ cd ..
 # Step 2 run with workload estimator
 log_suffix=_r${NUM_RANK}_tp${NUM_TEST_POINTS}_nxyz${NXYZ}_pc${WIDTH_PCT}.log
 estimate_log_file=sl2_estimate_astro${log_suffix}
+parser_log=parser_log.log
+
 srun -N $NUM_NODE -n $NUM_RANK ./StreamlineMPI2 $DATADIR/${DATA_NAME} velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> ${estimate_log_file}
 
-# Step 3
-# parsing workload estimation results
-# parsing original run resutls
-# comparing the differences between these two
-python3 $CURRDIR/parser_compare_actual_and_estimation_run.py $RUNDIR/one_data_per_rank $RUNDIR/${estimate_log_file} ${NUM_RANK} &> parser.log
+# compare estimation run with the actual run resutls
+python3 $CURRDIR/parser_compare_actual_and_estimation_run.py $RUNDIR/one_data_per_rank $RUNDIR/${estimate_log_file} ${NUM_RANK} &> ${parser_log}
 
 
-# Step 4 run through rrb based on workload estimator results
+# Step 3 run through rrb based on workload estimator results
 # generate the rrb file firstly, replace the assign_options.config
 mkdir rrb_placement
 cd rrb_placement
 NUM_RANK_REDUCED=8
 python3 $CURRDIR/generate_assignment_rrb.py $NUM_BLOCKS $NUM_RANK_REDUCED
+sleep 1
 # the configuration is the rrb now
 for run_index in {1..3}
 do
-
 call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
-
 done
 
+# Step 4 run through first fit backpacking based on workload popularity from actual run log
+mkdir bpacking_placement_actual_log
+cd bpacking_placement_actual_log
 
-# Step 5 run through first fit backpacking based on workload popularity from actual run log
-
-
-
-# Step 5 run through first fit backpacking based on workload estimator results
-cd ..
-mkdir bpacking_placement
-cd bpacking_placement
-# generate the backpacking file, replace the assign config file
-python3 $CURRDIR/generate_assignment_we_bpacking.py ../${estimate_log_file} $NUM_BLOCKS $NUM_RANK_REDUCED
-
-# the configuration file is now updated into a new one now
+# parsing original run results
+# using the results in parser log to generate assignment plan
+python3 $CURRDIR/generate_assignment_actual_bpacking.py ${parser_log} $NUM_BLOCKS $NUM_RANK_REDUCED
 sleep 1
-# run the program
-# run it three times
-# keep the log for last time
-
 for run_index in {1..3}
 do
 call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
-
-
-# Step 6 run through first fit backpacking with duplication based on workload estimator results
+# go back to parent dir
 cd ..
-mkdir bpacking_placement_dup
-cd bpacking_placement_dup
-# generate the backpacking file, replace the assign config file
-python3 $CURRDIR/generate_assignment_we_bpacking_dup.py ../${estimate_log_file} $NUM_BLOCKS $NUM_RANK_REDUCED
-sleep 1
-# the configuration file is now updated into a new one now
-# run the program
-# run it three times
-# keep the log for last time
 
-for run_index in {1..3}
-do
-# setting block duplication as true
-# and setting SetBlockIDs manually
-call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
+# Step 5 actual data, back packing and duplication
+mkdir bpacking_dup_placement_actual_log
+cd bpacking_dup_placement_actual_log
 
-done
+
+# #------using workload estimation data------
+# # Step 6 run through first fit backpacking based on workload estimator results
+# cd ..
+# mkdir bpacking_placement
+# cd bpacking_placement
+# # generate the backpacking file, replace the assign config file
+# python3 $CURRDIR/generate_assignment_we_bpacking.py ../${estimate_log_file} $NUM_BLOCKS $NUM_RANK_REDUCED
+
+# # the configuration file is now updated into a new one now
+# sleep 1
+# # run the program
+# # run it three times
+# # keep the log for last time
+
+# for run_index in {1..3}
+# do
+# call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
+# done
+
+
+# # Step 7 run through first fit backpacking with duplication based on workload estimator results
+# cd ..
+# mkdir bpacking_placement_dup
+# cd bpacking_placement_dup
+# # generate the backpacking file, replace the assign config file
+# python3 $CURRDIR/generate_assignment_we_bpacking_dup.py ../${estimate_log_file} $NUM_BLOCKS $NUM_RANK_REDUCED
+# sleep 1
+# # the configuration file is now updated into a new one now
+# # run the program
+# # run it three times
+# # keep the log for last time
+
+# for run_index in {1..3}
+# do
+# # setting block duplication as true
+# # and setting SetBlockIDs manually
+# call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
+
+# done
 
