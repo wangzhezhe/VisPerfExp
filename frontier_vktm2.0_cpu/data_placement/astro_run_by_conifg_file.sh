@@ -82,7 +82,6 @@ srun -N $NUM_NODE -n $NUM_RANK ./StreamlineMPI2 $DATADIR/${DATA_NAME} velocity $
 # compare estimation run with the actual run resutls
 python3 $CURRDIR/parser_compare_actual_and_estimation_run.py $RUNDIR/one_data_per_rank $RUNDIR/${estimate_log_file} ${NUM_RANK} &> ${parser_log}
 
-
 # Step 3 run through rrb based on workload estimator results
 # generate the rrb file firstly, replace the assign_options.config
 mkdir rrb_placement
@@ -102,7 +101,7 @@ cd bpacking_placement_actual_log
 
 # parsing original run results
 # using the results in parser log to generate assignment plan
-python3 $CURRDIR/generate_assignment_actual_bpacking.py ${parser_log} $NUM_BLOCKS $NUM_RANK_REDUCED
+python3 $CURRDIR/generate_assignment_actual_bpacking.py ../${parser_log} $NUM_BLOCKS $NUM_RANK_REDUCED
 sleep 1
 for run_index in {1..3}
 do
@@ -115,6 +114,14 @@ cd ..
 mkdir bpacking_dup_placement_actual_log
 cd bpacking_dup_placement_actual_log
 
+python3 $CURRDIR/generate_assignment_actual_bpacking_dup.py ../${parser_log} $NUM_BLOCKS $NUM_RANK_REDUCED
+sleep 1
+for run_index in {1..3}
+do
+call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
+done
+# go back to parent dir
+cd ..
 
 # #------using workload estimation data------
 # # Step 6 run through first fit backpacking based on workload estimator results
