@@ -94,6 +94,7 @@ for run_index in {1..3}
 do
 call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
+cd ..
 
 # Step 4 run through first fit backpacking based on workload popularity from actual run log
 mkdir bpacking_placement_actual_log
