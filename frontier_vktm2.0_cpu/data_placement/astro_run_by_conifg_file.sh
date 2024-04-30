@@ -124,6 +124,18 @@ done
 # go back to parent dir
 cd ..
 
+# Step 6 actual data, back packing, two stages
+mkdir bpacking_dup_two_stages_actual_log
+cd bpacking_dup_two_stages_actual_log
+python3 $CURRDIR/generate_assignment_actual_bpacking_dup_stages.py $RUNDIR $NUM_BLOCKS $NUM_BLOCKS $NUM_RANK_REDUCED 10 $NUM_SIM_POINTS_PER_DOM
+sleep 1
+for run_index in {1..3}
+do
+call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
+done
+# go back to parent dir
+cd ..
+
 # #------using workload estimation data------
 # # Step 6 run through first fit backpacking based on workload estimator results
 # cd ..

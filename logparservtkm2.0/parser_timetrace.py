@@ -14,9 +14,9 @@ from matplotlib.patches import Patch
 # labelSize=26
 # legendSize=22
 
-ticksize=5
-labelSize=2
-legendSize=5
+ticksize=8
+labelSize=6
+legendSize=11
 
 def get_barh_other_overhead(barh_list_advec, barh_list_comm):
 
@@ -203,7 +203,9 @@ if __name__ == "__main__":
             legend_elems = [Patch(facecolor='tab:blue', edgecolor='None', label='Advec'),
                             Patch(facecolor='white', alpha=0.35, edgecolor='black', label='Comm and Wait'),
                             Patch(facecolor='tab:red', alpha=0.35, edgecolor='None', label='Other overhead'),]
-            legend = plt.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=labelSize)
+            #when using automatic legend position
+            #legend = plt.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=labelSize)
+            legend = plt.legend(handles=legend_elems,bbox_to_anchor=(0.8, 1.4),ncol=3, fontsize=labelSize)
             ax.add_artist(legend)
         else:
             # no label here
@@ -214,8 +216,8 @@ if __name__ == "__main__":
 
     # get some space for legend in the center
     ax.broken_barh(xranges=[(0,1)],yrange=(procs*bar_height,bar_height),facecolors='None',edgecolor='None')
-    plt.xlabel('Time(ms)', fontsize=labelSize)
-    plt.ylabel('Rank', fontsize=labelSize)
+    plt.xlabel('Time(ms)', fontsize=ticksize)
+    plt.ylabel('Rank', fontsize=ticksize)
     file_name = "gantt_chart_"+dirname+".png"
     fig.savefig(file_name,bbox_inches='tight', dpi=1200)
     print("generate file: ", file_name)
