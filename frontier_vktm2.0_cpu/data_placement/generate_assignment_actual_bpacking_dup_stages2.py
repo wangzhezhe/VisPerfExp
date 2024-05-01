@@ -4,7 +4,26 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
-# this solution does not work well compared with the original dup strategy
+def get_actual_run_info(file_name):
+    print("actual data parse file name",file_name)
+    fo=open(file_name, "r")
+    actual_acc_advect_steps_popularity=[]
+
+    for line in fo:
+        line_strip=line.strip()
+        #print(line_strip)
+        if "actual_acc_advect_steps_popularity" in line_strip:
+            start =line_strip.find("[")
+            end=line_strip.find("]")
+            extract_num = line_strip[start+1:end-1]
+            split_line = extract_num.split(",")
+            #print(split_line)
+            actual_acc_advect_steps_popularity = [float(v) for v in split_line]
+
+
+    fo.close()
+
+    return actual_acc_advect_steps_popularity
 
 def get_estimated_info(file_name):
     print("est file name",file_name)
@@ -160,9 +179,8 @@ def get_dst_rank_list(log_dir_path, rank, start_time, end_time):
 # compute the drop point
 # return the drop point, there might be multiple ones
 # the number of rank sould equals numer of blocks here
-def identify_turning_point(num_bins, num_rank, log_dir_path, num_particle_per_block):
+def identify_blocks_after_turning_point(num_bins, num_rank, log_dir_path):
 
-    # get the end time
     file_name = log_dir_path+"/one_data_per_rank/timetrace."+str(0)+".out"
     fo=open(file_name, "r")
     filter_start_time=0.0
@@ -176,7 +194,6 @@ def identify_turning_point(num_bins, num_rank, log_dir_path, num_particle_per_bl
     fo.close()
 
     print("filter_end_time",filter_end_time)
-
 
     slot_dist=filter_end_time/num_bins
 
@@ -227,39 +244,6 @@ def identify_turning_point(num_bins, num_rank, log_dir_path, num_particle_per_bl
         if involved_ranks[i] < 0.2 * involved_ranks[i-1]:
             print("turning point is", i, "start time is", slot_dist*i)
             turnning_point_index=i
-    
-    # TODO
-    # return workload for involved ranks and workload before key point/after key point
-    # assuming there is one turning point
-    # compute list1 and list2
-    # in each list, there is a series of [blockid, workload]
-    # first stage, [0,(i-1)*slot_dist], second stage [i*slot_dist,filter_end_time]
-    # there are num_particle_per_block at initial step
-    adjacent_matrix_num_particles_s1=np.eye((num_rank))*num_particle_per_block
-    for i in range(0,turnning_point_index,1):
-        adjacent_matrix_num_particles_s1=np.add(adjacent_matrix_num_particles_s1,adjacent_matrix_num_particles_list[i])
-    
-    # extracting [bid, workload] list from adjacent_matrix_num_particles_s1, 
-    # only consider recved particles (each column)
-    # column id is the id of the block
-    # go through each column
-    adjacent_matrix_num_particles_s1_sum=adjacent_matrix_num_particles_s1.sum(axis=0)
-    # normalize value
-    adjacent_matrix_num_particles_s1_sum_norm=adjacent_matrix_num_particles_s1_sum/sum(adjacent_matrix_num_particles_s1_sum)
-
-    #print("adjacent_matrix_num_particles_s1_sum",adjacent_matrix_num_particles_s1_sum)
-
-    workload_list_stage1=[]
-    workload_list_debug=[]
-    for blockid in range(0,num_rank,1):
-        if adjacent_matrix_num_particles_s1_sum[blockid]>0:
-            workload_list_stage1.append([blockid,adjacent_matrix_num_particles_s1_sum_norm[blockid]])
-            workload_list_debug.append(adjacent_matrix_num_particles_s1_sum_norm[blockid])
-    workload_list_stage1=sorted(workload_list_stage1, key=lambda x: x[1], reverse=True)
-    print("workload_list_stage1",workload_list_stage1)
-    fig, ax = plt.subplots(figsize=(8,4))
-    ax.plot( workload_list_debug, '-', color='blue', marker='o')
-    plt.savefig("workload_list_debug.png", bbox_inches='tight')
 
     adjacent_matrix_num_particles_s2=np.zeros((num_rank, num_rank))
     for i in range(turnning_point_index,num_bins,1):
@@ -270,26 +254,13 @@ def identify_turning_point(num_bins, num_rank, log_dir_path, num_particle_per_bl
     #print("adjacent_matrix_num_particles_s2_sum",adjacent_matrix_num_particles_s2_sum)
     adjacent_matrix_num_particles_s2_sum_norm=adjacent_matrix_num_particles_s2_sum/sum(adjacent_matrix_num_particles_s2_sum)
 
-
-
-    workload_list_stage2=[]
+    list_stage2=[]
     for blockid in range(0,num_rank,1):
         if adjacent_matrix_num_particles_s2_sum[blockid]>0:
-            workload_list_stage2.append([blockid,adjacent_matrix_num_particles_s2_sum_norm[blockid]])
+            list_stage2.append(blockid)
 
+    return list_stage2
 
-    workload_list_stage2=sorted(workload_list_stage2, key=lambda x: x[1], reverse=True)
-    print("workload_list_stage2",workload_list_stage2)
-
-    # np.set_printoptions(threshold=sys.maxsize)
-    # print("adjacent_matrix_num_particles_s1")
-    # print(adjacent_matrix_num_particles_s1)
-    
-
-    # print("adjacent_matrix_num_particles_s2")
-    # print(adjacent_matrix_num_particles_s2)
-
-    return workload_list_stage1,workload_list_stage2
 
 # the workload list contains a series of [blockid, workload value]
 # the workload value is normalized value
@@ -370,7 +341,7 @@ def merge_block_list(block_list_for_proc1,block_list_for_proc2):
 if __name__ == "__main__":
 
     if len(sys.argv)!=7:
-        print("<binary> <workload estimation log> <block num> <original proc num> <estmate proc num> <num bins> <num points per block>",flush=True)
+        print("<binary> <workload estimation log> <block num> <original proc num> <estmate proc num> <num bins> <actual_parse_log>",flush=True)
         exit()
 
     workload_estimation_log = sys.argv[1]
@@ -379,29 +350,82 @@ if __name__ == "__main__":
     original_proc_num=int(sys.argv[3])
     intransit_proc_num=int(sys.argv[4])
     num_bins = int(sys.argv[5])
-    num_points_per_block = int(sys.argv[6])
+    actual_parse_log=sys.argv[6]
     
     print("workload_estimation_log",workload_estimation_log,"block_num",block_num,"origianl proc num",original_proc_num, "intransit_proc_num proc num", intransit_proc_num, "num bins",num_bins)
 
+    # original dup based assignment
+    actual_adv_popularity=get_actual_run_info(actual_parse_log)
+    print("actual_adv_popularity")
+    print(actual_adv_popularity)
+
+    bin_remaining_space_list=[]
+    block_list_for_proc=[]
+    
+    #make bin size a little bit larger than avg
+    #other wise, the last one might be duplicated for many times
+    factor=1.01
+    avg_bin_size = factor*1.0/(1.0*original_proc_num)
+    
+    # init the bin_remaining_space_list
+    for i in range(0,original_proc_num,1):
+        bin_remaining_space_list.append(avg_bin_size)
+        block_list_for_proc.append([])
+    
+    print ("init status bin_remaining_space_list", bin_remaining_space_list, "block_list_for_proc", block_list_for_proc)
+
+    # sorting the list, using the first-fit decreasing
+    # if the largest popularity is larger than the average bin size
+    # just mark assign a separate bin for that block
+    # sort the estimated_adv_popularity with the block id
+
+    adv_popularity_for_sorting = [] 
+    
+    for index, popularity in enumerate(actual_adv_popularity):
+        adv_popularity_for_sorting.append([index,popularity])
+
+    #print(estimated_adv_popularity_for_sorting)
+
+    # sorting list according to the second popularity
+    sorted_adv_popularity=sorted(adv_popularity_for_sorting, key=lambda x: x[1], reverse=True)
+
+    print("sorted_adv_popularity:", sorted_adv_popularity)
+    
+    original_block_list_for_proc=get_assignment_plan_from_workload_list(sorted_adv_popularity,intransit_proc_num)
+
+    # identify the block that located in ping pong region
+
+    # redistribute these few blocks to others
+
     # num_bins, filter_end_time, log_dir_path
-    workload_list_stage1,workload_list_stage2=identify_turning_point(num_bins,block_num,workload_estimation_log,num_points_per_block)
+    long_running_blocks=identify_blocks_after_turning_point(num_bins,block_num,workload_estimation_log)
+    
 
-    # assign according to stage1 with dup, the estimated proc is estimate_proc_num 
-    block_list_for_proc1=get_assignment_plan_from_workload_list(workload_list_stage1,intransit_proc_num)
-    # assign according to stage2 with dup
-    block_list_for_proc2=get_assignment_plan_from_workload_list(workload_list_stage2,intransit_proc_num)
+    print("original_block_list_for_proc",original_block_list_for_proc)
 
-    # combine two stages assignment plan together
+    print("long_running_blocks",long_running_blocks)
+    
+    index=0
+    for i in range (0,len(original_block_list_for_proc),1):
+        temp_list=original_block_list_for_proc[i]
+        # if elements in long_running_blocks is in templist
+        # continue
+        contain_bid=False
+        for bid in long_running_blocks:
+            if bid in temp_list:
+                contain_bid=True
+                break
+        if contain_bid==False:
+            index=index%len(long_running_blocks)
+            original_block_list_for_proc[i].append(long_running_blocks[index])
+            index=(index+1)
 
-    # debug block_list_for_proc1
-
-    merged_blocks_list=merge_block_list(block_list_for_proc1,block_list_for_proc2)
-
-    print("merged_blocks_list",merged_blocks_list)
+    print("updated original_block_list_for_proc",original_block_list_for_proc)
+    # TODO, merge long_running_blocks into original_block_list_for_proc
 
     outputfile = "assign_options.config"
     with open(outputfile, 'w') as f:
-        for block_list in merged_blocks_list:
+        for block_list in original_block_list_for_proc:
             # for each block
             index = 0
             for block in block_list:

@@ -127,7 +127,7 @@ cd ..
 # Step 6 actual data, back packing, two stages
 mkdir bpacking_dup_two_stages_actual_log
 cd bpacking_dup_two_stages_actual_log
-python3 $CURRDIR/generate_assignment_actual_bpacking_dup_stages.py $RUNDIR $NUM_BLOCKS $NUM_BLOCKS $NUM_RANK_REDUCED 10 $NUM_SIM_POINTS_PER_DOM
+python3 $CURRDIR/generate_assignment_actual_bpacking_dup_stages2.py $RUNDIR $NUM_BLOCKS $NUM_BLOCKS $NUM_RANK_REDUCED 10 ../${parser_log}
 sleep 1
 for run_index in {1..3}
 do
