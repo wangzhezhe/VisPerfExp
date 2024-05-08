@@ -13,6 +13,7 @@ gred = '#DA483B'
 gyellow = '#FFC718'
 ggreen = '#1CA45C'
 
+# if one block one rank, the block id is the rank id
 def parse_log_get_acc_advect_steps(log_dir_path,num_rank):
     acc_adv_step_list=[]
     acc_adv_step_list_with_rankid=[]
@@ -180,17 +181,17 @@ if __name__ == "__main__":
 
 
 
-    sl2_estimated_adv_popularity,sl2_estimated_in_particles,sl2_estimated_out_particles=get_estimated_info(estimation_run_log_file)
-    print("sl2_estimated_adv_popularity")
-    print(sl2_estimated_adv_popularity)
-    print("sl2_estimated_in_particles")
-    print(sl2_estimated_in_particles)
-    print("sl2_estimated_out_particles")
-    print(sl2_estimated_out_particles)
+    # sl2_estimated_adv_popularity,sl2_estimated_in_particles,sl2_estimated_out_particles=get_estimated_info(estimation_run_log_file)
+    # print("sl2_estimated_adv_popularity")
+    # print(sl2_estimated_adv_popularity)
+    # print("sl2_estimated_in_particles")
+    # print(sl2_estimated_in_particles)
+    # print("sl2_estimated_out_particles")
+    # print(sl2_estimated_out_particles)
 
 
-    # draw line to compare the actual run and estimated run
-    fig_name=estimation_run_log_file[:-4]
-    draw_two_lines(actual_acc_advect_steps_popularity, sl2_estimated_adv_popularity, "actual popularity","sl2 estimated popularity",fig_name+"_adv")
-    draw_two_lines(actual_in_particles, sl2_estimated_in_particles, "actual in particles","sl2 estimated in particles",fig_name+"_in")
-    draw_two_lines(actual_out_particles, sl2_estimated_out_particles, "actual out particles","sl2 estimated out particles",fig_name+"_out")
+    # # draw line to compare the actual run and estimated run
+    # fig_name=estimation_run_log_file[:-4]
+    # draw_two_lines(actual_acc_advect_steps_popularity, sl2_estimated_adv_popularity, "actual popularity","sl2 estimated popularity",fig_name+"_adv")
+    # draw_two_lines(actual_in_particles, sl2_estimated_in_particles, "actual in particles","sl2 estimated in particles",fig_name+"_in")
+    # draw_two_lines(actual_out_particles, sl2_estimated_out_particles, "actual out particles","sl2 estimated out particles",fig_name+"_out")
