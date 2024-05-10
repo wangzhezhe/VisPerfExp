@@ -1,6 +1,11 @@
 import vtk
 import os
 
+# Assuming we want the whole data set to be divided into 2*2*2
+# we first get the specific region (coordinates) of each sub-block
+# then setting the data size of each subblock, such as 128*128*128
+# then we can use probe filter to get the data size for the new subblock
+
 def writeDS(fname, ds) :
     writer = vtk.vtkDataSetWriter()
     writer.SetFileVersion(4)
