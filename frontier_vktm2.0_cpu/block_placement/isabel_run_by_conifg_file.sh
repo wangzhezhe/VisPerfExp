@@ -43,11 +43,11 @@ NUM_BLOCKS=32
 mkdir one_data_per_rank
 cd one_data_per_rank
 
-# define a function to execute on clover data
+# define a function to execute on isabel data
 # first one is dataset and second one is execution index
-call_clover () {
+call_isabel () {
 echo "number of node ${1} number of ranks ${2}"
-echo "executing clover on dataset ${3} execution index is ${4} strategy ${5}"
+echo "executing streamline on dataset ${3} execution index is ${4} strategy ${5}"
 srun -N ${1} -n ${2} ../visitReaderAdev \
 --vtkm-device serial \
 --file=$DATADIR/${3} \
@@ -66,18 +66,18 @@ srun -N ${1} -n ${2} ../visitReaderAdev \
 }
 
 #executing the work
-DATA_NAME=fb_cycle_01.4_4_2.128_128_64.visit
-call_clover $NUM_NODE $NUM_RANK $DATA_NAME 0 roundroubin
+DATA_NAME=fb_cycle_01_replaced.4_4_2.128_128_64.visit
+call_isabel $NUM_NODE $NUM_RANK $DATA_NAME 0 roundroubin
 
 # go back to the parent dir
 cd ..
 
 # Step 2 run with workload estimator
 log_suffix=_r${NUM_RANK}_tp${NUM_TEST_POINTS}_nxyz${NXYZ}_pc${WIDTH_PCT}.log
-estimate_log_file=sl2_estimate_clover${log_suffix}
+estimate_log_file=sl2_estimate_isabel${log_suffix}
 parser_log=parser_log.log
 
-srun -N $NUM_NODE -n $NUM_RANK ./StreamlineMPI2 $DATADIR/${DATA_NAME} Velocity $STEPSIZE_CLOVER $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> ${estimate_log_file}
+srun -N $NUM_NODE -n $NUM_RANK ./StreamlineMPI2 $DATADIR/${DATA_NAME} Velocity $STEPSIZE_ISABEL $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> ${estimate_log_file}
 
 # compare estimation run with the actual run resutls
 python3 $CURRDIR/parser_compare_actual_and_estimation_run.py $RUNDIR/one_data_per_rank $RUNDIR/${estimate_log_file} ${NUM_RANK} &> ${parser_log}
@@ -92,7 +92,7 @@ sleep 1
 # the configuration is the rrb now
 for run_index in {1..3}
 do
-call_clover $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
+call_isabel $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
 cd ..
 
@@ -106,7 +106,7 @@ python3 $CURRDIR/generate_assignment_actual_bpacking.py ../${parser_log} $NUM_BL
 sleep 1
 for run_index in {1..3}
 do
-call_clover $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
+call_isabel $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
 # go back to parent dir
 cd ..
@@ -119,7 +119,7 @@ python3 $CURRDIR/generate_assignment_actual_bpacking_dup.py ../${parser_log} $NU
 sleep 1
 for run_index in {1..3}
 do
-call_clover $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
+call_isabel $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
 # go back to parent dir
 cd ..
@@ -131,7 +131,7 @@ python3 $CURRDIR/generate_assignment_actual_bpacking_dup_stages2.py $RUNDIR $NUM
 sleep 1
 for run_index in {1..3}
 do
-call_clover $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
+call_isabel $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
 # go back to parent dir
 cd ..
@@ -152,7 +152,7 @@ cd ..
 
 # for run_index in {1..3}
 # do
-# call_clover $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
+# call_isabel $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 # done
 
 
@@ -172,7 +172,7 @@ cd ..
 # do
 # # setting block duplication as true
 # # and setting SetBlockIDs manually
-# call_clover $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
+# call_isabel $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 
 # done
 
