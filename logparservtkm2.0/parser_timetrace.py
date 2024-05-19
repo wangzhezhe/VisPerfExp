@@ -18,9 +18,10 @@ ticksize=8
 labelSize=6
 legendSize=11
 
-def get_barh_other_overhead(barh_list_advec, barh_list_comm):
+# using barh_list_adv and barh_list_comm to compute the other overhead
+def get_barh_other_overhead(barh_list_advec, barh_list_comm, debug=False):
 
-    print("len(barh_list_advec)",len(barh_list_advec),"len(barh_list_comm)",len(barh_list_comm))
+    #print("len(barh_list_advec)",len(barh_list_advec),"len(barh_list_comm)",len(barh_list_comm))
     if len(barh_list_comm)==0 and len(barh_list_advec)==0:
         return []
     barh_list_other_overhead=[]
@@ -30,6 +31,7 @@ def get_barh_other_overhead(barh_list_advec, barh_list_comm):
     i=0
     j=0
     
+    # the distance between curr bar start and last bar end should be other overhead
     last_bar_end=0
     curr_bar_star=0
 
@@ -45,27 +47,37 @@ def get_barh_other_overhead(barh_list_advec, barh_list_comm):
         barh_list_other_overhead.append((last_bar_end,curr_bar_star-last_bar_end))
      
         # move i j and update last bar end position 
+        # when the end of the list is smalller then current comm or the length is amost to zero
+        # when the adv is before the comm
         if barh_list_advec[i][0]+barh_list_advec[i][1] < barh_list_comm[j][0] or (math.fabs(barh_list_advec[i][0]+barh_list_advec[i][1]- barh_list_comm[j][0])<0.000001):
             last_bar_end = barh_list_advec[i][0]+barh_list_advec[i][1]
             i=i+1
             continue
+        # when the comm is before the adv
         if barh_list_comm[j][0]+barh_list_comm[j][1] < barh_list_advec[i][0] or (math.fabs(barh_list_comm[j][0]+barh_list_comm[j][1] - barh_list_advec[i][0])<0.000001):
             last_bar_end = barh_list_comm[j][0]+barh_list_comm[j][1]
             j=j+1
             continue
         
-    # when either i and j end, put last one
-    while i<len(barh_list_advec) and i<len(barh_list_advec):
+    # when either i and j end
+    # there is remaining i
+    while i<len(barh_list_advec):
+        if debug:
+            print("remainig i",i)
         curr_bar_start=barh_list_advec[i][0]
         barh_list_other_overhead.append((last_bar_end,curr_bar_start-last_bar_end))
         last_bar_end=curr_bar_start+barh_list_advec[i][1]
         i+=1
 
-
-    while j<len(barh_list_advec) and j<len(barh_list_comm):
+    # there is remaining j
+    # the curr bar start should be the end of previous one
+    while j<len(barh_list_comm):
+        if debug:
+            print("remainig j",j)
         curr_bar_start=barh_list_comm[j][0]
-        last_bar_end=curr_bar_start+barh_list_comm[j][1]
         barh_list_other_overhead.append((last_bar_end,curr_bar_start-last_bar_end))
+        # update the ladt bar end
+        last_bar_end=curr_bar_start+barh_list_comm[j][1]
         j+=1
 
 
@@ -193,11 +205,17 @@ if __name__ == "__main__":
             # use label here
             #ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:blue',label='Advec')
             #ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height-0.1),facecolors='tab:red',alpha=0.2,label='Comm_Wait')          
+
             ax.broken_barh(xranges=barh_list_advec,yrange=(rank*bar_height,bar_height),facecolors='tab:blue',edgecolor='None')
             ax.broken_barh(xranges=barh_list_comm,yrange=(rank*bar_height,bar_height),facecolors='white',alpha=0.35,edgecolor='None')          
             
             barh_other_overhead=get_barh_other_overhead(barh_list_advec,barh_list_comm)
             ax.broken_barh(xranges=barh_other_overhead,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor='None')          
+
+            # print(barh_list_advec)
+            # print(barh_list_comm)
+            # print(barh_other_overhead)
+            
 
             # customize the legend
             legend_elems = [Patch(facecolor='tab:blue', edgecolor='None', label='Advec'),
