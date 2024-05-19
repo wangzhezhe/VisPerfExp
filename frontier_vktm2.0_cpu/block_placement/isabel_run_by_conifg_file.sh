@@ -97,19 +97,24 @@ done
 cd ..
 
 # Step 4 run through first fit backpacking based on workload popularity from actual run log
-mkdir bpacking_placement_actual_log
-cd bpacking_placement_actual_log
+# maybe do not show this, just show it with the dup+optimization and give out the best solution we can provide
+# if there is empty position for specific rank there is issue
+# since for this approch, there is no duplication, it just put block there even if the block size is larger
+# than remaining position, we do not need to show this approach when presenting the paper
 
-# parsing original run results
-# using the results in parser log to generate assignment plan
-python3 $CURRDIR/generate_assignment_actual_bpacking.py ../${parser_log} $NUM_BLOCKS $NUM_RANK_REDUCED
-sleep 1
-for run_index in {1..3}
-do
-call_isabel $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
-done
-# go back to parent dir
-cd ..
+# mkdir bpacking_placement_actual_log
+# cd bpacking_placement_actual_log
+
+# # parsing original run results
+# # using the results in parser log to generate assignment plan
+# python3 $CURRDIR/generate_assignment_actual_bpacking.py ../${parser_log} $NUM_BLOCKS $NUM_RANK_REDUCED
+# sleep 1
+# for run_index in {1..3}
+# do
+# call_isabel $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
+# done
+# # go back to parent dir
+# cd ..
 
 # Step 5 actual data, back packing and duplication
 mkdir bpacking_dup_placement_actual_log

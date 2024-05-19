@@ -51,7 +51,7 @@ mpirun -n 8 --bind-to none -x OMP_NUM_THREADS=1 ./visitReaderAdev \
 --output-results=true \
 --sim-code=cloverleaf \
 --output-seeds=false \
---assign-strategy=roundroubin \
+--assign-strategy=file \
 --block-manual-id=false \
 --communication=async_probe
 done
