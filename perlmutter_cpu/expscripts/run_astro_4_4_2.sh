@@ -1,18 +1,23 @@
 #!/bin/bash
-#SBATCH -A csc143
 #SBATCH -J RunAstroDiffConfigs
 #SBATCH -o %x-%j.out
-#SBATCH -t 01:30:00
-#SBATCH -p batch
-#SBATCH -N 1
+#SBATCH -t 00:29:00
+#SBATCH -q debug
+#SBATCH -C cpu
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=32
+#SBATCH --cpus-per-task=1
+
+# load necessary module
+module load python/3.9-anaconda-2021.11
 
 # This script using the results from workload estimation to generate the block assignment plan
 
-DATADIR=/lustre/orion/scratch/zw241/csc143/VisPerfData/resample2
-RUNDIR=/lustre/orion/scratch/zw241/csc143/VisPerfExpAssignStrategeis_Astro_${1}
+DATADIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/astro
+RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExpAssignStrategeis_Astro_${1}
 CURRDIR=$(pwd)
 
-mkdir $RUNDIR
+mkdir -p $RUNDIR
 
 cd $RUNDIR
 
@@ -48,7 +53,7 @@ cd one_data_per_rank
 call_astro () {
 echo "number of node ${1} number of ranks ${2}"
 echo "executing astro on dataset ${3} execution index is ${4} strategy ${5}"
-srun -N ${1} -n ${2} ../visitReaderAdev \
+srun -N ${1} -n ${2} --mem-per-cpu=1G ../visitReaderAdev \
 --vtkm-device serial \
 --file=$DATADIR/${3} \
 --advect-num-steps=$MAXSTEPS \
@@ -66,7 +71,7 @@ srun -N ${1} -n ${2} ../visitReaderAdev \
 }
 
 #executing the work
-DATA_NAME=astro.2_4_4.visit
+DATA_NAME=fb_astro_origin_0.4_4_2.128_128_128.visit
 call_astro $NUM_NODE $NUM_RANK $DATA_NAME 0 roundroubin
 
 # go back to the parent dir
@@ -136,43 +141,4 @@ done
 # go back to parent dir
 cd ..
 
-# #------using workload estimation data------
-# # Step 6 run through first fit backpacking based on workload estimator results
-# cd ..
-# mkdir bpacking_placement
-# cd bpacking_placement
-# # generate the backpacking file, replace the assign config file
-# python3 $CURRDIR/generate_assignment_we_bpacking.py ../${estimate_log_file} $NUM_BLOCKS $NUM_RANK_REDUCED
-
-# # the configuration file is now updated into a new one now
-# sleep 1
-# # run the program
-# # run it three times
-# # keep the log for last time
-
-# for run_index in {1..3}
-# do
-# call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
-# done
-
-
-# # Step 7 run through first fit backpacking with duplication based on workload estimator results
-# cd ..
-# mkdir bpacking_placement_dup
-# cd bpacking_placement_dup
-# # generate the backpacking file, replace the assign config file
-# python3 $CURRDIR/generate_assignment_we_bpacking_dup.py ../${estimate_log_file} $NUM_BLOCKS $NUM_RANK_REDUCED
-# sleep 1
-# # the configuration file is now updated into a new one now
-# # run the program
-# # run it three times
-# # keep the log for last time
-
-# for run_index in {1..3}
-# do
-# # setting block duplication as true
-# # and setting SetBlockIDs manually
-# call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
-
-# done
-
+# ------TODO using workload estimation data------

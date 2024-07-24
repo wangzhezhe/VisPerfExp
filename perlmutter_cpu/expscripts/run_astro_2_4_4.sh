@@ -14,7 +14,7 @@ module load python/3.9-anaconda-2021.11
 # This script using the results from workload estimation to generate the block assignment plan
 
 DATADIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/astro
-RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExpAssignStrategeis_Astro_${1}
+RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExpAssignStrategeis_Astro244_${1}
 CURRDIR=$(pwd)
 
 mkdir -p $RUNDIR
@@ -71,7 +71,7 @@ srun -N ${1} -n ${2} --mem-per-cpu=1G ../visitReaderAdev \
 }
 
 #executing the work
-DATA_NAME=fb_astro_origin_0.4_4_2.128_128_128.visit
+DATA_NAME=fb_astro_origin_0.2_4_4.128_128_128.visit
 call_astro $NUM_NODE $NUM_RANK $DATA_NAME 0 roundroubin
 
 # go back to the parent dir
