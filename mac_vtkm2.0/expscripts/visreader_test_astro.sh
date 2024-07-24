@@ -15,7 +15,7 @@ cd visreader_test_astro_data
 ln -s ../../install/visReader/visitReaderAdev visitReaderAdev
 
 # for cloverleaf data
-DATADIR=/Users/zw1/Documents/Datasets/astro
+DATADIR=/Users/zhewang/Documents/DataSets
 DATANAME="astro.2_2_2.visit"
 DATASET=${DATADIR}/$DATANAME
 
