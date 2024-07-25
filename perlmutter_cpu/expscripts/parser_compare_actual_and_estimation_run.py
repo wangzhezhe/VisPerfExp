@@ -175,9 +175,10 @@ if __name__ == "__main__":
     
     # get the actual in and out particles according to the raw log
     actual_in_particles, actual_out_particles = get_actual_in_out_number(actual_log_dir_path,num_rank)
-
-    print("actual_in_particles",actual_in_particles)
-    print("actual_out_particles",actual_out_particles)
+    norm_actual_in_particles = (actual_in_particles/sum(actual_in_particles)).tolist()
+    norm_actual_out_particles = (actual_out_particles/sum(actual_out_particles)).tolist()
+    print("normalized actual_in_particles",norm_actual_in_particles)
+    print("normalized actual_out_particles",norm_actual_out_particles)
 
 
 
@@ -193,5 +194,5 @@ if __name__ == "__main__":
     # draw line to compare the actual run and estimated run
     fig_name=estimation_run_log_file[:-4]
     draw_two_lines(actual_acc_advect_steps_popularity, sl2_estimated_adv_popularity, "actual popularity","sl2 estimated popularity",fig_name+"_adv")
-    draw_two_lines(actual_in_particles, sl2_estimated_in_particles, "actual in particles","sl2 estimated in particles",fig_name+"_in")
-    draw_two_lines(actual_out_particles, sl2_estimated_out_particles, "actual out particles","sl2 estimated out particles",fig_name+"_out")
+    draw_two_lines(norm_actual_in_particles, sl2_estimated_in_particles, "actual in particles","sl2 estimated in particles",fig_name+"_in")
+    draw_two_lines(norm_actual_out_particles, sl2_estimated_out_particles, "actual out particles","sl2 estimated out particles",fig_name+"_out")

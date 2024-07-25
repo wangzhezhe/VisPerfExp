@@ -22,3 +22,4 @@ assignment_all_*/
 *.temp
 *.mp4
 pv-networking/
+.ipynb_checkpoints/

@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J RunSlAstro
+#SBATCH -J ExpSlAstro
 #SBATCH -o %x-%j.out
 #SBATCH -t 00:29:00
 #SBATCH -q debug
@@ -32,7 +32,7 @@ MAXSTEPS=2000
 NUM_SIM_POINTS_PER_DOM=1000
 
 NUM_TEST_POINTS=50
-NXYZ=4
+NXYZ=2
 WIDTH_PCT=0.1
 
 echo "NUM_TEST_POINTS:"$NUM_TEST_POINTS
@@ -70,7 +70,7 @@ srun -N ${1} -n ${2} --mem-per-cpu=1G ../visitReaderAdev \
 --communication=async_probe &> readerlog_${4}.out
 }
 
-#executing the work
+#executing the complete work
 DATA_NAME=fb_astro_origin_0.2_4_4.128_128_128.visit
 call_astro $NUM_NODE $NUM_RANK $DATA_NAME 0 roundroubin
 
