@@ -46,7 +46,7 @@ def get_estimated_info(file_name):
         if "NormBlockPopularity" in line_strip:
             start =line_strip.find("[")
             end=line_strip.find("]")
-            extract_num = line_strip[start+1:end-1]
+            extract_num = line_strip[start+1:end]
             split_line = extract_num.split(",")
             #print(split_line)
             estimator_steps_popularity_list = [float(v) for v in split_line]
@@ -54,15 +54,15 @@ def get_estimated_info(file_name):
         if "ParticlesIn" in line_strip:
             start =line_strip.find("[")
             end=line_strip.find("]")
-            extract_num = line_strip[start+1:end-1]
+            extract_num = line_strip[start+1:end]
             split_line = extract_num.split(",")
-            #print(split_line)
+            print(split_line)
             estimator_particle_in_list = [float(v) for v in split_line]
 
         if "ParticlesOut" in line_strip:
             start =line_strip.find("[")
             end=line_strip.find("]")
-            extract_num = line_strip[start+1:end-1]
+            extract_num = line_strip[start+1:end]
             split_line = extract_num.split(",")
             #print(split_line)
             estimator_particle_out_list = [float(v) for v in split_line]

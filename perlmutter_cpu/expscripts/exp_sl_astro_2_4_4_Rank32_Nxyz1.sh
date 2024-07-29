@@ -14,7 +14,7 @@ module load python/3.9-anaconda-2021.11
 # This script using the results from workload estimation to generate the block assignment plan
 
 DATADIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/astro
-RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExpSl2_Astro244_Rank32_Nxyz2_${1}
+RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExpSl2_Astro244_Rank32_Nxyz1_${1}
 CURRDIR=$(pwd)
 
 mkdir -p $RUNDIR
@@ -32,7 +32,7 @@ MAXSTEPS=2000
 NUM_SIM_POINTS_PER_DOM=1000
 
 NUM_TEST_POINTS=50
-NXYZ=2
+NXYZ=1
 WIDTH_PCT=0.1
 
 echo "NUM_TEST_POINTS:"$NUM_TEST_POINTS

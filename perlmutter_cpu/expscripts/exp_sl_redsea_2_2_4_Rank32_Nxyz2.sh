@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J ExpSlAstro
+#SBATCH -J ExpSlRedsea
 #SBATCH -o %x-%j.out
 #SBATCH -t 00:29:00
 #SBATCH -q debug
@@ -13,8 +13,8 @@ module load python/3.9-anaconda-2021.11
 
 # This script using the results from workload estimation to generate the block assignment plan
 
-DATADIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/astro
-RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExpSl2_Astro244_Rank32_Nxyz2_${1}
+DATADIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/redsea
+RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExpSl2_Redsea224_Rank32_Nxyz2_${1}
 CURRDIR=$(pwd)
 
 mkdir -p $RUNDIR
@@ -26,7 +26,7 @@ ln -s $CURRDIR/../install/visReader/workloadEstimation/StreamlineMPI2 Streamline
 ln -s $CURRDIR/../install/visReader/visitReaderAdev visitReaderAdev
 
 # init parameters
-STEPSIZE_ASTRO=0.005000
+STEPSIZE_REDSEA=0.1
 
 MAXSTEPS=2000
 NUM_SIM_POINTS_PER_DOM=1000
@@ -48,20 +48,20 @@ NUM_BLOCKS=32
 mkdir one_data_per_rank
 cd one_data_per_rank
 
-# define a function to execute on astro data
+# define a function to execute on redsea data
 # first one is dataset and second one is execution index
-call_astro () {
+call_redsea () {
 echo "number of node ${1} number of ranks ${2}"
-echo "executing astro on dataset ${3} execution index is ${4} strategy ${5}"
+echo "executing redsea on dataset ${3} execution index is ${4} strategy ${5}"
 srun -N ${1} -n ${2} --mem-per-cpu=1G ../visitReaderAdev \
 --vtkm-device serial \
 --file=$DATADIR/${3} \
 --advect-num-steps=$MAXSTEPS \
 --advect-num-seeds=$NUM_SIM_POINTS_PER_DOM \
 --seeding-method=domainrandom \
---advect-seed-box-extents=0.010000,0.990000,0.010000,0.990000,0.010000,0.990000 \
+--advect-seed-box-extents=0.010000,498.9,0.010000,498.9,0.010000,49.9 \
 --field-name=velocity \
---advect-step-size=$STEPSIZE_ASTRO \
+--advect-step-size=$STEPSIZE_REDSEA \
 --record-trajectories=false \
 --output-results=false \
 --sim-code=cloverleaf \
@@ -71,21 +71,21 @@ srun -N ${1} -n ${2} --mem-per-cpu=1G ../visitReaderAdev \
 }
 
 #executing the complete work
-DATA_NAME=fb_astro_origin_0.2_4_4.128_128_128.visit
-call_astro $NUM_NODE $NUM_RANK $DATA_NAME 0 roundroubin
+DATA_NAME=redsea_c0.4_4_2.128_128_128.visit
+call_redsea $NUM_NODE $NUM_RANK $DATA_NAME 0 roundroubin
 
 # go back to the parent dir
 cd ..
 
 # Step 2 run with workload estimator
 log_suffix=_r${NUM_RANK}_tp${NUM_TEST_POINTS}_nxyz${NXYZ}_pc${WIDTH_PCT}.log
-estimate_log_file_1=sl2_estimate_astro_1thread_${log_suffix}
-estimate_log_file_32=sl2_estimate_astro_32thread_${log_suffix}
+estimate_log_file_1=sl2_estimate_redsea_1thread_${log_suffix}
+estimate_log_file_32=sl2_estimate_redsea_32thread_${log_suffix}
 
 parser_log=parser_log.log
 
 export OMP_NUM_THREADS=1
-srun -N $NUM_NODE -n $NUM_RANK ./StreamlineMPI2 $DATADIR/${DATA_NAME} velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> ${estimate_log_file_1}
+srun -N $NUM_NODE -n $NUM_RANK ./StreamlineMPI2 $DATADIR/${DATA_NAME} velocity $STEPSIZE_REDSEA $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ &> ${estimate_log_file_1}
 
 
 # compare estimation run with the actual run resutls
