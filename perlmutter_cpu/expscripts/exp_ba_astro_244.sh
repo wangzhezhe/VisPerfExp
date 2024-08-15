@@ -14,7 +14,7 @@ module load python/3.9-anaconda-2021.11
 # This script using the results from workload estimation to generate the block assignment plan
 
 DATADIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/astro
-RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExpSl2_Astro244_Rank32_Nxyz1_testpts10_${1}
+RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_ba_astro_32_244_${1}
 CURRDIR=$(pwd)
 
 mkdir -p $RUNDIR
@@ -30,12 +30,6 @@ STEPSIZE_ASTRO=0.005000
 
 MAXSTEPS=2000
 NUM_SIM_POINTS_PER_DOM=1000
-
-NXYZ=1
-WIDTH_PCT=0.1
-
-echo "NXYZ:"$NXYZ
-echo "WIDTH_PCT:"$WIDTH_PCT
 
 # Step 1 run with one block per rank
 NUM_NODE=1
@@ -75,6 +69,11 @@ call_astro $NUM_NODE $NUM_RANK $DATA_NAME 0 roundroubin
 # go back to the parent dir
 cd ..
 
+
+parser_log=parser.log
+
+python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} &> ${parser_log}
+
 # Step 2 run through rrb 
 # generate the rrb file firstly, replace the assign_options.config
 mkdir rrb_placement
@@ -89,12 +88,16 @@ call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
 cd ..
 
+# get the actual workload time
+
+
 # Step 3 run through first fit backpacking based on workload popularity from actual run log
 mkdir bpacking_placement_actual_log
 cd bpacking_placement_actual_log
 
 # parsing original run results
 # using the results in parser log to generate assignment plan
+
 python3 $CURRDIR/generate_assignment_actual_bpacking.py ../${parser_log} $NUM_BLOCKS $NUM_RANK_REDUCED
 sleep 1
 for run_index in {1..3}
