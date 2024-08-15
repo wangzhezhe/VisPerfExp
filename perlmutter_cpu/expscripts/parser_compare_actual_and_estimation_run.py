@@ -196,3 +196,12 @@ if __name__ == "__main__":
     draw_two_lines(actual_acc_advect_steps_popularity, sl2_estimated_adv_popularity, "actual popularity","sl2 estimated popularity",fig_name+"_adv")
     draw_two_lines(norm_actual_in_particles, sl2_estimated_in_particles, "actual in particles","sl2 estimated in particles",fig_name+"_in")
     draw_two_lines(norm_actual_out_particles, sl2_estimated_out_particles, "actual out particles","sl2 estimated out particles",fig_name+"_out")
+    
+    
+    # compare the differences
+    popular_diff = np.absolute(np.array(actual_acc_advect_steps_popularity)-np.array(sl2_estimated_adv_popularity))
+    # compute q1 and q3
+    q1 = np.percentile(popular_diff, 25)
+    q2 = np.percentile(popular_diff, 50)
+    q3 = np.percentile(popular_diff, 75)
+    print("max diff is ", np.max(popular_diff), "min diff is ", np.min(popular_diff), "avg is ", np.average(popular_diff), " std is ", np.std(popular_diff), "q1 is ", q1, "q2 is ", q2, "q3 is ", q3)
