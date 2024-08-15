@@ -133,7 +133,7 @@ if __name__ == "__main__":
     print("filter_time",filter_time)
     print("tick ", 0,round(filter_time/4,2),round(filter_time/2,2), round(3*filter_time/4,2),round(filter_time,2))
     print("tick pos", 0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x)
-    usToms=1
+    usToms=1000
     plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,int(filter_time/4/usToms),int(filter_time/2/usToms), int(3*filter_time/4/usToms),int(filter_time/usToms)],fontsize=ticksize)
     #ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.3f}"))
 
@@ -223,7 +223,7 @@ if __name__ == "__main__":
                             Patch(facecolor='tab:red', alpha=0.35, edgecolor='None', label='Other overhead'),]
             #when using automatic legend position
             #legend = plt.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=labelSize)
-            legend = plt.legend(handles=legend_elems,bbox_to_anchor=(0.8, 1.4),ncol=3, fontsize=labelSize)
+            legend = plt.legend(handles=legend_elems,bbox_to_anchor=(0.8, 1.1),ncol=3, fontsize=labelSize)
             ax.add_artist(legend)
         else:
             # no label here
