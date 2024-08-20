@@ -340,22 +340,22 @@ def merge_block_list(block_list_for_proc1,block_list_for_proc2):
 
 if __name__ == "__main__":
 
-    if len(sys.argv)!=7:
-        print("<binary> <workload estimation log> <block num> <original proc num> <estmate proc num> <num bins> <actual_parse_log>",flush=True)
+    if len(sys.argv)!=6:
+        print("<binary> <block num> <original proc num> <intransit_proc_num> <num time slots> <parse_log>",flush=True)
         exit()
-
-    workload_estimation_log = sys.argv[1]
-    block_num=int(sys.argv[2])
-    # the number of procs we want to put the bin into
-    original_proc_num=int(sys.argv[3])
-    intransit_proc_num=int(sys.argv[4])
-    num_bins = int(sys.argv[5])
-    actual_parse_log=sys.argv[6]
     
-    print("workload_estimation_log",workload_estimation_log,"block_num",block_num,"origianl proc num",original_proc_num, "intransit_proc_num proc num", intransit_proc_num, "num bins",num_bins)
+    # this info is not used in this script now
+    block_num=int(sys.argv[1])
+    # the number of procs we want to put the bin into
+    original_proc_num=int(sys.argv[2])
+    intransit_proc_num=int(sys.argv[3])
+    num_bins = int(sys.argv[4]) # how much workloads are located in each time slot 
+    parse_log=sys.argv[5]
+    
+    print("block_num",block_num,"origianl proc num",original_proc_num, "intransit_proc_num proc num", intransit_proc_num, "num time slots",num_bins)
 
     # original dup based assignment
-    actual_adv_popularity=get_actual_run_info(actual_parse_log)
+    actual_adv_popularity=get_actual_run_info(parse_log)
     print("actual_adv_popularity")
     print(actual_adv_popularity)
 
