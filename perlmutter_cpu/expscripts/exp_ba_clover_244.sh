@@ -70,10 +70,6 @@ call_clover $NUM_NODE $NUM_RANK $DATA_NAME 0 roundroubin
 cd ..
 
 
-parser_log=parser.log
-
-python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} &> ${parser_log}
-
 # Step 2 run through rrb 
 # generate the rrb file firstly, replace the assign_options.config
 mkdir rrb_placement
@@ -88,17 +84,17 @@ call_clover $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
 cd ..
 
-# get the actual workload time
-
 
 # Step 3 run through first fit backpacking based on workload popularity from actual run log
-mkdir bpacking_placement_actual_log
-cd bpacking_placement_actual_log
+mkdir bpacking_placement_one_stage
+cd bpacking_placement_one_stage
 
 # parsing original run results
 # using the results in parser log to generate assignment plan
 
-python3 $CURRDIR/generate_assignment_actual_bpacking.py ../${parser_log} $NUM_BLOCKS $NUM_RANK_REDUCED
+python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 1
+python3 $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py $NUM_BLOCKS $NUM_RANK_REDUCED ./adv_step_stages_list.json
+
 sleep 1
 for run_index in {1..3}
 do
@@ -108,10 +104,11 @@ done
 cd ..
 
 # Step 4 actual data, back packing and duplication
-mkdir bpacking_dup_placement_actual_log
-cd bpacking_dup_placement_actual_log
+mkdir bpacking_placement_two_stages
+cd bpacking_placement_two_stages
 
-python3 $CURRDIR/generate_assignment_actual_bpacking_dup.py ../${parser_log} $NUM_BLOCKS $NUM_RANK_REDUCED
+python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 2
+python3 $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py $NUM_BLOCKS $NUM_RANK_REDUCED ./adv_step_stages_list.json
 sleep 1
 for run_index in {1..3}
 do
@@ -121,9 +118,12 @@ done
 cd ..
 
 # Step 5 actual data, back packing, two stages
-mkdir bpacking_dup_two_stages_actual_log
-cd bpacking_dup_two_stages_actual_log
-python3 $CURRDIR/generate_assignment_actual_bpacking_dup_stages2.py $RUNDIR $NUM_BLOCKS $NUM_BLOCKS $NUM_RANK_REDUCED 10 ../${parser_log}
+mkdir bpacking_placement_three_stages
+cd bpacking_placement_three_stages
+
+python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 3
+python3 $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py $NUM_BLOCKS $NUM_RANK_REDUCED ./adv_step_stages_list.json
+
 sleep 1
 for run_index in {1..3}
 do
@@ -131,4 +131,3 @@ call_clover $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
 # go back to parent dir
 cd ..
-

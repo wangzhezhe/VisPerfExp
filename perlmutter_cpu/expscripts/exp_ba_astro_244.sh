@@ -45,7 +45,7 @@ cd one_data_per_rank
 call_astro () {
 echo "number of node ${1} number of ranks ${2}"
 echo "executing astro on dataset ${3} execution index is ${4} strategy ${5}"
-srun -N ${1} -n ${2} --mem-per-cpu=8G ../visitReaderAdev \
+srun -N ${1} -n ${2} --mem-per-cpu=10G ../visitReaderAdev \
 --vtkm-device serial \
 --file=$DATADIR/${3} \
 --advect-num-steps=$MAXSTEPS \
@@ -82,9 +82,6 @@ do
 call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
 cd ..
-
-# get the actual workload time
-
 
 # Step 3 run through first fit backpacking based on workload popularity from actual run log
 mkdir bpacking_placement_one_stage

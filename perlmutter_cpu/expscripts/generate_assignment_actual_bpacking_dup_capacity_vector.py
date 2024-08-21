@@ -17,7 +17,7 @@ if __name__ == "__main__":
     # TODO, adding maximum number of blocks for each rank
     # this value need to be less than 15
     # how to add this constraints?
-    MaxNumBlocks=8
+    MaxNumBlocks=10
     if len(sys.argv)!=4:
         print("<binary> <block num> <intransit_proc_num> <adv stages list log>",flush=True)
         exit()
