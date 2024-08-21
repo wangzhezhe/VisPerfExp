@@ -88,6 +88,7 @@ if __name__ == "__main__":
 
    
     index=0
+    list_start_pos=0
     while(len(sorted_adv_popularity)>0):
         # get one
         # print("\nlen(sorted_adv_popularity)",len(sorted_adv_popularity))
@@ -103,7 +104,8 @@ if __name__ == "__main__":
         find_bin=False
         # shuffle remaining_capacity_list?
         # random.shuffle(remaining_capacity_list)
-        for capacity_info in remaining_capacity_list:
+        # for item in (station_list[start:] + station_list[:start]) 
+        for capacity_info in (remaining_capacity_list[list_start_pos:]+remaining_capacity_list[:list_start_pos]):
             # avoid some edge case, the smaller one might be duplicated multiple times since
             # the remaining space becomes so small
             # for each component
@@ -140,7 +142,8 @@ if __name__ == "__main__":
                 block_list_for_proc[bin_index].append(block_id)
                 # find one slot, do not need to search
                 break
-            
+        
+        list_start_pos=(list_start_pos+1)%len(remaining_capacity_list)    
         # not find for current block after iterating all remaning bins
         # do the splitting
         if find_bin==False:
