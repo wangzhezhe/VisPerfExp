@@ -45,7 +45,7 @@ cd one_data_per_rank
 call_astro () {
 echo "number of node ${1} number of ranks ${2}"
 echo "executing astro on dataset ${3} execution index is ${4} strategy ${5}"
-srun -N ${1} -n ${2} --mem-per-cpu=1G ../visitReaderAdev \
+srun -N ${1} -n ${2} --mem-per-cpu=8G ../visitReaderAdev \
 --vtkm-device serial \
 --file=$DATADIR/${3} \
 --advect-num-steps=$MAXSTEPS \

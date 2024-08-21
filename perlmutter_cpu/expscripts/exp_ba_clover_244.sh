@@ -45,7 +45,7 @@ cd one_data_per_rank
 call_clover () {
 echo "number of node ${1} number of ranks ${2}"
 echo "executing clover on dataset ${3} execution index is ${4} strategy ${5}"
-srun -N ${1} -n ${2} --mem-per-cpu=1G ../visitReaderAdev \
+srun -N ${1} -n ${2} --mem-per-cpu=4G ../visitReaderAdev \
 --vtkm-device serial \
 --file=$DATADIR/${3} \
 --advect-num-steps=$MAXSTEPS \
