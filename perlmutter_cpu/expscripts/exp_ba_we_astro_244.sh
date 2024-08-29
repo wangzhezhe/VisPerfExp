@@ -14,7 +14,7 @@ module load python/3.9-anaconda-2021.11
 # This script using the results from workload estimation to generate the block assignment plan
 
 DATADIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/astro
-RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_ba_astro_32_244_${1}
+RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_ba_we_astro_32_244_${1}
 CURRDIR=$(pwd)
 
 mkdir -p $RUNDIR
@@ -31,14 +31,13 @@ STEPSIZE_ASTRO=0.005000
 MAXSTEPS=2000
 NUM_SIM_POINTS_PER_DOM=1000
 
-# Step 1 run with one block per rank
 NUM_NODE=1
 # the total blocks should same with the total number of ranks
 NUM_RANK=32
 NUM_BLOCKS=32
+NUM_RANK_REDUCED=8
 
-mkdir one_data_per_rank
-cd one_data_per_rank
+DATA_NAME=fb_astro_origin_0.2_4_4.128_128_128.visit
 
 # define a function to execute on astro data
 # first one is dataset and second one is execution index
@@ -62,18 +61,11 @@ srun -N ${1} -n ${2} --mem-per-cpu=10G ../visitReaderAdev \
 --communication=async_probe &> readerlog_${4}.out
 }
 
-#executing the work
-DATA_NAME=fb_astro_origin_0.2_4_4.128_128_128.visit
-call_astro $NUM_NODE $NUM_RANK $DATA_NAME 0 roundroubin
-
-# go back to the parent dir
-cd ..
-
-# Step 2 run through rrb 
+# Step 1 run through rrb 
 # generate the rrb file firstly, replace the assign_options.config
 mkdir rrb_placement
 cd rrb_placement
-NUM_RANK_REDUCED=8
+
 python3 $CURRDIR/generate_assignment_rrb.py $NUM_BLOCKS $NUM_RANK_REDUCED
 sleep 1
 # the configuration is the rrb now
@@ -83,20 +75,30 @@ call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
 cd ..
 
-# Step 3 run through workload estimation
-mkdir multistages_workload_estimation
-cd 
 
+mkdir we_multi_stages 
+cd we_multi_stages
 
+export OMP_NUM_THREADS=1
+NUM_TEST_POINTS=50
+NXYZ=2
+WIDTH_PCT=0.1
 
+# there are three stages
+srun -N $NUM_NODE -n $NUM_RANK ../StreamlineMPI2 $DATADIR/${DATA_NAME} velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ true &> ./we_adv_3.log
 
-mkdir bpacking_placement_one_stag
+# only one stage
+srun -N $NUM_NODE -n $NUM_RANK ../StreamlineMPI2 $DATADIR/${DATA_NAME} velocity $STEPSIZE_ASTRO $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ false &> ./we_adv_1.log
+
+cd ..
+
+# Step 2 estimation data, bpcaking one stage
+mkdir bpacking_placement_one_stage
 cd bpacking_placement_one_stage
 
-# parsing original run results
-# using the results in parser log to generate assignment plan
-
-python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 1
+#python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 3
+python3 $CURRDIR/parser_estimation_run.py $RUNDIR/we_multi_stages/we_adv_1.log ${NUM_RANK} 1
+sleep 1
 python3 $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py $NUM_BLOCKS $NUM_RANK_REDUCED ./adv_step_stages_list.json
 
 sleep 1
@@ -104,35 +106,26 @@ for run_index in {1..3}
 do
 call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
+
 # go back to parent dir
 cd ..
 
-# Step 4 actual data, back packing and duplication
-mkdir bpacking_placement_two_stages
-cd bpacking_placement_two_stages
 
-python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 2
-python3 $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py $NUM_BLOCKS $NUM_RANK_REDUCED ./adv_step_stages_list.json
-sleep 1
-for run_index in {1..3}
-do
-call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
-done
-# go back to parent dir
-cd ..
-
-# Step 5 actual data, back packing, two stages
+# Step 3 estimation data, back packing, three stages
 mkdir bpacking_placement_three_stages
 cd bpacking_placement_three_stages
 
-python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 3
-python3 $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py $NUM_BLOCKS $NUM_RANK_REDUCED ./adv_step_stages_list.json
-
+#python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 3
+python3 $CURRDIR/parser_estimation_run.py $RUNDIR/we_multi_stages/we_adv_3.log ${NUM_RANK} 3
 sleep 1
+
+
+python3 $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py $NUM_BLOCKS $NUM_RANK_REDUCED ./adv_step_stages_list.json 
+
+sleep 5
 for run_index in {1..3}
 do
 call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
 # go back to parent dir
 cd ..
-

@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J ExpBAWEAstro
+#SBATCH -J ExpBAAstro
 #SBATCH -o %x-%j.out
 #SBATCH -t 00:29:00
 #SBATCH -q debug
@@ -14,7 +14,7 @@ module load python/3.9-anaconda-2021.11
 # This script using the results from workload estimation to generate the block assignment plan
 
 DATADIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/astro
-RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_ba_astro_32_244_${1}
+RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_ba_astro_32_442_${1}
 CURRDIR=$(pwd)
 
 mkdir -p $RUNDIR
@@ -45,7 +45,7 @@ cd one_data_per_rank
 call_astro () {
 echo "number of node ${1} number of ranks ${2}"
 echo "executing astro on dataset ${3} execution index is ${4} strategy ${5}"
-srun -N ${1} -n ${2} --mem-per-cpu=10G ../visitReaderAdev \
+srun -N ${1} -n ${2} --mem-per-cpu=1G ../visitReaderAdev \
 --vtkm-device serial \
 --file=$DATADIR/${3} \
 --advect-num-steps=$MAXSTEPS \
@@ -63,11 +63,16 @@ srun -N ${1} -n ${2} --mem-per-cpu=10G ../visitReaderAdev \
 }
 
 #executing the work
-DATA_NAME=fb_astro_origin_0.2_4_4.128_128_128.visit
+DATA_NAME=fb_astro_origin_0.4_4_2.128_128_128.visit
 call_astro $NUM_NODE $NUM_RANK $DATA_NAME 0 roundroubin
 
 # go back to the parent dir
 cd ..
+
+
+parser_log=parser.log
+
+python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} &> ${parser_log}
 
 # Step 2 run through rrb 
 # generate the rrb file firstly, replace the assign_options.config
@@ -83,22 +88,17 @@ call_astro $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
 cd ..
 
-# Step 3 run through workload estimation
-mkdir multistages_workload_estimation
-cd 
+# get the actual workload time
 
 
-
-
-mkdir bpacking_placement_one_stag
-cd bpacking_placement_one_stage
+# Step 3 run through first fit backpacking based on workload popularity from actual run log
+mkdir bpacking_placement_actual_log
+cd bpacking_placement_actual_log
 
 # parsing original run results
 # using the results in parser log to generate assignment plan
 
-python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 1
-python3 $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py $NUM_BLOCKS $NUM_RANK_REDUCED ./adv_step_stages_list.json
-
+python3 $CURRDIR/generate_assignment_actual_bpacking.py ../${parser_log} $NUM_BLOCKS $NUM_RANK_REDUCED
 sleep 1
 for run_index in {1..3}
 do
@@ -108,11 +108,10 @@ done
 cd ..
 
 # Step 4 actual data, back packing and duplication
-mkdir bpacking_placement_two_stages
-cd bpacking_placement_two_stages
+mkdir bpacking_dup_placement_actual_log
+cd bpacking_dup_placement_actual_log
 
-python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 2
-python3 $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py $NUM_BLOCKS $NUM_RANK_REDUCED ./adv_step_stages_list.json
+python3 $CURRDIR/generate_assignment_actual_bpacking_dup.py ../${parser_log} $NUM_BLOCKS $NUM_RANK_REDUCED
 sleep 1
 for run_index in {1..3}
 do
@@ -122,12 +121,9 @@ done
 cd ..
 
 # Step 5 actual data, back packing, two stages
-mkdir bpacking_placement_three_stages
-cd bpacking_placement_three_stages
-
-python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 3
-python3 $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py $NUM_BLOCKS $NUM_RANK_REDUCED ./adv_step_stages_list.json
-
+mkdir bpacking_dup_two_stages_actual_log
+cd bpacking_dup_two_stages_actual_log
+python3 $CURRDIR/generate_assignment_actual_bpacking_dup_stages2.py $RUNDIR $NUM_BLOCKS $NUM_BLOCKS $NUM_RANK_REDUCED 10 ../${parser_log}
 sleep 1
 for run_index in {1..3}
 do
