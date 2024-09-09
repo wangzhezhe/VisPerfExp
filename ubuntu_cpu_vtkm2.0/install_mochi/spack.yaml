@@ -1,0 +1,47 @@
+spack:
+  concretizer: 
+    unify: false
+  compilers:
+  - compiler:
+      spec: gcc@11.4.0
+      paths:
+        cc: gcc
+        cxx: gcc
+        f77: f77
+        fc: f77
+      modules:
+      operating_system: ubuntu22.04
+  packages:
+    all:
+      require:
+      - '%gcc@11.4.0'
+    libfabric:
+      variants: fabrics=tcp,rxm
+      version: []
+      buildable: true
+    mercury:
+      variants: +udreg ~boostsys
+      version: []
+      buildable: true
+    cmake:
+      buildable: false
+      externals:
+      - spec: cmake@3.22.1
+        prefix: /usr
+        modules:
+        - cmake/3.22.1
+    re2c:
+      buildable: false
+      externals:
+      - spec: re2c@3.0
+        prefix: /usr
+        modules:
+        - re2c/3.0
+    ninja:
+      buildable: false
+      externals:
+      - spec: ninja@1.10.1
+        prefix: /usr
+        modules:
+        - ninja/1.10.1
+  view: true

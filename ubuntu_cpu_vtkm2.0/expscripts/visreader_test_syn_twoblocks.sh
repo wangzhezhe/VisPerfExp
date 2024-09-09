@@ -16,7 +16,7 @@ ln -s ../../install/visReader/workloadEstimation/StreamlineMPI2 StreamlineMPI2
 
 
 # for cloverleaf data
-DATADIR=/Users/zhewang/DataSets/DataSetForParticleAdvectionBlockAssignment/syn_two
+DATADIR=/home/ubuntu/dataset/syn_two
 DATANAME="syn.two.visit"
 DATASET=${DATADIR}/$DATANAME
 
