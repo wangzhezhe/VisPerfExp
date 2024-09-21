@@ -9,17 +9,26 @@
 #SBATCH --cpus-per-task=1
 
 # run by tightly coupled way
-DATADIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/clover
-RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/cloverleaf_multistep_decomp
+DATADIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/cloverleaf_multistep_decomp
+RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_wf_clover_${1}
 CURRDIR=$(pwd)
+SIMSLEEP=5
 
 mkdir -p $RUNDIR
 
 cd $RUNDIR
 
-ln -s $CURRDIR/../install/visReader/workloadEstimation/StreamlineMPI StreamlineMPI
-ln -s $CURRDIR/../install/visReader/workloadEstimation/StreamlineMPI2 StreamlineMPI2
-ln -s $CURRDIR/../install/visReader/visitReaderAdev visitReaderAdev
+ln -s $CURRDIR/../install/visReader/looselyworkflow/looselyinsitu looselyinsitu
+ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_pa tightlyinsitu_pa
+ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_we tightlyinsitu_we
+
+mkdir tightinsitu
+
+srun -N 4 -n 128 --mem-per-cpu=10G ../tightlyinsitu_pa \
+--vtkm-device serial \
+${DATADIR} \
+${SIMSLEEP} &> tightinsitu.log
+
 
 # run by loosely coupled way with rrb
 
