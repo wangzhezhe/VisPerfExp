@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH -J ExpBAClover
+#SBATCH -J ExpBAWEClover128
 #SBATCH -o %x-%j.out
 #SBATCH -t 00:29:00
 #SBATCH -q debug
 #SBATCH -C cpu
-#SBATCH --nodes=1
+#SBATCH --nodes=4
 #SBATCH --ntasks-per-node=32
 #SBATCH --cpus-per-task=1
 
@@ -13,8 +13,8 @@ module load python/3.9-anaconda-2021.11
 
 # This script using the results from workload estimation to generate the block assignment plan
 
-DATADIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/clover
-RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_ba_clover_32_244_${1}
+DATADIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/cloverleaf_multistep_decomp
+RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_ba_we_clover_128_448_${1}
 CURRDIR=$(pwd)
 
 mkdir -p $RUNDIR
@@ -31,28 +31,27 @@ STEPSIZE_CLOVER=0.001
 MAXSTEPS=2000
 NUM_SIM_POINTS_PER_DOM=1000
 
-# Step 1 run with one block per rank
 NUM_NODE=1
 # the total blocks should same with the total number of ranks
-NUM_RANK=32
-NUM_BLOCKS=32
+NUM_RANK=128
+NUM_BLOCKS=128
+NUM_RANK_REDUCED=16
 
-mkdir one_data_per_rank
-cd one_data_per_rank
+DATA_NAME=fb_cv_8.4_4_8.128_128_128.visit
 
 # define a function to execute on clover data
 # first one is dataset and second one is execution index
-call_clover () {
+call_adv () {
 echo "number of node ${1} number of ranks ${2}"
-echo "executing clover on dataset ${3} execution index is ${4} strategy ${5}"
-srun -N ${1} -n ${2} --mem-per-cpu=4G ../visitReaderAdev \
+echo "executing particle advection on dataset ${3} execution index is ${4} strategy ${5}"
+srun -N ${1} -n ${2} --mem-per-cpu=10G ../visitReaderAdev \
 --vtkm-device serial \
 --file=$DATADIR/${3} \
 --advect-num-steps=$MAXSTEPS \
 --advect-num-seeds=$NUM_SIM_POINTS_PER_DOM \
 --seeding-method=domainrandom \
 --advect-seed-box-extents=0.010000,0.990000,0.010000,0.990000,0.010000,0.990000 \
---field-name=velocity \
+--field-name=mesh_mesh/velocity \
 --advect-step-size=$STEPSIZE_CLOVER \
 --record-trajectories=false \
 --output-results=false \
@@ -62,72 +61,71 @@ srun -N ${1} -n ${2} --mem-per-cpu=4G ../visitReaderAdev \
 --communication=async_probe &> readerlog_${4}.out
 }
 
-#executing the work
-DATA_NAME=fb_clover_0.2_4_4.128_128_128.visit
-call_clover $NUM_NODE $NUM_RANK $DATA_NAME 0 roundroubin
-
-# go back to the parent dir
-cd ..
-
-
-# Step 2 run through rrb 
+# Step 1 run through rrb 
 # generate the rrb file firstly, replace the assign_options.config
 mkdir rrb_placement
 cd rrb_placement
-NUM_RANK_REDUCED=8
+
 python3 $CURRDIR/generate_assignment_rrb.py $NUM_BLOCKS $NUM_RANK_REDUCED
 sleep 1
 # the configuration is the rrb now
 for run_index in {1..3}
 do
-call_clover $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
+call_adv $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
 cd ..
 
 
-# Step 3 run through first fit backpacking based on workload popularity from actual run log
+mkdir we_multi_stages 
+cd we_multi_stages
+
+export OMP_NUM_THREADS=1
+NUM_TEST_POINTS=50
+NXYZ=2
+WIDTH_PCT=0.1
+
+# there are three stages
+srun -N $NUM_NODE -n $NUM_RANK ../StreamlineMPI2 $DATADIR/${DATA_NAME} mesh_mesh/velocity $STEPSIZE_CLOVER $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ true &> ./we_adv_3.log
+
+# only one stage
+srun -N $NUM_NODE -n $NUM_RANK ../StreamlineMPI2 $DATADIR/${DATA_NAME} mesh_mesh/velocity $STEPSIZE_CLOVER $MAXSTEPS $NUM_TEST_POINTS $NUM_SIM_POINTS_PER_DOM $NXYZ false &> ./we_adv_1.log
+
+cd ..
+
+# Step 2 estimation data, bpcaking one stage
 mkdir bpacking_placement_one_stage
 cd bpacking_placement_one_stage
 
-# parsing original run results
-# using the results in parser log to generate assignment plan
-
-python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 1
+#python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 3
+python3 $CURRDIR/parser_estimation_run.py $RUNDIR/we_multi_stages/we_adv_1.log ${NUM_RANK} 1
+sleep 1
 python3 $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py $NUM_BLOCKS $NUM_RANK_REDUCED ./adv_step_stages_list.json
 
 sleep 1
 for run_index in {1..3}
 do
-call_clover $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
+call_adv $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
+
 # go back to parent dir
 cd ..
 
-# Step 4 actual data, back packing and duplication
-mkdir bpacking_placement_two_stages
-cd bpacking_placement_two_stages
 
-python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 2
-python3 $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py $NUM_BLOCKS $NUM_RANK_REDUCED ./adv_step_stages_list.json
-sleep 1
-for run_index in {1..3}
-do
-call_clover $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
-done
-# go back to parent dir
-cd ..
-
-# Step 5 actual data, back packing, two stages
+# Step 3 estimation data, back packing, three stages
 mkdir bpacking_placement_three_stages
 cd bpacking_placement_three_stages
 
-python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 3
-python3 $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py $NUM_BLOCKS $NUM_RANK_REDUCED ./adv_step_stages_list.json
-
+#python3 $CURRDIR/parser_compare_actual_run.py $RUNDIR/one_data_per_rank ${NUM_RANK} 3
+python3 $CURRDIR/parser_estimation_run.py $RUNDIR/we_multi_stages/we_adv_3.log ${NUM_RANK} 3
 sleep 1
+
+
+python3 $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py $NUM_BLOCKS $NUM_RANK_REDUCED ./adv_step_stages_list.json 
+
+sleep 5
 for run_index in {1..3}
 do
-call_clover $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
+call_adv $NUM_NODE $NUM_RANK_REDUCED $DATA_NAME $run_index file
 done
 # go back to parent dir
 cd ..

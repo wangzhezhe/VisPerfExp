@@ -64,6 +64,46 @@ fi
 echo "====> Installing vtk-m, ok"
 
 
+# build and install vtk
+echo "====> Installing vtk"
+
+VTK_SRC_DIR="$SOFTWARE_SRC_DIR/vtk"
+VTK_BUILD_DIR="$SOFTWARE_BUILD_DIR/vtk"
+VTK_INSTALL_DIR="$SOFTWARE_INSTALL_DIR/vtk"
+
+# check the install dir
+if [ -d $VTK_INSTALL_DIR ]; then
+    echo "====> skip, $VTK_INSTALL_DIR already exists," \
+             "please remove it if you want to reinstall it"
+else
+    echo $VTK_SRC_DIR
+    echo $VTK_BUILD_DIR
+    echo $VTK_INSTALL_DIR
+
+    if [ ! -d $VTK_SRC_DIR ]; then
+    # clone the source
+    cd $SOFTWARE_SRC_DIR
+    git clone -b master $VTK_REPO
+    fi
+
+    # do not use vtkm under the vtk repo
+    # use external vtkm
+    cmake -B ${VTK_BUILD_DIR} -S ${VTK_SRC_DIR} \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DVTK_USE_MPI=ON \
+    -DCMAKE_INSTALL_PREFIX=${VTK_INSTALL_DIR}
+
+    cd $HERE
+
+    # build and install
+    echo "**** Building vtk"
+    mkdir -p ${VTK_BUILD_DIR}
+    cmake --build ${VTK_BUILD_DIR} -j${build_jobs}
+    cmake --install ${VTK_BUILD_DIR}
+fi
+
+
 echo "====> Installing intransit reader"
 INTRAN_READER_SRC_DIR="$SOFTWARE_SRC_DIR/visReader"
 # use the install dir as the build dir
@@ -90,7 +130,26 @@ INTRAN_READER_INSTALL_DIR="$SOFTWARE_INSTALL_DIR/visReader"
 
 echo "====> building intransit reader, ok"
 
-# make sure the new added library path is located at the start 
+
+echo "====> Installing loosely coupled workflow"
+# set up spack env
+cd $PSCRATCH
+. /pscratch/sd/z/zw241/zw241/spack/share/spack/setup-env.sh
+spack env activate mochi-env
+# go to workflow dir
+WF_SRC_DIR="$SOFTWARE_SRC_DIR/visReader/looselyworkflow"
+WF_INSTALL_DIR="$SOFTWARE_INSTALL_DIR/visReader/looselyworkflow"
+
+mkdir -p ${WF_INSTALL_DIR}
+
+
+cmake -B ${WF_INSTALL_DIR} -S ${WF_SRC_DIR} -DCMAKE_BUILD_TYPE=Release -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-2.0 -DVTK_DIR=${VTK_INSTALL_DIR}/lib64/cmake/vtk-9.3 
+
+cmake --build ${WF_INSTALL_DIR} -j${build_jobs}
+spack env deactivate
+
+
+# make sure the new added library path is located at the start
 echo "try to add library path by executing:"
 echo "export LD_LIBRARY_PATH=${VTKM_INSTALL_DIR}/lib:\
 ${VTKH_INSTALL_DIR}/lib:${LD_LIBRARY_PATH}"
