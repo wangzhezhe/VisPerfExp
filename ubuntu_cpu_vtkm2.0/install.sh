@@ -47,7 +47,7 @@ else
     # we only use the cpu version here
 
     cmake -B ${VTKM_BUILD_DIR} -S ${VTKM_SRC_DIR} \
-    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE=Debug \
     -DBUILD_SHARED_LIBS=ON \
     -DVTKm_USE_DEFAULT_TYPES_FOR_ASCENT=ON \
     -DVTKm_USE_DOUBLE_PRECISION=ON \
@@ -64,6 +64,44 @@ else
     cmake --install ${VTKM_BUILD_DIR}
 fi
 echo "====> Installing vtk-m, ok"
+
+
+# build and install vtk
+echo "====> Installing vtk"
+
+VTK_SRC_DIR="$SOFTWARE_SRC_DIR/vtk"
+VTK_BUILD_DIR="$SOFTWARE_BUILD_DIR/vtk"
+VTK_INSTALL_DIR="$SOFTWARE_INSTALL_DIR/vtk"
+
+# check the install dir
+if [ -d $VTK_INSTALL_DIR ]; then
+    echo "====> skip, $VTK_INSTALL_DIR already exists," \
+             "please remove it if you want to reinstall it"
+else
+    echo $VTK_SRC_DIR
+    echo $VTK_BUILD_DIR
+    echo $VTK_INSTALL_DIR
+
+    if [ ! -d $VTK_SRC_DIR ]; then
+    # clone the source
+    cd $SOFTWARE_SRC_DIR
+    git clone -b master $VTK_REPO
+    fi
+    
+    # do not use vtkm under the vtk repo
+    # use external vtkm 
+    cmake -B ${VTK_BUILD_DIR} -S ${VTK_SRC_DIR} \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=${VTK_INSTALL_DIR}
+
+    cd $HERE
+
+    # build and install
+    echo "**** Building vtk"
+    cmake --build ${VTK_INSTALL_DIR} -j${build_jobs}  
+    cmake --install ${VTK_BUILD_DIR}  
+fi
 
 
 echo "====> Installing intransit reader"

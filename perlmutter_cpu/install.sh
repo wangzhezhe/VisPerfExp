@@ -63,6 +63,30 @@ else
 fi
 echo "====> Installing vtk-m, ok"
 
+# build and install vtk
+echo "====> Installing vtk"
+
+VTK_SRC_DIR="$SOFTWARE_SRC_DIR/vtk"
+VTK_BUILD_DIR="$SOFTWARE_BUILD_DIR/vtk"
+VTK_INSTALL_DIR="$SOFTWARE_INSTALL_DIR/vtk"
+
+# check the install dir
+if [ -d $VTK_INSTALL_DIR ]; then
+    echo "====> skip, $VTK_INSTALL_DIR already exists," \
+             "please remove it if you want to reinstall it"
+else
+    echo $VTK_SRC_DIR
+    echo $VTK_BUILD_DIR
+    echo $VTK_INSTALL_DIR
+
+    if [ ! -d $VTK_SRC_DIR ]; then
+    # clone the source
+    cd $SOFTWARE_SRC_DIR
+    git clone -b master $VTKM_REPO
+    fi
+
+fi
+
 
 # build and install vtk
 echo "====> Installing vtk"
@@ -127,6 +151,13 @@ INTRAN_READER_INSTALL_DIR="$SOFTWARE_INSTALL_DIR/visReader"
     # build and install
     echo "**** Building intransit reader"
     cmake --build ${INTRAN_READER_INSTALL_DIR} -j${build_jobs}
+
+    # install the workflow things
+    # activate spack things
+    cd $INTRAN_READER_SRC_DIR/looselywf
+    cmake ${INTRAN_READER_SRC_DIR}/looselyworkflow . -DCMAKE_BUILD_TYPE=Release \
+    -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-2.0 \
+    
 
 echo "====> building intransit reader, ok"
 
