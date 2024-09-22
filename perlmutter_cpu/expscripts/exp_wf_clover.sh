@@ -9,10 +9,11 @@
 #SBATCH --cpus-per-task=1
 
 # run by tightly coupled way
-DATADIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/cloverleaf_multistep_decomp
+DATAPREFIX=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/cloverleaf_multistep_decomp/fb_cv_
 RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_wf_clover_${1}
 CURRDIR=$(pwd)
 SIMSLEEP=5
+TOTALCYCLE=5
 
 mkdir -p $RUNDIR
 
@@ -22,12 +23,15 @@ ln -s $CURRDIR/../install/visReader/looselyworkflow/looselyinsitu looselyinsitu
 ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_pa tightlyinsitu_pa
 ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_we tightlyinsitu_we
 
-mkdir tightinsitu
+mkdir -p tightinsituwf
+cd tightinsituwf
 
+# TODO add parameter for 228 or 448 in pa 
 srun -N 4 -n 128 --mem-per-cpu=10G ../tightlyinsitu_pa \
 --vtkm-device serial \
-${DATADIR} \
-${SIMSLEEP} &> tightinsitu.log
+${DATAPREFIX} \
+${SIMSLEEP} \
+${TOTALCYCLE} &> tightinsituwf.log
 
 
 # run by loosely coupled way with rrb

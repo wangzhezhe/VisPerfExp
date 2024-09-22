@@ -152,13 +152,6 @@ INTRAN_READER_INSTALL_DIR="$SOFTWARE_INSTALL_DIR/visReader"
     echo "**** Building intransit reader"
     cmake --build ${INTRAN_READER_INSTALL_DIR} -j${build_jobs}
 
-    # install the workflow things
-    # activate spack things
-    cd $INTRAN_READER_SRC_DIR/looselywf
-    cmake ${INTRAN_READER_SRC_DIR}/looselyworkflow . -DCMAKE_BUILD_TYPE=Release \
-    -DVTKm_DIR=${VTKM_INSTALL_DIR}/lib/cmake/vtkm-2.0 \
-    
-
 echo "====> building intransit reader, ok"
 
 
