@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J ExpWFClover
+#SBATCH -J ExpWFTightClover
 #SBATCH -o %x-%j.out
 #SBATCH -t 00:29:00
 #SBATCH -q debug
@@ -10,7 +10,8 @@
 
 # run by tightly coupled way
 DATAPREFIX=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/cloverleaf_multistep_decomp/fb_cv_
-RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_wf_clover_${1}
+DATASUFFIX=.4_4_8.128_128_128.visit
+RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_wf_tight_clover_${1}
 CURRDIR=$(pwd)
 SIMSLEEP=5
 TOTALCYCLE=5
@@ -31,7 +32,7 @@ srun -N 4 -n 128 --mem-per-cpu=10G ../tightlyinsitu_pa \
 --vtkm-device serial \
 ${DATAPREFIX} \
 ${SIMSLEEP} \
-${TOTALCYCLE} &> tightinsituwf.log
+${TOTALCYCLE} ${DATASUFFIX} &> tightinsituwf.log
 
 
 # run by loosely coupled way with rrb
