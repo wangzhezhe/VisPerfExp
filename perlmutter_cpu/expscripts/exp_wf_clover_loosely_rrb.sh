@@ -26,19 +26,19 @@ ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_we tightlyinsi
 
 
 # start vis server using 16 processes
-srun -N 1 -n 16 --mem-per-cpu=10G ../looselyinsitu --vtkm-device serial cxi info &> looselywf.log &
-
+srun -N 1 -n 16 --mem-per-cpu=10G --network=no_vni -l ./looselyinsitu --vtkm-device serial cxi info &> looselywf.log &
 
 # when there existance of the config file
-
+while [ ! -f ./masterinfo.conf ]
+do
+    sleep 0.5
+done
 
 # TODO add parameter for 228 or 448 in pa 
-srun -N 4 -n 128 --mem-per-cpu=10G ../tightlyinsitu_we \
---vtkm-device serial \
-${DATAPREFIX} \
-${SIMSLEEP} \
-${TOTALCYCLE} ${DATASUFFIX} &> tightinsituwf.log
+srun -N 4 -n 128 --mem-per-cpu=10G --network=no_vni -l ./tightlyinsitu_we cxi masterinfo.conf ${DATAPREFIX} ${DATASUFFIX} ${TOTALCYCLE} ${SIMSLEEP} &> tightinsitu_wf_rrb2.log
 
+
+wait
 
 # run by loosely coupled way with rrb
 
