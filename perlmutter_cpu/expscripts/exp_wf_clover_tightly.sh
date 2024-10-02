@@ -13,7 +13,7 @@ DATAPREFIX=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/cloverleaf_multistep_
 DATASUFFIX=.4_4_8.128_128_128.visit
 RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_wf_tight_clover_${1}
 CURRDIR=$(pwd)
-SIMSLEEP=5
+SIMSLEEP=20
 TOTALCYCLE=5
 
 mkdir -p $RUNDIR
