@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J ExpWFLooseRRBClover
+#SBATCH -J ExpWFLooseWeByLogClover
 #SBATCH -o %x-%j.out
 #SBATCH -t 00:29:00
 #SBATCH -q debug
@@ -35,7 +35,7 @@ do
 done
 
 # TODO add parameter for 228 or 448 in pa 
-srun -N 4 -n 128 --mem-per-cpu=10G --network=no_vni -l ./tightlyinsitu_rrb cxi masterinfo.conf ${DATAPREFIX} ${DATASUFFIX} ${TOTALCYCLE} ${SIMSLEEP} &> tightlyinsitu_rrb.log
+srun -N 4 -n 128 --mem-per-cpu=10G --network=no_vni -l ./tightlyinsitu_we cxi masterinfo.conf ${DATAPREFIX} ${DATASUFFIX} ${TOTALCYCLE} ${SIMSLEEP} &> tightinsitu_wf_rrb2.log
 
 
 wait
