@@ -99,7 +99,7 @@ else
 
     # build and install
     echo "**** Building vtk"
-    cmake --build ${VTK_INSTALL_DIR} -j${build_jobs}  
+    cmake --build ${VTK_BUILD_DIR} -j${build_jobs}  
     cmake --install ${VTK_BUILD_DIR}  
 fi
 
