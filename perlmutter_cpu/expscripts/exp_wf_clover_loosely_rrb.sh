@@ -21,8 +21,7 @@ mkdir -p $RUNDIR
 cd $RUNDIR
 
 ln -s $CURRDIR/../install/visReader/looselyworkflow/looselyinsitu looselyinsitu
-ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_pa tightlyinsitu_pa
-ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_we tightlyinsitu_we
+ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_rrb tightlyinsitu_rrb
 
 
 # start vis server using 16 processes

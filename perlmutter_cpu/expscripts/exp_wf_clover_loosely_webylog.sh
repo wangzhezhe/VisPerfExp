@@ -11,7 +11,7 @@
 # run by tightly coupled way
 DATAPREFIX=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/cloverleaf_multistep_decomp/fb_cv_
 DATASUFFIX=.4_4_8.128_128_128.visit
-RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_wf_loose_rrb_clover_${1}
+RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_wf_loose_webylog_clover_${1}
 CURRDIR=$(pwd)
 SIMSLEEP=20
 TOTALCYCLE=5
@@ -21,8 +21,7 @@ mkdir -p $RUNDIR
 cd $RUNDIR
 
 ln -s $CURRDIR/../install/visReader/looselyworkflow/looselyinsitu looselyinsitu
-ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_pa tightlyinsitu_pa
-ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_we tightlyinsitu_we
+ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_webylog tightlyinsitu_webylog
 
 
 # start vis server using 16 processes
@@ -34,8 +33,12 @@ do
     sleep 0.5
 done
 
+# copy the data processing script into current dir
+cp $CURRDIR/parser_block_workloads.py .
+cp $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py .
+
 # TODO add parameter for 228 or 448 in pa 
-srun -N 4 -n 128 --mem-per-cpu=10G --network=no_vni -l ./tightlyinsitu_we cxi masterinfo.conf ${DATAPREFIX} ${DATASUFFIX} ${TOTALCYCLE} ${SIMSLEEP} &> tightinsitu_wf_rrb2.log
+srun -N 4 -n 128 --mem-per-cpu=10G --network=no_vni -l ./tightlyinsitu_webylog cxi masterinfo.conf ${DATAPREFIX} ${DATASUFFIX} ${TOTALCYCLE} ${SIMSLEEP} &> tightlyinsitu_webylog.log
 
 
 wait
