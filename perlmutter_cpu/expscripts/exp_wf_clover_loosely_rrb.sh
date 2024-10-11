@@ -23,7 +23,6 @@ cd $RUNDIR
 ln -s $CURRDIR/../install/visReader/looselyworkflow/looselyinsitu looselyinsitu
 ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_rrb tightlyinsitu_rrb
 
-
 # start vis server using 16 processes
 srun -N 1 -n 16 --mem-per-cpu=10G --network=no_vni -l ./looselyinsitu --vtkm-device serial cxi info &> looselywf.log &
 
