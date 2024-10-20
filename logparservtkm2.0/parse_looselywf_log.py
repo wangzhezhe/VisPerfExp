@@ -113,7 +113,7 @@ def get_bars_for_we_log(logfile,wf_time,figsize_x):
             print("temp_process_time",temp_process_time)
             process_bars.append((figsize_x*(last_tick/wf_time_for_figure), figsize_x*(temp_process_time/wf_time_for_figure)))
             # update tick
-            last_tick=load_sim_tick
+            last_tick=process_ok_tick
             continue    
 
 
@@ -128,7 +128,6 @@ def get_bars_for_we_log(logfile,wf_time,figsize_x):
             continue        
         
     
-
         if runfilter_str in line_strip:
             wait_filter_tick=float(line_strip.split(" ")[4])
             print("wait_filter_tick",wait_filter_tick,"last_tick",last_tick)
@@ -144,12 +143,13 @@ def get_bars_for_we_log(logfile,wf_time,figsize_x):
 
 
 if __name__ == "__main__":
-    if len(sys.argv)!=3:
-        print("<binary> <logfile_rrb> <logfile_we_trace>")
+    if len(sys.argv)!=4:
+        print("<binary> <logfile_rrb> <logfile_we_trace> <logfile_we_est>")
         exit()
 
     logfile_rrb=sys.argv[1]
     logfile_we_trace=sys.argv[2]
+    logfile_we_est=sys.argv[3]
 
     fo=open(logfile_rrb, "r")
     wf_start_time=0.0
@@ -177,9 +177,20 @@ if __name__ == "__main__":
     ax.broken_barh(xranges=we_stage_bars,yrange=(1.5*bar_height,bar_height),facecolors='tab:green',alpha=0.35,edgecolor="none")
     ax.broken_barh(xranges=we_wait_bars,yrange=(1.5*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor='None')          
 
+
+    print("---third case debug")
+    est_load_sim_bars, est_process_bars, est_stage_bars, est_wait_bars = get_bars_for_we_log(logfile_we_est, wf_time_for_figure, figsize_x)
+
+    ax.broken_barh(xranges=est_load_sim_bars,yrange=(3*bar_height,bar_height),facecolors='tab:blue', edgecolor="none")
+    ax.broken_barh(xranges=est_process_bars,yrange=(3*bar_height,bar_height),facecolors='tab:purple', edgecolor="none")
+    ax.broken_barh(xranges=est_stage_bars,yrange=(3*bar_height,bar_height),facecolors='tab:green',alpha=0.35,edgecolor="none")
+    ax.broken_barh(xranges=est_wait_bars,yrange=(3*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor='None')          
+
+
+
     #ax.set_yticks([])
     plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,int(wf_time_for_figure/4),int(wf_time_for_figure/2), int(3*wf_time_for_figure/4),int(wf_time_for_figure)],fontsize=ticksize)
-    plt.yticks([0.5*bar_height,2*bar_height], ["RRB","Trace"],fontsize=ticksize)
+    plt.yticks([0.5*bar_height,2*bar_height,3.5*bar_height], ["RRB","Trace","Estimation"],fontsize=ticksize)
 
 
 
