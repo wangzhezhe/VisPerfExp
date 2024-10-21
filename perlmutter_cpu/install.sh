@@ -14,6 +14,7 @@ if [ ! -d $SOFTWARE_SRC_DIR ];
 fi
 echo "SOFTWARE_SRC_DIR: $SOFTWARE_SRC_DIR"
 
+module load cmake/3.24.3
 
 echo "====> Installing vtk-m"
 

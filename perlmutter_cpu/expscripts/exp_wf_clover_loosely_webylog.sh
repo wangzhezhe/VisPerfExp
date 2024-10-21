@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -J ExpWFLooseWeByLogClover
 #SBATCH -o %x-%j.out
-#SBATCH -t 00:05:00
+#SBATCH -t 00:10:00
 #SBATCH -q debug
 #SBATCH -C cpu
 #SBATCH --nodes=5
@@ -25,7 +25,7 @@ ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_webylog tightl
 
 
 # start vis server using 16 processes
-srun -N 1 -n 16 --mem-per-cpu=10G --network=no_vni -l ./looselyinsitu --vtkm-device serial cxi debug &> looselywf.log &
+srun -N 1 -n 16 --mem-per-cpu=10G --network=no_vni -l ./looselyinsitu --vtkm-device serial tcp debug &> looselywf_we_trace.log &
 
 # when there existance of the config file
 while [ ! -f ./masterinfo.conf ]
@@ -40,7 +40,7 @@ cp $CURRDIR/parser_block_workloads.py .
 cp $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py .
 
 # TODO add parameter for 228 or 448 in pa 
-srun -N 4 -n 128 --mem-per-cpu=10G --network=no_vni -l ./tightlyinsitu_webylog cxi masterinfo.conf ${DATAPREFIX} ${DATASUFFIX} ${TOTALCYCLE} ${SIMSLEEP} &> tightlyinsitu_webylog.log
+srun -N 4 -n 128 --mem-per-cpu=10G --network=no_vni -l ./tightlyinsitu_webylog tcp masterinfo.conf ${DATAPREFIX} ${DATASUFFIX} ${TOTALCYCLE} ${SIMSLEEP} &> tightlyinsitu_webylog.log
 
 
 wait

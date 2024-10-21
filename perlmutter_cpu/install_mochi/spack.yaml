@@ -54,9 +54,9 @@ spack:
     libfabric:
       buildable: false
       externals:
-      - spec: libfabric@1.15.2.0
+      - spec: libfabric@1.20.1
         modules:
-        - libfabric/1.15.2.0
+        - libfabric/1.20.1
     autoconf:
       buildable: false
       externals:
@@ -70,9 +70,9 @@ spack:
     cmake:
       buildable: false
       externals:
-      - spec: cmake@3.22.0
+      - spec: cmake@3.24.3
         modules:
-        - cmake/3.22.0
+        - cmake/3.24.3
     libtool:
       buildable: false
       externals:
