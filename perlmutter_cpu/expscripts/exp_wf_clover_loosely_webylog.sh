@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -J ExpWFLooseWeByLogClover
 #SBATCH -o %x-%j.out
-#SBATCH -t 00:29:00
+#SBATCH -t 00:05:00
 #SBATCH -q debug
 #SBATCH -C cpu
 #SBATCH --nodes=5
@@ -13,7 +13,7 @@ DATAPREFIX=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/cloverleaf_multistep_
 DATASUFFIX=.4_4_8.128_128_128.visit
 RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_wf_loose_webylog_clover_${1}
 CURRDIR=$(pwd)
-SIMSLEEP=20
+SIMSLEEP=2
 TOTALCYCLE=5
 
 mkdir -p $RUNDIR
@@ -25,7 +25,7 @@ ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_webylog tightl
 
 
 # start vis server using 16 processes
-srun -N 1 -n 16 --mem-per-cpu=10G --network=no_vni -l ./looselyinsitu --vtkm-device serial cxi info &> looselywf.log &
+srun -N 1 -n 16 --mem-per-cpu=10G --network=no_vni -l ./looselyinsitu --vtkm-device serial cxi debug &> looselywf.log &
 
 # when there existance of the config file
 while [ ! -f ./masterinfo.conf ]
@@ -34,6 +34,8 @@ do
 done
 
 # copy the data processing script into current dir
+module load python/3.9-anaconda-2021.11
+
 cp $CURRDIR/parser_block_workloads.py .
 cp $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py .
 
