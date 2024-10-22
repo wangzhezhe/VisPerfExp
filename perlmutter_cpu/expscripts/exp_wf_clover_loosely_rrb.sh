@@ -33,7 +33,7 @@ do
 done
 
 # TODO add parameter for 228 or 448 in pa 
-srun -N 4 -n 128 --mem-per-cpu=10G --network=no_vni -l ./tightlyinsitu_rrb cxi masterinfo.conf ${DATAPREFIX} ${DATASUFFIX} ${TOTALCYCLE} ${SIMSLEEP} &> tightlyinsitu_rrb.log
+srun -N 4 -n 128 --mem-per-cpu=10G --network=no_vni -l ./tightlyinsitu_rrb cxi masterinfo.conf ${DATAPREFIX} ${DATASUFFIX} ${TOTALCYCLE} ${SIMSLEEP} &> tightly_rrb.log
 
 
 wait

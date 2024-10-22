@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J ExpWFLooseWeByLogClover
+#SBATCH -J ExpWFLooseWeByEstClover
 #SBATCH -o %x-%j.out
 #SBATCH -t 00:10:00
 #SBATCH -q debug
@@ -11,7 +11,7 @@
 # run by tightly coupled way
 DATAPREFIX=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/cloverleaf_multistep_decomp/fb_cv_
 DATASUFFIX=.4_4_8.128_128_128.visit
-RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_wf_loose_webylog_clover_${1}
+RUNDIR=/pscratch/sd/z/zw241/zw241/VisPerfStudy/Results/VisPerfExp_wf_loose_webyest_clover_${1}
 CURRDIR=$(pwd)
 SIMSLEEP=2
 TOTALCYCLE=5
@@ -21,11 +21,11 @@ mkdir -p $RUNDIR
 cd $RUNDIR
 
 ln -s $CURRDIR/../install/visReader/looselyworkflow/looselyinsitu looselyinsitu
-ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_webylog tightlyinsitu_webylog
+ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_webyest tightlyinsitu_webyest
 
 
 # start vis server using 16 processes
-srun -N 1 -n 16 --mem-per-cpu=10G --network=no_vni -l ./looselyinsitu --vtkm-device serial cxi debug &> looselywf_we_trace.log &
+srun -N 1 -n 16 --mem-per-cpu=10G --network=no_vni -l ./looselyinsitu --vtkm-device serial cxi debug &> looselywf_we_est.log &
 
 # when there existance of the config file
 while [ ! -f ./masterinfo.conf ]
@@ -40,18 +40,7 @@ cp $CURRDIR/parser_block_workloads.py .
 cp $CURRDIR/generate_assignment_actual_bpacking_dup_capacity_vector.py .
 
 # TODO add parameter for 228 or 448 in pa 
-srun -N 4 -n 128 --mem-per-cpu=10G --network=no_vni -l ./tightlyinsitu_webylog cxi masterinfo.conf ${DATAPREFIX} ${DATASUFFIX} ${TOTALCYCLE} ${SIMSLEEP} &> tightlyinsitu_webylog.log
+srun -N 4 -n 128 --mem-per-cpu=10G --network=no_vni -l ./tightlyinsitu_webyest cxi masterinfo.conf ${DATAPREFIX} ${DATASUFFIX} ${TOTALCYCLE} ${SIMSLEEP} &> tightlyinsitu_webyest.log
 
 
 wait
-
-# run by loosely coupled way with rrb
-
-
-# run by loosley coupled way with tracing+block assignment
-
-
-# run by loosley couled way with estimation + block assignment
-
-
-# run by loosley coupled way with estimation per two cycle + block assigment

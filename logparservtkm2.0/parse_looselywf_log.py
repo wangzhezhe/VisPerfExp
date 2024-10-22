@@ -30,9 +30,13 @@ def get_bars_for_rrb_log(logfile,wf_time,figsize_x):
     fo=open(logfile, "r")
     for line in fo:
         line_strip=line.strip()
-        split_str= line_strip.split(" ")    
+        # extract from the "Time ... " log may start with rank id on HPC
+        time_index = line_strip.find("Time")
+        line_strip=line_strip[time_index:]
+        split_str= line_strip.split(" ")
         
         if init_ok_str in line_strip:
+            print(line_strip)
             init_tick=float(line_strip.split(" ")[4])
             last_tick=init_tick
             continue
@@ -89,7 +93,10 @@ def get_bars_for_we_log(logfile,wf_time,figsize_x):
     fo=open(logfile, "r")
     for line in fo:
         line_strip=line.strip()
-        split_str= line_strip.split(" ")    
+        # extract from the "Time ... " log may start with rank id on HPC
+        time_index = line_strip.find("Time")
+        line_strip=line_strip[time_index:]
+        split_str= line_strip.split(" ")
         
         if init_ok_str in line_strip:
             init_tick=float(line_strip.split(" ")[4])
