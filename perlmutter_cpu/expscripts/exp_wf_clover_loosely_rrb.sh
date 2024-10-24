@@ -5,8 +5,8 @@
 #SBATCH -q debug
 #SBATCH -C cpu
 #SBATCH --nodes=5
-#SBATCH --ntasks-per-node=32
-#SBATCH --cpus-per-task=1
+
+#export MARGO_ENABLE_MONITORING=1
 
 # run by tightly coupled way
 DATAPREFIX=/pscratch/sd/z/zw241/zw241/VisPerfStudy/dataset/cloverleaf_multistep_decomp/fb_cv_
@@ -24,7 +24,7 @@ ln -s $CURRDIR/../install/visReader/looselyworkflow/looselyinsitu looselyinsitu
 ln -s $CURRDIR/../install/visReader/looselyworkflow/tightlyinsitu_rrb tightlyinsitu_rrb
 
 # start vis server using 16 processes
-srun -N 1 -n 16 --mem-per-cpu=10G --network=no_vni -l ./looselyinsitu --vtkm-device serial cxi debug &> looselywf.log &
+srun -N 1 -n 16 -c 4 --mem-per-cpu=5G --network=no_vni -l ./looselyinsitu --vtkm-device serial cxi debug &> looselywf.log &
 
 # when there existance of the config file
 while [ ! -f ./masterinfo.conf ]
@@ -33,7 +33,7 @@ do
 done
 
 # TODO add parameter for 228 or 448 in pa 
-srun -N 4 -n 128 --mem-per-cpu=10G --network=no_vni -l ./tightlyinsitu_rrb cxi masterinfo.conf ${DATAPREFIX} ${DATASUFFIX} ${TOTALCYCLE} ${SIMSLEEP} &> tightly_rrb.log
+srun -N 4 -n 128 -c 2 --mem-per-cpu=5G --network=no_vni -l ./tightlyinsitu_rrb cxi masterinfo.conf ${DATAPREFIX} ${DATASUFFIX} ${TOTALCYCLE} ${SIMSLEEP} &> tightly_rrb.log
 
 
 wait
