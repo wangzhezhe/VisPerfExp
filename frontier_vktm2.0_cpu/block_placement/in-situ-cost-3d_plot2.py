@@ -13,7 +13,7 @@ def plotPlane(fig: go.Figure,
     """
     # x, y, z
 
-    x = np.arange(0, 1, 0.1)
+    x = np.arange(0, 3, 0.1)
     y = np.arange(0, 3, 0.1)
     x,y = np.meshgrid(x,y)
 
@@ -32,14 +32,14 @@ def plotPlaneFix(fig: go.Figure) -> None:
     """
     # x, y, z
 
-    x = np.arange(0, 1, 0.1)
+    x = np.arange(0, 3, 0.1)
     y = np.arange(0, 3, 0.1)
     x,y = np.meshgrid(x,y)
 
     z = np.ones_like(x)
 
     # draw plane
-    surface = go.Surface(x=x, y=y, z=z, colorscale="Greys", showscale=False)
+    surface = go.Surface(x=x, y=y, z=z, colorscale="Greys", showscale=False,opacity=0.5)
     fig.add_trace(surface, row=1, col=1)
 
 
@@ -52,6 +52,10 @@ plotPlane(fig, 1.1, "Blues")
 plotPlane(fig, 1.25, "Oranges")
 plotPlane(fig, 1.5, "Greens")
 plotPlaneFix(fig)
+
+#doc https://plotly.com/python/reference/layout/xaxis/#layout-xaxis-tickfont
+fig.update_xaxes(tickfont_size=50)
+fig.update_yaxes(tickfont_size=50)
 
 fig.update_scenes(xaxis_title_text='Op',  
                   yaxis_title_text='Vp',  

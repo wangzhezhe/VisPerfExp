@@ -224,8 +224,8 @@ if __name__ == "__main__":
             #when using automatic legend position
             #legend = plt.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=labelSize)
             #for large one
-            #legend = plt.legend(handles=legend_elems,bbox_to_anchor=(0.8, 1.1),ncol=3, fontsize=labelSize)
-            legend = plt.legend(handles=legend_elems,bbox_to_anchor=(0.8, 1.4),ncol=3, fontsize=labelSize)
+            legend = plt.legend(handles=legend_elems,bbox_to_anchor=(0.8, 1.1),ncol=3, fontsize=labelSize)
+            #legend = plt.legend(handles=legend_elems,bbox_to_anchor=(0.8, 1.4),ncol=3, fontsize=labelSize)
             
             ax.add_artist(legend)
         else:

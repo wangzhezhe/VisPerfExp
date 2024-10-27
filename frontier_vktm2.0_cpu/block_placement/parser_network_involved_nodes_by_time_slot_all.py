@@ -34,17 +34,8 @@ def get_dst_rank_list(log_dir_path, rank, start_time, end_time):
     return dest_rank_list,dest_rank_list_pnum
 
 
-if __name__ == "__main__":
-
-    if len(sys.argv)!=4:
-        print("<binary> <log dir> <proc num> <num of slots>",flush=True)
-        exit()
-    
-
-    log_dir_path=sys.argv[1]
-    num_rank=int(sys.argv[2])
-    num_slots=int(sys.argv[3])
-
+def get_involved_ranks(log_dir_path,num_slots):
+    print("---process log_dir_path",log_dir_path)
 
     # get the end time
     file_name = log_dir_path+"/timetrace."+str(0)+".out"
@@ -94,36 +85,69 @@ if __name__ == "__main__":
                 if(adjacent_matrix_num_comm[i][j]>0):
                     involved_block_ids.add(i)
                     involved_block_ids.add(j)
-    
-        involved_ranks.append(len(involved_block_ids))
+        num_involved_proc=len(involved_block_ids)
+        if num_involved_proc==0:
+            # no sending operation during this period of time
+            num_involved_proc=1
+        involved_ranks.append(num_involved_proc)
 
         # store associated adjacent_matrix_num_particles
         adjacent_matrix_num_particles_array.append(adjacent_matrix_num_particles)
 
-    print(involved_ranks)
+    #print(involved_ranks)
+    return involved_ranks
+
+
+
+
+if __name__ == "__main__":
+
+    if len(sys.argv)!=1:
+        print("<binary>",flush=True)
+        exit()
+    
+
+    num_rank=32
+    num_slots=10
+    result_dir = "/Users/zhewang/Documents/Research/PaperSubmission/BlockAssignments/VisPerfStudy/Results/"
+    dir_list=[result_dir+"VisPerfExpSl2_Astro244_Rank32_Nxyz1_0731/one_data_per_rank",
+             result_dir+"VisPerfExpSl2_Clover244_Rank32_Nxyz1_0731/one_data_per_rank",
+             result_dir+"VisPerfExpSl2_Isabel244_Rank32_Nxyz1_0731/one_data_per_rank",
+             result_dir+"VisPerfExpSl2_Redsea442_Rank32_Nxyz1_0731/one_data_per_rank"]
+    
+
+
+    num_involved_rank_all=[]
+
+    for log_dir in (dir_list):
+        num_involved_rank=get_involved_ranks(log_dir,num_slots)
+        #print(num_involved_rank)
+        num_involved_rank_all.append(num_involved_rank)
+
+    print(num_involved_rank_all)
+
     fig, ax = plt.subplots(figsize=(8,4))
     labelsize = 18
-
+    ticksize = 16
     ax.set_ylabel('Involved number of processes', fontsize=labelsize)
     ax.set_xlabel('Index of the time segment', fontsize=labelsize)
-    ax.plot( involved_ranks, '-', color='blue', marker='o')
-    plt.savefig("number_involved_processes.png", bbox_inches='tight')
+    # set tick size
 
-    # the x axis is the index of the slot
-    # finding turning point? 
-    # Simple way, the involved points becomes the 1/n of the origianl one
-    turnning_point=0
-    for i in range (1,len(involved_ranks),1):
-        if involved_ranks[i] < 0.2 * involved_ranks[i-1]:
-            print("turning point is", i, "start time is", slot_dist*i)
-            turnning_point=i
+    p1=ax.plot(num_involved_rank_all[0], '-', color='blue', marker='.', label="Supernova")
+    p2=ax.plot(num_involved_rank_all[1], '-', color='red', marker='.', label="CloverLeaf")
+    p3=ax.plot(num_involved_rank_all[2], '-', color='purple', marker='.',label="Isabel")
+    p4=ax.plot(num_involved_rank_all[3], '-', color='green', marker='.',label="RedSea")
+    
+    # Set tick size for the x-axis only
+    plt.tick_params(axis='x', labelsize=ticksize)
+    # Set tick size for the y-axis only
+    plt.tick_params(axis='y', labelsize=ticksize)
 
+    plt.ylim(0,38)
 
-    # compute the workload according to the coresponding adjacent map
-    # assignt plans based on that, the other ranks are empty
-    # assuming there is one turning point
-    np.set_printoptions(threshold=np.inf)
-    print(adjacent_matrix_num_particles_array[turnning_point])
+    plt.legend(ncol=4, fontsize='large', loc="upper center")
+    plt.savefig("number_involved_processes_all.png", bbox_inches='tight')
+
 
 
 
