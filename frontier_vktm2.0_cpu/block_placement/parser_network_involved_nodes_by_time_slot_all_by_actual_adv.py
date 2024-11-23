@@ -33,8 +33,44 @@ def get_dst_rank_list(log_dir_path, rank, start_time, end_time):
 
     return dest_rank_list,dest_rank_list_pnum
 
+def get_num_advec_proc_in_this_period(slot_start,slot_end,log_dir_path,num_rank):
+    num_involved=0
+    # go through each rank
+    # if there advection operation during this period of time
+    # add it to num_involved
+    for rankid in range(0,num_rank):
+        # check this rank
+        file_name = log_dir_path+"/timetrace."+str(rankid)+".out"
+        print(file_name)
+        fo=open(file_name, "r")
+        for line in fo:
+            line_strip=line.strip()
+            worklet_start_time=-1
+            worklet_end_time=-1
+            if "WORKLET_Start" in line_strip:
+                split_info = line_strip.split(" ")
+                worklet_start_time = float(split_info[1])
+                #print("worklet_start_time",worklet_start_time)
+                if worklet_start_time>slot_end:
+                    break
 
-def get_involved_ranks(log_dir_path,num_slots):
+            if "WORKLET_End" in line_strip:
+                split_info = line_strip.split(" ")
+                worklet_end_time = float(split_info[1])
+                #print("worklet_end_time",worklet_end_time)
+                if worklet_end_time<slot_start:
+                    #print("break",worklet_end_time,slot_start)
+                    continue                    
+                
+                # we got start and end and there is overlapping
+                num_involved=num_involved+1
+                #print("num_involved",num_involved)
+                break
+
+        fo.close()
+    return num_involved
+
+def get_involved_ranks(log_dir_path,num_slots,num_rank):
     print("---process log_dir_path",log_dir_path)
 
     # get the end time
@@ -64,35 +100,11 @@ def get_involved_ranks(log_dir_path,num_slots):
         slot_end=i*slot_dist+slot_dist
 
         print(slot_start,slot_end)
-
-        # init an adjacent table, the size is rank*rank
-        adjacent_matrix_num_comm = np.zeros((num_rank, num_rank))
-        adjacent_matrix_num_particles = np.zeros((num_rank, num_rank))
-            
-        # go through each rank to extract the dest list values
-
-        for src_rank in range(0,num_rank,1):
-            dest_rank_list_time,dest_rank_list_pnum=get_dst_rank_list(log_dir_path, src_rank, slot_start, slot_end)    
-            for index, dest in enumerate(dest_rank_list_time):
-                dest_rank=int(dest)
-                adjacent_matrix_num_comm[src_rank][dest_rank]=adjacent_matrix_num_comm[src_rank][dest_rank]+1
-                adjacent_matrix_num_particles[src_rank][dest_rank]=adjacent_matrix_num_particles[src_rank][dest_rank]+dest_rank_list_pnum[index]
-
-        # calculate involved data values according to adjacent tables
-        involved_block_ids=set()
-        for i in range(0,num_rank,1):
-            for j in range(0,num_rank,1):
-                if(adjacent_matrix_num_comm[i][j]>0):
-                    involved_block_ids.add(i)
-                    involved_block_ids.add(j)
-        num_involved_proc=len(involved_block_ids)
-        if num_involved_proc==0:
-            # no sending operation during this period of time
-            num_involved_proc=1
+        
+        # get number of ranks that has work during this period of time
+        num_involved_proc = get_num_advec_proc_in_this_period(slot_start,slot_end,log_dir_path,num_rank)
+    
         involved_ranks.append(num_involved_proc)
-
-        # store associated adjacent_matrix_num_particles
-        adjacent_matrix_num_particles_array.append(adjacent_matrix_num_particles)
 
     print(involved_ranks)
     return involved_ranks
@@ -120,7 +132,7 @@ if __name__ == "__main__":
     num_involved_rank_all=[]
 
     for log_dir in (dir_list):
-        num_involved_rank=get_involved_ranks(log_dir,num_slots)
+        num_involved_rank=get_involved_ranks(log_dir,num_slots,num_rank)
         #print(num_involved_rank)
         num_involved_rank_all.append(num_involved_rank)
 
@@ -146,7 +158,7 @@ if __name__ == "__main__":
     plt.ylim(0,38)
 
     plt.legend(ncol=4, fontsize='large', loc="upper center")
-    plt.savefig("number_involved_processes_all.png", bbox_inches='tight')
+    plt.savefig("number_involved_processes_all_adv.png", bbox_inches='tight')
 
 
 

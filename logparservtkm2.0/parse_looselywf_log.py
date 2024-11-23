@@ -2,11 +2,19 @@ from os import system
 from os.path import exists
 import sys
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 
 # read the loosly coupled wf log 
 # and draw the gant chart
 
-ticksize=10
+ticksize=18
+labelSize=16
+
+#small scale case
+#python3 parse_looselywf_log.py /Users/zhewang/Documents/Research/PaperSubmission/BlockAssignments/VisPerfStudy/Results/VisPerfExp_local_ubuntu_log/looselyclient_rrb.log /Users/zhewang/Documents/Research/PaperSubmission/BlockAssignments/VisPerfStudy/Results/VisPerfExp_local_ubuntu_log/looselyclient_trace.log /Users/zhewang/Documents/Research/PaperSubmission/BlockAssignments/VisPerfStudy/Results/VisPerfExp_local_ubuntu_log/looselyclient_est.log 
+
+#large scale case
+#python3 parse_looselywf_log.py /Users/zhewang/Documents/Research/PaperSubmission/BlockAssignments/VisPerfStudy/Results/VisPerfExp_wf_loose_rrb_clover_1023_5000/tightly_rrb.log /Users/zhewang/Documents/Research/PaperSubmission/BlockAssignments/VisPerfStudy/Results/VisPerfExp_wf_loose_webylog_clover_1023_5000/tightlyinsitu_webylog.log /Users/zhewang/Documents/Research/PaperSubmission/BlockAssignments/VisPerfStudy/Results/VisPerfExp_wf_loose_webyest_clover_1023_5000/tightlyinsitu_webyest.log  
 
 def get_bars_for_rrb_log(logfile,wf_time,figsize_x):
     # the bar length is from 0 to wf_time, containing these bars
@@ -161,10 +169,11 @@ if __name__ == "__main__":
     fo=open(logfile_rrb, "r")
     wf_start_time=0.0
     # using this as input of time manually
-    wf_time_for_figure=250.0
+    wf_time_for_figure=230.0
+    #wf_time_for_figure=185.0
+    
     figsize_x=15
     figsize_y=2
-    ticksize=8
     bar_height=0.01
 
     load_sim_bars,stage_bars,wait_bars = get_bars_for_rrb_log(logfile_rrb, wf_time_for_figure, figsize_x)
@@ -193,12 +202,18 @@ if __name__ == "__main__":
     ax.broken_barh(xranges=est_stage_bars,yrange=(3*bar_height,bar_height),facecolors='tab:green',alpha=0.35,edgecolor="none")
     ax.broken_barh(xranges=est_wait_bars,yrange=(3*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor='None')          
 
-
-
     #ax.set_yticks([])
-    plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,int(wf_time_for_figure/4),int(wf_time_for_figure/2), int(3*wf_time_for_figure/4),int(wf_time_for_figure)],fontsize=ticksize)
-    plt.yticks([0.5*bar_height,2*bar_height,3.5*bar_height], ["RRB","Trace","Estimation"],fontsize=ticksize)
+    plt.xticks([0,figsize_x/4,figsize_x/2,3*figsize_x/4,figsize_x], [0,int(wf_time_for_figure/4),int(wf_time_for_figure/2), int(3*wf_time_for_figure/4),int(wf_time_for_figure)],fontsize=20)
+    plt.yticks([0.5*bar_height,2*bar_height,3.5*bar_height], ["RRB","Trace","Estimation"],fontsize=18)
+    
+    #adding legend
 
+    legend_elems = [Patch(facecolor='tab:blue', edgecolor='None', label='Sim&Load'),
+                            Patch(facecolor='tab:purple', edgecolor='None', label='Assignment'),
+                            Patch(facecolor='tab:green', alpha=0.35, edgecolor='None', label='Stage'),
+                            Patch(facecolor='tab:red', alpha=0.35, edgecolor='None', label='Wait')]
+
+    legend = plt.legend(handles=legend_elems,bbox_to_anchor=(0.8, 1.35),ncol=4, fontsize=labelSize)
 
 
     plt.xlabel('Time (seconds)', fontsize=ticksize)

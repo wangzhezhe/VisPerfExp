@@ -43,7 +43,7 @@ def get_estimated_info(file_name):
     for line in fo:
         line_strip=line.strip()
         #print(line_strip)
-        if "NormBlockPopularity" in line_strip:
+        if "sl2_estimated_adv_popularity" in line_strip:
             start =line_strip.find("[")
             end=line_strip.find("]")
             extract_num = line_strip[start+1:end]
@@ -51,7 +51,7 @@ def get_estimated_info(file_name):
             #print(split_line)
             estimator_steps_popularity_list = [float(v) for v in split_line]
 
-        if "ParticlesIn" in line_strip:
+        if "sl2_estimated_in_particles" in line_strip:
             start =line_strip.find("[")
             end=line_strip.find("]")
             extract_num = line_strip[start+1:end]
@@ -59,7 +59,7 @@ def get_estimated_info(file_name):
             print(split_line)
             estimator_particle_in_list = [float(v) for v in split_line]
 
-        if "ParticlesOut" in line_strip:
+        if "sl2_estimated_out_particles" in line_strip:
             start =line_strip.find("[")
             end=line_strip.find("]")
             extract_num = line_strip[start+1:end]
@@ -148,10 +148,17 @@ def draw_two_lines(actual_data,s2_estimated_data, actual_title,s2_estimated_titl
 
     ylimit1 = max(actual_data)
     ylimit2 = max(s2_estimated_data)
-
     ylimit = max(ylimit1,ylimit2)
-    ax.set_ylim([0,1.2*ylimit])
-    ax.legend(ncol=2, loc='upper left', fontsize='large')
+
+    ax.set_xlabel('Rank', fontsize=16)
+    ax.set_ylabel('Block popularity', fontsize=16)
+
+    ax.set_ylim([0,0.30])
+    ax.tick_params(axis='x', labelsize=12)
+    ax.tick_params(axis='y', labelsize=12)
+
+
+    ax.legend(ncol=2, loc='upper left', fontsize=14)
     plt.savefig(figure_name+".png", bbox_inches='tight')
 
 if __name__ == "__main__":
@@ -181,7 +188,6 @@ if __name__ == "__main__":
     print("normalized actual_out_particles",norm_actual_out_particles)
 
 
-
     sl2_estimated_adv_popularity,sl2_estimated_in_particles,sl2_estimated_out_particles=get_estimated_info(estimation_run_log_file)
     print("sl2_estimated_adv_popularity")
     print(sl2_estimated_adv_popularity)
@@ -191,11 +197,12 @@ if __name__ == "__main__":
     print(sl2_estimated_out_particles)
 
 
+
     # draw line to compare the actual run and estimated run
     fig_name=estimation_run_log_file[:-4]
-    draw_two_lines(actual_acc_advect_steps_popularity, sl2_estimated_adv_popularity, "actual popularity","sl2 estimated popularity",fig_name+"_adv")
-    draw_two_lines(norm_actual_in_particles, sl2_estimated_in_particles, "actual in particles","sl2 estimated in particles",fig_name+"_in")
-    draw_two_lines(norm_actual_out_particles, sl2_estimated_out_particles, "actual out particles","sl2 estimated out particles",fig_name+"_out")
+    draw_two_lines(actual_acc_advect_steps_popularity, sl2_estimated_adv_popularity, "Actual block popularity","Estimated block popularity",fig_name+"_adv")
+    #draw_two_lines(norm_actual_in_particles, sl2_estimated_in_particles, "Actual block popularity","Estimated block popularity",fig_name+"_in")
+    #draw_two_lines(norm_actual_out_particles, sl2_estimated_out_particles, "Actual block popularity","Estimated block popularity",fig_name+"_out")
     
     
     # compare the differences

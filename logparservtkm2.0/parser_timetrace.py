@@ -104,8 +104,9 @@ if __name__ == "__main__":
     dirname = dirPath.split("/")[-2]
     print("dirname",dirname)
 
-    figsize_x = 6
-    bar_height=0.08
+    figsize_x = 4
+    #bar_height=0.08
+    bar_height=0.18
     # give some place for legend
     figsize_y = procs*bar_height
     fig, ax = plt.subplots(1, figsize=(figsize_x,figsize_y))  
@@ -224,8 +225,10 @@ if __name__ == "__main__":
             #when using automatic legend position
             #legend = plt.legend(handles=legend_elems, loc='upper center', ncol=3, fontsize=labelSize)
             #for large one
-            legend = plt.legend(handles=legend_elems,bbox_to_anchor=(0.8, 1.1),ncol=3, fontsize=labelSize)
+            #legend = plt.legend(handles=legend_elems,bbox_to_anchor=(0.8, 1.1),ncol=3, fontsize=labelSize)
             #legend = plt.legend(handles=legend_elems,bbox_to_anchor=(0.8, 1.4),ncol=3, fontsize=labelSize)
+            #legend = plt.legend(handles=legend_elems,bbox_to_anchor=(0.95, 1.1),ncol=3, fontsize=labelSize)
+            legend = plt.legend(handles=legend_elems,bbox_to_anchor=(0.95, 1.18),ncol=3, fontsize=labelSize)
             
             ax.add_artist(legend)
         else:
@@ -236,7 +239,7 @@ if __name__ == "__main__":
             ax.broken_barh(xranges=barh_other_overhead,yrange=(rank*bar_height,bar_height),facecolors='tab:red',alpha=0.35,edgecolor='None')          
 
     # get some space for legend in the center
-    ax.broken_barh(xranges=[(0,1)],yrange=(procs*bar_height,bar_height),facecolors='None',edgecolor='None')
+    # ax.broken_barh(xranges=[(0,1)],yrange=(procs*bar_height,bar_height),facecolors='None',edgecolor='None')
     plt.xlabel('Time(ms)', fontsize=ticksize)
     plt.ylabel('Rank', fontsize=ticksize)
     file_name = "gantt_chart_"+dirname+".png"
